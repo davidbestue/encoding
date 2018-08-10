@@ -1,7 +1,5 @@
 # Encoding model
 
-
-
 ### Files:
 
 ----
@@ -13,10 +11,6 @@
 
 <br/>
 <br/>
-
-Generates the following images
-<br/>
-
 ##### Simulated situation
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/simulated_situation.png)
 
@@ -25,12 +19,12 @@ Generates the following images
 
 ----
 
-
 #### 2. WML3.py
-#####  2.1 STEP 4 --> Extract the encoded channel response from the WM task trails
-#####  2.2 STEP 5 --> Visualization
++ 2.1 STEP 4 --> Extract the encoded channel response from the WM task trails
++ 2.2 STEP 5 --> Visualization
 
-#### Generates the following images
+<br/>
+<br/>
 ##### Heatmap
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/heatmap.png)
 
@@ -40,11 +34,11 @@ Generates the following images
 
 ----
 
-
 #### 3. brain_regions_decoding.py
-#####  3.1 Compare the decoding in time of the diff. regions of the brain.
++  3.1 Compare the decoding in time of the diff. regions of the brain.
 
-#### Generates the following images
+<br/>
+<br/>
 ##### Decoding brain regions
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/dec_br_rg.png)
 
