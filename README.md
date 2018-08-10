@@ -12,12 +12,15 @@
 + 1.3 STEP 3 --> Estimate the channel weights in each voxel (line 215)
 
 <br/>
+<br/>
+<br/>
 
 > Generates the following images
+<br/>
 ##### Simulated situation
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/simulated_situation.png)
 
-
+<br/>
 ##### Histogram max channel response
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/mx_ch_vx.png)
 
