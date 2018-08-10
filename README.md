@@ -11,7 +11,10 @@
 + 1.2 STEP 2 --> From the encoding (beh & images) --> Extract the portion of data (images) & Generate the hypothetical channel coefficients (beh)  (line 52 & line 132)
 + 1.3 STEP 3 --> Estimate the channel weights in each voxel (line 215)
   
-#### Generates the following images
+
+
+
+> Generates the following images
 ##### Simulated situation
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/simulated_situation.png)
 
