@@ -1,6 +1,6 @@
 # Encoding model
 
----
+
 
 ### Files:
 
@@ -19,25 +19,29 @@
 ##### Histogram max channel response
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/mx_ch_vx.png)
 
-  
-2. WML3.py
-  2.1 STEP 4 --> Extract the encoded channel response from the WM task trails
-  2.2 STEP 5 --> Visualization
+----
 
-#Generates the following images
-Heatmap
+
+#### 2. WML3.py
+#####  2.1 STEP 4 --> Extract the encoded channel response from the WM task trails
+#####  2.2 STEP 5 --> Visualization
+
+#### Generates the following images
+##### Heatmap
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/heatmap.png)
 
-ROI decoding
+##### ROI decoding
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/roi_dec.png)
 
 
+----
 
-3. brain_regions_decoding.py
-  3.1 Compare the decoding in time of the diff. regions of the brain.
 
-#Generates the following images
-Decoding brain regions
+#### 3. brain_regions_decoding.py
+#####  3.1 Compare the decoding in time of the diff. regions of the brain.
+
+#### Generates the following images
+##### Decoding brain regions
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/dec_br_rg.png)
 
 
