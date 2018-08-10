@@ -13,14 +13,13 @@
 
 <br/>
 <br/>
+
+Generates the following images
 <br/>
 
-> Generates the following images
-<br/>
 ##### Simulated situation
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/simulated_situation.png)
 
-<br/>
 ##### Histogram max channel response
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/mx_ch_vx.png)
 
