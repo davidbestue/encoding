@@ -11,6 +11,7 @@
 
 <br/>
 <br/>
+
 ##### Simulated situation
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/simulated_situation.png)
 
@@ -25,6 +26,7 @@
 
 <br/>
 <br/>
+
 ##### Heatmap
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/heatmap.png)
 
@@ -39,6 +41,7 @@
 
 <br/>
 <br/>
+
 ##### Decoding brain regions
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/dec_br_rg.png)
 
