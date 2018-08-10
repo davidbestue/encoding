@@ -8,10 +8,11 @@ Files:
   
 #Generates the following images
 Simulated situation
-![](https://github.com/davidbestue/encoding/imgs/simulated_situation.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/simulated_situation.png)
+
 
 Histogram max channel response
-![](https://github.com/davidbestue/encoding/imgs/mx_ch_vx.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/mx_ch_vx.png)
 
   
 2. WML3.py
@@ -20,9 +21,10 @@ Histogram max channel response
 
 #Generates the following images
 Heatmap
-![](https://github.com/davidbestue/encoding/imgs/heatmap.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/heatmap.png)
+
 ROI decoding
-![](https://github.com/davidbestue/encoding/imgs/roi_dec.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/roi_dec.png)
 
 
 
@@ -31,7 +33,7 @@ ROI decoding
 
 #Generates the following images
 Decoding brain regions
-![](https://github.com/davidbestue/encoding/imgs/dec_br_rg.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/dec_br_rg.png)
 
 
 
