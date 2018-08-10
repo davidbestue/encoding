@@ -2,14 +2,12 @@
 
 ### Files:
 
-----
-
 #### 1. M_W.py
-<br/>
+
 + 1.1 STEP 1 --> Crete the model of the channels (line 23)
-<br/>
+
 + 1.2 STEP 2 --> From the encoding (beh & images) --> Extract the portion of data (images) & Generate the hypothetical channel coefficients (beh)  (line 52 & line 132)
-<br/>
+
 + 1.3 STEP 3 --> Estimate the channel weights in each voxel (line 215)
 
 
