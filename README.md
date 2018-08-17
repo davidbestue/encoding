@@ -28,7 +28,7 @@
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/mx_ch_vx.png)
 
 #### Mean weigth for each channel in the region
-![](https://github.com/davidbestue/encoding/blob/master/imgs/weight_per_channel.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/weigth_per_channel.png)
 
 ----
 
