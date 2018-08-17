@@ -27,6 +27,9 @@
 #### Histogram max channel response
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/mx_ch_vx.png)
 
+#### Mean weigth for each channel in the region
+![](https://github.com/davidbestue/encoding/blob/master/imgs/mean_weight_per_channel.png)
+
 ----
 
 #### 2. WML3.py
