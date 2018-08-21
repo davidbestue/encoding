@@ -30,6 +30,7 @@ Explanation of the procudure & code files
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/IMG_3753.JPG)
 
 <br/>
+
 #### WM representation
 
 + 1 Raw data WM --> Preprocessed SPM --> Apply ROI mask --> High-pass filter & z-score per voxel
