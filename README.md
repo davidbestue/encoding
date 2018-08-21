@@ -8,7 +8,9 @@ Explanation of the procudure & code files
 #### Weights matrix obtention
 
 + 1 Use the model to get the **hypo_ch_res**(trials, ch) for each encoding trial
+   <br/>
     ***Direct problem*** :  angle --> Model --> channel_activity
+    <br/>
     For each trial of the encoding task --> **hypo_ch_res**(trials, ch)
 
 + 2 Raw data encoding --> Preprocessed SPM --> Apply ROI mask --> High-pass filter & z-score per voxel
@@ -16,9 +18,11 @@ Explanation of the procudure & code files
 + 3 Get the TRs of interest (2 consecutive TRs) and average them--> **Enc_TRs**: (trials, vx)
 
 + 4 Estimation the weights of each Voxel --> Loop of Liniar model with Lasso Regularization for each Vx
+   <br/>
     for each Vx in **Enc_TRs**:
+    <br/>
       **Enc_TRs**(trials,1) = **hypo_ch_res**(trials, ch) x **weights**(ch, 1)
-     
+     <br/>
      Append the **weights**(ch, 1) of each voxel --> **Weight_matrix**(vx, ch) 
 
 
