@@ -27,7 +27,7 @@ Explanation of the procudure & code files
 
 
 ##### Squema weights matrix obtention
-![](https://github.com/davidbestue/encoding/blob/master/imgs/squema_weigth_matrix.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/IMG_3753.JPG)
 
 
  
