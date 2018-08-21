@@ -1,5 +1,39 @@
 # Encoding model
 
+Explanation of the procudure & code files
+
+
+### Background
+
+#### Weights matrix obtention
+
++ 1 Use the model to get the **hypo_ch_res**(trials, ch) for each encoding trial
+    ***Direct problem*** :  angle --> Model --> channel_activity
+    For each trial of the encoding task --> **hypo_ch_res**(trials, ch)
+
++ 2 Raw data encoding --> Preprocessed SPM --> Apply ROI mask --> High-pass filter & z-score per voxel
+
++ 3 Get the TRs of interest (2 consecutive TRs) and average them--> **Enc_TRs**: (trials, vx)
+
++ 4 Estimation the weights of each Voxel --> Loop of Liniar model with Lasso Regularization for each Vx
+    for each Vx in **Enc_TRs**:
+      **Enc_TRs**(trials,1) = **hypo_ch_res**(trials, ch) x **weights**(ch, 1)
+     
+     Append the **weights**(ch, 1) of each voxel --> **Weight_matrix**(vx, ch) 
+
+
+##### Squema weights matrix obtention
+![](https://github.com/davidbestue/encoding/blob/master/imgs/squema_weigth_matrix.png)
+
+
+ 
+
+
+
+
+
+
+
 ### Files:
 
 #### 0. functions_encoding.py
