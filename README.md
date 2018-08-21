@@ -23,14 +23,48 @@ Explanation of the procudure & code files
       <br/>
          **Enc_TRs**(trials,1) = **hypo_ch_res**(trials, ch) x **weights**(ch, 1)
       <br/>
-      Append the **weights**(ch, 1) of each voxel --> **Weight_matrix**(vx, ch) 
+      Append the **weights**(ch, 1) of each voxel --> **Weight_matrix**(vx, ch) (**WM** )
 
 
 ##### Squema weights matrix obtention
 ![](https://github.com/davidbestue/encoding/blob/master/imgs/IMG_3753.JPG)
 
+<br/>
+#### WM representation
 
++ 1 Raw data WM --> Preprocessed SPM --> Apply ROI mask --> High-pass filter & z-score per voxel
+
++ 2 Get the TRs of every trial--> **WM_TRs**: (trials, TR, vx)
+
++ 3 Get the subset matrix of interest--> **WM_TRs**: (trials, TR, vx) smaller
+
++ 4 ***INVERTED ENCODING MODEL***: Transform voxel activity into Channel activity 
+      <br/>
+      for all the TRs:
+      <br/>
+      **ch_activity**(ch,1) =  inv( **WM**t(ch, vx) x **WM**(vx, ch) ) x **WM**t(ch, vx)  x **WM_TR1** (vx, 1)
+      <br/>
+      
+ + 5 Solve the ***inverse problem*** : angle <-- Model <-- channel_activity
+      <br/>
+      Using a smoother model (instead of a model of 36 ch, a model of 720 ch2)
+      <br/>
+      ***Kind of population vector***:  **ch_activity**(ch,1) --> sum (ch(x) x "Model(ch2(x))) --> **Angle activity**(ch2, 1)
+      <br/>
+      **Angle activity** --> Roll to preferred location
+      <br/>
+      **Angle_activity_all**(trial, TR, ch2)
+      <br/>
+      Average trials in each TR : **Angle activity matrix**(angles, TR)
+      <br/>
+      
+ + 5 Visual Respresentation (heatmap for each TR)
  
+      
+##### Squema WM representation
+![](https://github.com/davidbestue/encoding/blob/master/imgs/IMG_3754.JPG)
+
+
 
 
 
