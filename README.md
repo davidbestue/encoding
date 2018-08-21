@@ -49,13 +49,13 @@ Explanation of the procudure & code files
       <br/>
       Using a smoother model (instead of a model of 36 ch, a model of 720 ch2)
       <br/>
-      ***Kind of population vector***:  **ch_activity**(ch,1) --> sum (ch(x) x "Model(ch2(x))) --> **Angle activity**(ch2, 1)
+      ***Kind of population vector***:  **ch_activity**(ch,1) --> sum (ch(x) x "Model(ch2(x))) --> **Angle repr**(ch2, 1)
       <br/>
-      **Angle activity** --> Roll to preferred location
+      **Angle representation** --> Roll to preferred location
       <br/>
-      **Angle_activity_all**(trial, TR, ch2)
+      **Angle_reo_all**(trial, TR, ch2)
       <br/>
-      Average trials in each TR : **Angle activity matrix**(angles, TR)
+      Average trials in each TR : **Angle representation matrix**(angles, TR)
       <br/>
       
  + 5 Visual Respresentation (heatmap for each TR)
