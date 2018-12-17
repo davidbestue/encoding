@@ -19,6 +19,7 @@ if platform == "local":
     encoding_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\'
     Matrix_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Matrix_encoding_model'
     Conditions_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\'
+    PLOTS_path = '\\plots'
     sys_use='wind'
     
 elif platform == "cluster":
@@ -26,6 +27,7 @@ elif platform == "cluster":
     encoding_path = '/home/david/Desktop/KAROLINSKA/encoding_model/'
     Matrix_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model'
     Conditions_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Conditions/'
+    PLOTS_path = '/plots'
     sys_use='unix'
     
     
@@ -566,7 +568,7 @@ for algorithm in ["visual", "ips"]:
         #panel=pd.Panel(dfs_pp)
         
         
-        os.chdir(Conditions_enc_path + CONDITION + '\\plots')
+        os.chdir(Conditions_enc_path + CONDITION + PLOTS_path)
         
         
         
