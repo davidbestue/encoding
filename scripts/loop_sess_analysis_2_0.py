@@ -22,7 +22,7 @@ if platform == "local":
     sys_use='wind'
     
 elif platform == "cluster":
-    root_use ='/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
+    root_use ='/home/david/Desktop/IEM_data/'
     encoding_path = '/home/david/Desktop/KAROLINSKA/encoding_model/'
     Matrix_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model'
     Conditions_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Conditions/'
