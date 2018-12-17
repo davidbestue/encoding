@@ -69,10 +69,10 @@ for algorithm in ["visual", "ips"]:
                 func_filename = ub_wind_path(func_filename, system=sys_use)
                 #
                 mask_img_rh= path_masks  + Maskrh #maskV1rh_2.nii.gz' #maskV1rh.nii.gz'  maskV1rh_2.nii.gz maskipsrh_2.nii.gz
-                mask_img_rh = ub_wind_path(mask_img_rh)
+                mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)
                 #
                 mask_img_lh= path_masks + Masklh #maskV1lh_2.nii.gz' #maskV1lh.nii.gz'   maskV1lh_2.nii.gz maskipslh_2.nii.gz
-                mask_img_lh = ub_wind_path(mask_img_lh)
+                mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)
                 ##Apply the masks and concatenate   
                 masked_data_rh = apply_mask(func_filename, mask_img_rh)
                 masked_data_lh = apply_mask(func_filename, mask_img_lh)    
@@ -117,7 +117,7 @@ for algorithm in ["visual", "ips"]:
             for i in range(0, len(Beh_enc_files)):
                 #
                 Beh_enc_files_path = Beh_enc_files[i]
-                Beh_enc_files_path = ub_wind_path(Beh_enc_files_path)
+                Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
                 behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
                 ## Get the position (hypotetical channel coef)
                 p_target = array(behaviour[:-1,4])
@@ -283,15 +283,15 @@ for algorithm in ["visual", "ips"]:
             
             for i in range(0, len(func_wmtask)):
                 func_filename=func_wmtask[i] # 'regfmcpr.nii.gz'
-                func_filename = ub_wind_path(func_filename)
+                func_filename = ub_wind_path(func_filename, system=sys_use)
                 
                 #func_filename_rh=func_wmtask[i] + 'regfmcprrh.nii.gz'
                 #func_filename_lh=func_wmtask[i] + 'regfmcprlh.nii.gz'
                 
                 mask_img_rh=path_masks + Maskrh
-                mask_img_rh = ub_wind_path(mask_img_rh)
+                mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)
                 mask_img_lh=path_masks + Masklh 
-                mask_img_lh = ub_wind_path(mask_img_lh)
+                mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)
                 ##Apply the masks and concatenate   
                 masked_data_rh = apply_mask(func_filename, mask_img_rh) #func_filename func_filename_rh
                 masked_data_lh = apply_mask(func_filename, mask_img_lh) #func_filename   
@@ -339,7 +339,7 @@ for algorithm in ["visual", "ips"]:
             for i in range(0, len(Beh_WM_files)):
                 #Open file
                 Beh_WM_files_path = Beh_WM_files[i]
-                Beh_WM_files_path = ub_wind_path(Beh_WM_files_path)
+                Beh_WM_files_path = ub_wind_path(Beh_WM_files_path, system=sys_use)
                 behaviour=genfromtxt(Beh_WM_files_path, skip_header=1)
                 Beh = pd.DataFrame(behaviour) 
                 Beh.columns=headers_col
