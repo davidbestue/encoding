@@ -34,7 +34,7 @@ import os
 
 
 
-def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm )  :  
+def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm, root_use )  :  
     ############################################# Comment the following if using a loop #############################################
     
     ###### Decide method
@@ -72,11 +72,13 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
     
     ############################################# Comment above if using a loop #############################################
     
+    root = root_use #'/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
+    
     #print(Method_analysis)
     ##### 0. Decide the brain region
     if Method_analysis == "together":
         
-        root = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
+        #root = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
         
         if Subject_analysis == "d001":  
             
@@ -107,7 +109,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             ##Mask
-            path_masks = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/d001/'
+            path_masks = root +  'temp_masks/d001/'
     
             
             #Chose the algorithm        
@@ -203,7 +205,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks = '/mnt/c/Users/David/Desktop/KI_Desktop/freesurfer/n001/encoding/encoding_1/bold/001/'
+            path_masks = root +  'temp_masks/n001/' 
             
             #Chose the algorithm
             if algorithm=="visual":
@@ -248,7 +250,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                                 root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']]  
             
             
-            path_masks = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/b001/'
+            path_masks = root +  'temp_masks/b001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -291,7 +293,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/l001/'
+            path_masks =  root +  'temp_masks/l001/' 
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -340,7 +342,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/s001/'
+            path_masks = root +  'temp_masks/s001/' 
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -380,7 +382,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/r001/'
+            path_masks = root +  'temp_masks/r001/' 
             
             #Chose the algorithm
             if algorithm=="visual":
@@ -399,7 +401,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
     
     elif Method_analysis == "bysess":    
         
-        root = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
+        #root = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
         if Subject_analysis == "d001":  
             
             func_encoding_sess = [[root +'d001/encoding/s08/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r04/nocfmri3_Encoding_Ax.nii'],
@@ -429,7 +431,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             ##Mask
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/d001/'
+            path_masks = root +  'temp_masks/d001/' 
             #Chose the algorithm        
             if algorithm=="V1V2":
                 Maskrh = 'maskv1v2rh.nii.gz'
@@ -480,7 +482,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/n001/'
+            path_masks = root +  'temp_masks/n001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -519,7 +521,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                                 [root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']]
             
             
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/b001/'
+            path_masks =  root +  'temp_masks/n001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -562,7 +564,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/l001/'
+            path_masks = root +  'temp_masks/l001/'
             
             #Chose the algorithm
             if algorithm=="visual":
@@ -603,7 +605,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks =  '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/s001/'
+            path_masks =  root +  'temp_masks/s001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -643,7 +645,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             
             
-            path_masks = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/temp_masks/r001/'
+            path_masks = root +  'temp_masks/r001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -914,10 +916,16 @@ def angle2chmax(angle):
 
 
 
-def ub_wind_path(PATH):
-    A = PATH                                                                                                    
-    B = A.replace('/', os.path.sep)                                                                                               
-    C= B.replace('\\mnt\\c\\', 'C:\\') 
+def ub_wind_path(PATH, system):
+    if system=='wind':
+        A = PATH                                                                                                    
+        B = A.replace('/', os.path.sep)                                                                                               
+        C= B.replace('\\mnt\\c\\', 'C:\\') 
+    
+    if system=='unix':
+        C=PATH
+    
+    ###
     return C
 
 

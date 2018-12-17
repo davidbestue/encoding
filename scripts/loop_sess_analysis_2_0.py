@@ -5,11 +5,30 @@ Created on Thu Nov 15 12:12:03 2018
 @author: David Bestue
 """
 
+##Decide brain region
 
-
+import easygui
 import os
-  
 
+msg = "Decide computer"
+choices = ["local", "cluster"]
+platform = easygui.buttonbox(msg, choices=choices)
+
+if platform == "local":
+    root_use ='/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
+    encoding_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\'
+    Matrix_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Matrix_encoding_model'
+    Conditions_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\'
+    sys_use='wind'
+    
+elif platform == "cluster":
+    root_use ='/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
+    encoding_path = '/home/david/Desktop/KAROLINSKA/encoding_model/'
+    Matrix_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model'
+    Conditions_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Conditions/'
+    sys_use='unix'
+    
+    
 ##Methods_analysis=[]
 ##
 for algorithm in ["visual", "ips"]:
@@ -19,11 +38,11 @@ for algorithm in ["visual", "ips"]:
         #algorithm = "visual"
         distance_ch='mix'
         distance='mix'
-        Subject_analysis='r001' 
-        os.chdir('C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\')
+        Subject_analysis='n001' 
+        os.chdir(encoding_path)
         ############################################       
         from functions_encoding_loop import *
-        Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm ) 
+        Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm, root_use ) 
         #############################################
         df_responses=[]
         dfs = {}
@@ -47,7 +66,7 @@ for algorithm in ["visual", "ips"]:
             
             for i in range(0, len(func_encoding)):
                 func_filename=func_encoding[i] #+ 'setfmri3_Encoding_Ax.nii' # 'regfmcpr.nii.gz'
-                func_filename = ub_wind_path(func_filename)
+                func_filename = ub_wind_path(func_filename, system=sys_use)
                 #
                 mask_img_rh= path_masks  + Maskrh #maskV1rh_2.nii.gz' #maskV1rh.nii.gz'  maskV1rh_2.nii.gz maskipsrh_2.nii.gz
                 mask_img_rh = ub_wind_path(mask_img_rh)
@@ -228,10 +247,10 @@ for algorithm in ["visual", "ips"]:
             # Chhannel weight in the mask
             #Now I have one matrix that is the estimated weight of the channel for each voxel ( Matrix_weights[voxels, weight of the channel]  )
             
-            os.chdir('C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Matrix_encoding_model')
+            os.chdir(Matrix_enc_path)
             Matrix_save=pd.DataFrame(Matrix_weights)
             Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
-            os.chdir('C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\')
+            os.chdir(encoding_path)
             
             Matrix_weights_transpose=Matrix_weights.transpose()
             
@@ -516,7 +535,7 @@ for algorithm in ["visual", "ips"]:
         df_name = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' 
         writer_cond = pd.ExcelWriter(df_name)
         
-        os.chdir('C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\' + CONDITION)
+        os.chdir(Conditions_enc_path + CONDITION)
         for session_tsk, df1 in enumerate(df_responses):
             df1.to_excel(writer_cond,'sheet{}'.format(session_tsk))
         
@@ -547,7 +566,7 @@ for algorithm in ["visual", "ips"]:
         #panel=pd.Panel(dfs_pp)
         
         
-        os.chdir('C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\' + CONDITION + '\\plots')
+        os.chdir(Conditions_enc_path + CONDITION + '\\plots')
         
         
         
