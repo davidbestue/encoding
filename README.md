@@ -75,6 +75,9 @@ Explanation of the procudure & code files
 
 ### Files:
 
+
+Inside "scripts" you have the two main scripts. They are the files described below put together 
+
 #### 0. functions_encoding.py
 
 + Decide the subject & the brian region
