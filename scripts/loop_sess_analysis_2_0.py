@@ -40,7 +40,7 @@ for algorithm in ["visual", "ips"]:
         #algorithm = "visual"
         distance_ch='mix'
         distance='mix'
-        Subject_analysis='b001' 
+        Subject_analysis='l001' 
         os.chdir(encoding_path)
         ############################################       
         from functions_encoding_loop import *
