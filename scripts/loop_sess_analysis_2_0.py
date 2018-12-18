@@ -31,14 +31,14 @@ elif platform == "cluster":
     
 ##Methods_analysis=[]
 ##
-for algorithm in ["ips"]: #"visual", 
+for algorithm in ["visual", "ips"]:  
     for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
         Method_analysis = 'bysess'
         #CONDITION = '1_0.2'
         #algorithm = "visual"
         distance_ch='mix'
         distance='mix'
-        Subject_analysis='d001' 
+        Subject_analysis='b001' 
         os.chdir(encoding_path)
         ############################################       
         from functions_encoding_loop import *
