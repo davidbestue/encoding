@@ -17,7 +17,6 @@ platform = easygui.buttonbox(msg, choices=choices)
 if platform == "local":
     root_use ='/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
     encoding_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\'
-    Matrix_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Matrix_encoding_model'
     Conditions_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\'
     PLOTS_path = '\\plots'
     sys_use='wind'
@@ -25,7 +24,6 @@ if platform == "local":
 elif platform == "cluster":
     root_use ='/home/david/Desktop/IEM_data/'
     encoding_path = '/home/david/Desktop/KAROLINSKA/encoding_model/'
-    Matrix_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model'
     Conditions_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Conditions/'
     PLOTS_path = '/plots'
     sys_use='unix'
@@ -249,12 +247,12 @@ for algorithm in ["visual", "ips"]:
             # Chhannel weight in the mask
             #Now I have one matrix that is the estimated weight of the channel for each voxel ( Matrix_weights[voxels, weight of the channel]  )
             
-            os.chdir(Matrix_enc_path)
+            #os.chdir(Matrix_enc_path)
             Matrix_save=pd.DataFrame(Matrix_weights)
             Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
-            os.chdir(encoding_path)
             
             Matrix_weights_transpose=Matrix_weights.transpose()
+            os.chdir(encoding_path)
             
             ###
             ###

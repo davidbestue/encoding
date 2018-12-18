@@ -521,7 +521,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                                 [root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']]
             
             
-            path_masks =  root +  'temp_masks/n001/'
+            path_masks =  root +  'temp_masks/b001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
