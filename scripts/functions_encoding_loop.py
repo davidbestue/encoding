@@ -587,7 +587,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
             func_encoding_sess = [[root +'s001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii'],
                                   [root +'s001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii'],
-                                  [root +'s001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii'],
+                                  [root +'s001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii'],
                                   [root +'s001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii'],
                                   [root +'s001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii']]
             
