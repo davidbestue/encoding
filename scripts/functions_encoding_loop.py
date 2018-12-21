@@ -647,7 +647,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                                 [root +'r001/WMtask/s10/r01/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess=[[root +'r001/WMtask/s08/r01/wm_beh.txt', root +'r001/WMtask/s08/r02/wm_beh.txt', root +'r001/WMtask/s08/r03/wm_beh.txt', root +'r001/WMtask/s08/r04/wm_beh.txt', root +'r001/WMtask/s08/r05/wm_beh.txt', root +'r001/WMtask/s09/r06/wm_beh.txt'],
+            Beh_WM_files_sess=[[root +'r001/WMtask/s08/r01/wm_beh.txt', root +'r001/WMtask/s08/r02/wm_beh.txt', root +'r001/WMtask/s08/r03/wm_beh.txt', root +'r001/WMtask/s08/r04/wm_beh.txt', root +'r001/WMtask/s08/r05/wm_beh.txt', root +'r001/WMtask/s08/r06/wm_beh.txt'],
                                 [root +'r001/WMtask/s09/r01/wm_beh.txt', root +'r001/WMtask/s09/r02/wm_beh.txt', root +'r001/WMtask/s09/r03/wm_beh.txt', root +'r001/WMtask/s09/r04/wm_beh.txt'],
                                 [root +'r001/WMtask/s10/r01/wm_beh.txt']]
             
