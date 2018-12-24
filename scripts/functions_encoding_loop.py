@@ -78,179 +78,126 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
     ##### 0. Decide the brain region
     if Method_analysis == "together":
         
-        #root = '/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
-        
-        if Subject_analysis == "d001":  
+        if Subject_analysis == "d001":
             
-            func_encoding_sess =[ [root +'d001/encoding/s08/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [root +'d001/encoding/s08/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r04/nocfmri3_Encoding_Ax.nii',
                              root +'d001/encoding/s09/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s09/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s09/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s09/r04/nocfmri3_Encoding_Ax.nii',
                              root +'d001/encoding/s10/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s10/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s10/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s10/r04/nocfmri3_Encoding_Ax.nii',
-                             root +'d001/encoding/s11/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r04/nocfmri3_Encoding_Ax.nii']]  
+                             root +'d001/encoding/s11/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r04/nocfmri3_Encoding_Ax.nii']
             
             
-            Beh_enc_files_sess = [[root +'d001/encoding/s08/r01/enc_beh.txt', root +'d001/encoding/s08/r02/enc_beh.txt', root +'d001/encoding/s08/r03/enc_beh.txt', root +'d001/encoding/s08/r04/enc_beh.txt',
+            Beh_enc_files_sess = [root +'d001/encoding/s08/r01/enc_beh.txt', root +'d001/encoding/s08/r02/enc_beh.txt', root +'d001/encoding/s08/r03/enc_beh.txt', root +'d001/encoding/s08/r04/enc_beh.txt',
                              root +'d001/encoding/s09/r01/enc_beh.txt', root +'d001/encoding/s09/r02/enc_beh.txt', root +'d001/encoding/s09/r03/enc_beh.txt', root +'d001/encoding/s09/r04/enc_beh.txt',
                              root +'d001/encoding/s10/r01/enc_beh.txt', root +'d001/encoding/s10/r02/enc_beh.txt', root +'d001/encoding/s10/r03/enc_beh.txt', root +'d001/encoding/s10/r04/enc_beh.txt',
-                             root +'d001/encoding/s11/r01/enc_beh.txt', root +'d001/encoding/s11/r02/enc_beh.txt', root +'d001/encoding/s11/r03/enc_beh.txt', root +'d001/encoding/s11/r04/enc_beh.txt']]
+                             root +'d001/encoding/s11/r01/enc_beh.txt', root +'d001/encoding/s11/r02/enc_beh.txt', root +'d001/encoding/s11/r03/enc_beh.txt', root +'d001/encoding/s11/r04/enc_beh.txt']
             
             
             
-            func_wmtask_sess =  [[root +'d001/WMtask/s10/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r03/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r04/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r05/nocfmri5_task_Ax.nii',
+            func_wmtask_sess =  [root +'d001/WMtask/s10/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r03/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r04/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r05/nocfmri5_task_Ax.nii',
                              root +'d001/WMtask/s11/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s11/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s11/r03/nocfmri5_task_Ax.nii',
                              root +'d001/WMtask/s12/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s12/r02/nocfmri5_task_Ax.nii',
-                             root +'d001/WMtask/s13/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r03/nocfmri5_task_Ax.nii']]
+                             root +'d001/WMtask/s13/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r03/nocfmri5_task_Ax.nii']
             
             
-            Beh_WM_files_sess= [[root +'d001/WMtask/s10/r01/wm_beh.txt', root +'d001/WMtask/s10/r02/wm_beh.txt', root +'d001/WMtask/s10/r03/wm_beh.txt', root +'d001/WMtask/s10/r04/wm_beh.txt', root +'d001/WMtask/s10/r05/wm_beh.txt',
+            Beh_WM_files_sess= [root +'d001/WMtask/s10/r01/wm_beh.txt', root +'d001/WMtask/s10/r02/wm_beh.txt', root +'d001/WMtask/s10/r03/wm_beh.txt', root +'d001/WMtask/s10/r04/wm_beh.txt', root +'d001/WMtask/s10/r05/wm_beh.txt',
                              root +'d001/WMtask/s11/r01/wm_beh.txt', root +'d001/WMtask/s11/r02/wm_beh.txt', root +'d001/WMtask/s11/r03/wm_beh.txt',
                              root +'d001/WMtask/s12/r01/wm_beh.txt', root +'d001/WMtask/s12/r02/wm_beh.txt',
-                             root +'d001/WMtask/s13/r01/wm_beh.txt', root +'d001/WMtask/s13/r02/wm_beh.txt', root +'d001/WMtask/s13/r03/wm_beh.txt']]
+                             root +'d001/WMtask/s13/r01/wm_beh.txt', root +'d001/WMtask/s13/r02/wm_beh.txt', root +'d001/WMtask/s13/r03/wm_beh.txt']
             
             
             
             ##Mask
-            path_masks = root +  'temp_masks/d001/'
-    
-            
+            path_masks = root +  'temp_masks/d001/' 
             #Chose the algorithm        
             if algorithm=="V1V2":
                 Maskrh = 'maskv1v2rh.nii.gz'
                 Masklh = 'maskv1v2lh.nii.gz'
-                name_enc = 'd001_Encoding_V1V2'
-                name_len_enc ='d001_Encoding_lens_datas_V1V2'
-                name_matrix = 'd001_Matrix_weights_V1V2'
-                name_matrix_transp = 'd001_Matrix_weights_transpose_V1V2'
-                name_wml1 = 'd001_WML1_V1V2'
-                name_lens_wml1 = 'd001_WML1_lens_data_V1V2'
-                name_wml3 = 'd001_WML3_V1V2'
-                name_lens_wml3 = 'd001_WML3_lens_data_V1V2'
-                name_wml3ndist = 'd001_WML3ndist_V1V2'
-                name_lens_wml3ndist = 'd001_WML3ndist_lens_data_V1V2'
-                reg_title = 'whole_area_decoding/d001_V1V2'
-                reg_title_area = 'V1V2'
             
             elif algorithm=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("d001_visual_together_matrix.xlsx")
-    #            name_enc = 'd001_Encoding_visual'
-    #            name_len_enc ='d001_Encoding_lens_datas_visual'
-    #            name_matrix = 'd001_Matrix_weights_visual'
-    #            name_matrix_transp = 'd001_Matrix_weights_transpose_visual'
-    #            name_wml1 = 'd001_WML1_visual'
-    #            name_lens_wml1 = 'd001_WML1_lens_data_visual'
-    #            name_wml3 = 'd001_WML3_visual'
-    #            name_lens_wml3 = 'd001_WML3_lens_data_visual'
-    #            name_wml3ndist = 'd001_WML3ndist_visual'
-    #            name_lens_wml3ndist = 'd001_WML3ndist_lens_data_visual'
-    #            reg_title = 'whole_area_decoding/d001_visual'
-    #            reg_title_area = 'visual'
-            
-            
+                #df_name ='df_sessions_visual_d001.xlsx'
             
             elif algorithm=="ips":
                 Maskrh = 'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("d001_ips_together_matrix.xlsx")
-    #            name_enc = 'd001_Encoding_ips'
-    #            name_len_enc ='d001_Encoding_lens_datas_ips'
-    #            name_matrix = 'd001_Matrix_weights_ips'
-    #            name_matrix_transp = 'd001_Matrix_weights_transpose_ips'
-    #            name_wml1 = 'd001_WML1_ips'
-    #            name_lens_wml1 = 'd001_WML1_lens_data_ips'
-    #            name_wml3 = 'd001_WML3_ips'
-    #            name_lens_wml3 = 'd001_WML3_lens_data_ips'
-    #            name_wml3ndist = 'd001_WML3ndist_ips'
-    #            name_lens_wml3ndist = 'd001_WML3ndist_lens_data_ips'
-    #            reg_title = 'whole_area_decoding/d001_ips'
-    #            reg_title_area = 'ips'
+                #df_name ='df_sessions_ips_d001.xlsx'
+            
+            elif algorithm=="IPS":
+                Maskrh = 'maskIPSrh.nii.gz'
+                Masklh = 'maskIPSlh.nii.gz'
             
             elif algorithm=="IPS_1":
                 Maskrh = 'maskIPS_1rh.nii.gz'
                 Masklh = 'maskIPS_1lh.nii.gz'
-                name_enc = 'd001_Encoding_ips_1'
-                name_len_enc ='d001_Encoding_lens_datas_ips_1'
-                name_matrix = 'd001_Matrix_weights_ips_1'
-                name_matrix_transp = 'd001_Matrix_weights_transpose_ips_1'
-                name_wml1 = 'd001_WML1_ips_1'
-                name_lens_wml1 = 'd001_WML1_lens_data_ips_1'
-                name_wml3 = 'd001_WML3_ips_1'
-                name_lens_wml3 = 'd001_WML3_lens_data_ips_1'
-                name_wml3ndist = 'd001_WML3ndist_ips_1'
-                name_lens_wml3ndist = 'd001_WML3ndist_lens_data_ips_1'
-                reg_title = 'whole_area_decoding/d001_IPS_1'
-                reg_title_area = 'IPS_1'
+        
         
         
         
         if Subject_analysis == "n001":
             
-            func_encoding_sess = [[root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
                                   root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']]
+                                  root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
             
-            Beh_enc_files_sess =[[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt',root +'n001/encoding/s01/r05/enc_beh.txt',
+            Beh_enc_files_sess =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
                                  root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
-                                 root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']]
+                                 root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
             
             
-            func_wmtask_sess = [[root +'n001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [root +'n001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
                                 root +'n001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r04/nocfmri5_task_Ax.nii',
-                                root +'n001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r05/nocfmri5_task_Ax.nii']]
+                                root +'n001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r05/nocfmri5_task_Ax.nii']
             
             
-            Beh_WM_files_sess =[[root +'n001/WMtask/s01/r01/wm_beh.txt', root +'n001/WMtask/s01/r02/wm_beh.txt', root +'n001/WMtask/s01/r03/wm_beh.txt', root +'n001/WMtask/s01/r04/wm_beh.txt', root +'n001/WMtask/s01/r05/wm_beh.txt',
+            Beh_WM_files_sess=[root +'n001/WMtask/s01/r01/wm_beh.txt', root +'n001/WMtask/s01/r02/wm_beh.txt', root +'n001/WMtask/s01/r03/wm_beh.txt', root +'n001/WMtask/s01/r04/wm_beh.txt', root +'n001/WMtask/s01/r05/wm_beh.txt',
                                 root +'n001/WMtask/s02/r01/wm_beh.txt', root +'n001/WMtask/s02/r02/wm_beh.txt', root +'n001/WMtask/s02/r03/wm_beh.txt', root +'n001/WMtask/s02/r04/wm_beh.txt',
-                                root +'n001/WMtask/s03/r01/wm_beh.txt', root +'n001/WMtask/s03/r02/wm_beh.txt', root +'n001/WMtask/s03/r03/wm_beh.txt', root +'n001/WMtask/s03/r04/wm_beh.txt', root +'n001/WMtask/s03/r05/wm_beh.txt']]
+                                root +'n001/WMtask/s03/r01/wm_beh.txt', root +'n001/WMtask/s03/r02/wm_beh.txt', root +'n001/WMtask/s03/r03/wm_beh.txt', root +'n001/WMtask/s03/r04/wm_beh.txt', root +'n001/WMtask/s03/r05/wm_beh.txt']
             
             
             
-            path_masks = root +  'temp_masks/n001/' 
+            path_masks = root +  'temp_masks/n001/'
             
-            #Chose the algorithm
+            #Chose the algorithm        
             if algorithm=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("n001_visual_together_matrix.xlsx")
-                #name_matrix = 'n001_Matrix_weights_visual'
-                #name_enc = 'n001_Encoding_visual'
-                #name_wml3 = 'n001_WML3_visual'
                 #df_name ='df_sessions_visual_n001.xlsx'
             
             elif algorithm=="ips":
                 Maskrh = 'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("n001_ips_together_matrix.xlsx")
-                #df_name ='df_sessions_ips_n001.xlsx'
-                #name_matrix = 'n001_Matrix_weights_ips'
-                #name_enc = 'n001_Encoding_ips'
-                #name_wml3 = 'n001_WML3_ips'        
+            
             
             
         
         
         if Subject_analysis == "b001":
             
-            func_encoding_sess = [[root +'b001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [root +'b001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'b001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'b001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']]
+                                  root +'b001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
             
-            Beh_enc_files_sess = [[root +'b001/encoding/s01/r01/enc_beh.txt', root +'b001/encoding/s01/r02/enc_beh.txt', root +'b001/encoding/s01/r03/enc_beh.txt', root +'b001/encoding/s01/r04/enc_beh.txt',
+            Beh_enc_files_sess =[root +'b001/encoding/s01/r01/enc_beh.txt', root +'b001/encoding/s01/r02/enc_beh.txt', root +'b001/encoding/s01/r03/enc_beh.txt', root +'b001/encoding/s01/r04/enc_beh.txt',
                                   root +'b001/encoding/s02/r01/enc_beh.txt', root +'b001/encoding/s02/r02/enc_beh.txt', root +'b001/encoding/s02/r03/enc_beh.txt', root +'b001/encoding/s02/r04/enc_beh.txt',
-                                  root +'b001/encoding/s03/r01/enc_beh.txt', root +'b001/encoding/s03/r02/enc_beh.txt', root +'b001/encoding/s03/r03/enc_beh.txt', root +'b001/encoding/s03/r04/enc_beh.txt']]
+                                  root +'b001/encoding/s03/r01/enc_beh.txt', root +'b001/encoding/s03/r02/enc_beh.txt', root +'b001/encoding/s03/r03/enc_beh.txt', root +'b001/encoding/s03/r04/enc_beh.txt']
             
             
-            func_wmtask_sess = [[root +'b001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [root +'b001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
                                 root +'b001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r04/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r05/nocfmri5_task_Ax.nii',
-                                root +'b001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r04/nocfmri5_task_Ax.nii']]
+                                root +'b001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r04/nocfmri5_task_Ax.nii']
             
             
-            Beh_WM_files_sess= [[root +'b001/WMtask/s01/r01/wm_beh.txt', root +'b001/WMtask/s01/r02/wm_beh.txt', root +'b001/WMtask/s01/r03/wm_beh.txt', root +'b001/WMtask/s01/r04/wm_beh.txt', root +'b001/WMtask/s01/r05/wm_beh.txt',
+            Beh_WM_files_sess=[root +'b001/WMtask/s01/r01/wm_beh.txt', root +'b001/WMtask/s01/r02/wm_beh.txt', root +'b001/WMtask/s01/r03/wm_beh.txt', root +'b001/WMtask/s01/r04/wm_beh.txt', root +'b001/WMtask/s01/r05/wm_beh.txt',
                                 root +'b001/WMtask/s02/r01/wm_beh.txt', root +'b001/WMtask/s02/r02/wm_beh.txt', root +'b001/WMtask/s02/r03/wm_beh.txt', root +'b001/WMtask/s02/r04/wm_beh.txt', root +'b001/WMtask/s02/r05/wm_beh.txt',
-                                root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']]  
+                                root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']
             
             
-            path_masks = root +  'temp_masks/b001/'
+            path_masks =  root +  'temp_masks/b001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -269,33 +216,33 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "l001":
             
-            func_encoding_sess = [[root +'l001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [root +'l001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'l001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'l001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'l001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r04/nocfmri3_Encoding_Ax.nii']]
+                                  root +'l001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r04/nocfmri3_Encoding_Ax.nii']
             
             
-            Beh_enc_files_sess =[[root +'l001/encoding/s01/r01/enc_beh.txt', root +'l001/encoding/s01/r02/enc_beh.txt', root +'l001/encoding/s01/r03/enc_beh.txt', root +'l001/encoding/s01/r04/enc_beh.txt',
+            Beh_enc_files_sess =[root +'l001/encoding/s01/r01/enc_beh.txt', root +'l001/encoding/s01/r02/enc_beh.txt', root +'l001/encoding/s01/r03/enc_beh.txt', root +'l001/encoding/s01/r04/enc_beh.txt',
                                   root +'l001/encoding/s02/r01/enc_beh.txt', root +'l001/encoding/s02/r02/enc_beh.txt', root +'l001/encoding/s02/r03/enc_beh.txt', root +'l001/encoding/s02/r04/enc_beh.txt',
                                   root +'l001/encoding/s03/r01/enc_beh.txt', root +'l001/encoding/s03/r02/enc_beh.txt', root +'l001/encoding/s03/r03/enc_beh.txt', root +'l001/encoding/s03/r04/enc_beh.txt',
-                                  root +'l001/encoding/s04/r01/enc_beh.txt', root +'l001/encoding/s04/r02/enc_beh.txt', root +'l001/encoding/s04/r03/enc_beh.txt', root +'l001/encoding/s04/r04/enc_beh.txt']]
+                                  root +'l001/encoding/s04/r01/enc_beh.txt', root +'l001/encoding/s04/r02/enc_beh.txt', root +'l001/encoding/s04/r03/enc_beh.txt', root +'l001/encoding/s04/r04/enc_beh.txt']
             
-            func_wmtask_sess = [[root +'l001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r03/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [root +'l001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r03/nocfmri5_task_Ax.nii',
                                 root +'l001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s02/r03/nocfmri5_task_Ax.nii',
                                 root +'l001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'l001/WMtask/s03/r04/nocfmri5_task_Ax.nii',
-                                root +'l001/WMtask/s04/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r03/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r04/nocfmri5_task_Ax.nii']]
+                                root +'l001/WMtask/s04/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r03/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r04/nocfmri5_task_Ax.nii']
             
             
-            Beh_WM_files_sess=[[root +'l001/WMtask/s01/r01/wm_beh.txt', root +'l001/WMtask/s01/r02/wm_beh.txt', root +'l001/WMtask/s01/r03/wm_beh.txt',
+            Beh_WM_files_sess=[root +'l001/WMtask/s01/r01/wm_beh.txt', root +'l001/WMtask/s01/r02/wm_beh.txt', root +'l001/WMtask/s01/r03/wm_beh.txt',
                                 root +'l001/WMtask/s02/r01/wm_beh.txt', root +'l001/WMtask/s02/r02/wm_beh.txt', root +'l001/WMtask/s02/r03/wm_beh.txt',
                                 root +'l001/WMtask/s03/r01/wm_beh.txt', root +'l001/WMtask/s03/r02/wm_beh.txt', root +'l001/WMtask/s03/r03/wm_beh.txt', root +'l001/WMtask/s03/r04/wm_beh.txt',
-                                root +'l001/WMtask/s04/r01/wm_beh.txt', root +'l001/WMtask/s04/r02/wm_beh.txt', root +'l001/WMtask/s04/r03/wm_beh.txt', root +'l001/WMtask/s04/r04/wm_beh.txt']]
+                                root +'l001/WMtask/s04/r01/wm_beh.txt', root +'l001/WMtask/s04/r02/wm_beh.txt', root +'l001/WMtask/s04/r03/wm_beh.txt', root +'l001/WMtask/s04/r04/wm_beh.txt']
             
             
             
-            path_masks =  root +  'temp_masks/l001/' 
+            path_masks = root +  'temp_masks/l001/'
             
-            #Chose the algorithm        
+            #Chose the algorithm
             if algorithm=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
@@ -306,7 +253,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 Maskrh = 'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("l001_ips_together_matrix.xlsx")
-                df_name ='df_sessions_ips_l001.xlsx'
+                #df_name ='df_sessions_ips_l001.xlsx'
                 
         
         
@@ -314,35 +261,35 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "s001":
             
-            func_encoding_sess = [[root +'s001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [root +'s001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii',
                                   root +'s001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii',
                                   root +'s001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'s001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii',
-                                  root +'s001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii',]]
+                                  root +'s001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii']
             
             
-            Beh_enc_files_sess =[[root +'s001/encoding/s01/r01/enc_beh.txt', root +'s001/encoding/s01/r02/enc_beh.txt',
+            Beh_enc_files_sess =[root +'s001/encoding/s01/r01/enc_beh.txt', root +'s001/encoding/s01/r02/enc_beh.txt',
                                   root +'s001/encoding/s02/r01/enc_beh.txt', root +'s001/encoding/s02/r02/enc_beh.txt',
                                   root +'s001/encoding/s03/r01/enc_beh.txt', root +'s001/encoding/s03/r02/enc_beh.txt', root +'s001/encoding/s03/r03/enc_beh.txt', root +'s001/encoding/s03/r04/enc_beh.txt',
                                   root +'s001/encoding/s04/r01/enc_beh.txt', root +'s001/encoding/s04/r02/enc_beh.txt',
-                                  root +'s001/encoding/s05/r01/enc_beh.txt', root +'s001/encoding/s05/r02/enc_beh.txt']]
+                                  root +'s001/encoding/s05/r01/enc_beh.txt', root +'s001/encoding/s05/r02/enc_beh.txt']
             
-            func_wmtask_sess = [[root +'s001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s01/r02/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [root +'s001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s01/r02/nocfmri5_task_Ax.nii',
                                 root +'s001/WMtask/s02/r01/nocfmri5_task_Ax.nii',
                                 root +'s001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r04/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r05/nocfmri5_task_Ax.nii',
                                 root +'s001/WMtask/s04/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s04/r02/nocfmri5_task_Ax.nii',
-                                root +'s001/WMtask/s05/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s05/r02/nocfmri5_task_Ax.nii']]
+                                root +'s001/WMtask/s05/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s05/r02/nocfmri5_task_Ax.nii']
             
             
-            Beh_WM_files_sess=[[root +'s001/WMtask/s01/r01/wm_beh.txt', root +'s001/WMtask/s01/r02/wm_beh.txt',
+            Beh_WM_files_sess=[root +'s001/WMtask/s01/r01/wm_beh.txt', root +'s001/WMtask/s01/r02/wm_beh.txt',
                                 root +'s001/WMtask/s02/r01/wm_beh.txt',
                                 root +'s001/WMtask/s03/r01/wm_beh.txt', root +'s001/WMtask/s03/r02/wm_beh.txt', root +'s001/WMtask/s03/r03/wm_beh.txt', root +'s001/WMtask/s03/r04/wm_beh.txt', root +'s001/WMtask/s03/r05/wm_beh.txt',
                                 root +'s001/WMtask/s04/r01/wm_beh.txt', root +'s001/WMtask/s04/r02/wm_beh.txt',
-                                root +'s001/WMtask/s05/r01/wm_beh.txt', root +'s001/WMtask/s05/r02/wm_beh.txt']]
+                                root +'s001/WMtask/s05/r01/wm_beh.txt', root +'s001/WMtask/s05/r02/wm_beh.txt']
             
             
             
-            path_masks = root +  'temp_masks/s001/' 
+            path_masks =  root +  'temp_masks/s001/'
             
             #Chose the algorithm        
             if algorithm=="visual":
@@ -361,30 +308,30 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
         if Subject_analysis == "r001":
             
-            func_encoding_sess = [[root +'r001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [root +'r001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'r001/encoding/s06/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'r001/encoding/s07/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r04/nocfmri3_Encoding_Ax.nii']]
+                                  root +'r001/encoding/s07/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r04/nocfmri3_Encoding_Ax.nii']
             
             
-            Beh_enc_files_sess =[[root +'r001/encoding/s05/r01/enc_beh.txt', root +'r001/encoding/s05/r02/enc_beh.txt', root +'r001/encoding/s05/r03/enc_beh.txt', root +'r001/encoding/s05/r04/enc_beh.txt',
+            Beh_enc_files_sess =[root +'r001/encoding/s05/r01/enc_beh.txt', root +'r001/encoding/s05/r02/enc_beh.txt', root +'r001/encoding/s05/r03/enc_beh.txt', root +'r001/encoding/s05/r04/enc_beh.txt',
                                   root +'r001/encoding/s06/r01/enc_beh.txt', root +'r001/encoding/s06/r02/enc_beh.txt', root +'r001/encoding/s06/r03/enc_beh.txt', root +'r001/encoding/s06/r04/enc_beh.txt',
-                                  root +'r001/encoding/s07/r01/enc_beh.txt', root +'r001/encoding/s07/r02/enc_beh.txt', root +'r001/encoding/s07/r03/enc_beh.txt', root +'r001/encoding/s07/r04/enc_beh.txt']]
+                                  root +'r001/encoding/s07/r01/enc_beh.txt', root +'r001/encoding/s07/r02/enc_beh.txt', root +'r001/encoding/s07/r03/enc_beh.txt', root +'r001/encoding/s07/r04/enc_beh.txt']
             
-            
-            func_wmtask_sess = [[root +'r001/WMtask/s08/r01/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r02/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r03/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r04/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r05/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r06/nocfmri5_task_Ax.nii',
+                        
+            func_wmtask_sess = [root +'r001/WMtask/s08/r01/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r02/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r03/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r04/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r05/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r06/nocfmri5_task_Ax.nii',
                                 root +'r001/WMtask/s09/r01/nocfmri5_task_Ax.nii', root +'r001/WMtask/s09/r02/nocfmri5_task_Ax.nii', root +'r001/WMtask/s09/r03/nocfmri5_task_Ax.nii', root +'r001/WMtask/s09/r04/nocfmri5_task_Ax.nii',
-                                root +'r001/WMtask/s10/r01/nocfmri5_task_Ax.nii']]
+                                root +'r001/WMtask/s10/r01/nocfmri5_task_Ax.nii']
             
             
-            Beh_WM_files_sess=[[root +'r001/WMtask/s08/r01/wm_beh.txt', root +'r001/WMtask/s08/r02/wm_beh.txt', root +'r001/WMtask/s08/r03/wm_beh.txt', root +'r001/WMtask/s08/r04/wm_beh.txt', root +'r001/WMtask/s08/r05/wm_beh.txt', root +'r001/WMtask/s09/r06/wm_beh.txt',
+            Beh_WM_files_sess=[root +'r001/WMtask/s08/r01/wm_beh.txt', root +'r001/WMtask/s08/r02/wm_beh.txt', root +'r001/WMtask/s08/r03/wm_beh.txt', root +'r001/WMtask/s08/r04/wm_beh.txt', root +'r001/WMtask/s08/r05/wm_beh.txt', root +'r001/WMtask/s08/r06/wm_beh.txt',
                                 root +'r001/WMtask/s09/r01/wm_beh.txt', root +'r001/WMtask/s09/r02/wm_beh.txt', root +'r001/WMtask/s09/r03/wm_beh.txt', root +'r001/WMtask/s09/r04/wm_beh.txt',
-                                root +'r001/WMtask/s10/r01/wm_beh.txt']]
+                                root +'r001/WMtask/s10/r01/wm_beh.txt']
             
             
             
-            path_masks = root +  'temp_masks/r001/' 
+            path_masks = root +  'temp_masks/r001/'
             
-            #Chose the algorithm
+            #Chose the algorithm        
             if algorithm=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
@@ -395,8 +342,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 Maskrh = 'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("r001_ips_together_matrix.xlsx")
-                #df_name ='df_sessions_ips_r001.xlsx'            
-            
+                #df_name ='df_sessions_ips_r001.xlsx'    
     
     
     elif Method_analysis == "bysess":    
