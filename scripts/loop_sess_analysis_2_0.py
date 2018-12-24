@@ -4,8 +4,7 @@ Created on Thu Nov 15 12:12:03 2018
 
 @author: David Bestue
 """
-
-##Decide brain region
+###Decide brain region
 
 import easygui
 import os
