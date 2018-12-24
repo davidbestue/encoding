@@ -80,29 +80,29 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "d001":
             
-            func_encoding_sess = [root +'d001/encoding/s08/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [[root +'d001/encoding/s08/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s08/r04/nocfmri3_Encoding_Ax.nii',
                              root +'d001/encoding/s09/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s09/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s09/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s09/r04/nocfmri3_Encoding_Ax.nii',
                              root +'d001/encoding/s10/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s10/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s10/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s10/r04/nocfmri3_Encoding_Ax.nii',
-                             root +'d001/encoding/s11/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r04/nocfmri3_Encoding_Ax.nii']
+                             root +'d001/encoding/s11/r01/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r02/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r03/nocfmri3_Encoding_Ax.nii', root +'d001/encoding/s11/r04/nocfmri3_Encoding_Ax.nii']]
             
             
-            Beh_enc_files_sess = [root +'d001/encoding/s08/r01/enc_beh.txt', root +'d001/encoding/s08/r02/enc_beh.txt', root +'d001/encoding/s08/r03/enc_beh.txt', root +'d001/encoding/s08/r04/enc_beh.txt',
+            Beh_enc_files_sess = [[root +'d001/encoding/s08/r01/enc_beh.txt', root +'d001/encoding/s08/r02/enc_beh.txt', root +'d001/encoding/s08/r03/enc_beh.txt', root +'d001/encoding/s08/r04/enc_beh.txt',
                              root +'d001/encoding/s09/r01/enc_beh.txt', root +'d001/encoding/s09/r02/enc_beh.txt', root +'d001/encoding/s09/r03/enc_beh.txt', root +'d001/encoding/s09/r04/enc_beh.txt',
                              root +'d001/encoding/s10/r01/enc_beh.txt', root +'d001/encoding/s10/r02/enc_beh.txt', root +'d001/encoding/s10/r03/enc_beh.txt', root +'d001/encoding/s10/r04/enc_beh.txt',
-                             root +'d001/encoding/s11/r01/enc_beh.txt', root +'d001/encoding/s11/r02/enc_beh.txt', root +'d001/encoding/s11/r03/enc_beh.txt', root +'d001/encoding/s11/r04/enc_beh.txt']
+                             root +'d001/encoding/s11/r01/enc_beh.txt', root +'d001/encoding/s11/r02/enc_beh.txt', root +'d001/encoding/s11/r03/enc_beh.txt', root +'d001/encoding/s11/r04/enc_beh.txt']]
             
             
             
-            func_wmtask_sess =  [root +'d001/WMtask/s10/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r03/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r04/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r05/nocfmri5_task_Ax.nii',
+            func_wmtask_sess =  [[root +'d001/WMtask/s10/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r03/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r04/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r05/nocfmri5_task_Ax.nii',
                              root +'d001/WMtask/s11/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s11/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s11/r03/nocfmri5_task_Ax.nii',
                              root +'d001/WMtask/s12/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s12/r02/nocfmri5_task_Ax.nii',
-                             root +'d001/WMtask/s13/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r03/nocfmri5_task_Ax.nii']
+                             root +'d001/WMtask/s13/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s13/r03/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess= [root +'d001/WMtask/s10/r01/wm_beh.txt', root +'d001/WMtask/s10/r02/wm_beh.txt', root +'d001/WMtask/s10/r03/wm_beh.txt', root +'d001/WMtask/s10/r04/wm_beh.txt', root +'d001/WMtask/s10/r05/wm_beh.txt',
+            Beh_WM_files_sess= [[root +'d001/WMtask/s10/r01/wm_beh.txt', root +'d001/WMtask/s10/r02/wm_beh.txt', root +'d001/WMtask/s10/r03/wm_beh.txt', root +'d001/WMtask/s10/r04/wm_beh.txt', root +'d001/WMtask/s10/r05/wm_beh.txt',
                              root +'d001/WMtask/s11/r01/wm_beh.txt', root +'d001/WMtask/s11/r02/wm_beh.txt', root +'d001/WMtask/s11/r03/wm_beh.txt',
                              root +'d001/WMtask/s12/r01/wm_beh.txt', root +'d001/WMtask/s12/r02/wm_beh.txt',
-                             root +'d001/WMtask/s13/r01/wm_beh.txt', root +'d001/WMtask/s13/r02/wm_beh.txt', root +'d001/WMtask/s13/r03/wm_beh.txt']
+                             root +'d001/WMtask/s13/r01/wm_beh.txt', root +'d001/WMtask/s13/r02/wm_beh.txt', root +'d001/WMtask/s13/r03/wm_beh.txt']]
             
             
             
@@ -138,23 +138,23 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "n001":
             
-            func_encoding_sess = [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [[root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
                                   root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
+                                  root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']]
             
-            Beh_enc_files_sess =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
+            Beh_enc_files_sess =[[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
                                  root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
-                                 root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
+                                 root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']]
             
             
-            func_wmtask_sess = [root +'n001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [[root +'n001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
                                 root +'n001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r04/nocfmri5_task_Ax.nii',
-                                root +'n001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r05/nocfmri5_task_Ax.nii']
+                                root +'n001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s03/r05/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess=[root +'n001/WMtask/s01/r01/wm_beh.txt', root +'n001/WMtask/s01/r02/wm_beh.txt', root +'n001/WMtask/s01/r03/wm_beh.txt', root +'n001/WMtask/s01/r04/wm_beh.txt', root +'n001/WMtask/s01/r05/wm_beh.txt',
+            Beh_WM_files_sess=[[root +'n001/WMtask/s01/r01/wm_beh.txt', root +'n001/WMtask/s01/r02/wm_beh.txt', root +'n001/WMtask/s01/r03/wm_beh.txt', root +'n001/WMtask/s01/r04/wm_beh.txt', root +'n001/WMtask/s01/r05/wm_beh.txt',
                                 root +'n001/WMtask/s02/r01/wm_beh.txt', root +'n001/WMtask/s02/r02/wm_beh.txt', root +'n001/WMtask/s02/r03/wm_beh.txt', root +'n001/WMtask/s02/r04/wm_beh.txt',
-                                root +'n001/WMtask/s03/r01/wm_beh.txt', root +'n001/WMtask/s03/r02/wm_beh.txt', root +'n001/WMtask/s03/r03/wm_beh.txt', root +'n001/WMtask/s03/r04/wm_beh.txt', root +'n001/WMtask/s03/r05/wm_beh.txt']
+                                root +'n001/WMtask/s03/r01/wm_beh.txt', root +'n001/WMtask/s03/r02/wm_beh.txt', root +'n001/WMtask/s03/r03/wm_beh.txt', root +'n001/WMtask/s03/r04/wm_beh.txt', root +'n001/WMtask/s03/r05/wm_beh.txt']]
             
             
             
@@ -178,23 +178,23 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "b001":
             
-            func_encoding_sess = [root +'b001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [[root +'b001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'b001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'b001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
+                                  root +'b001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'b001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']]
             
-            Beh_enc_files_sess =[root +'b001/encoding/s01/r01/enc_beh.txt', root +'b001/encoding/s01/r02/enc_beh.txt', root +'b001/encoding/s01/r03/enc_beh.txt', root +'b001/encoding/s01/r04/enc_beh.txt',
+            Beh_enc_files_sess =[[root +'b001/encoding/s01/r01/enc_beh.txt', root +'b001/encoding/s01/r02/enc_beh.txt', root +'b001/encoding/s01/r03/enc_beh.txt', root +'b001/encoding/s01/r04/enc_beh.txt',
                                   root +'b001/encoding/s02/r01/enc_beh.txt', root +'b001/encoding/s02/r02/enc_beh.txt', root +'b001/encoding/s02/r03/enc_beh.txt', root +'b001/encoding/s02/r04/enc_beh.txt',
-                                  root +'b001/encoding/s03/r01/enc_beh.txt', root +'b001/encoding/s03/r02/enc_beh.txt', root +'b001/encoding/s03/r03/enc_beh.txt', root +'b001/encoding/s03/r04/enc_beh.txt']
+                                  root +'b001/encoding/s03/r01/enc_beh.txt', root +'b001/encoding/s03/r02/enc_beh.txt', root +'b001/encoding/s03/r03/enc_beh.txt', root +'b001/encoding/s03/r04/enc_beh.txt']]
             
             
-            func_wmtask_sess = [root +'b001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [[root +'b001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'b001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
                                 root +'b001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r04/nocfmri5_task_Ax.nii', root +'b001/WMtask/s02/r05/nocfmri5_task_Ax.nii',
-                                root +'b001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r04/nocfmri5_task_Ax.nii']
+                                root +'b001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'b001/WMtask/s03/r04/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess=[root +'b001/WMtask/s01/r01/wm_beh.txt', root +'b001/WMtask/s01/r02/wm_beh.txt', root +'b001/WMtask/s01/r03/wm_beh.txt', root +'b001/WMtask/s01/r04/wm_beh.txt', root +'b001/WMtask/s01/r05/wm_beh.txt',
+            Beh_WM_files_sess=[[root +'b001/WMtask/s01/r01/wm_beh.txt', root +'b001/WMtask/s01/r02/wm_beh.txt', root +'b001/WMtask/s01/r03/wm_beh.txt', root +'b001/WMtask/s01/r04/wm_beh.txt', root +'b001/WMtask/s01/r05/wm_beh.txt',
                                 root +'b001/WMtask/s02/r01/wm_beh.txt', root +'b001/WMtask/s02/r02/wm_beh.txt', root +'b001/WMtask/s02/r03/wm_beh.txt', root +'b001/WMtask/s02/r04/wm_beh.txt', root +'b001/WMtask/s02/r05/wm_beh.txt',
-                                root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']
+                                root +'b001/WMtask/s03/r01/wm_beh.txt', root +'b001/WMtask/s03/r02/wm_beh.txt', root +'b001/WMtask/s03/r03/wm_beh.txt', root +'b001/WMtask/s03/r04/wm_beh.txt']]
             
             
             path_masks =  root +  'temp_masks/b001/'
@@ -216,27 +216,27 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "l001":
             
-            func_encoding_sess = [root +'l001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [[root +'l001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'l001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'l001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'l001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r04/nocfmri3_Encoding_Ax.nii']
+                                  root +'l001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r03/nocfmri3_Encoding_Ax.nii', root +'l001/encoding/s04/r04/nocfmri3_Encoding_Ax.nii']]
             
             
-            Beh_enc_files_sess =[root +'l001/encoding/s01/r01/enc_beh.txt', root +'l001/encoding/s01/r02/enc_beh.txt', root +'l001/encoding/s01/r03/enc_beh.txt', root +'l001/encoding/s01/r04/enc_beh.txt',
+            Beh_enc_files_sess =[[root +'l001/encoding/s01/r01/enc_beh.txt', root +'l001/encoding/s01/r02/enc_beh.txt', root +'l001/encoding/s01/r03/enc_beh.txt', root +'l001/encoding/s01/r04/enc_beh.txt',
                                   root +'l001/encoding/s02/r01/enc_beh.txt', root +'l001/encoding/s02/r02/enc_beh.txt', root +'l001/encoding/s02/r03/enc_beh.txt', root +'l001/encoding/s02/r04/enc_beh.txt',
                                   root +'l001/encoding/s03/r01/enc_beh.txt', root +'l001/encoding/s03/r02/enc_beh.txt', root +'l001/encoding/s03/r03/enc_beh.txt', root +'l001/encoding/s03/r04/enc_beh.txt',
-                                  root +'l001/encoding/s04/r01/enc_beh.txt', root +'l001/encoding/s04/r02/enc_beh.txt', root +'l001/encoding/s04/r03/enc_beh.txt', root +'l001/encoding/s04/r04/enc_beh.txt']
+                                  root +'l001/encoding/s04/r01/enc_beh.txt', root +'l001/encoding/s04/r02/enc_beh.txt', root +'l001/encoding/s04/r03/enc_beh.txt', root +'l001/encoding/s04/r04/enc_beh.txt']]
             
-            func_wmtask_sess = [root +'l001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r03/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [[root +'l001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s01/r03/nocfmri5_task_Ax.nii',
                                 root +'l001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s02/r03/nocfmri5_task_Ax.nii',
                                 root +'l001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'l001/WMtask/s03/r04/nocfmri5_task_Ax.nii',
-                                root +'l001/WMtask/s04/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r03/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r04/nocfmri5_task_Ax.nii']
+                                root +'l001/WMtask/s04/r01/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r02/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r03/nocfmri5_task_Ax.nii', root +'l001/WMtask/s04/r04/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess=[root +'l001/WMtask/s01/r01/wm_beh.txt', root +'l001/WMtask/s01/r02/wm_beh.txt', root +'l001/WMtask/s01/r03/wm_beh.txt',
+            Beh_WM_files_sess=[[root +'l001/WMtask/s01/r01/wm_beh.txt', root +'l001/WMtask/s01/r02/wm_beh.txt', root +'l001/WMtask/s01/r03/wm_beh.txt',
                                 root +'l001/WMtask/s02/r01/wm_beh.txt', root +'l001/WMtask/s02/r02/wm_beh.txt', root +'l001/WMtask/s02/r03/wm_beh.txt',
                                 root +'l001/WMtask/s03/r01/wm_beh.txt', root +'l001/WMtask/s03/r02/wm_beh.txt', root +'l001/WMtask/s03/r03/wm_beh.txt', root +'l001/WMtask/s03/r04/wm_beh.txt',
-                                root +'l001/WMtask/s04/r01/wm_beh.txt', root +'l001/WMtask/s04/r02/wm_beh.txt', root +'l001/WMtask/s04/r03/wm_beh.txt', root +'l001/WMtask/s04/r04/wm_beh.txt']
+                                root +'l001/WMtask/s04/r01/wm_beh.txt', root +'l001/WMtask/s04/r02/wm_beh.txt', root +'l001/WMtask/s04/r03/wm_beh.txt', root +'l001/WMtask/s04/r04/wm_beh.txt']]
             
             
             
@@ -261,31 +261,31 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
         
         if Subject_analysis == "s001":
             
-            func_encoding_sess = [root +'s001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [[root +'s001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii',
                                   root +'s001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii',
                                   root +'s001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'s001/encoding/s04/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s04/r02/nocfmri3_Encoding_Ax.nii',
-                                  root +'s001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii']
+                                  root +'s001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'s001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii']]
             
             
-            Beh_enc_files_sess =[root +'s001/encoding/s01/r01/enc_beh.txt', root +'s001/encoding/s01/r02/enc_beh.txt',
+            Beh_enc_files_sess =[[root +'s001/encoding/s01/r01/enc_beh.txt', root +'s001/encoding/s01/r02/enc_beh.txt',
                                   root +'s001/encoding/s02/r01/enc_beh.txt', root +'s001/encoding/s02/r02/enc_beh.txt',
                                   root +'s001/encoding/s03/r01/enc_beh.txt', root +'s001/encoding/s03/r02/enc_beh.txt', root +'s001/encoding/s03/r03/enc_beh.txt', root +'s001/encoding/s03/r04/enc_beh.txt',
                                   root +'s001/encoding/s04/r01/enc_beh.txt', root +'s001/encoding/s04/r02/enc_beh.txt',
-                                  root +'s001/encoding/s05/r01/enc_beh.txt', root +'s001/encoding/s05/r02/enc_beh.txt']
+                                  root +'s001/encoding/s05/r01/enc_beh.txt', root +'s001/encoding/s05/r02/enc_beh.txt']]
             
-            func_wmtask_sess = [root +'s001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s01/r02/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [[root +'s001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s01/r02/nocfmri5_task_Ax.nii',
                                 root +'s001/WMtask/s02/r01/nocfmri5_task_Ax.nii',
                                 root +'s001/WMtask/s03/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r02/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r03/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r04/nocfmri5_task_Ax.nii', root +'s001/WMtask/s03/r05/nocfmri5_task_Ax.nii',
                                 root +'s001/WMtask/s04/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s04/r02/nocfmri5_task_Ax.nii',
-                                root +'s001/WMtask/s05/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s05/r02/nocfmri5_task_Ax.nii']
+                                root +'s001/WMtask/s05/r01/nocfmri5_task_Ax.nii', root +'s001/WMtask/s05/r02/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess=[root +'s001/WMtask/s01/r01/wm_beh.txt', root +'s001/WMtask/s01/r02/wm_beh.txt',
+            Beh_WM_files_sess=[[root +'s001/WMtask/s01/r01/wm_beh.txt', root +'s001/WMtask/s01/r02/wm_beh.txt',
                                 root +'s001/WMtask/s02/r01/wm_beh.txt',
                                 root +'s001/WMtask/s03/r01/wm_beh.txt', root +'s001/WMtask/s03/r02/wm_beh.txt', root +'s001/WMtask/s03/r03/wm_beh.txt', root +'s001/WMtask/s03/r04/wm_beh.txt', root +'s001/WMtask/s03/r05/wm_beh.txt',
                                 root +'s001/WMtask/s04/r01/wm_beh.txt', root +'s001/WMtask/s04/r02/wm_beh.txt',
-                                root +'s001/WMtask/s05/r01/wm_beh.txt', root +'s001/WMtask/s05/r02/wm_beh.txt']
+                                root +'s001/WMtask/s05/r01/wm_beh.txt', root +'s001/WMtask/s05/r02/wm_beh.txt']]
             
             
             
@@ -308,24 +308,24 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
             
         if Subject_analysis == "r001":
             
-            func_encoding_sess = [root +'r001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r04/nocfmri3_Encoding_Ax.nii',
+            func_encoding_sess = [[root +'r001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'r001/encoding/s06/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'r001/encoding/s07/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r04/nocfmri3_Encoding_Ax.nii']
+                                  root +'r001/encoding/s07/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r04/nocfmri3_Encoding_Ax.nii']]
             
             
-            Beh_enc_files_sess =[root +'r001/encoding/s05/r01/enc_beh.txt', root +'r001/encoding/s05/r02/enc_beh.txt', root +'r001/encoding/s05/r03/enc_beh.txt', root +'r001/encoding/s05/r04/enc_beh.txt',
+            Beh_enc_files_sess =[[root +'r001/encoding/s05/r01/enc_beh.txt', root +'r001/encoding/s05/r02/enc_beh.txt', root +'r001/encoding/s05/r03/enc_beh.txt', root +'r001/encoding/s05/r04/enc_beh.txt',
                                   root +'r001/encoding/s06/r01/enc_beh.txt', root +'r001/encoding/s06/r02/enc_beh.txt', root +'r001/encoding/s06/r03/enc_beh.txt', root +'r001/encoding/s06/r04/enc_beh.txt',
-                                  root +'r001/encoding/s07/r01/enc_beh.txt', root +'r001/encoding/s07/r02/enc_beh.txt', root +'r001/encoding/s07/r03/enc_beh.txt', root +'r001/encoding/s07/r04/enc_beh.txt']
+                                  root +'r001/encoding/s07/r01/enc_beh.txt', root +'r001/encoding/s07/r02/enc_beh.txt', root +'r001/encoding/s07/r03/enc_beh.txt', root +'r001/encoding/s07/r04/enc_beh.txt']]
             
                         
-            func_wmtask_sess = [root +'r001/WMtask/s08/r01/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r02/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r03/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r04/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r05/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r06/nocfmri5_task_Ax.nii',
+            func_wmtask_sess = [[root +'r001/WMtask/s08/r01/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r02/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r03/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r04/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r05/nocfmri5_task_Ax.nii', root +'r001/WMtask/s08/r06/nocfmri5_task_Ax.nii',
                                 root +'r001/WMtask/s09/r01/nocfmri5_task_Ax.nii', root +'r001/WMtask/s09/r02/nocfmri5_task_Ax.nii', root +'r001/WMtask/s09/r03/nocfmri5_task_Ax.nii', root +'r001/WMtask/s09/r04/nocfmri5_task_Ax.nii',
-                                root +'r001/WMtask/s10/r01/nocfmri5_task_Ax.nii']
+                                root +'r001/WMtask/s10/r01/nocfmri5_task_Ax.nii']]
             
             
-            Beh_WM_files_sess=[root +'r001/WMtask/s08/r01/wm_beh.txt', root +'r001/WMtask/s08/r02/wm_beh.txt', root +'r001/WMtask/s08/r03/wm_beh.txt', root +'r001/WMtask/s08/r04/wm_beh.txt', root +'r001/WMtask/s08/r05/wm_beh.txt', root +'r001/WMtask/s08/r06/wm_beh.txt',
+            Beh_WM_files_sess=[[root +'r001/WMtask/s08/r01/wm_beh.txt', root +'r001/WMtask/s08/r02/wm_beh.txt', root +'r001/WMtask/s08/r03/wm_beh.txt', root +'r001/WMtask/s08/r04/wm_beh.txt', root +'r001/WMtask/s08/r05/wm_beh.txt', root +'r001/WMtask/s08/r06/wm_beh.txt',
                                 root +'r001/WMtask/s09/r01/wm_beh.txt', root +'r001/WMtask/s09/r02/wm_beh.txt', root +'r001/WMtask/s09/r03/wm_beh.txt', root +'r001/WMtask/s09/r04/wm_beh.txt',
-                                root +'r001/WMtask/s10/r01/wm_beh.txt']
+                                root +'r001/WMtask/s10/r01/wm_beh.txt']]
             
             
             
