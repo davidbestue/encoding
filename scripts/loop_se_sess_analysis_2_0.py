@@ -282,7 +282,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                     #List to append all the trial channels
                     channels_trial=[]
                     
-                    for time_scan in range(0, nscans_wm/2, 2 ):
+                    for time_scan in range(0, nscans_wm, 2 ):
                         #Get the activity of the TR in the trial        
                         #Signal = Subset[trial,time_scan,:]
                         Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0)
