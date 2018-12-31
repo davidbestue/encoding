@@ -55,6 +55,10 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             dfs = {}
             
             for session_enc in range(0,len(func_encoding_sess)):
+                
+                #
+                func_wmtask =func_wmtask_sess[session_enc]
+                Beh_WM_files = Beh_WM_files_sess[session_enc]
                 # Chhannel weight in the mask
                 #Now I have one matrix that is the estimated weight of the channel for each voxel ( Matrix_weights[voxels, weight of the channel]  )
                 if Method_analysis == 'together':
