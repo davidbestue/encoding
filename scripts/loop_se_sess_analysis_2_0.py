@@ -351,7 +351,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             
             
             #### Save the df of the matrix_weights
-            writer_matrix.save()
+            #writer_matrix.save()
             
             ## Create excel for the response
             
