@@ -149,7 +149,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                     
                     
                 WM_delay=[]
-                nscans_wm = 12 #9
+                nscans_wm = 12/2 #9
                 Behaviour=[]
                 
                 headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
@@ -400,7 +400,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             #Heatmap
             plt.figure()
             df = pd.DataFrame()
-            for i in range(0,9):
+            for i in range(0,nscans_wm):
                 n = list(Channel_all_trials_rolled[:,i,:].mean(axis=0))
                 #n.reverse()
                 df[str( round(2.335*i, 2)  )] = n
