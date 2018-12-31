@@ -40,7 +40,7 @@ elif platform == "cluster":
 for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
     for algorithm in ["visual", "ips"]:  
         for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
-            Method_analysis = 'together'
+            Method_analysis = 'bysess'
             #CONDITION = '1_0.2'
             #algorithm = "visual"
             distance_ch='mix'
@@ -278,9 +278,10 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                     #List to append all the trial channels
                     channels_trial=[]
                     
-                    for time_scan in range(0, shape(Subset)[1] ):
+                    for time_scan in range(0, shape(Subset)[1], 2 ):
                         #Get the activity of the TR in the trial        
-                        Signal = Subset[trial,time_scan,:]
+                        #Signal = Subset[trial,time_scan,:]
+                        Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0)
                         #Run the inverse model
                         channel1 = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  Signal)
                         #Roll the channel to the ref channel (according to its supposed max)        
