@@ -322,8 +322,8 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                 
                 
                 
-                #Heatmap
-                plt.figure()
+                #Heatmap condition
+                #plt.figure()
                 df = pd.DataFrame()
                 for i in range(0,nscans_wm/2):
                     n = list(Channel_all_trials_rolled[:,i,:].mean(axis=0))
@@ -331,14 +331,14 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                     df[str( round(2.335*i, 2)  )] = n
                 
                 
-                plt.title('Heatmap decoding ' + Subject_analysis)
-                #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-                ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-                ax.plot([0.25, shape(df)[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
-                plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-                plt.ylabel('Angle')
-                plt.xlabel('time (s)')
-                plt.show(block=False)
+                #plt.title('Heatmap decoding ' + Subject_analysis)
+                ########midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+                #ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+                #ax.plot([0.25, shape(df)[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
+                #plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+                #plt.ylabel('Angle')
+                #plt.xlabel('time (s)')
+                #plt.show(block=False)
                 
                 #
                 ##Append the df  
@@ -398,7 +398,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             df=panel.mean(axis=0)
                
             
-            #Heatmap
+            #Heatmap region (save)
             plt.figure()
             df = pd.DataFrame()
             for i in range(0,nscans_wm/2):
@@ -422,7 +422,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             plt.savefig(TITLE_PLOT_H)
             
             
-            #### TSplot
+            #### TSplot preferred
             ref_angle=45
             Angle_ch = ref_angle * (len(channel) / 360)
             
@@ -433,13 +433,13 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
             df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
             
-            plt.figure()
-            plt.title('ROI decoding preferred')
-            sns.tsplot(time='timepoint', value='Decoding', condition='ROI', unit='voxel', ci='sd', data=df_together)
-            plt.show(block=False)
+            #plt.figure()
+            #plt.title('ROI decoding preferred')
+            #sns.tsplot(time='timepoint', value='Decoding', condition='ROI', unit='voxel', ci='sd', data=df_together)
+            #plt.show(block=False)
             
             
-            #### FactorPlot
+            #### FactorPlot preferred (save)
             a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
             TITLE_PREFERRED = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
             plt.title(TITLE_PREFERRED)
@@ -448,71 +448,23 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             a.savefig(TITLE_PLOT)
             
             
-            #### FactorPlot all
+            #### FactorPlot all brain region
             df_all = df.melt()
             df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
             df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
             df_all.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
             df_all['timepoint'] = [float(df_all['timepoint'].iloc[i]) for i in range(0, len(df_all))]
-            sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
-            plt.title('ROI decoding brain region')
-            plt.show(block=False)
-            
-            
-            
-            
-            
-            
-            
-            ######################   Preferred by session
-            
-            #df_sess_pf={}
-            #
-            ##df_responses
-            #
-            #for i, Sess in enumerate( df_responses ):
-            #    df1 = df_responses[i]
-            #    df_45 = df1.iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
-            #    df_together = df_45.melt()
-            #    df_together['ROI'] = ['visual' for i in range(0, len(df_together))]
-            #    df_together['voxel'] = [int(Angle_ch)-20 + i for i in range(0, len(df_45))]*shape(df_45)[1]
-            #    df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-            #    df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-            #    df_sess_pf[i] = df_together
-            #
-            #all_sessions = pd.concat(df_sess_pf)
-            #
-            #sns.factorplot(x='timepoint', y='Decoding',  data=all_sessions)
-            #TITLE_PREFERRED = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
-            #plt.title(TITLE_PREFERRED)
-            #plt.show(block=False)
-            #
-            #
-            ########################   All brain region
-            #
-            #
-            #df_sess_br={}
-            #
-            #for i, Sess in enumerate( df_responses ):
-            #    df_together = df_responses[i].melt()
-            #    df_together['ROI'] = ['visual' for i in range(0, len(df_together))]
-            #    df_together['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
-            #    df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-            #    df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-            #    df_sess_br[i] = df_together
-            #
-            #all_sessions = pd.concat(df_sess_br)
-            #
-            #sns.factorplot(x='timepoint', y='Decoding',  data=all_sessions)
+            #sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
             #plt.title('ROI decoding brain region')
             #plt.show(block=False)
-            #
-            #
             
             
-            #
-            #
-            #
+            
+            
+            
+            
+            
+
 
 
 
