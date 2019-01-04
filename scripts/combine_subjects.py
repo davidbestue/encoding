@@ -8,10 +8,8 @@ Created on Fri Jan  4 11:56:47 2019
 
 root = '/home/david/Desktop/KAROLINSKA/bysess_mix_2TR/Conditions/'
 
-
-xls = pd.ExcelFile(Matrix_results_name)
-# Now you can list all sheets in the file
-xls.sheet_names
+dfs_visual = {}
+dfs_ips = {}
 
 
 for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
@@ -22,4 +20,28 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
         
         ## Load Results
         Matrix_results_name = root +  CONDITION + '/' + SUBJECT_USE_ANALYSIS + '_' + algorithm + '_'  + CONDITION + '_'  + distance + '_' + Method_analysis + '.xlsx'
-        Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=0)
+        xls = pd.ExcelFile(Matrix_results_name)
+        sheets = xls.sheet_names
+        ##
+        if algorithm == 'visual':
+            for sh in sheets:
+                Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
+                dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+        
+        if algorithm == 'ips':
+            for sh in sheets:
+                Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
+                dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+
+
+
+
+#####
+#####
+panel_v=pd.Panel(dfs_visual)
+df_visual=panel_v.mean(axis=0)
+
+panel_i=pd.Panel(dfs_ips)
+df_ips=panel_i.mean(axis=0)
+            
+
