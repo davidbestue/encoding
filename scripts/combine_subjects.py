@@ -6,6 +6,13 @@ Created on Fri Jan  4 11:56:47 2019
 """
 
 
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
 root = '/home/david/Desktop/KAROLINSKA/bysess_mix_2TR/Conditions/'
 
 dfs_visual = {}
@@ -38,10 +45,73 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
 
 #####
 #####
+
 panel_v=pd.Panel(dfs_visual)
 df_visual=panel_v.mean(axis=0)
 
 panel_i=pd.Panel(dfs_ips)
 df_ips=panel_i.mean(axis=0)
-            
+
+#####
+#####
+
+
+TITLE_HEATMAP = SUBJECT_USE_ANALYSIS + '_' + algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
+plt.title(TITLE_HEATMAP)
+#midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+#ax.invert_yaxis()
+ax.plot([0.25, shape(df)[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
+plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+plt.ylabel('Angle')
+plt.xlabel('time (s)')
+plt.show(block=False)
+#TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
+#plt.savefig(TITLE_PLOT_H)
+
+
+
+
+
+
+
+#### TSplot preferred
+ref_angle=45
+Angle_ch = ref_angle * (len(channel) / 360)
+
+df_45 = df.iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
+df_together = df_45.melt()
+df_together['ROI'] = ['ips' for i in range(0, len(df_together))]
+df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*shape(df_45)[1]
+df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+
+#plt.figure()
+#plt.title('ROI decoding preferred')
+#sns.tsplot(time='timepoint', value='Decoding', condition='ROI', unit='voxel', ci='sd', data=df_together)
+#plt.show(block=False)
+
+
+#### FactorPlot preferred (save)
+a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
+TITLE_PREFERRED = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
+plt.title(TITLE_PREFERRED)
+plt.show(block=False)
+TITLE_PLOT = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
+a.savefig(TITLE_PLOT)
+
+
+#### FactorPlot all brain region
+df_all = df.melt()
+df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
+df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
+df_all.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+df_all['timepoint'] = [float(df_all['timepoint'].iloc[i]) for i in range(0, len(df_all))]
+#sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
+#plt.title('ROI decoding brain region')
+#plt.show(block=False)
+
+
+
+
 
