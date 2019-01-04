@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from functions_encoding_loop import *
 
 
 root = '/home/david/Desktop/KAROLINSKA/bysess_mix_2TR/Conditions/'
@@ -19,55 +20,68 @@ dfs_visual = {}
 dfs_ips = {}
 
 
-for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
-    for algorithm in ["visual", "ips"]:  
-        Method_analysis = 'bysess'
-        distance='mix'
-        CONDITION = '1_0.2' #'1_0.2', '1_7', '2_0.2', '2_7'
-        
-        ## Load Results
-        Matrix_results_name = root +  CONDITION + '/' + SUBJECT_USE_ANALYSIS + '_' + algorithm + '_'  + CONDITION + '_'  + distance + '_' + Method_analysis + '.xlsx'
-        xls = pd.ExcelFile(Matrix_results_name)
-        sheets = xls.sheet_names
-        ##
-        if algorithm == 'visual':
-            for sh in sheets:
-                Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
-                dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
-        
-        if algorithm == 'ips':
-            for sh in sheets:
-                Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
-                dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
 
-
-
-
-#####
-#####
-
-panel_v=pd.Panel(dfs_visual)
-df_visual=panel_v.mean(axis=0)
-
-panel_i=pd.Panel(dfs_ips)
-df_ips=panel_i.mean(axis=0)
-
-#####
-#####
-
-
-TITLE_HEATMAP = SUBJECT_USE_ANALYSIS + '_' + algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
-plt.title(TITLE_HEATMAP)
-#midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-#ax.invert_yaxis()
-ax.plot([0.25, shape(df)[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
-plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-plt.ylabel('Angle')
-plt.xlabel('time (s)')
-plt.show(block=False)
-#TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
-#plt.savefig(TITLE_PLOT_H)
+for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
+    for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
+        for algorithm in ["visual", "ips"]:  
+            Method_analysis = 'bysess'
+            distance='mix'
+            #CONDITION = '1_0.2' #'1_0.2', '1_7', '2_0.2', '2_7'
+            
+            ## Load Results
+            Matrix_results_name = root +  CONDITION + '/' + SUBJECT_USE_ANALYSIS + '_' + algorithm + '_'  + CONDITION + '_'  + distance + '_' + Method_analysis + '.xlsx'
+            xls = pd.ExcelFile(Matrix_results_name)
+            sheets = xls.sheet_names
+            ##
+            if algorithm == 'visual':
+                for sh in sheets:
+                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
+                    dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+            
+            if algorithm == 'ips':
+                for sh in sheets:
+                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
+                    dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+    
+    
+    
+    
+    #####
+    #####
+    
+    panel_v=pd.Panel(dfs_visual)
+    df_visual=panel_v.mean(axis=0)
+    df_visual.columns = [float(df_visual.columns[i])*2 for i in range(0, len(df_visual.columns))]
+    
+    panel_i=pd.Panel(dfs_ips)
+    df_ips=panel_i.mean(axis=0)
+    df_ips.columns = [float(df_ips.columns[i])*2 for i in range(0, len(df_ips.columns))]
+    
+    
+    df_heatmaps = {}
+    df_heatmaps['ips'] = df_ips
+    df_heatmaps['visual'] = df_visual
+    
+    #####
+    #####
+    
+    
+    
+    
+    for algorithm in ['visual', 'ips']:
+        plt.figure()
+        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
+        plt.title(TITLE_HEATMAP)
+        #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+        ax = sns.heatmap(df_heatmaps[algorithm], yticklabels=list(df_heatmaps[algorithm].index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+        #ax.invert_yaxis()
+        ax.plot([0.25, shape(df_heatmaps[algorithm])[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
+        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+        plt.ylabel('Angle')
+        plt.xlabel('time (s)')
+        plt.show(block=False)
+        #TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
+        #plt.savefig(TITLE_PLOT_H)
 
 
 
