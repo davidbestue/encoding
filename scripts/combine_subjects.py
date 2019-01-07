@@ -66,7 +66,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     #####
     
     
-    
+    b_reg = []
     
     for algorithm in ['visual', 'ips']:
         plt.figure()
@@ -91,6 +91,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
         df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
         df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+        b_reg.append(df_together)
         
         #plt.figure()   
         #### FactorPlot preferred (save)
@@ -98,18 +99,19 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         TITLE_PREFERRED =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred'
         plt.title(TITLE_PREFERRED)
         plt.show(block=False)
-
-
-
-#### FactorPlot all brain region
-df_all = df.melt()
-df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
-df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
-df_all.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-df_all['timepoint'] = [float(df_all['timepoint'].iloc[i]) for i in range(0, len(df_all))]
-#sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
-#plt.title('ROI decoding brain region')
-#plt.show(block=False)
+        
+    
+    ### FactorPlot all brain region
+    df_all = pd.concat(b_reg)
+    a=sns.factorplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    plt.show(block=False)
+    #df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
+    #df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
+    #df_all.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+    #df_all['timepoint'] = [float(df_all['timepoint'].iloc[i]) for i in range(0, len(df_all))]
+    #sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
+    #plt.title('ROI decoding brain region')
+    #plt.show(block=False)
 
 
 
