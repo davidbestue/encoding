@@ -80,39 +80,25 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         plt.ylabel('Angle')
         plt.xlabel('time (s)')
         plt.show(block=False)
-        #TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
-        #plt.savefig(TITLE_PLOT_H)
+        
+        #### TSplot preferred
+        ref_angle=45
+        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
+        
+        df_45 = df_heatmaps[algorithm].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
+        df_together = df_45.melt()
+        df_together['ROI'] = ['ips' for i in range(0, len(df_together))]
+        df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
+        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+        
+        #plt.figure()   
+        #### FactorPlot preferred (save)
+        a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
+        TITLE_PREFERRED =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred'
+        plt.title(TITLE_PREFERRED)
+        plt.show(block=False)
 
-
-
-
-
-
-
-#### TSplot preferred
-ref_angle=45
-Angle_ch = ref_angle * (len(channel) / 360)
-
-df_45 = df.iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
-df_together = df_45.melt()
-df_together['ROI'] = ['ips' for i in range(0, len(df_together))]
-df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*shape(df_45)[1]
-df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-
-#plt.figure()
-#plt.title('ROI decoding preferred')
-#sns.tsplot(time='timepoint', value='Decoding', condition='ROI', unit='voxel', ci='sd', data=df_together)
-#plt.show(block=False)
-
-
-#### FactorPlot preferred (save)
-a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
-TITLE_PREFERRED = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
-plt.title(TITLE_PREFERRED)
-plt.show(block=False)
-TITLE_PLOT = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
-a.savefig(TITLE_PLOT)
 
 
 #### FactorPlot all brain region
