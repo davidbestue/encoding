@@ -87,7 +87,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         
         df_45 = df_heatmaps[algorithm].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
         df_together = df_45.melt()
-        df_together['ROI'] = ['ips' for i in range(0, len(df_together))]
+        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
         df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
         df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
         df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
@@ -95,7 +95,9 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         
         #plt.figure()   
         #### FactorPlot preferred (save)
-        a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
+        a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)        
+        plt.ylabel('Decoding value')
+        plt.xlabel('time (s)')
         TITLE_PREFERRED =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred'
         plt.title(TITLE_PREFERRED)
         plt.show(block=False)
@@ -104,6 +106,10 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     ### FactorPlot all brain region
     df_all = pd.concat(b_reg)
     a=sns.factorplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    plt.ylabel('Decoding value')
+    plt.xlabel('time (s)')
+    TITLE_BR =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+    plt.title(TITLE_BR)
     plt.show(block=False)
     #df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
     #df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
