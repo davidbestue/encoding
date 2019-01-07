@@ -95,12 +95,12 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         
         #plt.figure()   
         #### FactorPlot preferred (save)
-        a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)        
-        plt.ylabel('Decoding value')
-        plt.xlabel('time (s)')
-        TITLE_PREFERRED =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred'
-        plt.title(TITLE_PREFERRED)
-        plt.show(block=False)
+        #a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)        
+        #plt.ylabel('Decoding value')
+        #plt.xlabel('time (s)')
+        #TITLE_PREFERRED =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred'
+        #plt.title(TITLE_PREFERRED)
+        #plt.show(block=False)
         
     
     ### FactorPlot all brain region
