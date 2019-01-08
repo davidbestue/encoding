@@ -44,8 +44,8 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             Method_analysis = 'bysess'
             #CONDITION = '1_0.2'
             #algorithm = "visual"
-            distance_ch='close'
-            distance='mix'
+            distance_ch='far'
+            #distance='mix'
             Subject_analysis=SUBJECT_USE_ANALYSIS
             os.chdir(encoding_path)
             ############################################       
