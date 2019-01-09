@@ -63,9 +63,9 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                 # Chhannel weight in the mask
                 #Now I have one matrix that is the estimated weight of the channel for each voxel ( Matrix_weights[voxels, weight of the channel]  )
                 if Method_analysis == 'together':
-                    os.chdir('/home/david/Desktop/KAROLINSKA/together_mix_1_TR/Matrix_encoding_model/')
+                    os.chdir('/home/david/Desktop/KAROLINSKA/together_mix_1TR/Matrix_encoding_model/')
                 else:
-                    os.chdir('/home/david/Desktop/KAROLINSKA/bysess_mix_1_TR/Matrix_encoding_model/')
+                    os.chdir('/home/david/Desktop/KAROLINSKA/bysess_mix_1TR/Matrix_encoding_model/')
                 
                 ###                    
                 Matrix_weights_name = SUBJECT_USE_ANALYSIS + '_' + algorithm + '_' + Method_analysis + '_matrix.xlsx'
