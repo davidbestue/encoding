@@ -108,7 +108,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     a=sns.factorplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
     plt.ylabel('Decoding value')
     plt.xlabel('time (s)')
-    TITLE_BR =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
     plt.title(TITLE_BR)
     plt.show(block=False)
     #df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
