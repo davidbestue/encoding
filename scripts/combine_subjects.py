@@ -110,6 +110,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.xlabel('time (s)')
     TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
     plt.title(TITLE_BR)
+    plt.tight_layout()
     plt.show(block=False)
     #df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
     #df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
@@ -118,6 +119,12 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     #sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
     #plt.title('ROI decoding brain region')
     #plt.show(block=False)
+
+
+
+
+
+
 
 
 
