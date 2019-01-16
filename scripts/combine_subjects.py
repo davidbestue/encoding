@@ -189,14 +189,18 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     df_all = pd.concat(b_reg360)    
     x_bins = len(df_all.timepoint.unique())
     
+    d_pp = d_p/x_bins
+    t_pp = t_p/x_bins
+    r_tp= r_t/x_bins
+    
     y_vl_min = -0.1
     y_vl_max = 0.1
     
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
     sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
-    plt.fill_between(  [ range_hrf[0] + t_p, range_hrf[1] + t_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
-    plt.fill_between(  [ range_hrf[0] + d_p, range_hrf[1] + d_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
-    plt.fill_between(  [ range_hrf[0] + r_t, range_hrf[1] + r_t ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+    plt.fill_between(  [ range_hrf[0] + t_pp, range_hrf[1] + t_pp ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    plt.fill_between(  [ range_hrf[0] + d_pp, range_hrf[1] + d_pp ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    plt.fill_between(  [ range_hrf[0] + r_tp, range_hrf[1] + r_tp ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
     plt.ylabel('Decoding value')
     plt.xlabel('time (s)')
     TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' all 360'
