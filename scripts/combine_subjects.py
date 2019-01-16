@@ -19,6 +19,13 @@ root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR/Conditions/'
 dfs_visual = {}
 dfs_ips = {}
 
+#Parameters
+presentation_period= 0.35 
+presentation_period_cue=  0.50
+inter_trial_period= 0.1 
+pre_cue_period= 0.5 
+pre_stim_period= 0.5 
+limit_time=5 
 
 
 for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
@@ -67,6 +74,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     
     
     b_reg = []
+    b_reg360=[]
     
     for algorithm in ['visual', 'ips']:
         plt.figure()
@@ -84,7 +92,6 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         #### TSplot preferred
         ref_angle=45
         Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
-        
         df_45 = df_heatmaps[algorithm].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
         df_together = df_45.melt()
         df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
@@ -92,6 +99,16 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
         df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
         b_reg.append(df_together)
+        
+        ##for whole area
+        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
+        df_all360 = df_heatmaps[algorithm]
+        df_together = df_all360.melt()
+        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
+        df_together['voxel'] = [i+1 for i in range(0, len(df_all360))]*np.shape(df_all360)[1]
+        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+        b_reg360.append(df_together)
         
         #plt.figure()   
         #### FactorPlot preferred (save)
@@ -104,20 +121,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         
     
     ### FactorPlot all brain region
-    plt.figure()
-    df_all = pd.concat(b_reg)
-    #Parameters
-    presentation_period= 0.35 
-    presentation_period_cue=  0.50
-    inter_trial_period= 0.1 
-    pre_cue_period= 0.5 
-    pre_stim_period= 0.5 
-    limit_time=5 
-    
     #12.35 in 1 and 12 in 2 ( :S :S aghhhhhhh should not affect both in beh and imaging )
-    
-    x_bins = len(df_all.timepoint.unique())
-    
+    ### depending on condition
     if CONDITION == '1_0.2':
         delay1 = 0.2
         delay2 = 11.8
@@ -148,6 +153,11 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         r_t = t_p + presentation_period + delay2
     
     
+    ## position in axes
+    
+    plt.figure()
+    df_all = pd.concat(b_reg)    
+    x_bins = len(df_all.timepoint.unique())
     
     d_p = d_p/x_bins
     t_p = t_p/x_bins
@@ -172,11 +182,36 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.gca().get_yaxis().tick_left()
     plt.tight_layout()
     plt.show(block=False)
-
-
-## trial times
-#presentation_period_cue + pre_stim_period ''''cue''''' + presentation_period + delay1 ''''dist''''' + presentation_period + delay2 + ''''response''''' + limit time
-
+    
+    
+    #### plot all 360 in area
+    plt.figure()
+    df_all = pd.concat(b_reg360)    
+    x_bins = len(df_all.timepoint.unique())
+    
+    d_p = d_p/x_bins
+    t_p = t_p/x_bins
+    r_t= r_t/x_bins
+    
+    y_vl_min = df_all.Decoding.min()
+    y_vl_max = df_all.Decoding.max()
+    
+    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
+    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    plt.fill_between(  [ range_hrf[0] + t_p, range_hrf[1] + t_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    plt.fill_between(  [ range_hrf[0] + d_p, range_hrf[1] + d_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    plt.fill_between(  [ range_hrf[0] + r_t, range_hrf[1] + r_t ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+    plt.ylabel('Decoding value')
+    plt.xlabel('time (s)')
+    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' all 360'
+    plt.legend(frameon=False)
+    plt.title(TITLE_BR)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().get_xaxis().tick_bottom()
+    plt.gca().get_yaxis().tick_left()
+    plt.tight_layout()
+    plt.show(block=False)
 
 
 
