@@ -162,13 +162,13 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     start_hrf = 5
     sec_hdrf = 1
     
-    d_p1 = (start_hrf + d_p) * x_bins/ 23.6
-    t_p1 = (start_hrf +t_p)* x_bins/ 23.6
-    r_t1=  (start_hrf + r_t)* x_bins/ 23.6
+    d_p1 = (start_hrf + d_p) * x_bins/ 23.36
+    t_p1 = (start_hrf +t_p)* x_bins/ 23.36
+    r_t1=  (start_hrf + r_t)* x_bins/ 23.36
     #
-    d_p2 = d_p1 + sec_hdrf * x_bins/ 23.6
-    t_p2 = t_p1 + sec_hdrf * x_bins/ 23.6
-    r_t2=  r_t1 + sec_hdrf * x_bins/ 23.6
+    d_p2 = d_p1 + sec_hdrf * x_bins/ 23.36
+    t_p2 = t_p1 + sec_hdrf * x_bins/ 23.36
+    r_t2=  r_t1 + sec_hdrf * x_bins/ 23.36
     
     y_vl_min = df_all.Decoding.min()
     y_vl_max = df_all.Decoding.max()
@@ -198,13 +198,13 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     start_hrf = 5
     sec_hdrf = 1
     
-    d_p1 = (start_hrf + d_p) * x_bins/ 23.6
-    t_p1 = (start_hrf +t_p)* x_bins/ 23.6
-    r_t1=  (start_hrf + r_t)* x_bins/ 23.6
+    d_p1 = (start_hrf + d_p) * x_bins/ 23.36
+    t_p1 = (start_hrf +t_p)* x_bins/ 23.36
+    r_t1=  (start_hrf + r_t)* x_bins/ 23.36
     #
-    d_p2 = d_p1 + sec_hdrf * x_bins/ 23.6
-    t_p2 = t_p1 + sec_hdrf * x_bins/ 23.6
-    r_t2=  r_t1 + sec_hdrf * x_bins/ 23.6
+    d_p2 = d_p1 + sec_hdrf * x_bins/ 23.36
+    t_p2 = t_p1 + sec_hdrf * x_bins/ 23.36
+    r_t2=  r_t1 + sec_hdrf * x_bins/ 23.36
     
     y_vl_min = -0.1
     y_vl_max = 0.1
