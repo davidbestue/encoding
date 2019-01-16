@@ -159,8 +159,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     df_all = pd.concat(b_reg)    
     x_bins = len(df_all.timepoint.unique()) -1 
     
-    start_hrf = 5
-    sec_hdrf = 1
+    start_hrf = 4
+    sec_hdrf = 2
     
     d_p1 = (start_hrf + d_p) * x_bins/ 23.36
     t_p1 = (start_hrf +t_p)* x_bins/ 23.36
