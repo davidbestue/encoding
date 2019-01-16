@@ -104,87 +104,155 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         
     
     ### FactorPlot all brain region
+    #Parameters
+    presentation_period= 0.35 
+    presentation_period_cue=  0.50
+    inter_trial_period= 0.1 
+    pre_cue_period= 0.5 
+    pre_stim_period= 0.5 
+    limit_time=5 
+    
+    #12.35 in 1 and 12 in 2 ( :S :S aghhhhhhh should not affect both in beh and imaging )
     df_all = pd.concat(b_reg)
-    a=sns.factorplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    x_bins = len(df_all.timepoint.unique())
+    
+    if CONDITION == '1_0.2':
+        delay1 = 0.2
+        delay2 = 11.8
+        cue=0
+        t_p = cue + presentation_period_cue + pre_stim_period 
+        d_p = t_p + presentation_period +delay1 
+        r_t = d_p + presentation_period + delay2
+    elif CONDITION == '1_7':
+        delay1 = 7
+        delay2 = 5
+        cue=0
+        t_p = cue + presentation_period_cue + pre_stim_period 
+        d_p = t_p + presentation_period +delay1 
+        r_t = d_p + presentation_period + delay2
+    elif CONDITION == '2_0.2':
+        delay1 = 0.2
+        delay2 = 12
+        cue=0
+        d_p = cue + presentation_period_cue + pre_stim_period 
+        t_p = d_p + presentation_period +delay1 
+        r_t = t_p + presentation_period + delay2    
+    elif CONDITION == '2_7':
+        delay1 = 7
+        delay2 = 12
+        cue=0
+        d_p = cue + presentation_period_cue + pre_stim_period 
+        t_p = d_p + presentation_period +delay1 
+        r_t = t_p + presentation_period + delay2
+    
+    
+    
+    d_p = d_p/x_bins
+    t_p = t_p/x_bins
+    r_t= r_t/x_bins
+    
+    y_vl_min = df_all.Decoding.min()
+    y_vl_max = df_all.Decoding.max()
+    
+    range_hrf = [float(5)/x_bins, float(6)/x_bins] #
+    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    plt.fill_between(  [ range_hrf[0] + t_p, range_hrf[1] + t_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    plt.fill_between(  [ range_hrf[0] + d_p, range_hrf[1] + d_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    plt.fill_between(  [ range_hrf[0] + r_t, range_hrf[1] + r_t ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
     plt.ylabel('Decoding value')
     plt.xlabel('time (s)')
     TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+    plt.legend(frameon=False)
     plt.title(TITLE_BR)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().get_xaxis().tick_bottom()
+    plt.gca().get_yaxis().tick_left()
     plt.tight_layout()
     plt.show(block=False)
-    #df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
-    #df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
-    #df_all.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-    #df_all['timepoint'] = [float(df_all['timepoint'].iloc[i]) for i in range(0, len(df_all))]
-    #sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
-    #plt.title('ROI decoding brain region')
-    #plt.show(block=False)
 
 
 
 
-df_all = pd.concat(b_reg)
-a=sns.factorplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
-plt.ylabel('Decoding value')
-plt.xlabel('time (s)')
-TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
-plt.title(TITLE_BR)
-plt.tight_layout()
-plt.show(block=False)
+
+#
+#
+##Parameters
+#presentation_period= 0.35 
+#presentation_period_cue=  0.50
+#inter_trial_period= 0.1 
+#pre_cue_period= 0.5 
+#pre_stim_period= 0.5 
+#limit_time=5 
+#
+##12.35 in 1 and 12 in 2 ( :S :S aghhhhhhh should not affect both in beh and imaging )
+#
+#x_bins = len(df_all.timepoint.unique())
+#
+#if CONDITION == '1_0.2':
+#    delay1 = 0.2
+#    delay2 = 11.8
+#    cue=0
+#    t_p = cue + presentation_period_cue + pre_stim_period 
+#    d_p = t_p + presentation_period +delay1 
+#    r_t = d_p + presentation_period + delay2
+#elif CONDITION == '1_7':
+#    delay1 = 7
+#    delay2 = 5
+#    cue=0
+#    t_p = cue + presentation_period_cue + pre_stim_period 
+#    d_p = t_p + presentation_period +delay1 
+#    r_t = d_p + presentation_period + delay2
+#elif CONDITION == '2_0.2':
+#    delay1 = 0.2
+#    delay2 = 12
+#    cue=0
+#    d_p = cue + presentation_period_cue + pre_stim_period 
+#    t_p = d_p + presentation_period +delay1 
+#    r_t = t_p + presentation_period + delay2    
+#elif CONDITION == '2_7':
+#    delay1 = 7
+#    delay2 = 12
+#    cue=0
+#    d_p = cue + presentation_period_cue + pre_stim_period 
+#    t_p = d_p + presentation_period +delay1 
+#    r_t = t_p + presentation_period + delay2
+#
+#
+#
+#d_p = d_p/x_bins
+#t_p = t_p/x_bins
+#r_t= r_t/x_bins
+#
+#y_vl_min = df_all.Decoding.min()
+#y_vl_max = df_all.Decoding.max()
+#
+#range_hrf = [float(5)/x_bins, float(6)/x_bins] #
+#
+#df_all = pd.concat(b_reg)
+#sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+#plt.fill_between(  [ range_hrf[0] + t_p, range_hrf[1] + t_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+#plt.fill_between(  [ range_hrf[0] + d_p, range_hrf[1] + d_p ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+#plt.fill_between(  [ range_hrf[0] + r_t, range_hrf[1] + r_t ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+#plt.ylabel('Decoding value')
+#plt.xlabel('time (s)')
+#TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+#plt.legend(frameon=False)
+#plt.title(TITLE_BR)
+#plt.gca().spines['right'].set_visible(False)
+#plt.gca().spines['top'].set_visible(False)
+#plt.gca().get_xaxis().tick_bottom()
+#plt.gca().get_yaxis().tick_left()
+#plt.tight_layout()
+#plt.show(block=False)
 
 
 ## trial times
 #presentation_period_cue + pre_stim_period ''''cue''''' + presentation_period + delay1 ''''dist''''' + presentation_period + delay2 + ''''response''''' + limit time
 
-#Parameters
-presentation_period= 0.35 
-presentation_period_cue=  0.50
-inter_trial_period= 0.1 
-pre_cue_period= 0.5 
-pre_stim_period= 0.5 
-limit_time=5 
-
-#12.35 in 1 and 12 in 2 ( :S :S aghhhhhhh should not affect both in beh and imaging )
-
-if CONDITION == '1_0.2':
-    delay1 = 0.2
-    delay2 = 11.8
-    cue=0
-    t_p = cue + presentation_period_cue + pre_stim_period 
-    d_p = t_p + presentation_period +delay1 
-    r_t = d_p + presentation_period + delay2
-elif CONDITION == '1_7':
-    delay1 = 7
-    delay2 = 5
-    cue=0
-    t_p = cue + presentation_period_cue + pre_stim_period 
-    d_p = t_p + presentation_period +delay1 
-    r_t = d_p + presentation_period + delay2
-elif CONDITION == '2_0.2':
-    delay1 = 0.2
-    delay2 = 12
-    cue=0
-    d_p = cue + presentation_period_cue + pre_stim_period 
-    t_p = d_p + presentation_period +delay1 
-    r_t = t_p + presentation_period + delay2    
-elif CONDITION == '2_7':
-    delay1 = 7
-    delay2 = 12
-    cue=0
-    d_p = cue + presentation_period_cue + pre_stim_period 
-    t_p = d_p + presentation_period +delay1 
-    r_t = t_p + presentation_period + delay2
 
 
-y_vl_min = df_all.Decoding.min()
-y_vl_max = df_all.Decoding.max()
 
-range_hrf = [5,6] #
-
-
-#fill_between(range(9),cis[0][:,0],cis[0][:,1],color="cyan",alpha=0.3)
-#fill_between(range(9),cis[2][:,0],cis[2][:,1],color="magenta",alpha=0.3)
-plt.fill_between(  [ range_hrf[0] + t_p, range_hrf[0] + t_p ], [y_vl_min, y_vl_max], color='b', alpha=0.3  )
 
 
 
