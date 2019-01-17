@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec 31 17:38:37 2018
-
-@author: David
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Thu Nov 15 12:12:03 2018
 
 @author: David Bestue
@@ -56,23 +49,208 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             dfs = {}
             
             for session_enc in range(0,len(func_encoding_sess)):
-                
+                print(session_enc)
+                func_encoding = func_encoding_sess[session_enc] 
+                Beh_enc_files = Beh_enc_files_sess[session_enc]
                 #
                 func_wmtask =func_wmtask_sess[session_enc]
                 Beh_WM_files = Beh_WM_files_sess[session_enc]
+                
+                ### Imaging encoding
+                ##### 1. Imaging
+                enc_lens_datas=[]
+                encoding_datasets=[]
+                
+                
+                #Data to use
+                #Apply the mask
+                
+                for i in range(0, len(func_encoding)):
+                    func_filename=func_encoding[i] #+ 'setfmri3_Encoding_Ax.nii' # 'regfmcpr.nii.gz'
+                    func_filename = ub_wind_path(func_filename, system=sys_use)
+                    #
+                    mask_img_rh= path_masks  + Maskrh #maskV1rh_2.nii.gz' #maskV1rh.nii.gz'  maskV1rh_2.nii.gz maskipsrh_2.nii.gz
+                    mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)
+                    #
+                    mask_img_lh= path_masks + Masklh #maskV1lh_2.nii.gz' #maskV1lh.nii.gz'   maskV1lh_2.nii.gz maskipslh_2.nii.gz
+                    mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)
+                    ##Apply the masks and concatenate   
+                    masked_data_rh = apply_mask(func_filename, mask_img_rh)
+                    masked_data_lh = apply_mask(func_filename, mask_img_lh)    
+                    masked_data=hstack([masked_data_rh, masked_data_lh])
+                    #append it and save the data
+                    encoding_datasets.append(masked_data)
+                    enc_lens_datas.append(len(masked_data))
+                
+                
+                
+                ###High-pass filter and z-score per voxel
+                
+                n_voxels = shape(encoding_datasets[0])[1]
+                for session_enc_sess in range(0, len(enc_lens_datas)):
+                    for voxel in range(0, n_voxels ):
+                        data_to_filter = encoding_datasets[session_enc_sess][:,voxel]
+                        
+                        #apply the filter 
+                        data_to_filter = TimeSeries(data_to_filter, sampling_interval=2.335)
+                        F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02)
+                        data_filtered=F.filtered_boxcar.data
+                        encoding_datasets[session_enc_sess][:,voxel] = data_filtered
+                        
+                        
+                        #Z score
+                        encoding_datasets[session_enc_sess][:,voxel] = zscore(encoding_datasets[session_enc_sess][:,voxel]) 
+                
+                
+                
+                
+                enc_lens_datas = [len(encoding_datasets[i]) for i in range(0, len(encoding_datasets))] 
+                
+                ##### 2. Behaviour
+                
+                #Load and save the matching behavioural files
+                
+                Pos_targets=[]
+                lens_enc_del=[]
+                Enc_delay=[]
+                
+                #Get the timestamps I want in the imaging from the behaviour
+                for i in range(0, len(Beh_enc_files)):
+                    #
+                    Beh_enc_files_path = Beh_enc_files[i]
+                    Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
+                    behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
+                    ## Get the position (hypotetical channel coef)
+                    p_target = array(behaviour[:-1,4])
+                    ref_time=behaviour[-1, 1]
+                    st_delay = behaviour[:-1, 11] -ref_time
+                    
+                    # take at least 6 sec for the hrf
+                    hd = 6 #6
+                    start_delay_hdf = st_delay + hd
+                    
+                    #timestamps to take (first)
+                    start_delay_hdf_scans = start_delay_hdf/2.335
+                    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )]
+                    
+                    #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
+                    #you short the timestamps and the matrix fro the hipotetical cannel coefici
+                    while timestamps[-1]>len(encoding_datasets[i])-2:
+                        #print 1
+                        timestamps=timestamps[:-1]
+                        p_target = p_target[:-1]
+                            
+                    
+                    Enc_delay.append(timestamps)
+                    lens_enc_del.append(len(timestamps))
+                    Pos_targets.append(p_target)
+                
+                
+                
+                add_timestamps = [0]+list(cumsum(enc_lens_datas))[:-1]
+                for i in range(0, len(Enc_delay)):
+                    Enc_delay[i] = list(array(Enc_delay[i])+add_timestamps[i])
+                
+                
+                start_delay=hstack(Enc_delay)
+                
+                #Now you have the timestamps (start_delay) and the Positions to imput in the f function (Pos_targets)
+                #Make the matrix of the activity I want in the voxels I want
+                masked_data = vstack(encoding_datasets)
+                Matrix_activity = zeros(( len(start_delay), shape(masked_data)[1] ))
+                
+                #Take the mean of two TR    
+                for idx,t in enumerate(start_delay):
+                    example_ts = masked_data[t:t+2, :]
+                    trial = mean(example_ts, axis=0)
+                    Matrix_activity[idx, :] =trial
+                
+                
+                # Get the hypothetical channel coeficients: the activity we expect for each channel in every trial of the behaviour
+                pos_target=hstack(Pos_targets)
+                
+                Matrix_all=[]
+                for i in pos_target:
+                    channel_values=f(i)  #f #f_quadrant
+                    Matrix_all.append(channel_values)
+                    
+                
+                
+                M_model=array(Matrix_all)
+                
+                
+                ###############################  STEP 3 ###############################
+                
+                #For each voxel, I want to extract weight of each channel of our model
+                #Con qué peso de canales explico mejor la actividad de este voxel a alo largo de los trials))
+                #Right now I will combine the two previous steps
+                #Que canal explica mejor la activid de este voxel a lo largo de todos los trials? --> Weight para cada canal
+                #If I have a voxel that responds to 27, the weight of the first channel is going to be hight because it means that the activity I have fits really weel with the activity I 
+                # expect from the first channel
+                
+                
+                channel_names = ['ch_' +str(i+1) for i in range(0, len(pos_channels))]
+                Matrix_weights=zeros((shape(Matrix_activity)[1], len(pos_channels) ))
+                
+                for voxel_x in range(0, shape(Matrix_activity)[1]):
+                    LM_matrix = pd.DataFrame(data=M_model)
+                    LM_matrix.columns=channel_names
+                    LM_matrix['Y']=Matrix_activity[:, voxel_x]
+                    ###### Liniar model
+                #    mod = ols(formula='Y ~ ' +  ' + '.join(channel_names) , data=LM_matrix).fit()
+                #    betas=mod.params[1:]
+                #    Matrix_weights[voxel_x, :]=betas
+                    ### Regularization
+                #    clf = Ridge(alpha=0.01, fit_intercept=True, normalize=False) #0.01
+                #    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
+                #    Matrix_weights[voxel_x, :]=clf.coef_
+                    ### Regularization Lasso
+                    clf = Lasso(alpha=0.001, fit_intercept=True, normalize=False) #0.01
+                    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
+                    Matrix_weights[voxel_x, :]=clf.coef_
+                    ##### Liniar model 2
+                #    a = sm.OLS(LM_matrix['Y'], LM_matrix[channel_names] )
+                #    resul = a.fit()
+                #    betas= resul.params
+                #    Matrix_weights[voxel_x, :]=betas   
+                
+                
+                
+            #    #Histogram max channel response
+            #    plt.figure()
+            #    maxch_voxel = [where(Matrix_weights[i]==max(Matrix_weights[i]))[0][0] for i in range(0, len(Matrix_weights))]
+            #    h = seaborn.distplot(maxch_voxel)
+            #    seaborn.set_style('white')
+            #    seaborn.despine()
+            #    plt.xticks([0,17,35])
+            #    h.set_xticklabels(['5','175','355'])
+            #    plt.xlabel("Channels")
+            #    plt.title('Max channel voxel')
+            #    plt.show(block=False)
+            #    
+            #    
+            #    
+            #    #Histogram max channel response
+            #    plt.figure()
+            #    A = pd.DataFrame(Matrix_weights)
+            #    A.columns=channel_names
+            #    seaborn.barplot(data=A, estimator=mean, color='darkorange' )
+            #    seaborn.set_style('white')
+            #    seaborn.despine()
+            #    plt.xlabel("Channels")
+            #    plt.ylabel("Weight")
+            #    plt.title('Mean weight per channel')
+            #    plt.xticks(rotation='vertical')
+            #    plt.show(block=False)
+                
+                
+                
                 # Chhannel weight in the mask
                 #Now I have one matrix that is the estimated weight of the channel for each voxel ( Matrix_weights[voxels, weight of the channel]  )
-                if Method_analysis == 'together':
-                    os.chdir('/home/david/Desktop/KAROLINSKA/together_mix_1TR/Matrix_encoding_model/')
-                else:
-                    os.chdir('/home/david/Desktop/KAROLINSKA/bysess_mix_1TR/Matrix_encoding_model/')
                 
-                ###                    
-                Matrix_weights_name = SUBJECT_USE_ANALYSIS + '_' + algorithm + '_' + Method_analysis + '_matrix.xlsx'
-                Matrix_weights = pd.read_excel(Matrix_weights_name, sheet_name=session_enc)
-                
-                #Matrix_save=pd.DataFrame(Matrix_weights)
-                #Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
+                #os.chdir(Matrix_enc_path)
+                Matrix_save=pd.DataFrame(Matrix_weights)
+                Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
                 
                 Matrix_weights_transpose=Matrix_weights.transpose()
                 os.chdir(encoding_path)
