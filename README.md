@@ -147,10 +147,10 @@ Depending on:
 <br/>
 
 ##### Heatmap
-![](https://github.com/davidbestue/encoding/blob/master/imgs/heatmap.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/heatmap_1.png)
 
 ##### Preferred
-![](https://github.com/davidbestue/encoding/blob/master/imgs/roi_dec.png)
+![](https://github.com/davidbestue/encoding/blob/master/imgs/roi_dec_1.png)
 
 
 ----
