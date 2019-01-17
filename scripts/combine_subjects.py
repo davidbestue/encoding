@@ -158,17 +158,18 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.figure()
     df_all = pd.concat(b_reg)    
     x_bins = len(df_all.timepoint.unique()) -1 
+    max_val_x = df_all.timepoint.max()
     
     start_hrf = 4
     sec_hdrf = 2
     
-    d_p1 = (start_hrf + d_p) * x_bins/ 23.36
-    t_p1 = (start_hrf +t_p)* x_bins/ 23.36
-    r_t1=  (start_hrf + r_t)* x_bins/ 23.36
+    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
+    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
+    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
     #
-    d_p2 = d_p1 + sec_hdrf * x_bins/ 23.36
-    t_p2 = t_p1 + sec_hdrf * x_bins/ 23.36
-    r_t2=  r_t1 + sec_hdrf * x_bins/ 23.36
+    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
+    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
+    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
     
     y_vl_min = df_all.Decoding.min()
     y_vl_max = df_all.Decoding.max()
@@ -197,14 +198,15 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     
     start_hrf = 4
     sec_hdrf = 2
+    max_val_x = df_all.timepoint.max()
     
-    d_p1 = (start_hrf + d_p) * x_bins/ 23.36
-    t_p1 = (start_hrf +t_p)* x_bins/ 23.36
-    r_t1=  (start_hrf + r_t)* x_bins/ 23.36
+    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
+    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
+    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
     #
-    d_p2 = d_p1 + sec_hdrf * x_bins/ 23.36
-    t_p2 = t_p1 + sec_hdrf * x_bins/ 23.36
-    r_t2=  r_t1 + sec_hdrf * x_bins/ 23.36
+    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
+    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
+    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
     
     y_vl_min = -0.1
     y_vl_max = 0.1
