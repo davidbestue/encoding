@@ -120,8 +120,8 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 #df_name ='df_sessions_visual_d001.xlsx'
             
             elif algorithm=="ips":
-                Maskrh = 'ips_ext_fsign_rh.nii.gz'
-                Masklh = 'ips_ext_fsign_lh.nii.gz'
+                Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
+                Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("d001_ips_together_matrix.xlsx")
                 #df_name ='df_sessions_ips_d001.xlsx'
             
@@ -207,8 +207,8 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 #df_name ='df_sessions_visual_b001.xlsx'
             
             elif algorithm=="ips":
-                Maskrh = 'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_fsign_lh.nii.gz'
+                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("b001_ips_together_matrix.xlsx")
                 #df_name ='df_sessions_ips_b001.xlsx'
                 
@@ -250,8 +250,8 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 #df_name ='df_sessions_visual_l001.xlsx'
             
             elif algorithm=="ips":
-                Maskrh = 'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_fsign_lh.nii.gz'
+                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("l001_ips_together_matrix.xlsx")
                 #df_name ='df_sessions_ips_l001.xlsx'
                 
@@ -299,8 +299,8 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 #df_name ='df_sessions_visual_s001.xlsx'
             
             elif algorithm=="ips":
-                Maskrh = 'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_fsign_lh.nii.gz'
+                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("s001_ips_together_matrix.xlsx")
                 #df_name ='df_sessions_ips_s001.xlsx'
             
@@ -339,8 +339,8 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
                 #df_name ='df_sessions_visual_r001.xlsx'
             
             elif algorithm=="ips":
-                Maskrh = 'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_fsign_lh.nii.gz'
+                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("r001_ips_together_matrix.xlsx")
                 #df_name ='df_sessions_ips_r001.xlsx'    
     
