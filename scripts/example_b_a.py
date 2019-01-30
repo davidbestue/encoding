@@ -80,3 +80,22 @@ for SUBJECT_USE_ANALYSIS in ['d001']:
                     #append it and save the data
                     encoding_datasets.append(masked_data)
                     enc_lens_datas.append(len(masked_data))
+
+
+
+
+
+
+
+
+
+
+a = pd.DataFrame(masked_data[:, 45])
+g = sns.lineplot(a.index, a[0])
+g.set_ylabel('BOLD')
+g.set_xlabel('time')
+g.spines['right'].set_visible(False)
+g.spines['top'].set_visible(False)
+plt.title('Raw BOLD activity')
+plt.show()
+
