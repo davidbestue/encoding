@@ -14,7 +14,7 @@ import seaborn as sns
 from functions_encoding_loop import *
 
 
-root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR_ips_str/Conditions/'
+root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR/Conditions/'
 
 dfs_visual = {}
 dfs_ips = {}
