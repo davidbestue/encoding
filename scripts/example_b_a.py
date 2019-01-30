@@ -29,10 +29,10 @@ elif platform == "cluster":
     
 ##Methods_analysis=[]
 ##
-for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
+for SUBJECT_USE_ANALYSIS in ['d001']:
     print(SUBJECT_USE_ANALYSIS)
-    for algorithm in ["visual", "ips"]:  #"ips"
-        for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
+    for algorithm in ["visual"]:  #"ips"
+        for CONDITION in ['1_0.2']: 
             Method_analysis = 'together'
             #CONDITION = '1_0.2'
             #algorithm = "visual"
