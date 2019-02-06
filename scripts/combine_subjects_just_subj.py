@@ -167,98 +167,61 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         r_t = t_p + presentation_period + delay2
     
     
-    ## position in axes
-    
-    plt.figure()
-    df_all = pd.concat(b_reg)   
-    df_all_by_subj = pd.concat(b_reg_by_subj)
-    x_bins = len(df_all.timepoint.unique()) -1 
-    max_val_x = df_all.timepoint.max()
-    
-    start_hrf = 4
-    sec_hdrf = 2
-    
-    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
-    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
-    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
-    #
-    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
-    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
-    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
-    
-    y_vl_min = df_all.Decoding.min()
-    y_vl_max = df_all.Decoding.max()
-    
-    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
-    paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
-    sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
-    ##all subj visual
-    paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
-    sns.set_context("paper", rc = paper_rc)
-    for a in ['visual', 'ips']: 
-        if a=='visual':
-            c='b'
-        elif a =='ips':
-            c='darkorange'
-        for s in df_all_by_subj.subj.unique():
-            sns.pointplot(x='timepoint', y='Decoding',
-                          data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['subj']==s) ],
-                          linestyles='--', color=c, legend=False, size=5, aspect=1.5)   
-    
-    
-    #   
-    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
-    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
-    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
-    plt.ylabel('Decoding value')
-    plt.xlabel('time (s)')
-    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
-    plt.legend(frameon=False)
-    plt.title(TITLE_BR)
-    plt.gca().spines['right'].set_visible(False)
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().get_xaxis().tick_bottom()
-    plt.gca().get_yaxis().tick_left()
-    plt.tight_layout()
-    plt.show(block=False)
-    
-    #### plot all 360 in area
-#    plt.figure()
-#    df_all = pd.concat(b_reg360)    
-#    x_bins = len(df_all.timepoint.unique()) -1 
-#    
-#    start_hrf = 4
-#    sec_hdrf = 2
-#    max_val_x = df_all.timepoint.max()
-#    
-#    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
-#    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
-#    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
-#    #
-#    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
-#    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
-#    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
-#    
-#    y_vl_min = -0.1
-#    y_vl_max = 0.1
-#    
-#    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
-#    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
-#    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
-#    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
-#    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
-#    plt.ylabel('Decoding value')
-#    plt.xlabel('time (s)')
-#    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' all 360'
-#    plt.legend(frameon=False)
-#    plt.title(TITLE_BR)
-#    plt.gca().spines['right'].set_visible(False)
-#    plt.gca().spines['top'].set_visible(False)
-#    plt.gca().get_xaxis().tick_bottom()
-#    plt.gca().get_yaxis().tick_left()
-#    plt.tight_layout()
-#    plt.show(block=False)
+    ## position in axes    
+    for s in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
+        plt.figure()
+        df_all = pd.concat(b_reg)   
+        df_all_by_subj = pd.concat(b_reg_by_subj)
+        x_bins = len(df_all.timepoint.unique()) -1 
+        max_val_x = df_all.timepoint.max()
+        
+        start_hrf = 4
+        sec_hdrf = 2
+        
+        d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
+        t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
+        r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
+        #
+        d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
+        t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
+        r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
+        
+        y_vl_min = df_all.Decoding.min()
+        y_vl_max = df_all.Decoding.max()
+        
+        range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
+        
+        paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
+        sns.set_context("paper", rc = paper_rc) 
+        sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all_by_subj.loc[ df_all_by_subj['subj']==s ], size=5, aspect=1.5)
+        ##all subj visual
+        
+    #    paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
+    #    sns.set_context("paper", rc = paper_rc)
+    #    for a in ['visual', 'ips']: 
+    #        if a=='visual':
+    #            c='b'
+    #        elif a =='ips':
+    #            c='darkorange'
+    #        for s in df_all_by_subj.subj.unique():
+    #            sns.pointplot(x='timepoint', y='Decoding',
+    #                          data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['subj']==s) ],
+    #                          linestyles='--', color=c, legend=False, size=5, aspect=1.5)    
+        
+        plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+        plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+        plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+        plt.ylabel('Decoding value')
+        plt.xlabel('time (s)')
+        TITLE_BR = s + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+        plt.legend(frameon=False)
+        plt.title(TITLE_BR)
+        plt.gca().spines['right'].set_visible(False)
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().get_xaxis().tick_bottom()
+        plt.gca().get_yaxis().tick_left()
+        plt.tight_layout()
+        plt.show(block=False)
 
 
 
