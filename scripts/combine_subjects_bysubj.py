@@ -83,17 +83,17 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     b_reg360=[]
     
     for algorithm in ['visual', 'ips']:
-        plt.figure()
-        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
-        plt.title(TITLE_HEATMAP)
-        #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-        ax = sns.heatmap(df_heatmaps[algorithm], yticklabels=list(df_heatmaps[algorithm].index), cmap="coolwarm", vmin=-0.1, vmax=0.1) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-        #ax.invert_yaxis()
-        ax.plot([0.25, shape(df_heatmaps[algorithm])[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
-        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-        plt.ylabel('Angle')
-        plt.xlabel('time (s)')
-        plt.show(block=False)
+#        plt.figure()
+#        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
+#        plt.title(TITLE_HEATMAP)
+#        #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+#        ax = sns.heatmap(df_heatmaps[algorithm], yticklabels=list(df_heatmaps[algorithm].index), cmap="coolwarm", vmin=-0.1, vmax=0.1) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+#        #ax.invert_yaxis()
+#        ax.plot([0.25, shape(df_heatmaps[algorithm])[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
+#        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+#        plt.ylabel('Angle')
+#        plt.xlabel('time (s)')
+#        plt.show(block=False)
         
         #### TSplot preferred
         ## mean
@@ -124,14 +124,14 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         #####
         #####
         ## for whole area
-        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
-        df_all360 = df_heatmaps[algorithm]
-        df_together = df_all360.melt()
-        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
-        df_together['voxel'] = [i+1 for i in range(0, len(df_all360))]*np.shape(df_all360)[1]
-        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-        b_reg360.append(df_together)
+#        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
+#        df_all360 = df_heatmaps[algorithm]
+#        df_together = df_all360.melt()
+#        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
+#        df_together['voxel'] = [i+1 for i in range(0, len(df_all360))]*np.shape(df_all360)[1]
+#        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+#        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+#        b_reg360.append(df_together)
     
     
     ### FactorPlot all brain region
@@ -223,41 +223,41 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.show(block=False)
     
     #### plot all 360 in area
-    plt.figure()
-    df_all = pd.concat(b_reg360)    
-    x_bins = len(df_all.timepoint.unique()) -1 
-    
-    start_hrf = 4
-    sec_hdrf = 2
-    max_val_x = df_all.timepoint.max()
-    
-    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
-    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
-    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
-    #
-    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
-    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
-    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
-    
-    y_vl_min = -0.1
-    y_vl_max = 0.1
-    
-    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
-    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
-    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
-    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
-    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
-    plt.ylabel('Decoding value')
-    plt.xlabel('time (s)')
-    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' all 360'
-    plt.legend(frameon=False)
-    plt.title(TITLE_BR)
-    plt.gca().spines['right'].set_visible(False)
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().get_xaxis().tick_bottom()
-    plt.gca().get_yaxis().tick_left()
-    plt.tight_layout()
-    plt.show(block=False)
+#    plt.figure()
+#    df_all = pd.concat(b_reg360)    
+#    x_bins = len(df_all.timepoint.unique()) -1 
+#    
+#    start_hrf = 4
+#    sec_hdrf = 2
+#    max_val_x = df_all.timepoint.max()
+#    
+#    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
+#    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
+#    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
+#    #
+#    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
+#    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
+#    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
+#    
+#    y_vl_min = -0.1
+#    y_vl_max = 0.1
+#    
+#    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
+#    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+#    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+#    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+#    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+#    plt.ylabel('Decoding value')
+#    plt.xlabel('time (s)')
+#    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' all 360'
+#    plt.legend(frameon=False)
+#    plt.title(TITLE_BR)
+#    plt.gca().spines['right'].set_visible(False)
+#    plt.gca().spines['top'].set_visible(False)
+#    plt.gca().get_xaxis().tick_bottom()
+#    plt.gca().get_yaxis().tick_left()
+#    plt.tight_layout()
+#    plt.show(block=False)
 
 
 
