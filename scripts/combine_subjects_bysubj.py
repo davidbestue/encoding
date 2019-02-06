@@ -171,7 +171,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     
     plt.figure()
     df_all = pd.concat(b_reg)   
-    df_all = pd.concat(b_reg)
+    df_all_by_subj = pd.concat(b_reg_by_subj)
     x_bins = len(df_all.timepoint.unique()) -1 
     max_val_x = df_all.timepoint.max()
     
@@ -190,7 +190,23 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     y_vl_max = df_all.Decoding.max()
     
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
+    paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
+    sns.set_context("paper", rc = paper_rc) 
     sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    ##all subj visual
+    paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
+    sns.set_context("paper", rc = paper_rc)
+    for a in ['visual', 'ips']: 
+        if a=='visual':
+            c='b'
+        elif a =='ips':
+            c='darkorange'
+        for s in df_all_by_subj.subj.unique():
+            sns.pointplot(x='timepoint', y='Decoding',
+                          data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['subj']==s) ],
+                          linestyles='--', color=c, legend=False, size=5, aspect=1.5)   
+    
+    
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
