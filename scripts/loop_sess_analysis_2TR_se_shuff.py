@@ -262,10 +262,10 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                 title= CONDITION
                 
                 ### shuffle trial labels
-                #v= list( beh_Subset['A_R'])
-                #import random
-                #random.shuffle(v)
-                #beh_Subset['A_R']=v
+                v= list( beh_Subset['A_R'])
+                import random
+                random.shuffle(v)
+                beh_Subset['A_R']=v
                 
                 #########
                 #Subset trials
