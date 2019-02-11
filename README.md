@@ -106,6 +106,23 @@ Inside "scripts" you have the two main scripts. They are the files described bel
 + by condition
 
 
+#### 6. combine_subjects_bysubj.py
++ Plot one line per subject
++ by condition
+
+#### 7. combine_subjects_just_dubj.py
++ Plot the 4 conditions per subject 
++ by condition
+
+#### 8. T_NT_dist.py
++ Example of the T NT dist distribution when rolling
++ one subject example
+
+#### 9. example_ba.py
++ Example bold signal
++ not important
+
+
 ### STEPS OF THE LOOP
 
 for each subject
