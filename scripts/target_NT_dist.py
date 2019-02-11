@@ -39,6 +39,10 @@ df.columns = headers_col
 new_t = []
 new_NT1 = []
 new_NT2 = []
+new_dt = []
+new_dt1 =[]
+new_dt2 = []
+
 def circ_dist(a1,a2):
     ## Returns the minimal distance in angles between to angles 
     op1=abs(a2-a1)
@@ -68,6 +72,7 @@ for i in range(0, len(df)):
     
     new_NT1.append(t1)
     
+    ##NT2
     t2 = df['NT2'].iloc[i]  + dist_roll
     if t2 > 360:
         t2 = t2 -360
@@ -76,10 +81,44 @@ for i in range(0, len(df)):
     
     new_NT2.append(t2)
     
+    ##distractor
+    dt = df['Dist'].iloc[i]  + dist_roll
+    if dt > 360:
+        dt = dt -360
+    if dt<0:
+        dt= 360+dt
+    
+    new_dt.append(dt)
+    
+    ##distractor 1
+    dt1 = df['Dist_NT1'].iloc[i]  + dist_roll
+    if dt1 > 360:
+        dt1 = dt1 -360
+    if dt1<0:
+        dt1= 360+dt1
+    
+    new_dt1.append(dt1)
+    
+    ##distractor 2
+    dt2 = df['Dist_NT2'].iloc[i]  + dist_roll
+    if dt2 > 360:
+        dt2 = dt2 -360
+    if dt2<0:
+        dt2= 360+dt2
+    
+    new_dt2.append(dt2)
+
+
+    
 
 df['nT'] = new_t
 df['nNT1'] = new_NT1
 df['nNT2'] = new_NT2
+df['nd'] = new_dt
+df['nd1'] = new_dt1
+df['nd2'] = new_dt2
+
+
 
 
 
@@ -90,9 +129,25 @@ targets_all = []
 targets_all.append(df['nT'].values)
 targets_all.append(df['nNT1'].values)
 targets_all.append(df['nNT2'].values)
+#targets_all.append(df['nd'].values)
+#targets_all.append(df['nd1'].values)
+#targets_all.append(df['nd2'].values)
+
+
 
 
 import itertools
 list_t =  list(itertools.chain.from_iterable(targets_all))
+
+sns.distplot(list_t, bins=25, color='darkblue', kde=False)
+plt.title('T - NT rotation')
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['top'].set_visible(False)
+plt.gca().get_xaxis().tick_bottom()
+plt.gca().get_yaxis().tick_left()
+plt.tight_layout()
+plt.show(block=False)
+plt.show()
+
 
 
