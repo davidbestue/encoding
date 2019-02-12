@@ -188,9 +188,9 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
     y_vl_max = df_all.Decoding.max()
     
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
-    paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
-    sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    #paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
+    #sns.set_context("paper", rc = paper_rc) 
+    #sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
     ##all subj visual
     paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
     sns.set_context("paper", rc = paper_rc)
