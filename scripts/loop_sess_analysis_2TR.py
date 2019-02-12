@@ -598,6 +598,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             plt.show(block=False)
             TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
             plt.savefig(TITLE_PLOT_H)
+            ##
             
             
             #### TSplot preferred
