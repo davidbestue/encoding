@@ -16,8 +16,8 @@ from functions_encoding_loop import *
 
 root = '/home/david/Desktop/KAROLINSKA/bysess_mix_2TR/Conditions/'
 
-dfs_visual = {}
-dfs_ips = {}
+dfs_visual = []
+dfs_ips = []
 
 #Parameters
 presentation_period= 0.35 
@@ -45,20 +45,22 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
                     Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh) 
                     Matrix_results.columns = [float(Matrix_results.columns[i])*2 for i in range(0, len(Matrix_results.columns))]
                     Matrix_results['session'] = sh[-1]
-                    dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+                    dfs_visual.append(Matrix_results)
             
             if algorithm == 'ips':
                 for sh in sheets:
                     Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)     
                     Matrix_results.columns = [float(Matrix_results.columns[i])*2 for i in range(0, len(Matrix_results.columns))]
                     Matrix_results['session'] = sh[-1]
-                    dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+                    dfs_ips.append(Matrix_results)
     
     
     
     
     #####
-    #####    
+    ##### 
+    df_visual = pd.concat(dfs_visual)
+    df_ips = pd.concat(dfs_ips)
     
     df_heatmaps = {}
     df_heatmaps['ips'] = df_ips
@@ -75,7 +77,7 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
     
     b_reg = []
     b_reg_by_subj = []
-    b_reg360=[]
+    #b_reg360=[]
     
     for algorithm in ['visual', 'ips']:
 #        plt.figure()
@@ -104,9 +106,10 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
         
         ## by_subj
         ref_angle=45
-        for Subj in df_heatmaps_by_subj[algorithm].keys():
-            Angle_ch = ref_angle * (len(     df_heatmaps_by_subj[algorithm][Subj]    ) / 360)
-            df_45 = df_heatmaps_by_subj[algorithm][Subj].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
+        for Sess in df_heatmaps[algorithm].session.unique():
+            df = df_heatmaps[algorithm].loc[df_heatmaps[algorithm]['session'] == Sess]
+            Angle_ch = ref_angle * (len(     df    ) / 360)
+            df_45 = df.iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
             df_together = df_45.melt()
             df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
             df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
