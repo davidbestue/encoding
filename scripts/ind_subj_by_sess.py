@@ -28,7 +28,7 @@ pre_stim_period= 0.5
 limit_time=5 
 
 
-for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2', 
+for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: # 
     for SUBJECT_USE_ANALYSIS in ['n001']:  #'d001', 'n001', 'r001', 'b001', 'l001', 's001'
         for algorithm in ["visual", "ips"]:  
             Method_analysis = 'bysess'
