@@ -100,7 +100,7 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
         df_together = df_45.melt('session')
         df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
         df_together['voxel'] = [i+1 for i in range(0, len(df_45))] * len(df_together.variable.unique())
-        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+        df_together.columns = ['session', 'timepoint', 'Decoding', 'ROI', 'voxel']
         df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
         b_reg.append(df_together)
         
@@ -113,7 +113,7 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
             df_together = df_45.melt('session')
             df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
             df_together['voxel'] = [i+1 for i in range(0, len(df_45))] * len(df_together.variable.unique())
-            df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
+            df_together.columns = ['session', 'timepoint', 'Decoding', 'ROI', 'voxel']
             df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
             df_together['subj'] = SUBJECT_USE_ANALYSIS
             b_reg_by_subj.append(df_together)
