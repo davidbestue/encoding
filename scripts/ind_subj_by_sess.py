@@ -97,7 +97,7 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
         ref_angle=45
         Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
         df_45 = df_heatmaps[algorithm].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
-        df_together = df_45.melt()
+        df_together = df_45.melt('session')
         df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
         df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
         df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
@@ -110,12 +110,12 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
             df = df_heatmaps[algorithm].loc[df_heatmaps[algorithm]['session'] == Sess]
             Angle_ch = ref_angle * (len(     df    ) / 360)
             df_45 = df.iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
-            df_together = df_45.melt()
+            df_together = df_45.melt('session')
             df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
             df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
             df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
             df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-            df_together['subj'] = Subj.split('_')[0]
+            df_together['subj'] = SUBJECT_USE_ANALYSIS
             b_reg_by_subj.append(df_together)
         
         
