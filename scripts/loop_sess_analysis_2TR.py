@@ -182,7 +182,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                 ###############################  STEP 3 ###############################
                 
                 #For each voxel, I want to extract weight of each channel of our model
-                #Con qué peso de canales explico mejor la actividad de este voxel a alo largo de los trials))
+                #Con qué peso de canales explico mejor la actividad de este voxel a a lo largo de los trials))
                 #Right now I will combine the two previous steps
                 #Que canal explica mejor la activid de este voxel a lo largo de todos los trials? --> Weight para cada canal
                 #If I have a voxel that responds to 27, the weight of the first channel is going to be hight because it means that the activity I have fits really weel with the activity I 
