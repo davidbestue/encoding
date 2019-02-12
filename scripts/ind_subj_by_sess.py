@@ -199,9 +199,9 @@ for CONDITION in ['2_7']: #'1_0.2', '1_7', '2_0.2',
             c='b'
         elif a =='ips':
             c='darkorange'
-        for s in df_all_by_subj.subj.unique():
+        for s in df_all_by_subj.session.unique():
             sns.pointplot(x='timepoint', y='Decoding',
-                          data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['subj']==s) ],
+                          data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['session']==s) ],
                           linestyles='--', color=c, legend=False, size=5, aspect=1.5)   
     
     
