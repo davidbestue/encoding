@@ -217,7 +217,7 @@ for SUBJECT_USE_ANALYSIS in ['d001']:  #, 'n001', 'r001', 'b001', 'l001', 's001'
             
             
             ##
-            for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
+            for CONDITION in ['1_0.2']: #, '1_7', '2_0.2', '2_7'
                 ######### Distance (mix when not important, else when close or far)
                 if distance=='mix':
                     
