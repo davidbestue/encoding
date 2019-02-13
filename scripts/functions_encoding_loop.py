@@ -34,7 +34,7 @@ import os
 
 
 
-def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm, root_use )  :  
+def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm, root_use )  :  
     ############################################# Comment the following if using a loop #############################################
     
     ###### Decide method
@@ -616,7 +616,7 @@ def variables_encoding(Method_analysis, CONDITION, distance_ch, Subject_analysis
     
     
     
-    return Method_analysis, CONDITION, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix
+    return Method_analysis, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix
                 
         
     
