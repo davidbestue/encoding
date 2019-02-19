@@ -2,7 +2,7 @@
 """
 Created on Thu Nov 15 12:12:03 2018
 
-@author: David Bestue
+@author:  David Bestue
 """
 ###Decide brain region
 
