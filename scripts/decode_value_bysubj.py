@@ -197,8 +197,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
     r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
     
-    y_vl_min = df_all.Decoding.min()
-    y_vl_max = df_all.Decoding.max()
+    y_vl_min = df_all.Decoding_error.min()
+    y_vl_max = df_all.Decoding_error.max()
     
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
     paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
