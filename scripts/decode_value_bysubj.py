@@ -114,7 +114,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         ## mean
         ref_angle=45
         Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
-        values= [ decode(df_heatmaps[algorithm].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps)[1])]
+        values= [ decode(df_heatmaps[algorithm].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps[algorithm])[1])]
         times= list(df_heatmaps.columns)
         df_together = pd.DataFrame({'Decoding':values, 'timepoint':times})
         df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
