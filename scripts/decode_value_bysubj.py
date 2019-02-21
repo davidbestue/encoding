@@ -182,6 +182,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.figure()
     df_all = pd.concat(b_reg)   
     df_all_by_subj = pd.concat(b_reg_by_subj)
+    df_all_by_subj['Decoding_error'] = [circ_dist(df_all_by_subj.Decoding.values[i], 0) for i in range(len(df_all_by_subj))]
     x_bins = len(df_all.timepoint.unique()) -1 
     max_val_x = df_all.timepoint.max()
     
@@ -202,7 +203,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
     paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
     sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all_by_subj, size=5, aspect=1.5)
+    sns.pointplot(x='timepoint', y='Decoding_error', hue='ROI', data=df_all_by_subj, size=5, aspect=1.5)
     ##all subj visual
     paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
     sns.set_context("paper", rc = paper_rc)
@@ -212,7 +213,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         elif a =='ips':
             c='darkorange'
         for s in df_all_by_subj.subj.unique():
-            sns.pointplot(x='timepoint', y='Decoding',
+            sns.pointplot(x='timepoint', y='Decoding_error',
                           data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['subj']==s) ],
                           linestyles='--', color=c, legend=False, size=5, aspect=1.5)   
     
