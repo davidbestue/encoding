@@ -89,37 +89,37 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     df_heatmaps_by_subj['visual'] = dfs_visual
     
     
-#    #####
-#    #####
-#    
-#    
-#    b_reg = []
-#    b_reg_by_subj = []
-#    b_reg360=[]
-#    
-#    for algorithm in ['visual', 'ips']:
-##        plt.figure()
-##        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
-##        plt.title(TITLE_HEATMAP)
-##        #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-##        ax = sns.heatmap(df_heatmaps[algorithm], yticklabels=list(df_heatmaps[algorithm].index), cmap="coolwarm", vmin=-0.1, vmax=0.1) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-##        #ax.invert_yaxis()
-##        ax.plot([0.25, shape(df_heatmaps[algorithm])[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
-##        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-##        plt.ylabel('Angle')
-##        plt.xlabel('time (s)')
-##        plt.show(block=False)
-#        
-#        #### TSplot preferred
-#        ## mean
-#        ref_angle=45
-#        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
-#        values= [ decode(df_heatmaps[algorithm].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps)[1])]
-#        times= list(df_heatmaps.columns)
-#        df_together = pd.DataFrame({'Decoding':values, 'timepoint':times})
-#        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
-#        b_reg.append(df_together)
-#        
+    #####
+    #####
+    
+    
+    b_reg = []
+    b_reg_by_subj = []
+    b_reg360=[]
+    
+    for algorithm in ['visual', 'ips']:
+#        plt.figure()
+#        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
+#        plt.title(TITLE_HEATMAP)
+#        #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+#        ax = sns.heatmap(df_heatmaps[algorithm], yticklabels=list(df_heatmaps[algorithm].index), cmap="coolwarm", vmin=-0.1, vmax=0.1) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+#        #ax.invert_yaxis()
+#        ax.plot([0.25, shape(df_heatmaps[algorithm])[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
+#        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+#        plt.ylabel('Angle')
+#        plt.xlabel('time (s)')
+#        plt.show(block=False)
+        
+        #### TSplot preferred
+        ## mean
+        ref_angle=45
+        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
+        values= [ decode(df_heatmaps[algorithm].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps)[1])]
+        times= list(df_heatmaps.columns)
+        df_together = pd.DataFrame({'Decoding':values, 'timepoint':times})
+        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
+        b_reg.append(df_together)
+        
 #        ## by_subj
 #        ref_angle=45
 #        for Subj in df_heatmaps_by_subj[algorithm].keys():
