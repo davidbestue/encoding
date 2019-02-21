@@ -92,7 +92,6 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     #####
     #####
     
-    
     b_reg = []
     b_reg_by_subj = []
     b_reg360=[]
@@ -121,14 +120,13 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         b_reg.append(df_together)
         
         ## by_subj
-        ref_angle=45
         for Subj in df_heatmaps_by_subj[algorithm].keys():
             values= [ decode(df_heatmaps_by_subj[algorithm][Subj].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps_by_subj[algorithm][Subj])[1])]
             times= list(df_heatmaps_by_subj[algorithm][Subj].columns)
-            df_together = pd.DataFrame({'Decoding':values, 'timepoint':times})
-            df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
-            df_together['subj'] = Subj.split('_')[0]
-            b_reg_by_subj.append(df_together)
+            df_together_s = pd.DataFrame({'Decoding':values, 'timepoint':times})
+            df_together_s['ROI'] = [algorithm for i in range(0, len(df_together_s))]
+            df_together_s['subj'] = Subj.split('_')[0]
+            b_reg_by_subj.append(df_together_s)
         
         
         #####
