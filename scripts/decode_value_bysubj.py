@@ -122,7 +122,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         ## by_subj
         for Subj in df_heatmaps_by_subj[algorithm].keys():
             values= [ decode(df_heatmaps_by_subj[algorithm][Subj].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps_by_subj[algorithm][Subj])[1])]
-            times= list(df_heatmaps_by_subj[algorithm][Subj].columns)
+            times= list(df_heatmaps[algorithm].columns)
             df_together_s = pd.DataFrame({'Decoding':values, 'timepoint':times})
             df_together_s['ROI'] = [algorithm for i in range(0, len(df_together_s))]
             df_together_s['subj'] = Subj.split('_')[0]
