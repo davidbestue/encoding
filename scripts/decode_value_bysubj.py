@@ -128,7 +128,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
             df_together = pd.DataFrame({'Decoding':values, 'timepoint':times})
             df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
             df_together['subj'] = Subj.split('_')[0]
-            b_reg.append(df_together)
+            b_reg_by_subj.append(df_together)
         
         
         #####
