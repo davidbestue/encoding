@@ -70,7 +70,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     
     
     #####
-    #####    
+    ##### 
     panel_v=pd.Panel(dfs_visual)
     df_visual=panel_v.mean(axis=0)
     df_visual.columns = [float(df_visual.columns[i])*2 for i in range(0, len(df_visual.columns))]
@@ -96,6 +96,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     b_reg_by_subj = []
     b_reg360=[]
     
+    TIMES = list(df_ips.columns)
+    
     for algorithm in ['visual', 'ips']:
 #        plt.figure()
 #        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
@@ -114,16 +116,16 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         ref_angle=45
         Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
         values= [ decode(df_heatmaps[algorithm].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps[algorithm])[1])]
-        times= list(df_heatmaps[algorithm].columns)
-        df_together = pd.DataFrame({'Decoding':values, 'timepoint':times})
+        #times= list(df_heatmaps[algorithm].columns)
+        df_together = pd.DataFrame({'Decoding':values, 'timepoint':TIMES})
         df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
         b_reg.append(df_together)
         
         ## by_subj
         for Subj in df_heatmaps_by_subj[algorithm].keys():
             values= [ decode(df_heatmaps_by_subj[algorithm][Subj].iloc[:, TR]) for TR in range(0, np.shape(df_heatmaps_by_subj[algorithm][Subj])[1])]
-            times= list(df_heatmaps[algorithm].columns)
-            df_together_s = pd.DataFrame({'Decoding':values, 'timepoint':times})
+            #times= list(df_heatmaps[algorithm].columns)
+            df_together_s = pd.DataFrame({'Decoding':values, 'timepoint':TIMES})
             df_together_s['ROI'] = [algorithm for i in range(0, len(df_together_s))]
             df_together_s['subj'] = Subj.split('_')[0]
             b_reg_by_subj.append(df_together_s)
