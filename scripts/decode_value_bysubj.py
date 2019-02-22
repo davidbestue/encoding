@@ -208,8 +208,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.figure()
     df_all = pd.concat(b_reg)   
     df_all_by_subj = pd.concat(b_reg_by_subj)
-    #df_all_by_subj['Decoding_error'] = [circ_dist(df_all_by_subj.Decoding.values[i], 0) for i in range(len(df_all_by_subj))]
-    df_all_by_subj['Decoding_error'] = [circ_dist_0(df_all_by_subj.Decoding.values[i]) for i in range(len(df_all_by_subj))]
+    df_all_by_subj['Decoding_error'] = [circ_dist(df_all_by_subj.Decoding.values[i], 0) for i in range(len(df_all_by_subj))]
+    #df_all_by_subj['Decoding_error'] = [circ_dist_0(df_all_by_subj.Decoding.values[i]) for i in range(len(df_all_by_subj))]
     x_bins = len(df_all.timepoint.unique()) -1 
     max_val_x = df_all.timepoint.max()
     
