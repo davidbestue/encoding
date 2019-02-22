@@ -80,7 +80,6 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
             if algorithm == 'visual':
                 for sh in sheets:
                     Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)    
-                    TIMES = list(Matrix_results.columns)
                     df_rolled=np.roll(Matrix_results, -2*ref_angle, 0)
                     df_rolled=pd.DataFrame(df_rolled)
                     dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = df_rolled
@@ -88,7 +87,6 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
             if algorithm == 'ips':
                 for sh in sheets:
                     Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)   
-                    TIMES = list(Matrix_results.columns)
                     df_rolled=np.roll(Matrix_results, -2*ref_angle, 0)
                     df_rolled=pd.DataFrame(df_rolled)
                     dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = df_rolled
@@ -123,7 +121,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     b_reg_by_subj = []
     b_reg360=[]
     
-    #TIMES = list(df_ips.columns)
+    TIMES = list(np.array([float(Matrix_results.columns.values[i]) for i in range(len(Matrix_results.columns.values))]) * 2 )
+
     
     for algorithm in ['visual', 'ips']:
 #        plt.figure()
