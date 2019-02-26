@@ -34,18 +34,18 @@ elif platform == "cluster":
 ##
 for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
     print(SUBJECT_USE_ANALYSIS)
-    for algorithm in ["visual", "ips"]:  
+    for brain_region in ["visual", "ips"]:  
         for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
             Method_analysis = 'together'
             #CONDITION = '1_0.2'
-            #algorithm = "visual"
+            #brain_region = "visual"
             distance_ch='mix'
             #distance='mix'
             Subject_analysis=SUBJECT_USE_ANALYSIS
             os.chdir(encoding_path)
             ############################################       
             from functions_encoding_loop import *
-            Method_analysis, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm, root_use ) 
+            Method_analysis, distance_ch, Subject_analysis, brain_region, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, distance_ch, Subject_analysis, brain_region, root_use ) 
             #############################################
             df_responses=[]
             dfs = {}
@@ -63,7 +63,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
                     os.chdir('/home/david/Desktop/KAROLINSKA/bysess_mix_2TR/Matrix_encoding_model/')
                 
                 ###                    
-                Matrix_weights_name = SUBJECT_USE_ANALYSIS + '_' + algorithm + '_' + Method_analysis + '_matrix.xlsx'
+                Matrix_weights_name = SUBJECT_USE_ANALYSIS + '_' + brain_region + '_' + Method_analysis + '_matrix.xlsx'
                 Matrix_weights = pd.read_excel(Matrix_weights_name, sheet_name=session_enc)
                 
                 #Matrix_save=pd.DataFrame(Matrix_weights)
@@ -357,7 +357,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             
             ## Create excel for the response
             
-            df_name = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' 
+            df_name = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' 
             writer_cond = pd.ExcelWriter(df_name)
             
             os.chdir(Conditions_enc_path + CONDITION)
@@ -409,7 +409,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             
             
             
-            TITLE_HEATMAP = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap'
+            TITLE_HEATMAP = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap'
             plt.title(TITLE_HEATMAP)
             #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
             ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
@@ -419,7 +419,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             plt.ylabel('Angle')
             plt.xlabel('time (s)')
             plt.show(block=False)
-            TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
+            TITLE_PLOT_H = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
             plt.savefig(TITLE_PLOT_H)
             
             
@@ -442,10 +442,10 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
             
             #### FactorPlot preferred (save)
             a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
-            TITLE_PREFERRED = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
+            TITLE_PREFERRED = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
             plt.title(TITLE_PREFERRED)
             plt.show(block=False)
-            TITLE_PLOT = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
+            TITLE_PLOT = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
             a.savefig(TITLE_PLOT)
             
             
