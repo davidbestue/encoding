@@ -86,19 +86,17 @@ for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
                 mask_img_rh=path_masks + Maskrh                
                 mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)  #
                 mask_img_lh = path_masks + Masklh
-                mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)
+                mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)                
+                ##Apply the masks and concatenate                   
                 masked_data_rh = apply_mask(func_filename, mask_img_rh)                
                 masked_data_lh = apply_mask(func_filename, mask_img_lh)                   
                 masked_data=hstack([masked_data_rh, masked_data_lh])                
                 #append it and save the data                
                 WM_datasets.append(masked_data)                
                 WM_lens_datas.append(len(masked_data))
-                
             
             
-            
-            
-            #High-pass filter
+            ##High-pass filter
             #for each session & for each voxel mean center and apply the filter
             for session_wm in range(0, len(WM_lens_datas)):
                 for voxel in range(0, shape(WM_datasets[session_wm])[1] ):
