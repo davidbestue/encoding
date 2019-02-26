@@ -8,6 +8,7 @@ Created on Thu Nov 15 12:12:03 2018
 
 import easygui
 import os
+from functions_encoding_loop import *
 
 msg = "Decide computer"
 choices = ["local", "cluster"]
@@ -15,7 +16,7 @@ platform = easygui.buttonbox(msg, choices=choices)
 
 if platform == "local":
     root_use ='/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
-    encoding_path = 'C:\\Users\\David\\Documents\\GitHub\\encoding\\scripts\\'
+    encoding_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\'
     Conditions_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\'
     PLOTS_path = '\\plots'
     sys_use='wind'
@@ -28,29 +29,24 @@ elif platform == "cluster":
     sys_use='unix'
 
 
-
-###
-#Methods_analysis=[]
-##
 for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
     print(SUBJECT_USE_ANALYSIS)
-    for algorithm in ["visual"]:   # , "ips"
+    for brain_region in ["visual"]:   # , "ips"
         Method_analysis = 'together'
         #CONDITION = '1_0.2'
-        #algorithm = "visual"
+        #brain_region = "visual"
         distance_ch='mix'
         #distance='mix'
         Subject_analysis=SUBJECT_USE_ANALYSIS
         os.chdir(encoding_path)
         ############################################       
-        from functions_encoding_loop import *
-        Method_analysis, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm, root_use ) 
+        #from functions_encoding_loop import *
+        Method_analysis, distance_ch, Subject_analysis, brain_region, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, distance_ch, Subject_analysis, brain_region, root_use ) 
         #############################################
         df_responses=[]
         dfs = {}
-        
+        #        
         for session_enc in range(0,len(func_encoding_sess)):
-            
             #
             func_wmtask =func_wmtask_sess[session_enc]
             Beh_WM_files = Beh_WM_files_sess[session_enc]
@@ -62,61 +58,42 @@ for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
                 os.chdir('/home/david/Desktop/KAROLINSKA/bysess_mix_2TR/Matrix_encoding_model/')
             
             ###                    
-            Matrix_weights_name = SUBJECT_USE_ANALYSIS + '_' + algorithm + '_' + Method_analysis + '_matrix.xlsx'
+            Matrix_weights_name = SUBJECT_USE_ANALYSIS + '_' + brain_region + '_' + Method_analysis + '_matrix.xlsx'
             Matrix_weights = pd.read_excel(Matrix_weights_name, sheet_name=session_enc)
-            
             #Matrix_save=pd.DataFrame(Matrix_weights)
             #Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
-            
             Matrix_weights_transpose=Matrix_weights.transpose()
             os.chdir(encoding_path)
-            
-            ###
-            ###
-            ###
-            ###
+            ##
             ###
             ### WM REPRESENTATION
             ###
             ###
-            ###
-            ###
-            ###
             #### 1. Imaging
-            
             #Extract the encoded channel response from the WM task trails
             ## signal = weights * channels
             #  weights-1 * signal = weights-1*weights * channel --> weights-1 * signal = channeö  --> This is not allowed because is not invertable (it is not a square matrix)
             # solution:    w.t * sig = w.t * w * ch -->  (w.t * w)-1  * w.t  * sig  =  (w.t * w)-1 *  (w.t * w) * ch --->  (w.t * w)-1  * w.t  * sig  = ch
             ## Python implementation of the function
             #channel = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  signal)
-            
             #
             WM_lens_datas=[]
-            WM_datasets=[]
-            
-            
-            #
-            
+            WM_datasets=[]           
+            #            
             for i in range(0, len(func_wmtask)):
                 func_filename=func_wmtask[i] # 'regfmcpr.nii.gz'
                 func_filename = ub_wind_path(func_filename, system=sys_use)
-                
-                #func_filename_rh=func_wmtask[i] + 'regfmcprrh.nii.gz'
-                #func_filename_lh=func_wmtask[i] + 'regfmcprlh.nii.gz'
-                
-                mask_img_rh=path_masks + Maskrh
-                mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)
-                mask_img_lh=path_masks + Masklh 
+                mask_img_rh=path_masks + Maskrh                
+                mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)  #
+                mask_img_lh = path_masks + Masklh
                 mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)
-                ##Apply the masks and concatenate   
-                masked_data_rh = apply_mask(func_filename, mask_img_rh) #func_filename func_filename_rh
-                masked_data_lh = apply_mask(func_filename, mask_img_lh) #func_filename   
-                
-                masked_data=hstack([masked_data_rh, masked_data_lh])
-                #append it and save the data
-                WM_datasets.append(masked_data)
+                masked_data_rh = apply_mask(func_filename, mask_img_rh)                
+                masked_data_lh = apply_mask(func_filename, mask_img_lh)                   
+                masked_data=hstack([masked_data_rh, masked_data_lh])                
+                #append it and save the data                
+                WM_datasets.append(masked_data)                
                 WM_lens_datas.append(len(masked_data))
+                
             
             
             
@@ -348,7 +325,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
             
             ## Create excel for the response
             
-            df_name = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' 
+            df_name = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' 
             writer_cond = pd.ExcelWriter(df_name)
             
             os.chdir(Conditions_enc_path + CONDITION)
@@ -400,7 +377,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
             
             
             
-            TITLE_HEATMAP = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap'
+            TITLE_HEATMAP = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap'
             plt.title(TITLE_HEATMAP)
             #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
             ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
@@ -410,7 +387,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
             plt.ylabel('Angle')
             plt.xlabel('time (s)')
             plt.show(block=False)
-            TITLE_PLOT_H = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
+            TITLE_PLOT_H = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
             plt.savefig(TITLE_PLOT_H)
             plt.close()
             
@@ -434,10 +411,10 @@ for SUBJECT_USE_ANALYSIS in ['n001']:  #, 'd001', 'r001', 'b001', 'l001', 's001'
             
             #### FactorPlot preferred (save)
             a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
-            TITLE_PREFERRED = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
+            TITLE_PREFERRED = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
             plt.title(TITLE_PREFERRED)
             plt.show(block=False)
-            TITLE_PLOT = Subject_analysis + '_' + algorithm + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
+            TITLE_PLOT = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
             a.savefig(TITLE_PLOT)
             plt.close()
             
