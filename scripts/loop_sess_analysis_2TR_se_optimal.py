@@ -496,6 +496,9 @@ enc_f(func_wmtask[0])
 numcores = multiprocessing.cpu_count()
 #Parallel(n_jobs = numcores)(delayed(enc_f(func_wmtask))
 
+
+func_wmtask =  [root +'d001/WMtask/s10/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r02/nocfmri5_task_Ax.nii']
+
 Parallel(n_jobs = numcores)(delayed(enc_f)(a) for a in func_wmtask)
 
 
