@@ -8,6 +8,8 @@ Created on Thu Nov 15 12:12:03 2018
 
 import easygui
 import os
+from joblib import Parallel, delayed
+import multiprocessing
 from functions_encoding_loop import *
 
 msg = "Decide computer"
@@ -445,6 +447,9 @@ cond_to_use = ['1_0.2']
 
 enc_model_analysis(Subjects, areas_to_use, cond_to_use)
 
+#### paralel!
+#numcores = multiprocessing.cpu_count()
+#Parallel(n_jobs = numcores)(delayed(bootstrap_repl)(a) for a in As)
 
 
 
