@@ -15,7 +15,7 @@ platform = easygui.buttonbox(msg, choices=choices)
 
 if platform == "local":
     root_use ='/mnt/c/Users/David/Desktop/KI_Desktop/IEM_data/'
-    encoding_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\'
+    encoding_path = 'C:\\Users\\David\\Documents\\GitHub\\encoding\\scripts\\'
     Conditions_enc_path = 'C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model\\Conditions\\'
     PLOTS_path = '\\plots'
     sys_use='wind'

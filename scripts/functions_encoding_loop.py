@@ -34,7 +34,7 @@ import os
 
 
 
-def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm, root_use )  :  
+def variables_encoding(Method_analysis, distance_ch, Subject_analysis, brain_region, root_use )  :  
     ############################################# Comment the following if using a loop #############################################
     
     ###### Decide method
@@ -67,7 +67,7 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
     ###Decide brain region
     #msg = "Brain region"
     #choices = ["visual", "ips"]
-    #algorithm = easygui.buttonbox(msg, choices=choices)
+    #brain_region = easygui.buttonbox(msg, choices=choices)
     
     
     ############################################# Comment above if using a loop #############################################
@@ -108,28 +108,28 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             ##Mask
             path_masks = root +  'temp_masks/d001/' 
-            #Chose the algorithm        
-            if algorithm=="V1V2":
+            #Chose the brain_region        
+            if brain_region=="V1V2":
                 Maskrh = 'maskv1v2rh.nii.gz'
                 Masklh = 'maskv1v2lh.nii.gz'
             
-            elif algorithm=="visual":
+            elif brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/d001_visual_together_matrix.xlsx")
                 #df_name ='df_sessions_visual_d001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/d001_ips_together_matrix.xlsx")
                 #df_name ='df_sessions_ips_d001.xlsx'
             
-            elif algorithm=="IPS":
+            elif brain_region=="IPS":
                 Maskrh = 'maskIPSrh.nii.gz'
                 Masklh = 'maskIPSlh.nii.gz'
             
-            elif algorithm=="IPS_1":
+            elif brain_region=="IPS_1":
                 Maskrh = 'maskIPS_1rh.nii.gz'
                 Masklh = 'maskIPS_1lh.nii.gz'
         
@@ -160,14 +160,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks = root +  'temp_masks/n001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/n001_visual_together_matrix.xlsx")
                 #df_name ='df_sessions_visual_n001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/n001_ips_together_matrix.xlsx")
@@ -199,14 +199,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks =  root +  'temp_masks/b001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/b001_visual_together_matrix.xlsx")
                 #df_name ='df_sessions_visual_b001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/b001_ips_together_matrix.xlsx")
@@ -242,14 +242,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks = root +  'temp_masks/l001/'
             
-            #Chose the algorithm
-            if algorithm=="visual":
+            #Chose the brain_region
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/l001_visual_together_matrix.xlsx")
                 #df_name ='df_sessions_visual_l001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/l001_ips_together_matrix.xlsx")
@@ -291,14 +291,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks =  root +  'temp_masks/s001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/s001_visual_together_matrix.xlsx")
                 #df_name ='df_sessions_visual_s001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/s001_ips_together_matrix.xlsx")
@@ -331,14 +331,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks = root +  'temp_masks/r001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/r001_visual_together_matrix.xlsx")
                 #df_name ='df_sessions_visual_r001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/r001_ips_together_matrix.xlsx")
@@ -378,28 +378,28 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             ##Mask
             path_masks = root +  'temp_masks/d001/' 
-            #Chose the algorithm        
-            if algorithm=="V1V2":
+            #Chose the brain_region        
+            if brain_region=="V1V2":
                 Maskrh = 'maskv1v2rh.nii.gz'
                 Masklh = 'maskv1v2lh.nii.gz'
             
-            elif algorithm=="visual":
+            elif brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/d001_visual_bysess_matrix.xlsx")
                 #df_name ='df_sessions_visual_d001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/d001_ips_bysess_matrix.xlsx")
                 #df_name ='df_sessions_ips_d001.xlsx'
             
-            elif algorithm=="IPS":
+            elif brain_region=="IPS":
                 Maskrh = 'maskIPSrh.nii.gz'
                 Masklh = 'maskIPSlh.nii.gz'
             
-            elif algorithm=="IPS_1":
+            elif brain_region=="IPS_1":
                 Maskrh = 'maskIPS_1rh.nii.gz'
                 Masklh = 'maskIPS_1lh.nii.gz'
         
@@ -430,14 +430,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks = root +  'temp_masks/n001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/n001_visual_bysess_matrix.xlsx")
                 #df_name ='df_sessions_visual_n001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/n001_ips_bysess_matrix.xlsx")
@@ -469,14 +469,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks =  root +  'temp_masks/b001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/b001_visual_bysess_matrix.xlsx")
                 #df_name ='df_sessions_visual_b001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/b001_ips_bysess_matrix.xlsx")
@@ -512,14 +512,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks = root +  'temp_masks/l001/'
             
-            #Chose the algorithm
-            if algorithm=="visual":
+            #Chose the brain_region
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/l001_visual_bysess_matrix.xlsx")
                 #df_name ='df_sessions_visual_l001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/l001_ips_bysess_matrix.xlsx")
@@ -561,14 +561,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks =  root +  'temp_masks/s001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/s001_visual_bysess_matrix.xlsx")
                 #df_name ='df_sessions_visual_s001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/s001_ips_bysess_matrix.xlsx")
@@ -601,14 +601,14 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
             
             path_masks = root +  'temp_masks/r001/'
             
-            #Chose the algorithm        
-            if algorithm=="visual":
+            #Chose the brain_region        
+            if brain_region=="visual":
                 Maskrh = 'visual_fsign_rh.nii.gz'
                 Masklh = 'visual_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/r001_visual_bysess_matrix.xlsx")
                 #df_name ='df_sessions_visual_r001.xlsx'
             
-            elif algorithm=="ips":
+            elif brain_region=="ips":
                 Maskrh = 'ips_str_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'ips_str_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 writer_matrix=pd.ExcelWriter("/home/david/Desktop/KAROLINSKA/encoding_model/Matrix_encoding_model/r001_ips_bysess_matrix.xlsx")
@@ -616,7 +616,7 @@ def variables_encoding(Method_analysis, distance_ch, Subject_analysis, algorithm
     
     
     
-    return Method_analysis, distance_ch, Subject_analysis, algorithm, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix
+    return Method_analysis, distance_ch, Subject_analysis, brain_region, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix
                 
         
     
