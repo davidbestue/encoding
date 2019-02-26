@@ -452,6 +452,12 @@ cond_to_use = ['1_0.2']
 #Parallel(n_jobs = numcores)(delayed(bootstrap_repl)(a) for a in As)
 
 
+root_use ='/home/david/Desktop/IEM_data/'
+encoding_path = '/home/david/Desktop/KAROLINSKA/encoding_model/'
+Conditions_enc_path = '/home/david/Desktop/KAROLINSKA/encoding_model/Conditions/'
+PLOTS_path = '/plots'
+sys_use='unix'
+
 root=root_use
 
 func_wmtask =  [root +'d001/WMtask/s10/r01/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r02/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r03/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r04/nocfmri5_task_Ax.nii', root +'d001/WMtask/s10/r05/nocfmri5_task_Ax.nii',
@@ -464,24 +470,40 @@ path_masks = root +  'temp_masks/d001/'
 Maskrh = 'visual_fsign_rh.nii.gz'
 Masklh = 'visual_fsign_lh.nii.gz'
 
-def enc_f(files):
+def enc_f(file):
     WM_datasets=[]
     WM_lens_datas=[]
-    for i in range(0, len(files)):
-        func_filename=func_wmtask[i] # 'regfmcpr.nii.gz'
-        func_filename = ub_wind_path(func_filename, system=sys_use)
-        mask_img_rh=path_masks + Maskrh                
-        mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)  #
-        mask_img_lh = path_masks + Masklh
-        mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)                
-        ##Apply the masks and concatenate                   
-        masked_data_rh = apply_mask(func_filename, mask_img_rh)                
-        masked_data_lh = apply_mask(func_filename, mask_img_lh)                   
-        masked_data=hstack([masked_data_rh, masked_data_lh])                
-        #append it and save the data                
-        WM_datasets.append(masked_data)                
-        WM_lens_datas.append(len(masked_data))
+    func_filename=file # 'regfmcpr.nii.gz'
+    func_filename = ub_wind_path(func_filename, system=sys_use)
+    mask_img_rh=path_masks + Maskrh                
+    mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)  #
+    mask_img_lh = path_masks + Masklh
+    mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)                
+    ##Apply the masks and concatenate                   
+    masked_data_rh = apply_mask(func_filename, mask_img_rh)                
+    masked_data_lh = apply_mask(func_filename, mask_img_lh)                   
+    masked_data=hstack([masked_data_rh, masked_data_lh])                
+    #append it and save the data                
+    WM_datasets.append(masked_data)                
+    WM_lens_datas.append(len(masked_data))
+    
+    return masked_data_rh, masked_data_lh
 
 
 
-enc_f(func_wmtask)
+enc_f(func_wmtask[0])
+
+numcores = multiprocessing.cpu_count()
+#Parallel(n_jobs = numcores)(delayed(enc_f(func_wmtask))
+
+Parallel(n_jobs = numcores)(delayed(enc_f)(a) for a in func_wmtask)
+
+
+
+#Parallel(n_jobs = numcores)(delayed(bootstrap_repl)(a) for a in As)
+
+
+
+
+
+
