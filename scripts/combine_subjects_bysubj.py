@@ -80,6 +80,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     b_reg_by_subj = []
     b_reg360=[]
     
+    TIMES = list(np.array([float(Matrix_results.columns.values[i]) for i in range(len(Matrix_results.columns.values))]) * 2 )
+    
     for algorithm in ['visual', 'ips']:
 #        plt.figure()
 #        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
@@ -102,7 +104,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
         df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
         df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+        #df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+        df_together['timepoint'] = TIMES        
         b_reg.append(df_together)
         
         ## by_subj
@@ -114,7 +117,8 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
             df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
             df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
             df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-            df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+            #df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
+            df_together['timepoint'] = TIMES 
             df_together['subj'] = Subj.split('_')[0]
             b_reg_by_subj.append(df_together)
         
