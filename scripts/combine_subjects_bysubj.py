@@ -113,6 +113,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
         for Subj in df_heatmaps_by_subj[algorithm].keys():
             Angle_ch = ref_angle * (len(     df_heatmaps_by_subj[algorithm][Subj]    ) / 360)
             df_45 = df_heatmaps_by_subj[algorithm][Subj].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
+            df_45.columns = [float(df_45.columns[i])*2 for i in range(0, len(df_45.columns))]
             df_together = df_45.melt()
             df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
             df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
@@ -223,7 +224,6 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
     plt.tight_layout()
-    plt.xticks( df_all.timepoint.unique() )
     plt.show(block=False)
     
     #### plot all 360 in area
