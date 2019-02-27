@@ -145,7 +145,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001']:
                     
                     
                 WM_delay=[]
-                nscans_wm = 12 #9
+                nscans_wm = 14 #9
                 Behaviour=[]
                 
                 headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
