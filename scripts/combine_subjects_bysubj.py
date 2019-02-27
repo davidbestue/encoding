@@ -223,6 +223,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
     plt.tight_layout()
+    plt.xlabel( df_all.timepoint.unique() )
     plt.show(block=False)
     
     #### plot all 360 in area
