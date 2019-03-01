@@ -87,6 +87,7 @@ def decode_0_90(RE):
 ###
 
 for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
+    df_all=[]
     plt.figure()
     for dec_thing in ['response', 'distractor']:
         if dec_thing == 'response':
@@ -232,28 +233,45 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
         df_all_by_subj = pd.concat(b_reg_by_subj)
         #df_all_by_subj['Decoding_error'] = [circ_dist(df_all_by_subj.Decoding.values[i], 0) for i in range(len(df_all_by_subj))]
         df_all_by_subj['Decoding_error'] = [circ_dist_0(df_all_by_subj.Decoding.values[i]) for i in range(len(df_all_by_subj))]
-        ####
-        x_bins = len(df_all_by_subj.timepoint.unique()) -1 
-        max_val_x = df_all_by_subj.timepoint.max()
+        #      
+        subj_pd=[]
+        for S in df_all_by_subj.subj.unique():
+            df_s_v = df_all_by_subj.loc[(df_all_by_subj['subj']==S) &  (df_all_by_subj['ROI']==df_all_by_subj['ROI'].unique()[0] )] 
+            df_s_i = df_all_by_subj.loc[(df_all_by_subj['subj']==S) &  (df_all_by_subj['ROI']==df_all_by_subj['ROI'].unique()[1] )] 
+            df_s_diff = df_s_v[['timepoint', 'subj']]
+            df_s_diff['diff_v_ips'] = abs(df_s_v.Decoding_error - df_s_i.Decoding_error )
+            subj_pd.append(df_s_diff)   
         
-        start_hrf = 4
-        sec_hdrf = 2
         
-        d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
-        t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
-        r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
-        #
-        d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
-        t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
-        r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
-        
-        y_vl_min = df_all_by_subj.Decoding_error.min()
-        y_vl_max = df_all_by_subj.Decoding_error.max()
-        
-        range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
-        paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
-        sns.set_context("paper", rc = paper_rc) 
-        sns.pointplot(x='timepoint', y='Decoding_error', hue='ROI', linestyles = linestyles_use, palette = pall_chose, data=df_all_by_subj, size=5, aspect=1.5) #
+        ##   
+        df_diff=pd.concat(subj_pd) 
+        df_diff['decoding'] = dec_thing
+        df_all.append(df_diff)
+    ###
+    
+    df_all=pd.concat(df_all)
+    x_bins = len(df_all.timepoint.unique()) -1 
+    max_val_x = df_all.timepoint.max()
+    
+    start_hrf = 4
+    sec_hdrf = 2
+    
+    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
+    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
+    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
+    #
+    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
+    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
+    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
+    
+    y_vl_min = df_all.diff_v_ips.min()
+    y_vl_max = df_all.diff_v_ips.max()
+    
+    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
+    paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
+    sns.set_context("paper", rc = paper_rc) 
+    sns.pointplot(x='timepoint', y='diff_v_ips', hue='decoding', linestyles = '-', palette = "tab10", data=df_all, size=5, aspect=1.5) #
+    #sns.pointplot(x='timepoint', y='Decoding_error', hue='ROI', linestyles = linestyles_use, palette = pall_chose, data=df_all_by_subj, size=5, aspect=1.5) #
         
     ##all subj visual   
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
@@ -261,7 +279,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
     plt.ylabel('Decoding value')
     plt.xlabel('time (s)')
-    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' diff visual ips'
     plt.legend(frameon=False)
     plt.title(TITLE_BR)
     plt.gca().spines['right'].set_visible(False)
