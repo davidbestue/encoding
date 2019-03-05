@@ -73,6 +73,17 @@ def decode(RE):
 
 
 
+def decode_sprague(RE):
+    #  to implement:   mean (r (theta) cos( theta))
+    N=len(RE)
+    R = []
+    angles = np.arange(0,N)*2*np.pi/N    
+    R = [   round(np.cos(angles[i]) * RE[i], 3) for i in range(N)]
+    angle_dec = np.mean(R)
+    return np.degrees(angle_dec)
+
+
+
 def decode_0_90(RE):
     N=len(RE)
     R = []
@@ -98,7 +109,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
             linestyles_use='--'
             root = '/mnt/c/Users/David/Desktop/together_mix_2TR_distractor/Conditions/'
         ##
-        for SUBJECT_USE_ANALYSIS in ['n001']: #, 'd001', 'r001', 'b001', 'l001', 's001'
+        for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']: #, 'd001', 'r001', 'b001', 'l001', 's001'
             for algorithm in ["visual", "ips"]:  
                 Method_analysis = 'together'
                 distance='mix'
@@ -172,7 +183,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
             #### TSplot preferred
             # by_subj
             for Subj in df_heatmaps_by_subj[algorithm].keys():
-                values= [ round(decode(df_heatmaps_by_subj[algorithm][Subj].iloc[:, TR]), 3) for TR in range(0, np.shape(df_heatmaps_by_subj[algorithm][Subj])[1])]
+                values= [ round(decode_sprague(df_heatmaps_by_subj[algorithm][Subj].iloc[:, TR]), 3) for TR in range(0, np.shape(df_heatmaps_by_subj[algorithm][Subj])[1])]
                 #times= list(df_heatmaps[algorithm].columns)
                 df_together_s = pd.DataFrame({'Decoding':values, 'timepoint':TIMES})
                 df_together_s['ROI'] = [algorithm +  '_'+ dec_thing  for i in range(0, len(df_together_s))]
@@ -231,7 +242,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
         #plt.figure()  
         df_all_by_subj = pd.concat(b_reg_by_subj)
         #df_all_by_subj['Decoding_error'] = [circ_dist(df_all_by_subj.Decoding.values[i], 0) for i in range(len(df_all_by_subj))]
-        df_all_by_subj['Decoding_error'] = [circ_dist_0(df_all_by_subj.Decoding.values[i]) for i in range(len(df_all_by_subj))]
+        #df_all_by_subj['Decoding_error'] = [circ_dist_0(df_all_by_subj.Decoding.values[i]) for i in range(len(df_all_by_subj))]
         ####
         x_bins = len(df_all_by_subj.timepoint.unique()) -1 
         max_val_x = df_all_by_subj.timepoint.max()
@@ -247,13 +258,13 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
         t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
         r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
         
-        y_vl_min = df_all_by_subj.Decoding_error.min()
-        y_vl_max = df_all_by_subj.Decoding_error.max()
+        y_vl_min = df_all_by_subj.Decoding.min()
+        y_vl_max = df_all_by_subj.Decoding.max()
         
         range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
         paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
         sns.set_context("paper", rc = paper_rc) 
-        sns.pointplot(x='timepoint', y='Decoding_error', hue='ROI', linestyles = linestyles_use, palette = pall_chose, data=df_all_by_subj, size=5, aspect=1.5) #
+        sns.pointplot(x='timepoint', y='Decoding', hue='ROI', linestyles = linestyles_use, palette = pall_chose, data=df_all_by_subj, size=5, aspect=1.5) #
         
     ##all subj visual   
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
