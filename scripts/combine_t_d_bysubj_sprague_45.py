@@ -96,9 +96,9 @@ def decode_0_90(RE):
 
 
 ###
-
-for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
-    plt.figure()
+plt.figure()
+for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
+    plt.subplot(2,2,i_c+1)
     for dec_thing in ['response', 'distractor']:
         if dec_thing == 'response':
             pall_chose = "tab10"
@@ -109,7 +109,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
             linestyles_use='--'
             root = '/mnt/c/Users/David/Desktop/together_mix_2TR_distractor/Conditions/'
         ##
-        for SUBJECT_USE_ANALYSIS in ['n001']: # , 'd001', 'r001', 'b001', 'l001', 's001'
+        for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']: # , 'd001', 'r001', 'b001', 'l001', 's001'
             for algorithm in ["visual", "ips"]:  
                 Method_analysis = 'together'
                 distance='mix'
@@ -275,15 +275,19 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
     plt.ylabel('Decoding value')
     plt.xlabel('time (s)')
-    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+    TITLE_BR = CONDITION 
     plt.legend(frameon=False)
     plt.title(TITLE_BR)
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
-    plt.tight_layout()
-    plt.show(block=False)
+    plt.gca().legend(loc= 1, frameon=False)
+    
+
+plt.tight_layout()
+plt.suptitle( '4 lines (0-90), ' +distance + '_' + Method_analysis + ' _preferred', fontsize=12)
+plt.show(block=False)
     
 
 
