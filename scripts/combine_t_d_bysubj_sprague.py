@@ -97,8 +97,8 @@ def decode_0_90(RE):
 
 ###
 
-for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
-    plt.figure()
+for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
+    plt.subplot(2,2,i_c+1)
     for dec_thing in ['response', 'distractor']:
         if dec_thing == 'response':
             pall_chose = "tab10"
