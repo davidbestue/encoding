@@ -109,7 +109,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: #
             linestyles_use='--'
             root = '/mnt/c/Users/David/Desktop/together_mix_2TR_distractor/Conditions/'
         ##
-        for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']: #, 'd001', 'r001', 'b001', 'l001', 's001'
+        for SUBJECT_USE_ANALYSIS in ['n001']: # , 'd001', 'r001', 'b001', 'l001', 's001'
             for algorithm in ["visual", "ips"]:  
                 Method_analysis = 'together'
                 distance='mix'
