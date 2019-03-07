@@ -296,7 +296,7 @@ for SUBJECT_USE_ANALYSIS in ['d001', 'n001']:
                         
                         #Roll
                         #ref_angle =  ref_angle_q [get_quadrant(beh_Subset[trial, 14]) - 1] #3 14
-                        angle_trial =  beh_Subset['Dist'].iloc[trial] # 'A_R'
+                        angle_trial =  beh_Subset['T'].iloc[trial] # 'A_R' Dist, T
                         to_roll = int( (ref_angle - angle_trial)*(len(channel)/360) )
                         #to_roll = int(round((ref_angle_q[ref_angle] - beh_Subset[trial, 3])*(len(channel)/360)))
                         #to_roll_neg = -(720 - (int(round((ref_angle - beh_Subset[trial, 3])*(len(channel)/360)))))
