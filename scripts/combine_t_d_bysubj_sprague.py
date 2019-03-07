@@ -103,13 +103,15 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
         if dec_thing == 'response':
             pall_chose = "tab10"
             linestyles_use='-'
+            marker_use='o'
             root = '/mnt/c/Users/David/Desktop/together_mix_2TR/Conditions/'
         elif dec_thing == 'distractor':
-            pall_chose = "PRGn"
+            pall_chose = "tab10"
             linestyles_use='--'
+            marker_use='v'
             root = '/mnt/c/Users/David/Desktop/together_mix_2TR_distractor/Conditions/'
         ##
-        for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']: #, 'd001', 'r001', 'b001', 'l001', 's001'
+        for SUBJECT_USE_ANALYSIS in ['n001']: #, 'd001', 'r001', 'b001', 'l001', 's001'
             for algorithm in ["visual", "ips"]:  
                 Method_analysis = 'together'
                 distance='mix'
@@ -264,7 +266,8 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
         range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
         paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
         sns.set_context("paper", rc = paper_rc) 
-        sns.pointplot(x='timepoint', y='Decoding', hue='ROI', linestyles = linestyles_use, palette = pall_chose, data=df_all_by_subj, size=5, aspect=1.5) #
+        sns.pointplot(x='timepoint', y='Decoding', hue='ROI', linestyles = linestyles_use, palette = pall_chose, 
+                      markers=marker_use, data=df_all_by_subj, size=5, aspect=1.5) #
         
     ##all subj visual   
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
