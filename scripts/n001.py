@@ -205,7 +205,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']:
                 #    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
                 #    Matrix_weights[voxel_x, :]=clf.coef_
                     ### Regularization Lasso
-                    clf = Lasso(alpha=0.1, fit_intercept=True, normalize=False) #0.001, 0.01
+                    clf = Lasso(alpha=0.09, fit_intercept=True, normalize=False) #0.001, 0.01
                     clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
                     Matrix_weights[voxel_x, :]=clf.coef_
                     ##### Liniar model 2
