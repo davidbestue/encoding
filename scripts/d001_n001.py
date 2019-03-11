@@ -32,11 +32,11 @@ elif platform == "cluster":
 ###
 #Methods_analysis=[]
 ##
-for SUBJECT_USE_ANALYSIS in ['d001', 'n001']:
+for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 
     print(SUBJECT_USE_ANALYSIS)
     for brain_region in ["visual", "ips"]:  
         for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
-            Method_analysis = 'together'
+            Method_analysis = 'bysess'
             #CONDITION = '1_0.2'
             #brain_region = "visual"
             distance_ch='mix'
