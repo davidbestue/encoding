@@ -137,7 +137,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
             root = root_3
             
         ##
-        for SUBJECT_USE_ANALYSIS in ['n001']: # 'n001', 'd001', 'r001', 'b001', 'l001', 's001'
+        for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']: # 'n001', 'd001', 'r001', 'b001', 'l001', 's001'
             for algorithm in ["visual", "ips"]:  
                 Method_analysis = 'together'
                 distance='mix'
