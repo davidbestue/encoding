@@ -14,8 +14,7 @@ import seaborn as sns
 from functions_encoding_loop import *
 
 
-root=  '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR/Conditions/'
-root = '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR/Conditions/'
+root = '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR_target/Conditions/'
 
 
 
