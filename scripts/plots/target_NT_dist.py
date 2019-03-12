@@ -2,7 +2,7 @@
 """
 Created on Wed Feb  6 13:31:06 2019
 
-@author: David
+@author: David Bestue
 """
 
 

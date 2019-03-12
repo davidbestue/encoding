@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 12 10:36:38 2019
-
-@author: David
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Fri Jan  4 11:56:47 2019
 
-@author: David
+@author: David Bestue
 """
+
 import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from functions_encoding_loop import *
+#from functions_encoding_loop import *
 
 
 root_1 = '/mnt/c/Users/David/Desktop/n001_together_mix_2TR_lasso_0.01/Conditions/'
