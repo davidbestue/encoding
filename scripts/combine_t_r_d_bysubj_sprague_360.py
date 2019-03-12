@@ -4,6 +4,7 @@ Created on Fri Jan  4 11:56:47 2019
 
 @author: David Bestue
 """
+
 import os
 import pandas as pd
 import numpy as np
@@ -123,7 +124,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
             root = root_3
             
         ##
-        for SUBJECT_USE_ANALYSIS in ['n001']: # 'n001', 'd001', 'r001', 'b001', 'l001', 's001'
+        for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']: # 'n001', 'd001', 'r001', 'b001', 'l001', 's001'
             for algorithm in ["visual", "ips"]:  
                 Method_analysis = 'together'
                 distance='mix'
@@ -138,8 +139,8 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
                 if algorithm == 'visual':
                     for sh in sheets:
                         Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
-                        #df_rolled = Matrix_results
-                        df_rolled = Matrix_results.iloc[:180, :] ### just the quadrant
+                        df_rolled = Matrix_results
+                        #df_rolled = Matrix_results.iloc[:180, :] ### just the quadrant
                         df_rolled=np.roll(df_rolled, -2*ref_angle, 0) #roll a 0 sie l prefreed es el 45
                         df_rolled=pd.DataFrame(df_rolled)
                         #df_rolled[df_rolled<0]=0 #uncomment if you want just the positive
@@ -148,8 +149,8 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
                 if algorithm == 'ips':
                     for sh in sheets:
                         Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
-                        #df_rolled = Matrix_results
-                        df_rolled = Matrix_results.iloc[:180, :] 
+                        df_rolled = Matrix_results
+                        #df_rolled = Matrix_results.iloc[:180, :] 
                         df_rolled=np.roll(df_rolled, -2*ref_angle, 0) #roll a 0 sie l prefreed es el 45
                         df_rolled=pd.DataFrame(df_rolled)
                         #df_rolled[df_rolled<0]=0 #uncomment if you want just the positive
@@ -303,7 +304,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     
 
 plt.tight_layout()
-plt.suptitle( '4 lines (0-90), ' +distance + '_' + Method_analysis, fontsize=12)
+plt.suptitle( '4 lines (0-360), ' +distance + '_' + Method_analysis, fontsize=12)
 plt.show(block=False)
     
 
