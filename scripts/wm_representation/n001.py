@@ -205,14 +205,14 @@ for SUBJECT_USE_ANALYSIS in ['n001']:
                 #    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
                 #    Matrix_weights[voxel_x, :]=clf.coef_
                     ### Regularization Lasso
-                    clf = Lasso(alpha=0.001, fit_intercept=True, normalize=False) #0.001, yes: 0.01, 0.0001  ##no: 0.1, 0.09
-                    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
-                    Matrix_weights[voxel_x, :]=clf.coef_
+#                    clf = Lasso(alpha=0.001, fit_intercept=True, normalize=False) #0.001, yes: 0.01, 0.0001  ##no: 0.1, 0.09
+#                    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
+#                    Matrix_weights[voxel_x, :]=clf.coef_
                     ##### Liniar model 2
-                #    a = sm.OLS(LM_matrix['Y'], LM_matrix[channel_names] )
-                #    resul = a.fit()
-                #    betas= resul.params
-                #    Matrix_weights[voxel_x, :]=betas   
+                    a = sm.OLS(LM_matrix['Y'], LM_matrix[channel_names] )
+                    resul = a.fit()
+                    betas= resul.params
+                    Matrix_weights[voxel_x, :]=betas   
                 
                 
                 
