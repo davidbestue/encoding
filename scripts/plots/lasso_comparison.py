@@ -16,6 +16,7 @@ import seaborn as sns
 root_1 = '/mnt/c/Users/David/Desktop/n001_together_mix_2TR_lasso_0.01/Conditions/'
 root_2 = '/mnt/c/Users/David/Desktop/n001_together_mix_2TR_lasso_0.001/Conditions/'
 root_3 = '/mnt/c/Users/David/Desktop/n001_together_mix_2TR_lasso_0.0001/Conditions/'
+root_4 = '/mnt/c/Users/David/Desktop/n001_together_mix_2TR_GLM/Conditions/'
 
 
 
@@ -104,7 +105,7 @@ def decode_0_90(RE):
 plt.figure()
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.subplot(2,2,i_c+1)
-    for lasso in [0.0001, 0.001, 0.01]:
+    for lasso in [0.0001, 0.001, 0.01, 'GLM']:
         if lasso == 0.0001:
             pall_chose = "tab10"
             linestyles_use='-'
@@ -122,6 +123,12 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
             linestyles_use='--'
             marker_use='*'
             root = root_3
+        elif lasso == 'GLM':
+            pall_chose = "tab10"
+            linestyles_use=':'
+            marker_use="X"
+            root = root_4
+    
             
         ##
         for SUBJECT_USE_ANALYSIS in ['n001']: # 'n001', 'd001', 'r001', 'b001', 'l001', 's001'
@@ -298,7 +305,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.gca().spines['top'].set_visible(False)
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
-    plt.gca().legend(loc= 0, frameon=False)
+    plt.gca().legend(loc= 2, frameon=False)
     
 
 plt.tight_layout()
