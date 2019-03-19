@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from functions_encoding_loop import *
+#from functions_encoding_loop import *
 
 
 root = '/mnt/c/Users/David/Desktop/together_mix_2TR/Conditions/'

@@ -9,10 +9,25 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from functions_encoding_loop import *
+#from functions_encoding_loop import *
+
+root = '/mnt/c/Users/David/Desktop/together_mix_2TR/Conditions/'
+#root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR_distractor/Conditions/'
+
+def ub_wind_path(PATH, system):
+    if system=='wind':
+        A = PATH                                                                                                    
+        B = A.replace('/', os.path.sep)                                                                                               
+        C= B.replace('\\mnt\\c\\', 'C:\\') 
+    
+    if system=='unix':
+        C=PATH
+    
+    ###
+    return C
 
 
-root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR_distractor/Conditions/'
+##
 
 dfs_visual = {}
 dfs_ips = {}
@@ -26,7 +41,8 @@ pre_stim_period= 0.5
 limit_time=5 
 
 
-for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
+for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
+    plt.subplot(2,2,i_c+1)
     for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
         for algorithm in ["visual", "ips"]:  
             Method_analysis = 'together'
@@ -35,6 +51,7 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
             
             ## Load Results
             Matrix_results_name = root +  CONDITION + '/' + SUBJECT_USE_ANALYSIS + '_' + algorithm + '_'  + CONDITION + '_'  + distance + '_' + Method_analysis + '.xlsx'
+            Matrix_results_name= ub_wind_path(Matrix_results_name, system='wind') 
             xls = pd.ExcelFile(Matrix_results_name)
             sheets = xls.sheet_names
             ##
@@ -210,60 +227,25 @@ for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']:
                           linestyles='--', color=c, legend=False, size=5, aspect=1.5)   
     
     
-    #   
+    ###all subj visual   
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
     plt.ylabel('Decoding value')
     plt.xlabel('time (s)')
-    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' preferred b_r'
+    TITLE_BR = CONDITION 
     plt.legend(frameon=False)
     plt.title(TITLE_BR)
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
-    plt.tight_layout()
-    plt.show(block=False)
+    plt.gca().legend(loc= 0, frameon=False)
     
-    #### plot all 360 in area
-#    plt.figure()
-#    df_all = pd.concat(b_reg360)    
-#    x_bins = len(df_all.timepoint.unique()) -1 
-#    
-#    start_hrf = 4
-#    sec_hdrf = 2
-#    max_val_x = df_all.timepoint.max()
-#    
-#    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
-#    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
-#    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
-#    #
-#    d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
-#    t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
-#    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
-#    
-#    y_vl_min = -0.1
-#    y_vl_max = 0.1
-#    
-#    range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
-#    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
-#    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
-#    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
-#    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
-#    plt.ylabel('Decoding value')
-#    plt.xlabel('time (s)')
-#    TITLE_BR = CONDITION + '_' +distance + '_' + Method_analysis + ' all 360'
-#    plt.legend(frameon=False)
-#    plt.title(TITLE_BR)
-#    plt.gca().spines['right'].set_visible(False)
-#    plt.gca().spines['top'].set_visible(False)
-#    plt.gca().get_xaxis().tick_bottom()
-#    plt.gca().get_yaxis().tick_left()
-#    plt.tight_layout()
-#    plt.show(block=False)
 
-
+plt.tight_layout()
+plt.suptitle( '4 lines (0-90), ' +distance + '_' + Method_analysis, fontsize=12)
+plt.show(block=False)
 
 
 
