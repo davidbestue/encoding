@@ -14,6 +14,9 @@ import seaborn as sns
 root = '/mnt/c/Users/David/Desktop/together_mix_2TR/Conditions/'
 #root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR_distractor/Conditions/'
 
+
+
+
 def ub_wind_path(PATH, system):
     if system=='wind':
         A = PATH                                                                                                    
@@ -26,8 +29,19 @@ def ub_wind_path(PATH, system):
     ###
     return C
 
-
 ##
+##
+
+def decode_sprague(RE):
+    #  to implement:   mean (r (theta) cos( theta))
+    N=len(RE)
+    R = []
+    angles = np.arange(0,N)*2*np.pi/N    
+    R = [   round(np.cos(angles[i]) * RE[i], 3) for i in range(N)]
+    angle_dec = np.mean(R)
+    return np.degrees(angle_dec)
+
+
 
 dfs_visual = {}
 dfs_ips = {}
@@ -39,31 +53,42 @@ inter_trial_period= 0.1
 pre_cue_period= 0.5 
 pre_stim_period= 0.5 
 limit_time=5 
+ref_angle=45
 
 
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.subplot(2,2,i_c+1)
     for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
-        for algorithm in ["visual", "ips"]:  
+        for brain_region in ["visual", "ips"]:  
             Method_analysis = 'together'
             distance='mix'
             #CONDITION = '1_0.2' #'1_0.2', '1_7', '2_0.2', '2_7'
             
             ## Load Results
-            Matrix_results_name = root +  CONDITION + '/' + SUBJECT_USE_ANALYSIS + '_' + algorithm + '_'  + CONDITION + '_'  + distance + '_' + Method_analysis + '.xlsx'
+            Matrix_results_name = root +  CONDITION + '/' + SUBJECT_USE_ANALYSIS + '_' + brain_region + '_'  + CONDITION + '_'  + distance + '_' + Method_analysis + '.xlsx'
             Matrix_results_name= ub_wind_path(Matrix_results_name, system='wind') 
             xls = pd.ExcelFile(Matrix_results_name)
             sheets = xls.sheet_names
             ##
-            if algorithm == 'visual':
+            if brain_region == 'visual':
                 for sh in sheets:
-                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
-                    dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
+                    #df_rolled = Matrix_results
+                    df_rolled = Matrix_results.iloc[:180, :] ### just the quadrant
+                    df_rolled=np.roll(df_rolled, -2*ref_angle, 0) #roll a 0 sie l prefreed es el 45
+                    df_rolled=pd.DataFrame(df_rolled)
+                    #df_rolled[df_rolled<0]=0 #uncomment if you want just the positive
+                    dfs_visual[ SUBJECT_USE_ANALYSIS + '_' + sh] = df_rolled
             
-            if algorithm == 'ips':
+            if brain_region == 'ips':
                 for sh in sheets:
-                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)            
-                    dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = Matrix_results
+                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
+                    #df_rolled = Matrix_results
+                    df_rolled = Matrix_results.iloc[:180, :] 
+                    df_rolled=np.roll(df_rolled, -2*ref_angle, 0) #roll a 0 sie l prefreed es el 45
+                    df_rolled=pd.DataFrame(df_rolled)
+                    #df_rolled[df_rolled<0]=0 #uncomment if you want just the positive
+                    dfs_ips[ SUBJECT_USE_ANALYSIS + '_' + sh] = df_rolled
     
     
     
@@ -74,6 +99,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     panel_v=pd.Panel(dfs_visual)
     df_visual=panel_v.mean(axis=0)
     df_visual.columns = [float(df_visual.columns[i])*2 for i in range(0, len(df_visual.columns))]
+    
     
     panel_i=pd.Panel(dfs_ips)
     df_ips=panel_i.mean(axis=0)
@@ -91,68 +117,19 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     
     #####
     #####
-    
-    
-    b_reg = []
     b_reg_by_subj = []
-    b_reg360=[]
-    
-    #TIMES = list(np.array([float(Matrix_results.columns.values[i]) for i in range(len(Matrix_results.columns.values))]) * 2 )
-    
-    for algorithm in ['visual', 'ips']:
-#        plt.figure()
-#        TITLE_HEATMAP =  algorithm + '_' + CONDITION + '_' +distance + '_' + Method_analysis + ' heatmap'
-#        plt.title(TITLE_HEATMAP)
-#        #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-#        ax = sns.heatmap(df_heatmaps[algorithm], yticklabels=list(df_heatmaps[algorithm].index), cmap="coolwarm", vmin=-0.1, vmax=0.1) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-#        #ax.invert_yaxis()
-#        ax.plot([0.25, shape(df_heatmaps[algorithm])[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
-#        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-#        plt.ylabel('Angle')
-#        plt.xlabel('time (s)')
-#        plt.show(block=False)
-        
-        #### TSplot preferred
-        ## mean
-        ref_angle=45
-        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
-        df_45 = df_heatmaps[algorithm].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
-        df_together = df_45.melt()
-        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
-        df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
-        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-        #df_together['timepoint'] = TIMES        
-        b_reg.append(df_together)
-        
-        ## by_subj
-        ref_angle=45
-        for Subj in df_heatmaps_by_subj[algorithm].keys():
-            Angle_ch = ref_angle * (len(     df_heatmaps_by_subj[algorithm][Subj]    ) / 360)
-            df_45 = df_heatmaps_by_subj[algorithm][Subj].iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
-            df_45.columns = [float(df_45.columns[i])*2 for i in range(0, len(df_45.columns))]
-            df_together = df_45.melt()
-            df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
-            df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*np.shape(df_45)[1]
-            df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-            df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-            #df_together['timepoint'] = TIMES 
-            df_together['subj'] = Subj.split('_')[0]
-            b_reg_by_subj.append(df_together)
-        
-        
-        #####
-        #####
-        ## for whole area
-#        Angle_ch = ref_angle * (len(df_heatmaps[algorithm]) / 360)
-#        df_all360 = df_heatmaps[algorithm]
-#        df_together = df_all360.melt()
-#        df_together['ROI'] = [algorithm for i in range(0, len(df_together))]
-#        df_together['voxel'] = [i+1 for i in range(0, len(df_all360))]*np.shape(df_all360)[1]
-#        df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-#        df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-#        b_reg360.append(df_together)
-    
+    TIMES = list(np.array([float(Matrix_results.columns.values[i]) for i in range(len(Matrix_results.columns.values))]) * 2 )
+    #    
+    for brain_region in ['visual', 'ips']:
+        # by_subj
+        for Subj in df_heatmaps_by_subj[brain_region].keys():
+            values= [ round(decode_sprague(df_heatmaps_by_subj[brain_region][Subj].iloc[:, TR]), 3) for TR in range(0, np.shape(df_heatmaps_by_subj[brain_region][Subj])[1])]
+            #times= list(df_heatmaps[brain_region].columns)
+            df_together_s = pd.DataFrame({'Decoding':values, 'timepoint':TIMES})
+            df_together_s['ROI'] = [brain_region  for i in range(0, len(df_together_s))]
+            df_together_s['subj'] = Subj.split('_')[0]
+            b_reg_by_subj.append(df_together_s)
+
     
     ### FactorPlot all brain region
     #12.35 in 1 and 12 in 2 ( :S :S aghhhhhhh should not affect both in beh and imaging )
@@ -189,11 +166,9 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     
     ## position in axes
     
-    plt.figure()
-    df_all = pd.concat(b_reg)   
-    df_all_by_subj = pd.concat(b_reg_by_subj)
-    x_bins = len(df_all.timepoint.unique()) -1 
-    max_val_x = df_all.timepoint.max()
+    df_all_by_subj = pd.concat(b_reg_by_subj)  
+    x_bins = len(df_all_by_subj.timepoint.unique()) -1 
+    max_val_x = df_all_by_subj.timepoint.max()
     
     start_hrf = 4
     sec_hdrf = 2
@@ -206,13 +181,16 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
     r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
     
-    y_vl_min = df_all.Decoding.min()
-    y_vl_max = df_all.Decoding.max()
+    y_vl_min = df_all_by_subj.Decoding.min()
+    y_vl_max = df_all_by_subj.Decoding.max()
+    
+    ####
+    ####
     
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
     paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
     sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all, size=5, aspect=1.5)
+    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all_by_subj, size=5, aspect=1.5) # 
     ##all subj visual
     paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
     sns.set_context("paper", rc = paper_rc)
