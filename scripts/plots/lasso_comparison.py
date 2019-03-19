@@ -311,6 +311,10 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
 plt.tight_layout()
 plt.suptitle( 'Lasso, ' +distance + '_' + Method_analysis + '_n001', fontsize=12)
 plt.show(block=False)
+
+
+
+
     
 
 
