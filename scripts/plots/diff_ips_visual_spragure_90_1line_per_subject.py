@@ -56,9 +56,11 @@ limit_time=5
 ref_angle=45
 
 
+subjects = ['d001', 'n001', 'r001', 'b001', 'l001', 's001'] #   
+
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.subplot(2,2,i_c+1)
-    for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
+    for SUBJECT_USE_ANALYSIS in subjects: #   , 'r001', 'b001', 'l001', 's001'
         for brain_region in ["visual", "ips"]:  
             Method_analysis = 'together'
             distance='mix'
@@ -166,7 +168,17 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     
     ## position in axes
     
-    df_all_by_subj = pd.concat(b_reg_by_subj)  
+    diff_values=[]    
+    for i in range(0,len(subjects)):
+        diff_values.append(b_reg_by_subj[i]['Decoding'] - b_reg_by_subj[ len(subjects)+i]['Decoding'] )
+    
+    
+    diff_values = pd.concat(diff_values, ignore_index=True)
+    df_all_by_subj = pd.concat(b_reg_by_subj[:len(subjects)], ignore_index=True)  
+    df_all_by_subj['Decoding'] = diff_values
+    df_all_by_subj['ROI'] = 'visual-ips'
+    
+    
     x_bins = len(df_all_by_subj.timepoint.unique()) -1 
     max_val_x = df_all_by_subj.timepoint.max()
     
@@ -190,19 +202,14 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
     paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
     sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='timepoint', y='Decoding', hue='ROI', data=df_all_by_subj, size=5, aspect=1.5) # 
+    sns.pointplot(x='timepoint', y='Decoding', data=df_all_by_subj, size=5, color ='salmon', aspect=1.5) # 
     ##all subj visual
-    paper_rc = {'lines.linewidth': 0.25, 'lines.markersize': 0.5}                  
+    paper_rc = {'lines.linewidth': 0.4, 'lines.markersize': 0.5}                  
     sns.set_context("paper", rc = paper_rc)
-    for a in ['visual', 'ips']: 
-        if a=='visual':
-            c='b'
-        elif a =='ips':
-            c='darkorange'
-        for s in df_all_by_subj.subj.unique():
-            sns.pointplot(x='timepoint', y='Decoding',
-                          data=df_all_by_subj.loc[ (df_all_by_subj['ROI']==a) & (df_all_by_subj['subj']==s) ],
-                          linestyles='--', color=c, legend=False, size=5, aspect=1.5)   
+    for s in df_all_by_subj.subj.unique():
+        sns.pointplot(x='timepoint', y='Decoding',
+                      data=df_all_by_subj.loc[ (df_all_by_subj['ROI']=='visual-ips') & (df_all_by_subj['subj']==s) ],
+                      linestyles='--', color='olive', legend=False, size=5, aspect=1.5)   
     
     
     ###all subj visual   
@@ -222,7 +229,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     
 
 plt.tight_layout()
-plt.suptitle( '4 lines (0-90), ' +distance + '_' + Method_analysis, fontsize=12)
+plt.suptitle( 'Visual - IPS: response, ' +distance + '_' + Method_analysis, fontsize=12)
 plt.show(block=False)
 
 
