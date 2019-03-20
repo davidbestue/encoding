@@ -202,14 +202,16 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #  
     paper_rc = {'lines.linewidth': 2, 'lines.markersize': 2}  
     sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='timepoint', y='Decoding', data=df_all_by_subj, size=5, color ='salmon', aspect=1.5) # 
+    #sns.pointplot(x='timepoint', y='Decoding', data=df_all_by_subj, size=5, color ='salmon', aspect=1.5) # 
     ##all subj visual
-    paper_rc = {'lines.linewidth': 0.4, 'lines.markersize': 0.5}                  
+    #paper_rc = {'lines.linewidth': 0.4, 'lines.markersize': 0.5}  
+    paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1}                 
     sns.set_context("paper", rc = paper_rc)
-    for s in df_all_by_subj.subj.unique():
+    pallete = sns.color_palette("tab10", n_colors=len(df_all_by_subj.subj.unique()), desat=1).as_hex()
+    for idx, s in enumerate(df_all_by_subj.subj.unique()):
         sns.pointplot(x='timepoint', y='Decoding',
                       data=df_all_by_subj.loc[ (df_all_by_subj['ROI']=='visual-ips') & (df_all_by_subj['subj']==s) ],
-                      linestyles='--', color='olive', legend=False, size=5, aspect=1.5)   
+                      linestyles='--', color=pallete[idx], legend=True, size=5, aspect=1.5, label=s)   ## 'olive'
     
     
     ###all subj visual   
