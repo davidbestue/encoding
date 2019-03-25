@@ -203,5 +203,28 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 Matrix_weights=zeros((shape(Matrix_activity)[1], len(pos_channels) ))
                 
                 
+                for voxel_x in range(0, shape(Matrix_activity)[1]):
+                    LM_matrix = pd.DataFrame(data=M_model)
+                    LM_matrix.columns=channel_names
+                    LM_matrix['Y']=Matrix_activity[:, voxel_x]
+                    ###### Liniar model
+                #    mod = ols(formula='Y ~ ' +  ' + '.join(channel_names) , data=LM_matrix).fit()
+                #    betas=mod.params[1:]
+                #    Matrix_weights[voxel_x, :]=betas
+                    ### Regularization
+                #    clf = Ridge(alpha=0.01, fit_intercept=True, normalize=False) #0.01
+                #    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
+                #    Matrix_weights[voxel_x, :]=clf.coef_
+                    ### Regularization Lasso
+                    clf = Lasso(alpha=0.001, fit_intercept=True, normalize=False) #0.01
+                    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
+                    Matrix_weights[voxel_x, :]=clf.coef_
+                    ##### Liniar model 2
+                #    a = sm.OLS(LM_matrix['Y'], LM_matrix[channel_names] )
+                #    resul = a.fit()
+                #    betas= resul.params
+                #    Matrix_weights[voxel_x, :]=betas  
+                
+                
                 
                 
