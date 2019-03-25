@@ -101,7 +101,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         
                         
                         #Z score
-                        encoding_datasets[session_enc_sess][:,voxel] = list(np.array(zscore(encoding_datasets[session_enc_sess][:,voxel])) + 10 )
+                        #encoding_datasets[session_enc_sess][:,voxel] = list(np.array(zscore(encoding_datasets[session_enc_sess][:,voxel])) + 10 )
                 
                 
                 
@@ -168,6 +168,9 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Matrix_activity[idx, :] =trial
                 
                 
+                ## zscore
+                Matrix_activity = np.array(zscore(Matrix_activity))
+                
                 # Get the hypothetical channel coeficients: the activity we expect for each channel in every trial of the behaviour
                 pos_target=hstack(Pos_targets)
                 
@@ -179,6 +182,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 
                 M_model=array(Matrix_all)
+                
                 
                 
                 ###############################  STEP 3 ###############################
