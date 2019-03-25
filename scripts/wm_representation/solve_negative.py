@@ -168,9 +168,13 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Matrix_activity[idx, :] =trial
                 
                 
-                ## zscore
-                Matrix_activity = np.array(zscore(Matrix_activity))
+                #### zscore by voxel after chosing the 2TR and make the mean
+                for vxl in range(0, shape(Matrix_activity)[1] ):
+                    vx_act = Matrix_activity[:, vxl]
+                    vx_act_zs = np.array( zscore(vx_act) ) +10 ;
+                    Matrix_activity[:, vxl] = vx_act_zs
                 
+                ####
                 # Get the hypothetical channel coeficients: the activity we expect for each channel in every trial of the behaviour
                 pos_target=hstack(Pos_targets)
                 
