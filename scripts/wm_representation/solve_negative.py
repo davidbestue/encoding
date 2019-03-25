@@ -9,6 +9,7 @@ Created on Thu Nov 15 12:12:03 2018
 
 import easygui
 import os
+import numpy as np
 
 msg = "Decide computer"
 choices = ["local", "cluster"]
@@ -100,7 +101,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         
                         
                         #Z score
-                        encoding_datasets[session_enc_sess][:,voxel] = zscore(encoding_datasets[session_enc_sess][:,voxel]) + 10
+                        encoding_datasets[session_enc_sess][:,voxel] = list(np.array(zscore(encoding_datasets[session_enc_sess][:,voxel])) + 10 )
                 
                 
                 
