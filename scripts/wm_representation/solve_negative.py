@@ -84,3 +84,115 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     enc_lens_datas.append(len(masked_data))
                 
                 
+                
+                ###High-pass filter and z-score per voxel
+                
+                n_voxels = shape(encoding_datasets[0])[1]
+                for session_enc_sess in range(0, len(enc_lens_datas)):
+                    for voxel in range(0, n_voxels ):
+                        data_to_filter = encoding_datasets[session_enc_sess][:,voxel]
+                        
+                        #apply the filter 
+                        data_to_filter = TimeSeries(data_to_filter, sampling_interval=2.335)
+                        F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02)
+                        data_filtered=F.filtered_boxcar.data
+                        encoding_datasets[session_enc_sess][:,voxel] = data_filtered
+                        
+                        
+                        #Z score
+                        encoding_datasets[session_enc_sess][:,voxel] = zscore(encoding_datasets[session_enc_sess][:,voxel]) + 10
+                
+                
+                
+                
+                enc_lens_datas = [len(encoding_datasets[i]) for i in range(0, len(encoding_datasets))] 
+                
+                ##### 2. Behaviour
+                
+                #Load and save the matching behavioural files
+                
+                Pos_targets=[]
+                lens_enc_del=[]
+                Enc_delay=[]
+                
+                #Get the timestamps I want in the imaging from the behaviour
+                for i in range(0, len(Beh_enc_files)):
+                    #
+                    Beh_enc_files_path = Beh_enc_files[i]
+                    Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
+                    behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
+                    ## Get the position (hypotetical channel coef)
+                    p_target = array(behaviour[:-1,4])
+                    ref_time=behaviour[-1, 1]
+                    st_delay = behaviour[:-1, 11] -ref_time
+                    
+                    # take at least 6 sec for the hrf
+                    hd = 6 #6
+                    start_delay_hdf = st_delay + hd
+                    
+                    #timestamps to take (first)
+                    start_delay_hdf_scans = start_delay_hdf/2.335
+                    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )]
+                    
+                    #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
+                    #you short the timestamps and the matrix fro the hipotetical cannel coefici
+                    while timestamps[-1]>len(encoding_datasets[i])-2:
+                        #print 1
+                        timestamps=timestamps[:-1]
+                        p_target = p_target[:-1]
+                            
+                    
+                    Enc_delay.append(timestamps)
+                    lens_enc_del.append(len(timestamps))
+                    Pos_targets.append(p_target)
+                
+                
+                
+                add_timestamps = [0]+list(cumsum(enc_lens_datas))[:-1]
+                for i in range(0, len(Enc_delay)):
+                    Enc_delay[i] = list(array(Enc_delay[i])+add_timestamps[i])
+                
+                
+                start_delay=hstack(Enc_delay)
+                
+                #Now you have the timestamps (start_delay) and the Positions to imput in the f function (Pos_targets)
+                #Make the matrix of the activity I want in the voxels I want
+                masked_data = vstack(encoding_datasets)
+                Matrix_activity = zeros(( len(start_delay), shape(masked_data)[1] ))
+                
+                #Take the mean of two TR    
+                for idx,t in enumerate(start_delay):
+                    example_ts = masked_data[t:t+2, :]
+                    trial = mean(example_ts, axis=0)
+                    Matrix_activity[idx, :] =trial
+                
+                
+                # Get the hypothetical channel coeficients: the activity we expect for each channel in every trial of the behaviour
+                pos_target=hstack(Pos_targets)
+                
+                Matrix_all=[]
+                for i in pos_target:
+                    channel_values=f(i)  #f #f_quadrant
+                    Matrix_all.append(channel_values)
+                    
+                
+                
+                M_model=array(Matrix_all)
+                
+                
+                ###############################  STEP 3 ###############################
+                
+                #For each voxel, I want to extract weight of each channel of our model
+                #Con qué peso de canales explico mejor la actividad de este voxel a a lo largo de los trials))
+                #Right now I will combine the two previous steps
+                #Que canal explica mejor la activid de este voxel a lo largo de todos los trials? --> Weight para cada canal
+                #If I have a voxel that responds to 27, the weight of the first channel is going to be hight because it means that the activity I have fits really weel with the activity I 
+                # expect from the first channel
+                
+                
+                channel_names = ['ch_' +str(i+1) for i in range(0, len(pos_channels))]
+                Matrix_weights=zeros((shape(Matrix_activity)[1], len(pos_channels) ))
+                
+                
+                
+                
