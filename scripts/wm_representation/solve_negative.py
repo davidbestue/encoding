@@ -132,7 +132,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
                     
                     
-                    
+                                       
                     ####   2. Apply a filter for each voxel               
                     for voxel in range(0, n_voxels ):
                         data_to_filter = encoding_datasets[session_enc_sess][:,voxel] #data of the voxel along the session
@@ -160,8 +160,10 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     
                     
                     ####   5. append activity and targets of the session
+                    p_target = list(p_target) ### make a list that will be added to another list
+                    Training_dataset_targets.extend(p_target) ## append the position of the target for the trial
+                    #
                     Training_dataset_activity.append(encoding_delay_activity) ## append the activity used for the training
-                    Training_dataset_targets.append(p_target) ## append the position of the target for the trial
                 
                 
                 ##### Concatenate sessions to create Trianing Dataset  ### ASSUMPTION: each voxel is the same across sessions!
