@@ -63,10 +63,9 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 enc_lens_datas=[]
                 encoding_datasets=[]
                 
-                
-                #Data to use
-                #Apply the mask
-                
+                #####################
+                ##################### STEP 1: GET DATA AND APPLY THE MASK
+                #####################
                 for i in range(0, len(func_encoding)):
                     func_filename=func_encoding[i] #+ 'setfmri3_Encoding_Ax.nii' # 'regfmcpr.nii.gz'
                     func_filename = ub_wind_path(func_filename, system=sys_use)
@@ -85,16 +84,18 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     enc_lens_datas.append(len(masked_data))
                 
                 
+                #####################
+                ##################### STEP 2: PROCESS TRAINGN DATA
+                #####################
                 
-                
-                
+                #### TRAING DATA: ALL SESSIONS TOGETHER
                 
                 ###### In each session I will:
                     ####   1. Select the times corresponding to the delay (2TR), append the target of each trial 
                     ####   2. Apply a filter for each voxel
                     ####   3. Subset of data corresponding to the delay times (all voxels)
                     ####   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
-                    ####
+                    ####   5. append activity and targets of the session
                 ####
                 ###### Concatenate all the sessions (targets and activity) to create the training dataset
                 
@@ -128,11 +129,11 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     #you short the timestamps and the matrix fro the hipotetical cannel coefici
                     while timestamps[-1]>len(encoding_datasets[session_enc_sess])-2:
                         timestamps=timestamps[:-1]
-                        p_target = p_target[:-1]
+                        p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
                             
                     
                     Enc_delay.append(timestamps) ## append the 1st scan to take in each trial
-                    Training_dataset_targets.append(p_target) ## append the position of the target for the trial
+                    
                     
                     
                     
@@ -160,93 +161,20 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         vx_act = encoding_delay_activity[:, vxl]
                         vx_act_zs = np.array( zscore(vx_act) ) +10 ; ## zscore + 10 just to get + values
                         encoding_delay_activity[:, vxl] = vx_act_zs  ## replace previos activity
-                
-                
-                
-                
-                enc_lens_datas = [len(encoding_datasets[i]) for i in range(0, len(encoding_datasets))] 
-                
-                ##### 2. Behaviour
-                
-                #Load and save the matching behavioural files
-                
-                Pos_targets=[]
-                Enc_delay=[]
-                
-                #Get the timestamps I want in the imaging from the behaviour
-                for i in range(0, len(Beh_enc_files)):
-                    #
-                    Beh_enc_files_path = Beh_enc_files[session_enc_sess]
-                    Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
-                    behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
-                    ## Get the position (hypotetical channel coef)
-                    p_target = array(behaviour[:-1,4])
-                    ref_time=behaviour[-1, 1]
-                    st_delay = behaviour[:-1, 11] -ref_time
                     
-                    # take at least 6 sec for the hrf
-                    hd = 6 #6
-                    start_delay_hdf = st_delay + hd
                     
-                    #timestamps to take (first)
-                    start_delay_hdf_scans = start_delay_hdf/2.335
-                    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )]
-                    
-                    #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
-                    #you short the timestamps and the matrix fro the hipotetical cannel coefici
-                    while timestamps[-1]>len(encoding_datasets[session_enc_sess])-2:
-                        #print 1
-                        timestamps=timestamps[:-1]
-                        p_target = p_target[:-1]
-                            
-                    
-                    Enc_delay.append(timestamps)
-                    Pos_targets.append(p_target)
+                    ####   5. append activity and targets of the session
+                    Training_dataset_activity.append(encoding_delay_activity) ## append the activity used for the training
+                    Training_dataset_targets.append(p_target) ## append the position of the target for the trial
                 
                 
+                ##### Concatenate sessions to create Trianing Dataset  ### ASSUMPTION: each voxel is the same across sessions!
+                Training_dataset_activity = vstack(Training_dataset_activity) #make an array (n_trials(all sessions together), voxels)
+                Training_dataset_targets = array(Training_dataset_targets) ## make an array (trials, 1)
                 
-                add_timestamps = [0]+list(cumsum(enc_lens_datas))[:-1]
-                for i in range(0, len(Enc_delay)):
-                    Enc_delay[i] = list(array(Enc_delay[i])+add_timestamps[i])
-                
-                
-                start_delay=hstack(Enc_delay)
-                
-                #Now you have the timestamps (start_delay) and the Positions to imput in the f function (Pos_targets)
-                #Make the matrix of the activity I want in the voxels I want
-                masked_data = vstack(encoding_datasets)
-                Matrix_activity = zeros(( len(start_delay), shape(masked_data)[1] ))
-                
-                #Take the mean of two TR    
-                for idx,t in enumerate(start_delay):
-                    example_ts = masked_data[t:t+2, :]
-                    trial = mean(example_ts, axis=0)
-                    Matrix_activity[idx, :] =trial
-                
-                
-                #### zscore by voxel after chosing the 2TR and make the mean
-                for vxl in range(0, shape(Matrix_activity)[1] ):
-                    vx_act = Matrix_activity[:, vxl]
-                    vx_act_zs = np.array( zscore(vx_act) ) +10 ;
-                    Matrix_activity[:, vxl] = vx_act_zs
-                
-                ####
-                # Get the hypothetical channel coeficients: the activity we expect for each channel in every trial of the behaviour
-                pos_target=hstack(Pos_targets)
-                
-                Matrix_all=[]
-                for i in pos_target:
-                    channel_values=f(i)  #f #f_quadrant
-                    Matrix_all.append(channel_values)
-                    
-                
-                
-                M_model=array(Matrix_all)
-                
-                
-                
-                ###############################  STEP 3 ###############################
-                
+                ###############################
+                ###############################  STEP 3: TRAIN THE MODEL
+                ###############################
                 #For each voxel, I want to extract weight of each channel of our model
                 #Con qué peso de canales explico mejor la actividad de este voxel a a lo largo de los trials))
                 #Right now I will combine the two previous steps
@@ -254,32 +182,40 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 #If I have a voxel that responds to 27, the weight of the first channel is going to be hight because it means that the activity I have fits really weel with the activity I 
                 # expect from the first channel
                 
+                ####   1. Generate hypothetical activity per trial
+                ####   2. Train the model and get matrix of weights
+                ####   
                 
-                channel_names = ['ch_' +str(i+1) for i in range(0, len(pos_channels))]
-                Matrix_weights=zeros((shape(Matrix_activity)[1], len(pos_channels) ))
                 
                 
-                for voxel_x in range(0, shape(Matrix_activity)[1]):
-                    LM_matrix = pd.DataFrame(data=M_model)
-                    LM_matrix.columns=channel_names
-                    LM_matrix['Y']=Matrix_activity[:, voxel_x]
-                    ###### Liniar model
-                #    mod = ols(formula='Y ~ ' +  ' + '.join(channel_names) , data=LM_matrix).fit()
-                #    betas=mod.params[1:]
-                #    Matrix_weights[voxel_x, :]=betas
-                    ### Regularization
-                #    clf = Ridge(alpha=0.01, fit_intercept=True, normalize=False) #0.01
-                #    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
-                #    Matrix_weights[voxel_x, :]=clf.coef_
-                    ### Regularization Lasso
-                    clf = Lasso(alpha=0.001, fit_intercept=True, normalize=False) #0.01
-                    clf.fit(LM_matrix[channel_names], LM_matrix['Y'])
-                    Matrix_weights[voxel_x, :]=clf.coef_
-                    ##### Liniar model 2
-                #    a = sm.OLS(LM_matrix['Y'], LM_matrix[channel_names] )
-                #    resul = a.fit()
-                #    betas= resul.params
-                #    Matrix_weights[voxel_x, :]=betas  
+                ####   1. Generate hypothetical activity per trial                
+                M_model=[] #matrix of the activity from the model
+                for i in Training_dataset_targets:
+                    channel_values=f(i)  #f #f_quadrant (function that generates the expectd reponse in each channel)
+                    M_model.append(channel_values)
+                    
+                M_model=pd.DataFrame(array(M_model)) # (trials, channel_activity)
+                channel_names = ['ch_' +str(i+1) for i in range(0, len(pos_channels))] #names of the channels 
+                M_model.columns=channel_names
+                
+                
+                ####   2. Train the model and get matrix of weights
+                Matrix_weights=zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
+                
+                for voxel_x in range(0, n_voxels): #train each voxel
+                    # set Y and X for the GLM
+                    Y = Training_dataset_activity[:, voxel_x] ## Y is the real activity
+                    X = M_model ## X is the hipothetycal activity 
+                    
+                    #### Lasso with penalization, fiting intercept (around 10 ) and forcing the weights to be positive
+                    lin = Lasso(alpha=0.0001, precompute=True,  fit_intercept=True,
+                                max_iter=1000,  positive=True, random_state=9999, 
+                                selection='random')   
+                    lin.fit(X,Y) # fits the best combination of weights to explain the activity
+                    betas = lin.coef_ #ignore the intercept and just get the weights of each channel
+                    Matrix_weights[voxel_x, :]=betas
+
+
                 
                 
                 
