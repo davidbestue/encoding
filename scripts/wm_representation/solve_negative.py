@@ -128,12 +128,8 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
                     #you short the timestamps and the matrix fro the hipotetical cannel coefici
                     while timestamps[-1]>len(encoding_datasets[session_enc_sess])-2:
-                        timestamps=timestamps[:-1]
+                        timestamps=timestamps[:-1] ##  1st scan to take in each trial
                         p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
-                            
-                    
-                    Enc_delay.append(timestamps) ## append the 1st scan to take in each trial
-                    
                     
                     
                     
@@ -149,8 +145,8 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     
                     
                     ####   3. Subset of data corresponding to the delay times (all voxels)
-                    encoding_delay_activity = zeros(( len(Enc_delay), n_voxels)) ## emply matrix (n_trials, n_voxels)
-                    for idx,t in enumerate(Enc_delay): #in each trial
+                    encoding_delay_activity = zeros(( len(timestamps), n_voxels)) ## emply matrix (n_trials, n_voxels)
+                    for idx,t in enumerate(timestamps): #in each trial
                         delay_TRs =  encoding_datasets[session_enc_sess][t:t+2, :] #take the first scan of the delay and the nex
                         delay_TRs_mean = mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
                         encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
