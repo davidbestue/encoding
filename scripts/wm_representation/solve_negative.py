@@ -186,8 +186,6 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 ####   2. Train the model and get matrix of weights
                 ####   
                 
-                
-                
                 ####   1. Generate hypothetical activity per trial                
                 M_model=[] #matrix of the activity from the model
                 for i in Training_dataset_targets:
@@ -207,13 +205,16 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Y = Training_dataset_activity[:, voxel_x] ## Y is the real activity
                     X = M_model ## X is the hipothetycal activity 
                     
-                    #### Lasso with penalization, fiting intercept (around 10 ) and forcing the weights to be positive
+                    #### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
                     lin = Lasso(alpha=0.0001, precompute=True,  fit_intercept=True,
                                 max_iter=1000,  positive=True, random_state=9999, 
                                 selection='random')   
                     lin.fit(X,Y) # fits the best combination of weights to explain the activity
                     betas = lin.coef_ #ignore the intercept and just get the weights of each channel
-                    Matrix_weights[voxel_x, :]=betas
+                    Matrix_weights[voxel_x, :]=betas #save the 36 weights for each voxel
+                
+                
+                #####
 
 
                 
