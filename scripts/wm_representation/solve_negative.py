@@ -277,7 +277,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         WM_datasets[session_wm][:,voxel] = data_filtered
                         
                         #Z score
-                        WM_datasets[session_wm][:,voxel] = np.array( zscore(WM_datasets[session_wm][:,voxel]) ) +1 ; ## zscore + 10 just to get + values
+                        WM_datasets[session_wm][:,voxel] = np.array( zscore(WM_datasets[session_wm][:,voxel]) ) +5 ; ## zscore + 10 just to get + values
                 
                 
                 
