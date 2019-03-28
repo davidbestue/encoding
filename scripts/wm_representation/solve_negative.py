@@ -90,27 +90,21 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 
                 ###### In each session I will:
-                    ####   1. Apply a filter for each voxel
-                    ####   2. Select the times corresponding to the delay (2TR)
-                    ####   3. Subset of data corresponding to the times (all voxels)
+                    ####   1. Select the times corresponding to the delay (2TR), append the target of each trial 
+                    ####   2. Apply a filter for each voxel
+                    ####   3. Subset of data corresponding to the delay times (all voxels)
                     ####   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
-                    ####   5. Append both the activity and the target of each 2TR
+                    ####
                 ####
                 ###### Concatenate all the sessions (targets and activity) to create the training dataset
                 
-                
-                Pos_targets=[]
-                lens_enc_del=[]
-                Enc_delay=[]
-                n_voxels = shape(encoding_datasets[0])[1]
-                
-                
-                ###High-pass filter and z-score per voxel
-                
+                Training_dataset_activity=[] ##  activity for all the trials (all the sessions) (trials, voxels)
+                Training_dataset_targets=[] ##  targets for all the trials (all the sessions) (trials)
+                n_voxels = shape(encoding_datasets[0])[1] ## number of voxels
                 
                 for session_enc_sess in range(0, len(enc_lens_datas)):                  
                     
-                    Pos_targets=[] ##  Get the targets for each trial of the session
+                    ### 1. Select the times corresponding to the delay (2TR), append the target of each trial
                     Enc_delay=[] ## Get the scans to take from the data (beggining of the delay)
                     
                     ## load the file
@@ -137,26 +131,35 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         p_target = p_target[:-1]
                             
                     
-                    Enc_delay.append(timestamps) ## append the scan to take
-                    Pos_targets.append(p_target) ## append the position of the target for the trial
+                    Enc_delay.append(timestamps) ## append the 1st scan to take in each trial
+                    Training_dataset_targets.append(p_target) ## append the position of the target for the trial
                     
                     
                     
-                    
-                    
-                    
+                    ####   2. Apply a filter for each voxel               
                     for voxel in range(0, n_voxels ):
-                        data_to_filter = encoding_datasets[session_enc_sess][:,voxel]
+                        data_to_filter = encoding_datasets[session_enc_sess][:,voxel] #data of the voxel along the session
                         
                         #apply the filter 
                         data_to_filter = TimeSeries(data_to_filter, sampling_interval=2.335)
                         F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02)
                         data_filtered=F.filtered_boxcar.data
-                        encoding_datasets[session_enc_sess][:,voxel] = data_filtered
-                        
-                        
-                        #Z score
-                        #encoding_datasets[session_enc_sess][:,voxel] = list(np.array(zscore(encoding_datasets[session_enc_sess][:,voxel])) + 10 )
+                        encoding_datasets[session_enc_sess][:,voxel] = data_filtered ## replace old data with the filtered one.
+                    
+                    
+                    ####   3. Subset of data corresponding to the delay times (all voxels)
+                    encoding_delay_activity = zeros(( len(Enc_delay), n_voxels)) ## emply matrix (n_trials, n_voxels)
+                    for idx,t in enumerate(Enc_delay): #in each trial
+                        delay_TRs =  encoding_datasets[session_enc_sess][t:t+2, :] #take the first scan of the delay and the nex
+                        delay_TRs_mean = mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
+                        encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
+                    
+                    
+                    ####   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
+                    for vxl in range(0, n_voxels ): # by voxel
+                        vx_act = encoding_delay_activity[:, vxl]
+                        vx_act_zs = np.array( zscore(vx_act) ) +10 ; ## zscore + 10 just to get + values
+                        encoding_delay_activity[:, vxl] = vx_act_zs  ## replace previos activity
                 
                 
                 
