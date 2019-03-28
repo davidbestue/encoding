@@ -114,9 +114,9 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Enc_delay=[] ## Get the scans to take from the data (beggining of the delay)
                     
                     ## load the file
-                    Beh_enc_files_path = Beh_enc_files[session_enc_sess] ## load the file
-                    Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
-                    behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
+                    Beh_enc_files_path = Beh_enc_files[session_enc_sess] ## name of the file
+                    Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use) ##function to convert paths windows-linux
+                    behaviour=genfromtxt(Beh_enc_files_path, skip_header=1) ## load the file
                     
                     
                     p_target = array(behaviour[:-1,4]) ## Get the position (hypotetical channel coef)
@@ -133,7 +133,6 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
                     #you short the timestamps and the matrix fro the hipotetical cannel coefici
                     while timestamps[-1]>len(encoding_datasets[session_enc_sess])-2:
-                        #print 1
                         timestamps=timestamps[:-1]
                         p_target = p_target[:-1]
                             
