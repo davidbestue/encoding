@@ -86,10 +86,66 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 
                 
+                
+                
+                
+                ###### In each session I will:
+                    ####   1. Apply a filter for each voxel
+                    ####   2. Select the times corresponding to the delay (2TR)
+                    ####   3. Subset of data corresponding to the times (all voxels)
+                    ####   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
+                    ####   5. Append both the activity and the target of each 2TR
+                ####
+                ###### Concatenate all the sessions (targets and activity) to create the training dataset
+                
+                
+                Pos_targets=[]
+                lens_enc_del=[]
+                Enc_delay=[]
+                n_voxels = shape(encoding_datasets[0])[1]
+                
+                
                 ###High-pass filter and z-score per voxel
                 
-                n_voxels = shape(encoding_datasets[0])[1]
-                for session_enc_sess in range(0, len(enc_lens_datas)):
+                
+                for session_enc_sess in range(0, len(enc_lens_datas)):                  
+                    
+                    Pos_targets=[] ##  Get the targets for each trial of the session
+                    Enc_delay=[] ## Get the times for the 2TR in each trial of the session
+                    
+                    ## load the file
+                    Beh_enc_files_path = Beh_enc_files[session_enc_sess] ## load the file
+                    Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
+                    behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
+                    
+                    
+                    p_target = array(behaviour[:-1,4]) ## Get the position (hypotetical channel coef)
+                    ref_time=behaviour[-1, 1] ## Reference time (start scanner - begiinging of recording)
+                    st_delay = behaviour[:-1, 11] -ref_time
+                    
+                    # take at least 6 sec for the hrf
+                    hd = 6 #6
+                    start_delay_hdf = st_delay + hd
+                    #timestamps to take (first)
+                    start_delay_hdf_scans = start_delay_hdf/2.335
+                    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )]
+                    #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
+                    #you short the timestamps and the matrix fro the hipotetical cannel coefici
+                    while timestamps[-1]>len(encoding_datasets[session_enc_sess])-2:
+                        #print 1
+                        timestamps=timestamps[:-1]
+                        p_target = p_target[:-1]
+                            
+                    
+                    Enc_delay.append(timestamps)
+                    lens_enc_del.append(len(timestamps))
+                    Pos_targets.append(p_target)
+                    
+                    
+                    
+                    
+                    
+                    
                     for voxel in range(0, n_voxels ):
                         data_to_filter = encoding_datasets[session_enc_sess][:,voxel]
                         
@@ -113,13 +169,12 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 #Load and save the matching behavioural files
                 
                 Pos_targets=[]
-                lens_enc_del=[]
                 Enc_delay=[]
                 
                 #Get the timestamps I want in the imaging from the behaviour
                 for i in range(0, len(Beh_enc_files)):
                     #
-                    Beh_enc_files_path = Beh_enc_files[i]
+                    Beh_enc_files_path = Beh_enc_files[session_enc_sess]
                     Beh_enc_files_path = ub_wind_path(Beh_enc_files_path, system=sys_use)
                     behaviour=genfromtxt(Beh_enc_files_path, skip_header=1)
                     ## Get the position (hypotetical channel coef)
@@ -137,14 +192,13 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     
                     #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
                     #you short the timestamps and the matrix fro the hipotetical cannel coefici
-                    while timestamps[-1]>len(encoding_datasets[i])-2:
+                    while timestamps[-1]>len(encoding_datasets[session_enc_sess])-2:
                         #print 1
                         timestamps=timestamps[:-1]
                         p_target = p_target[:-1]
                             
                     
                     Enc_delay.append(timestamps)
-                    lens_enc_del.append(len(timestamps))
                     Pos_targets.append(p_target)
                 
                 
