@@ -204,7 +204,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     X = M_model ## X is the hipothetycal activity 
                     
                     #### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
-                    lin = Lasso(alpha=0.0001, precompute=True,  fit_intercept=True,
+                    lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=True,
                                 max_iter=1000,  positive=True, random_state=9999, 
                                 selection='random')   
                     lin.fit(X,Y) # fits the best combination of weights to explain the activity
