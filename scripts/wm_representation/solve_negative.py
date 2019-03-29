@@ -182,8 +182,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 ####   1. Generate hypothetical activity per trial
                 ####   2. Train the model and get matrix of weights
-                ####   
-                
+                ####                  
                 ####   1. Generate hypothetical activity per trial                
                 M_model=[] #matrix of the activity from the model
                 for i in Training_dataset_targets:
