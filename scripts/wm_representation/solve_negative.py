@@ -47,10 +47,11 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
             from functions_encoding_loop import *
             Method_analysis, distance_ch, Subject_analysis, brain_region, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, distance_ch, Subject_analysis, brain_region, root_use ) 
             #############################################
-            df_responses=[] ##append the result of the reconstruction per session
+            df_responses=[] ##append the result of the reconstruction per session (just one when together)
             dfs = {}
             
             for session_enc in range(0,len(func_encoding_sess)):
+                ### when together, this will run once.
                 print(session_enc)
                 func_encoding = func_encoding_sess[session_enc] 
                 Beh_enc_files = Beh_enc_files_sess[session_enc]
@@ -211,12 +212,11 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 #####
                 
-                #Save the matrix of weights
+                #Save the matrix of weights 
                 Matrix_save=pd.DataFrame(Matrix_weights) #convert the array to dataframe
                 Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
                 Matrix_weights_transpose=Matrix_weights.transpose() #create the transpose for the IEM
                 os.chdir(encoding_path)
-                
                 
                 ### WM REPRESENTATION
                 ###
@@ -383,9 +383,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Channel_all_trials_rolled.append(channels_trial)
                 
                 
-                Channel_all_trials_rolled = array(Channel_all_trials_rolled)  # (trials, TRs, channels_activity)
-                
-                
+                Channel_all_trials_rolled = array(Channel_all_trials_rolled)  # (trials, TRs, channels_activity) (of the session (whne together, all))
                 
                 #Mean of trials
                 df = pd.DataFrame()
@@ -408,77 +406,43 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 #
                 ##Append the df  
                 #
-                #### append a df for each enc_session
+                #### append a df for the session
                 df_responses.append(df)
                 dfs[session_enc]=df
                 
             
             
             
-            
+            ###### After running all the sessions
             #### Save the df of the matrix_weights
-            writer_matrix.save()
-            
+            writer_matrix.save()            
             ## Create excel for the response
-            
-            df_name = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' 
+            df_name = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + '.xlsx' #name of the file
             writer_cond = pd.ExcelWriter(df_name)
-            
             os.chdir(Conditions_enc_path + CONDITION)
-            for session_tsk, df1 in enumerate(df_responses):
+            for session_tsk, df1 in enumerate(df_responses): #for each session
                 df1.to_excel(writer_cond,'sheet{}'.format(session_tsk))
             
             
-            writer_cond.save() 
-            
-            #os.chdir('C:\\Users\\David\\Dropbox\\KAROLINSKA\\encoding_model')
-            
-            
-            #df_p0 =pd.read_excel(df_name, 'sheet0') 
-            #df_p1 =pd.read_excel(df_name, 'sheet1') 
-            #df_p2 =pd.read_excel(df_name, 'sheet2') 
-            #df_ps={} 
-            #df_ps['0']=df_p0  
-            #df_ps['1']=df_p1  
-            #df_ps['2']=df_p2  
-            #pp = pd.Panel(df_ps) 
-            #df_all = pp.mean(axis=0)  
-            
-            
-            #
-            #dfs_pp={} 
-            #for s in range(0,3):
-            #    dfs_pp[str(s)]=df_responses[s]
-            #    
-            
-            #Mean Dataframes
-            #panel=pd.Panel(dfs_pp)
-            
-            
+            writer_cond.save() #save the mean rolled by session
             os.chdir(Conditions_enc_path + CONDITION + PLOTS_path)
             
-            
-            
-            panel=pd.Panel(dfs)
+            #mean of sessions (this does nothing with together)
+            panel=pd.Panel(dfs) 
             df=panel.mean(axis=0)
-               
             
-            #Heatmap region (save)
-            plt.figure()
-            df = pd.DataFrame()
-            for i in range(0,nscans_wm/2):
-                n = list(Channel_all_trials_rolled[:,i,:].mean(axis=0))
-                #n.reverse()
-                df[str( round(2.335*i, 2)  )] = n
+            ####
+            ### PLOTS
+            ############# 1. Heatmap of the region
+            ############# 2. lineplor preferred 
+            ####
             
-            
-            
+            #### Heatmap region (save)
+            plt.figure() 
             TITLE_HEATMAP = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap'
             plt.title(TITLE_HEATMAP)
-            #midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
             ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-            #ax.invert_yaxis()
-            ax.plot([0.25, shape(df)[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--')
+            ax.plot([0.25, shape(df)[1]-0.25], [posch1_to_posch2(4),posch1_to_posch2(4)], 'k--') ##line of the average
             plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
             plt.ylabel('Angle')
             plt.xlabel('time (s)')
@@ -487,42 +451,21 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
             plt.savefig(TITLE_PLOT_H)
             ##
             
-            
-            #### TSplot preferred
+            #### line plot preferred (save)
             ref_angle=45
-            Angle_ch = ref_angle * (len(channel) / 360)
-            
-            df_45 = df.iloc[int(Angle_ch)-20 : int(Angle_ch)+20]
+            Angle_ch = ref_angle * (len(channel) / 360)            
+            df_45 = df.iloc[int(Angle_ch)-20 : int(Angle_ch)+20] #just take the ones around the preferred
             df_together = df_45.melt()
             df_together['ROI'] = ['ips' for i in range(0, len(df_together))]
             df_together['voxel'] = [i+1 for i in range(0, len(df_45))]*shape(df_45)[1]
             df_together.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
             df_together['timepoint'] = [float(df_together['timepoint'].iloc[i]) for i in range(0, len(df_together))]
-            
-            #plt.figure()
-            #plt.title('ROI decoding preferred')
-            #sns.tsplot(time='timepoint', value='Decoding', condition='ROI', unit='voxel', ci='sd', data=df_together)
-            #plt.show(block=False)
-            
-            
-            #### FactorPlot preferred (save)
             a=sns.factorplot(x='timepoint', y='Decoding',  data=df_together, size=5, aspect=1.5)
             TITLE_PREFERRED = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred'
             plt.title(TITLE_PREFERRED)
             plt.show(block=False)
             TITLE_PLOT = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
             a.savefig(TITLE_PLOT)
-            
-            
-            #### FactorPlot all brain region
-            df_all = df.melt()
-            df_all['ROI'] = ['ips' for i in range(0, len(df_all))]
-            df_all['voxel'] = [i+1 for i in range(0, len(df))]*shape(df)[1]
-            df_all.columns = ['timepoint', 'Decoding', 'ROI', 'voxel']
-            df_all['timepoint'] = [float(df_all['timepoint'].iloc[i]) for i in range(0, len(df_all))]
-            #sns.factorplot(x='timepoint', y='Decoding',  data=df_all)
-            #plt.title('ROI decoding brain region')
-            #plt.show(block=False)
                 
 
 
