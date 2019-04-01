@@ -47,7 +47,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
             from functions_encoding_loop import *
             Method_analysis, distance_ch, Subject_analysis, brain_region, distance, func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, path_masks, Maskrh, Masklh, writer_matrix = variables_encoding(Method_analysis, distance_ch, Subject_analysis, brain_region, root_use ) 
             #############################################
-            df_responses=[]
+            df_responses=[] ##append the result of the reconstruction per session
             dfs = {}
             
             for session_enc in range(0,len(func_encoding_sess)):
@@ -166,7 +166,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Training_dataset_activity.append(encoding_delay_activity) ## append the activity used for the training
                 
                 
-                ##### Concatenate sessions to create Trianing Dataset  ### ASSUMPTION: each voxel is the same across sessions!
+                ##### Concatenate sessions to create Trianing Dataset  ### ASSUMPTION: each voxel is the same across sessions!               
                 Training_dataset_activity = vstack(Training_dataset_activity) #make an array (n_trials(all sessions together), voxels)
                 Training_dataset_targets = array(Training_dataset_targets) ## make an array (trials, 1)
                 
@@ -211,7 +211,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 #####
                 
-                #Save the matrix of weighta
+                #Save the matrix of weights
                 Matrix_save=pd.DataFrame(Matrix_weights) #convert the array to dataframe
                 Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
                 Matrix_weights_transpose=Matrix_weights.transpose() #create the transpose for the IEM
@@ -359,11 +359,11 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 Channel_all_trials_rolled=[]
                 
                 for trial in range(0, len(beh_Subset)): #each trial of the condition
-                    #List to append all the trial channels
-                    channels_trial=[]
+                    channels_trial=[] #List to append all the trial channels
+                    
                     for time_scan in range(0, nscans_wm, 2 ): ## each time of the trial
-                        #Get the activity of the TR in the trial        
-                        Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0)
+                        #Get the activity of the TR in the trial      
+                        Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0) #mean of 2TR
                         
                         #Run the inverse model
                         channel1 = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  Signal)
@@ -383,19 +383,19 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     Channel_all_trials_rolled.append(channels_trial)
                 
                 
-                Channel_all_trials_rolled = array(Channel_all_trials_rolled)  
+                Channel_all_trials_rolled = array(Channel_all_trials_rolled)  # (trials, TRs, channels_activity)
                 
                 
                 
-                #Heatmap condition
-                #plt.figure()
+                #Mean of trials
                 df = pd.DataFrame()
-                for i in range(0,nscans_wm/2):
-                    n = list(Channel_all_trials_rolled[:,i,:].mean(axis=0))
-                    #n.reverse()
-                    df[str( round(2.335*i, 2)  )] = n
+                for i in range(0, nscans_wm/2):
+                    n = list(Channel_all_trials_rolled[:,i,:].mean(axis=0)) #mean of all the trials rolled
+                    df[str( round(2.335*i, 2)  )] = n #name of the column
                 
                 
+                ## plot heatmap
+                #plt.figure()
                 #plt.title('Heatmap decoding ' + Subject_analysis)
                 ########midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
                 #ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
