@@ -233,129 +233,86 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 ## Python implementation of the function
                 #channel = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  signal)
                 
+                ##########################################
+                ##########################################
+                ####  1. Get the data and apply the mask
+                ####  2. Process the data (filter and zscore)
+                ##########################################
+                ##########################################
+                
+                Testing_dataset_activity=[] ##  activity for all the trials (all the sessions) (trials, voxels)
+                Testing_dataset_beh =[] ##  behavioural data for all the trials (all the sessions) (trials)
+                nscans_wm = 14
+                ## 1. Get the data and apply the mask
                 #
-                WM_lens_datas=[]
-                WM_datasets=[]
-                
-                
-                #
-                
-                for i in range(0, len(func_wmtask)):
-                    func_filename=func_wmtask[i] # 'regfmcpr.nii.gz'
-                    func_filename = ub_wind_path(func_filename, system=sys_use)
-                    
-                    #func_filename_rh=func_wmtask[i] + 'regfmcprrh.nii.gz'
-                    #func_filename_lh=func_wmtask[i] + 'regfmcprlh.nii.gz'
-                    
+                for session_wm in range(0, len(func_wmtask)):
+                    func_filename=func_wmtask[session_wm] # get the file name
+                    func_filename = ub_wind_path(func_filename, system=sys_use)#change depending windows/unix                 
                     mask_img_rh=path_masks + Maskrh
                     mask_img_rh = ub_wind_path(mask_img_rh, system=sys_use)
                     mask_img_lh=path_masks + Masklh 
                     mask_img_lh = ub_wind_path(mask_img_lh, system=sys_use)
                     ##Apply the masks and concatenate   
-                    masked_data_rh = apply_mask(func_filename, mask_img_rh) #func_filename func_filename_rh
-                    masked_data_lh = apply_mask(func_filename, mask_img_lh) #func_filename   
-                    
-                    masked_data=hstack([masked_data_rh, masked_data_lh])
-                    #append it and save the data
-                    WM_datasets.append(masked_data)
-                    WM_lens_datas.append(len(masked_data))
-                
-                
-                
-                
-                #High-pass filter
-                #for each session & for each voxel mean center and apply the filter
-                for session_wm in range(0, len(WM_lens_datas)):
-                    for voxel in range(0, shape(WM_datasets[session_wm])[1] ):
-                        data_to_filter = WM_datasets[session_wm][:,voxel]
-                        
+                    masked_data_rh = apply_mask(func_filename, mask_img_rh) 
+                    masked_data_lh = apply_mask(func_filename, mask_img_lh)    
+                    masked_data=hstack([masked_data_rh, masked_data_lh]) #merge rh and lh voxels 
+                    n_voxels_wm = shape(masked_data)[1] ##number of voxels
+                    ##
+                    ## 2. Process the data (filter and zscore)
+                    #High-pass filter & zscore per voxel in the temporal domain
+                    for voxel in range(0, n_voxels_wm):
+                        data_to_filter = masked_data[:,voxel]                        
                         #apply the filter 
                         data_to_filter = TimeSeries(data_to_filter, sampling_interval=2.335)
                         F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02)
                         data_filtered=F.filtered_boxcar.data
-                        WM_datasets[session_wm][:,voxel] = data_filtered
-                        
+                        masked_data[:,voxel] = data_filtered                        
                         #Z score
-                        WM_datasets[session_wm][:,voxel] = np.array( zscore(WM_datasets[session_wm][:,voxel]) ) +5 ; ## zscore + 10 just to get + values
-                
-                
-                
-                
-                
-                WM_lens_datas = [len(WM_datasets[i]) for i in range(0, len(WM_datasets))] 
-                WM_delay=[]
-                nscans_wm = 14 #9
-                Behaviour=[]
-                
-                headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
+                        masked_data[:,voxel] = np.array( zscore( masked_data[:,voxel]  ) ) +5 ; ## zscore + 5 just to get + values
+                    
+                    
+                    #             
+                    # Behaviour 
+                    Beh_WM_files_path = Beh_WM_files[session_wm] #path of the file of the corresponding session
+                    Beh_WM_files_path = ub_wind_path(Beh_WM_files_path, system=sys_use) #change depending on windoxs/unix
+                    behaviour=genfromtxt(Beh_WM_files_path, skip_header=1) #open the file
+                    Beh = pd.DataFrame(behaviour)  #convert it to dataframe
+                    headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
                                 'orient', 'horiz_vertical', 'A_R', 'A_err', 'Abs_angle_error', 'Error_interference', 'A_DC', 'A_DC_dist', 'Q_DC', 
                                 'A_DF', 'A_DF_dist', 'Q_DF', 'A_DVF', 'Q_DVF', 'A_DVF_dist', 'Q_DVF_dist', 'presentation_att_cue_time', 'presentation_target_time',
-                                'presentation_dist_time', 'presentation_probe_time', 'R_T', 'trial_time', 'disp_time']  
-                
-                
-                for i in range(0, len(Beh_WM_files)):
-                    #Open file
-                    Beh_WM_files_path = Beh_WM_files[i]
-                    Beh_WM_files_path = ub_wind_path(Beh_WM_files_path, system=sys_use)
-                    behaviour=genfromtxt(Beh_WM_files_path, skip_header=1)
-                    Beh = pd.DataFrame(behaviour) 
-                    Beh.columns=headers_col
+                                'presentation_dist_time', 'presentation_probe_time', 'R_T', 'trial_time', 'disp_time']
+                    Beh.columns=headers_col #add columns
                     #take off the reference    
-                    #ref_time=behaviour[-1, 1]
-                    ref_time = Beh.iloc[-1, 1] 
+                    ref_time = Beh.iloc[-1, 1] # get the reference(diff between tsat¡rt the display and start de recording)
+                    start_trial=Beh['presentation_att_cue_time'].iloc[0:-1]  - ref_time #take off the reference  
+                    Beh = Beh.iloc[0:-1, :] # behaviour is the same except the last line (reference time) 
+                    start_trial_hdf_scans = start_trial/2.335 #transform seconds to scans 
+                    timestamps = [  int(round(  start_trial_hdf_scans[n] ) ) for n in range(0, len(start_trial_hdf_scans) )]
                     
-                    #Decide what to take of the trial    
-                    #start_delay = behaviour[:-1, 29] -ref_time
-                    start_delay=Beh['presentation_att_cue_time'].iloc[0:-1]  - ref_time
-                    Beh['presentation_att_cue_time'].iloc[0:-1] 
-                    Beh = Beh.iloc[0:-1, :] 
-                    #behaviour=behaviour[:-1,:]
-                    
-                    #transform to scans 
-                    start_delay_hdf_scans = start_delay/2.335
-                    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )]
-                    
-                    #adjust according to the number of scans you want
-                    while timestamps[-1]>len(WM_datasets[i])-nscans_wm:
-                        #print 1
-                        timestamps=timestamps[:-1]
-                        Beh = Beh.iloc[0:-1, :] 
-                        #behaviour=behaviour[:-1,:]
+                    #adjust according to the number of scans you want (avoid having an incomplete trial)
+                    while timestamps[-1]>len(masked_data)-nscans_wm:
+                        timestamps=timestamps[:-1] #take off one trial form activity
+                        Beh = Beh.iloc[0:-1, :] #take off one trial from behaviour
+                        
                             
                     #append the timestands you want from this session
-                    WM_delay.append(timestamps)
-                    Behaviour.append(Beh)
+                    n_trials = len(timestamps)
+                    Testing_dataset_beh.append(Beh)
+                    
+                    ### Take the important TRs (from cue, the next 14 TRs)
+                    signal_session=np.zeros(( n_trials, nscans_wm,  n_voxels_wm   )) ## np.zeros matrix with the correct dimensions of the session
+                    for idx, t in enumerate(timestamps): #beginning of the trial
+                        for sc in range(0, nscans_wm): #each of the 14 TRs
+                            trial_activity = masked_data[t+sc, :]   
+                            signal_session[idx, sc, :] =trial_activity                    
+                    
+                    ### 
+                    Testing_dataset_activity.append(signal_session) ## append the reults of the session
                 
                 
-                
-                #Put together the timestamps of the sessions
-                add_timestamps = [0]+list(cumsum(WM_lens_datas))[:-1]
-                for i in range(0, len(WM_delay)):
-                    WM_delay[i] = list(array(WM_delay[i])+add_timestamps[i])
-                
-                
-                start_delay=hstack(WM_delay)
-                
-                #Put together the images of the sessions 
-                masked_data = vstack(WM_datasets)
-                
-                ## WM_dataets (sessions, times, voxels)
-                ## masked_data (timesteps, voxels)
-                
-                #Put together the behaviour
-                #Behaviour=vstack(Behaviour)
-                Behaviour = pd.concat(Behaviour) 
-                
-                
-                
-                #Get the matrix (timestamp, number of scans, activity)
-                signal = zeros(( len(start_delay), nscans_wm ,shape(masked_data)[1] ))
-                for idx,t in enumerate(start_delay):
-                    for sc in range(0, nscans_wm):
-                        example_ts = masked_data[t+sc, :]   
-                        signal[idx, sc, :] =example_ts
-                
-                
+                ### Concatenate the session results
+                signal = np.vstack(Testing_dataset_activity)
+                Behaviour = np.vstack(Testing_dataset_beh)
                 
                 ######### Distance (mix when not important, else when close or far)
                 if distance=='mix':
