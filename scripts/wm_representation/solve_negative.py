@@ -239,7 +239,6 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 ####  2. Process the data (filter and zscore)
                 ##########################################
                 ##########################################
-                
                 Testing_dataset_activity=[] ##  activity for all the trials (all the sessions) (trials, voxels)
                 Testing_dataset_beh =[] ##  behavioural data for all the trials (all the sessions) (trials)
                 nscans_wm = 14
