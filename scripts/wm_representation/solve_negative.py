@@ -34,7 +34,7 @@ elif platform == "cluster":
 ##
 for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', 's001'
     print(SUBJECT_USE_ANALYSIS)
-    for brain_region in ["visual"]:  #"ips"
+    for brain_region in ["ips"]:  #"ips"
         for CONDITION in ['1_0.2']: 
             Method_analysis = 'together'
             #CONDITION = '1_0.2'
