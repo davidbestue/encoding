@@ -312,7 +312,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 ### Concatenate the session results
                 signal = np.vstack(Testing_dataset_activity)
-                Behaviour = np.vstack(Testing_dataset_beh)
+                Behaviour = pd.concat(Testing_dataset_beh)
                 
                 ######### Distance (mix when not important, else when close or far)
                 if distance=='mix':
