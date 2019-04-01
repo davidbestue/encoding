@@ -314,11 +314,10 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 Behaviour = pd.concat(Testing_dataset_beh)
                 
                 ######### Distance (mix when not important, else when close or far)
-                if distance=='mix':
-                    
-                    if CONDITION == '1_0.2':
+                if distance=='mix':                    
+                    if CONDITION == '1_0.2': 
                         Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1)  ] #Behaviour[Behaviour[:,1]==0.2, :]
+                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1)  ] 
                       
                     elif CONDITION == '1_7':
                         Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==1) , :, :]
@@ -334,7 +333,6 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 
                 else: ### close or far
-                    
                     if CONDITION == '1_0.2':
                         Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['type']==distance)  , :, :]
                         beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['type']==distance) ] #Behaviour[Behaviour[:,1]==0.2, :]
@@ -355,52 +353,29 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 ####
                 title= CONDITION
+                ref_angle = 45 #Reference channel to center all
                 
-                #########
-                #Subset trials
-                #Take the delay 1== 7 or 0.2
-                #Subset = signal[Behaviour['delay1']==0.2, :, :]
-                #beh_Subset = Behaviour.loc[Behaviour['delay1']==0.2, :]
-                #title= '1_0.2 delay'    
-                
-                #Reference channel to center all
-                ref_angle = 45
-                
-                #Lists to append
+                #Lists to append all the trials rolled
                 Channel_all_trials_rolled=[]
                 
-                for trial in range(0, len(beh_Subset)):
+                for trial in range(0, len(beh_Subset)): #each trial of the condition
                     #List to append all the trial channels
                     channels_trial=[]
-                    
-                    for time_scan in range(0, nscans_wm, 2 ):
+                    for time_scan in range(0, nscans_wm, 2 ): ## each time of the trial
                         #Get the activity of the TR in the trial        
-                        #Signal = Subset[trial,time_scan,:]
                         Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0)
+                        
                         #Run the inverse model
                         channel1 = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  Signal)
-                        #Roll the channel to the ref channel (according to its supposed max)        
-                        #Reconstruct
-                        channel= ch2vrep3(channel1)
+                        
+                        ##Convert 36 into 720 channels for the reconstruction
+                        channel= ch2vrep3(channel1) ##function
                         
                         #Roll
-                        #ref_angle =  ref_angle_q [get_quadrant(beh_Subset[trial, 14]) - 1] #3 14
-                        angle_trial =  beh_Subset['A_R'].iloc[trial] #3 14
-                        to_roll = int( (ref_angle - angle_trial)*(len(channel)/360) )
-                        #to_roll = int(round((ref_angle_q[ref_angle] - beh_Subset[trial, 3])*(len(channel)/360)))
-                        #to_roll_neg = -(720 - (int(round((ref_angle - beh_Subset[trial, 3])*(len(channel)/360)))))
-                        channel=roll(channel, to_roll)
-                        
-                        #Roll to the second quadrant
-                #        if get_quadrant(ref_angle) == 1:
-                #            channel=roll(channel, int(90*(len(channel)/360)))
-                #        elif get_quadrant(ref_angle) == 3:
-                #            channel=roll(channel, int(-90*(len(channel)/360)))
-                #        elif get_quadrant(ref_angle) == 4:
-                #            channel=roll(channel, int(-180*(len(channel)/360)))            
-                        
-                        #Append it in the trial list
-                        channels_trial.append(channel)
+                        angle_trial =  beh_Subset['A_R'].iloc[trial] ## get the angle of the response
+                        to_roll = int( (ref_angle - angle_trial)*(len(channel)/360) ) ## degrees to roll
+                        channel=roll(channel, to_roll) ## roll this degrees
+                        channels_trial.append(channel) #Append it into the trial list
                         ####
                         
                     
