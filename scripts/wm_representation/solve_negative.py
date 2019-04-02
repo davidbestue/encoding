@@ -32,10 +32,10 @@ elif platform == "cluster":
     
 ##Methods_analysis=[]
 ##
-for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'n001', 'r001', 'b001', 'l001', 's001']: #'d001', 'n001', 'r001', 'b001', 'l001', 's001'
+for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', 's001'
     print(SUBJECT_USE_ANALYSIS)
-    for brain_region in ["visual", "ips"]:  #"ips"
-        for CONDITION in ['1_0.2', '1_7', '2_0.2', '2_7']: 
+    for brain_region in ["visual"]:  #"ips"
+        for CONDITION in ['1_0.2']: #, '1_7', '2_0.2', '2_7'
             Method_analysis = 'together'
             #CONDITION = '1_0.2'
             #brain_region = "visual"
@@ -314,53 +314,52 @@ for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'n001', 'r001', 'b001', 'l001', 's0
                 Behaviour = pd.concat(Testing_dataset_beh)
                 
                 ##### slip cw_ccw
-#                ccw = Behaviour['A_R'] > Behaviour['T'] 
-#                Behaviour['resp_cw_ccw'] = ccw
-#                Behaviour['resp_cw_ccw'] = Behaviour['resp_cw_ccw'].replace([True, False], ['ccw', 'cw'])
-#                
-#                if distance=='mix':
-#                    
-#                    if CONDITION == '1_0.2':
-#                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['resp_cw_ccw']=='ccw') , :, :]
-#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['resp_cw_ccw']=='ccw')   ] #Behaviour[Behaviour[:,1]==0.2, :]
+                ccw = Behaviour['A_R'] > Behaviour['T'] 
+                Behaviour['resp_cw_ccw'] = ccw
+                Behaviour['resp_cw_ccw'] = Behaviour['resp_cw_ccw'].replace([True, False], ['ccw', 'cw'])
                 
-                
-                
-                ######### Distance (mix when not important, else when close or far)
-                if distance=='mix':                    
-                    if CONDITION == '1_0.2': 
-                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1)  ] 
-                      
-                    elif CONDITION == '1_7':
-                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==1) , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==1)  ] #Behaviour[Behaviour[:,1]==0.2, :]
-                        
-                    elif CONDITION == '2_0.2':
-                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==2)   , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==2) ] #Behaviour[Behaviour[:,1]==0.2, :]
-                      
-                    elif CONDITION == '2_7':
-                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==2)  , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==2)  ] #Behaviour[Behaviour[:,1]==0.2, :]
-                
-                
-                else: ### close or far
+                if distance=='mix':
                     if CONDITION == '1_0.2':
-                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['type']==distance)  , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['type']==distance) ] #Behaviour[Behaviour[:,1]==0.2, :]
-                      
-                    elif CONDITION == '1_7':
-                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==1) * array(Behaviour['type']==distance)  , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==1) & (Behaviour['type']==distance)  ] #Behaviour[Behaviour[:,1]==0.2, :]
-                        
-                    elif CONDITION == '2_0.2':
-                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==2) * array(Behaviour['type']==distance)  , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==2) & (Behaviour['type']==distance)  ] #Behaviour[Behaviour[:,1]==0.2, :]
-                      
-                    elif CONDITION == '2_7':
-                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==2) *  array(Behaviour['type']==distance) , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==2) & (Behaviour['type']==distance)  ] #Behaviour[Behaviour[:,1]==0.2, :]
+                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['resp_cw_ccw']=='ccw') , :, :]
+                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['resp_cw_ccw']=='ccw')   ] #Behaviour[Behaviour[:,1]==0.2, :]
+                
+                
+                
+#                ######### Distance (mix when not important, else when close or far)
+#                if distance=='mix':                    
+#                    if CONDITION == '1_0.2': 
+#                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1)  ] 
+#                      
+#                    elif CONDITION == '1_7':
+#                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==1) , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==1)  ] 
+#                        
+#                    elif CONDITION == '2_0.2':
+#                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==2)   , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==2) ] 
+#                      
+#                    elif CONDITION == '2_7':
+#                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==2)  , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==2)  ] 
+#                
+#                
+#                else: ### close or far
+#                    if CONDITION == '1_0.2':
+#                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['type']==distance)  , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['type']==distance) ] 
+#                      
+#                    elif CONDITION == '1_7':
+#                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==1) * array(Behaviour['type']==distance)  , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==1) & (Behaviour['type']==distance)  ] 
+#                        
+#                    elif CONDITION == '2_0.2':
+#                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==2) * array(Behaviour['type']==distance)  , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==2) & (Behaviour['type']==distance)  ] 
+#                      
+#                    elif CONDITION == '2_7':
+#                        Subset = signal[  array(Behaviour['delay1']==7)  *  array(Behaviour['order']==2) *  array(Behaviour['type']==distance) , :, :]
+#                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==7) & (Behaviour['order']==2) & (Behaviour['type']==distance)  ] 
                     
                 
                 
