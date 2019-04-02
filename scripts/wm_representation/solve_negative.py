@@ -320,8 +320,8 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 if distance=='mix':
                     if CONDITION == '1_0.2':
-                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['resp_cw_ccw']=='ccw') , :, :]
-                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['resp_cw_ccw']=='ccw')   ] #Behaviour[Behaviour[:,1]==0.2, :]
+                        Subset = signal[  array(Behaviour['delay1']==0.2)  *  array(Behaviour['order']==1) *  array(Behaviour['resp_cw_ccw']=='cw') , :, :]
+                        beh_Subset = Behaviour.loc[(Behaviour['delay1']==0.2) & (Behaviour['order']==1) & (Behaviour['resp_cw_ccw']=='cw')   ] #Behaviour[Behaviour[:,1]==0.2, :]
                 
                 
                 
