@@ -58,7 +58,7 @@ ref_angle=45
 
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.subplot(2,2,i_c+1)
-    for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']:
+    for SUBJECT_USE_ANALYSIS in ['d001', 'n001', 'r001', 'b001', 'l001', 's001']: #'d001', 'n001', 'r001', 'b001', 'l001', 's001'
         for brain_region in ["visual", "ips"]:  
             Method_analysis = 'together'
             distance='mix'
