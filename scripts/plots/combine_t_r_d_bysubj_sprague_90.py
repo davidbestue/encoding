@@ -77,14 +77,20 @@ def decode(RE):
 
 
 
+
+
+
+
 def decode_sprague(RE):
     #  to implement:   mean (r (theta) cos( theta))
     N=len(RE)
     R = []
-    angles = np.arange(0,N)*2*np.pi/N    
+    #
+    angles = np.arange(0,N)*2*np.pi/N    ##   np.linspace(0, 2*np.pi, N)   
     R = [   round(np.cos(angles[i]) * RE[i], 3) for i in range(N)]
     angle_dec = np.mean(R)
     return np.degrees(angle_dec)
+
 
 
 

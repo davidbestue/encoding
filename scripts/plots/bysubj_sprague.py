@@ -15,8 +15,7 @@ import seaborn as sns
 
 
 root = '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR_target/Conditions/'
-#root = '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR_response_zs5/Conditions/'
-
+root = '/mnt/c/Users/David/Desktop/together_mix_2TR_response_zs5/Conditions/'
 
 
 #Parameters
@@ -61,9 +60,9 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     dfs_visual = []
     dfs_ips = []
     plt.subplot(2,2,i_c+1)
-    for SUBJECT_USE_ANALYSIS in ['n001']:  #'d001', 'n001', 'r001', 'b001', 'l001', 's001'
+    for SUBJECT_USE_ANALYSIS in ['n001']:  #'n001', 'd001', 'r001', 'b001', 'l001', 's001'
         for brain_region in ["visual", "ips"]:  
-            Method_analysis = 'bysess'
+            Method_analysis = 'together'
             distance='mix'
             #CONDITION = '1_0.2' #'1_0.2', '1_7', '2_0.2', '2_7'
             
@@ -196,6 +195,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     
     start_hrf = 4
     sec_hdrf = 2
+    time_response = 4
     
     d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
     t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
@@ -203,7 +203,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     #
     d_p2 = d_p1 + sec_hdrf * x_bins/ max_val_x
     t_p2 = t_p1 + sec_hdrf * x_bins/ max_val_x
-    r_t2=  r_t1 + sec_hdrf * x_bins/ max_val_x
+    r_t2=  r_t1 + (time_response + sec_hdrf) * x_bins/ max_val_x
     
     y_vl_min = df_all_by_subj.Decoding.min()
     y_vl_max = df_all_by_subj.Decoding.max()
