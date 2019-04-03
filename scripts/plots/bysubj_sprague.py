@@ -15,6 +15,7 @@ import seaborn as sns
 
 
 root = '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR_target/Conditions/'
+#root = '/mnt/c/Users/David/Desktop/n001_bysess_mix_2TR_response_zs5/Conditions/'
 
 
 

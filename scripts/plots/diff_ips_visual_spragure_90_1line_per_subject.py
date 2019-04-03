@@ -12,6 +12,8 @@ import seaborn as sns
 #from functions_encoding_loop import *
 
 root = '/mnt/c/Users/David/Desktop/together_mix_2TR/Conditions/'
+root = '/mnt/c/Users/David/Desktop/together_mix_2TR_response_zs5/Conditions/'
+
 #root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR_distractor/Conditions/'
 
 

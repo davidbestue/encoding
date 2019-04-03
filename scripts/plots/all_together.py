@@ -20,6 +20,7 @@ import seaborn as sns
 
 root = '/mnt/c/Users/David/Desktop/together_mix_2TR/Conditions/'
 #root = '/home/david/Desktop/KAROLINSKA/together_mix_2TR_distractor/Conditions/'
+root = '/mnt/c/Users/David/Desktop/together_mix_2TR_response_zs5/Conditions/'
 
 
 
