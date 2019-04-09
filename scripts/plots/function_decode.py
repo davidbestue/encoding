@@ -40,12 +40,10 @@ def ub_wind_path(PATH, system):
     ###
     return C
 
-
+results=[]
 
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
-    dfs_visual = []
-    dfs_ips = []
-    plt.subplot(2,2,i_c+1)
+    #plt.subplot(2,2,i_c+1)
     for SUBJECT_USE_ANALYSIS in ['n001']:  #'n001', 'd001', 'r001', 'b001', 'l001', 's001'
         for brain_region in ["visual", "ips"]:  
             Method_analysis = 'together'
@@ -56,47 +54,165 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
             xls = pd.ExcelFile(Matrix_results_name)
             sheets = xls.sheet_names
             ##
-            if brain_region == 'visual':
-                for sh in sheets:
-                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
-                    df_rolled = Matrix_results.iloc[:180, :] ### just the quadrant
-                    df_rolled=pd.DataFrame(df_rolled)
-                    df_rolled['session'] = sh[-1]
-                    dfs_visual.append(df_rolled)
+            for sh in sheets:
+                Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
+                df = Matrix_results.iloc[:180, :] ### just the quadrant
+                df=pd.DataFrame(df)
+                for TR in df.columns:
+                    data=df[TR] 
+                    X=data.index.values
+                    Y=data.values
+                    mod = LorentzianModel()
+                    pars = mod.guess(Y, x=X)
+                    out = mod.fit(Y, pars, x=X)
+                    Y_lorenz = mod.eval(pars, x=X)
+                    #print(out.fit_report(min_correl=0.25))
+                    #plt.plot(X, Y_lorenz, 'k--', label='Lorentzian')
+                    dec_angle_lorenz = out.params['center'].value / 2
+                    error = round(ref_angle - dec_angle_lorenz, 3) 
+                    results.append( [error, TR, CONDITION, SUBJECT_USE_ANALYSIS, sh[-1], brain_region])
             
-            if brain_region == 'ips':
-                for sh in sheets:
-                    Matrix_results = pd.read_excel(Matrix_results_name, sheet_name=sh)  
-                    df_rolled = Matrix_results.iloc[:180, :] 
-                    df_rolled=pd.DataFrame(df_rolled)
-                    df_rolled['session'] = sh[-1]
-                    dfs_ips.append(df_rolled) 
+            
+            
+
+
+df = pd.DataFrame(np.array(results)) 
+df.columns = ['error', 'TR', 'CONDITION', 'subject', 'session', 'ROI']
+df['TR'] = df.TR.astype(float)
+df['TR'] = df['TR'] * 2
+df['error'] = df.error.astype(float)
+
+
+
+pall_chose = "tab10"
+linestyles_use='-'
+marker_use='o'
+
+plt.figure()
+for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
+    plt.subplot(2,2,i_c+1)
+    
+    paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
+    sns.set_context("paper", rc = paper_rc) 
+    sns.pointplot(x='TR', y='error', hue='ROI', linestyles = linestyles_use, palette = pall_chose, 
+                  markers=marker_use, data=df.loc[df['CONDITION']=='1_0.2'], size=5, aspect=1.5) #     
+        
+    ### 
+    if CONDITION == '1_0.2':
+        delay1 = 0.2
+        delay2 = 11.8
+        cue=0
+        t_p = cue + presentation_period_cue + pre_stim_period 
+        d_p = t_p + presentation_period +delay1 
+        r_t = d_p + presentation_period + delay2
+    elif CONDITION == '1_7':
+        delay1 = 7
+        delay2 = 5
+        cue=0
+        t_p = cue + presentation_period_cue + pre_stim_period 
+        d_p = t_p + presentation_period +delay1 
+        r_t = d_p + presentation_period + delay2
+    elif CONDITION == '2_0.2':
+        delay1 = 0.2
+        delay2 = 12
+        cue=0
+        d_p = cue + presentation_period_cue + pre_stim_period 
+        t_p = d_p + presentation_period +delay1 
+        r_t = t_p + presentation_period + delay2    
+    elif CONDITION == '2_7':
+        delay1 = 7
+        delay2 = 12
+        cue=0
+        d_p = cue + presentation_period_cue + pre_stim_period 
+        t_p = d_p + presentation_period +delay1 
+        r_t = t_p + presentation_period + delay2
+    
+    
+    x_bins = len(df.TR.unique()) 
+    max_val_x = float(df.TR.max())
+    range_hrf = [float(5)/x_bins, float(6)/x_bins] #
+    start_hrf = 4
+    sec_hdrf = 2
+    
+    d_p1 = (start_hrf + d_p) * x_bins/ max_val_x
+    t_p1 = (start_hrf +t_p)* x_bins/ max_val_x
+    r_t1=  (start_hrf + r_t)* x_bins/ max_val_x
+    #
+    d_p2 = (start_hrf + d_p + sec_hdrf) * x_bins/ max_val_x
+    t_p2 = (start_hrf + t_p + sec_hdrf)* x_bins/ max_val_x
+    r_t2=  (start_hrf + r_t + sec_hdrf + 4) * x_bins/ max_val_x 
+    
+    y_vl_min = df.error.min()
+    y_vl_max = df.error.max()
+    
+    
+    ##all subj visual   
+    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+    plt.ylabel('error')
+    plt.xlabel('time (s)')
+    TITLE_BR = CONDITION 
+    plt.legend(frameon=False)
+    plt.title(TITLE_BR)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().get_xaxis().tick_bottom()
+    plt.gca().get_yaxis().tick_left()
+    plt.gca().legend(loc= 0, frameon=False)
 
 
 
 
+
+
+plt.tight_layout()
+plt.suptitle( '4 lines (0-90), ' +distance + '_' + Method_analysis, fontsize=12)
+plt.show(block=False)
+
+
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
+##################################
 
 data=df_rolled['2.33'] 
 X=data.index.values
-Y=np.roll(df_rolled['2.33'], +80)
-#Y=data.values
+#Y=np.roll(df_rolled['2.33'], +80)
+Y=data.values
 
 mod = LorentzianModel()
 pars = mod.guess(Y, x=X)
 out = mod.fit(Y, pars, x=X)
-init = mod.eval(pars, x=X)
+Y_lorenz = mod.eval(pars, x=X)
 print(out.fit_report(min_correl=0.25))
-Y_lorenz = out.init_fit
 plt.plot(X, Y_lorenz, 'k--', label='Lorentzian')
+dec_angle_lorenz = round(out.params['center'].value / 2, 3)
+
 
 mod2 = GaussianModel()
 pars2 = mod2.guess(Y, x=X)
 out2 = mod2.fit(Y, pars2, x=X)
-init2 = mod2.eval(pars2, x=X)
+Y_gauss = mod2.eval(pars2, x=X)
 print(out2.fit_report(min_correl=0.25))
-Y_gauss = out2.init_fit
 plt.plot(X, Y_gauss, 'y--', label='Gaussian')
-
+dec_angle_gauss = round(out2.params['center'].value / 2, 3)
 
 plt.plot(X, Y, 'b-', label='raw')
 plt.legend()
@@ -104,11 +220,10 @@ plt.legend()
 plt.show(block=False)
 
 
-dec_angle_lorenz = np.where(max(Y_lorenz) == Y_lorenz)[0][0]/2 
-dec_angle_gauss = np.where(max(Y_gauss) == Y_gauss)[0][0]/2 
-dec_angle_raw = np.where(max(Y) == Y)[0][0]/2
 
-print(dec_angle_lorenz, dec_angle_gauss, dec_angle_raw)
+
+error = ref_angle - dec_angle_lorenz 
+
 
 
 
