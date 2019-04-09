@@ -44,7 +44,7 @@ results=[]
 
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     #plt.subplot(2,2,i_c+1)
-    for SUBJECT_USE_ANALYSIS in ['n001']:  #'n001', 'd001', 'r001', 'b001', 'l001', 's001'
+    for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']:  #'n001', 'd001', 'r001', 'b001', 'l001', 's001'
         for brain_region in ["visual", "ips"]:  
             Method_analysis = 'together'
             distance='mix'
@@ -63,13 +63,14 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
                     X=data.index.values
                     Y=data.values
                     mod = LorentzianModel()
+                    #mod =GaussianModel()
                     pars = mod.guess(Y, x=X)
                     out = mod.fit(Y, pars, x=X)
                     Y_lorenz = mod.eval(pars, x=X)
                     #print(out.fit_report(min_correl=0.25))
                     #plt.plot(X, Y_lorenz, 'k--', label='Lorentzian')
-                    dec_angle_lorenz = out.params['center'].value / 2
-                    error = round(ref_angle - dec_angle_lorenz, 3) 
+                    dec_angle_lorenz =  (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2  #out.params['center'].value / 2
+                    error =  abs( (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2 ) #round(ref_angle - dec_angle_lorenz, 3) 
                     results.append( [error, TR, CONDITION, SUBJECT_USE_ANALYSIS, sh[-1], brain_region])
             
             
@@ -90,11 +91,12 @@ marker_use='o'
 
 plt.figure()
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
+    df_cond = df.loc[df['CONDITION']==CONDITION]
     plt.subplot(2,2,i_c+1)
     paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
     sns.set_context("paper", rc = paper_rc) 
-    sns.pointplot(x='TR', y='error', hue='ROI', linestyles = linestyles_use, palette = pall_chose, 
-                  markers=marker_use, data=df.loc[df['CONDITION']==CONDITION], size=5, aspect=1.5) #     
+    sns.pointplot(x='TR', y='error', hue='ROI', linestyles = linestyles_use, ci=68, palette = pall_chose, 
+                  markers=marker_use, data=df_cond, size=5, aspect=1.5) #     
         
     ### 
     if CONDITION == '1_0.2':
@@ -127,8 +129,8 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
         r_t = t_p + presentation_period + delay2
     
     
-    x_bins = len(df.TR.unique()) 
-    max_val_x = float(df.TR.max())
+    x_bins = len(df_cond.TR.unique()) 
+    max_val_x = float(df_cond.TR.max())
     range_hrf = [float(5)/x_bins, float(6)/x_bins] #
     start_hrf = 4
     sec_hdrf = 2
@@ -141,8 +143,8 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     t_p2 = (start_hrf + t_p + sec_hdrf)* x_bins/ max_val_x
     r_t2=  (start_hrf + r_t + sec_hdrf + 4) * x_bins/ max_val_x 
     
-    y_vl_min = df.error.min()
-    y_vl_max = df.error.max()
+    y_vl_min = df_cond.error.min() 
+    y_vl_max = df_cond.error.max() 
     
     
     ##all subj visual   
@@ -160,6 +162,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
     plt.gca().legend(loc= 0, frameon=False)
+    plt.ylim(0,23)
 
 
 
@@ -167,7 +170,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
 
 
 plt.tight_layout()
-plt.suptitle( 'Error: visual - ips, ' +distance + '_' + Method_analysis, fontsize=12)
+plt.suptitle( 'Abs error: visual & ips, ' +distance + '_' + Method_analysis, fontsize=12)
 plt.show(block=False)
 
 
