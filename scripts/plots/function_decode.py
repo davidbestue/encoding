@@ -91,11 +91,10 @@ marker_use='o'
 plt.figure()
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.subplot(2,2,i_c+1)
-    
     paper_rc = {'lines.linewidth': 1, 'lines.markersize': 1.5}  
     sns.set_context("paper", rc = paper_rc) 
     sns.pointplot(x='TR', y='error', hue='ROI', linestyles = linestyles_use, palette = pall_chose, 
-                  markers=marker_use, data=df.loc[df['CONDITION']=='1_0.2'], size=5, aspect=1.5) #     
+                  markers=marker_use, data=df.loc[df['CONDITION']==CONDITION], size=5, aspect=1.5) #     
         
     ### 
     if CONDITION == '1_0.2':
@@ -150,6 +149,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )
+    plt.plot([0, x_bins], [0,0], 'k--')
     plt.ylabel('error')
     plt.xlabel('time (s)')
     TITLE_BR = CONDITION 
@@ -167,7 +167,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
 
 
 plt.tight_layout()
-plt.suptitle( '4 lines (0-90), ' +distance + '_' + Method_analysis, fontsize=12)
+plt.suptitle( 'Error: visual - ips, ' +distance + '_' + Method_analysis, fontsize=12)
 plt.show(block=False)
 
 
