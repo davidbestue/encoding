@@ -174,6 +174,25 @@ plt.suptitle( 'Abs error: visual & ips, ' +distance + '_' + Method_analysis, fon
 plt.show(block=False)
 
 
+
+
+
+plt.figure()
+sns.barplot(x='subject', y='error', hue='CONDITION', data=df)
+plt.show(block=False) 
+
+
+plt.figure()
+sns.barplot(x='CONDITION', y='error', data=df)
+plt.show(block=False) 
+
+
+plt.figure()
+sns.barplot(x='subject', y='error', data=df)
+plt.show(block=False) 
+
+
+
 ##################################
 ##################################
 ##################################
