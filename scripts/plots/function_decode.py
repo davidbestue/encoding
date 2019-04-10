@@ -71,8 +71,9 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
                     Y_lorenz = mod.eval(pars, x=X)
                     #print(out.fit_report(min_correl=0.25))
                     #plt.plot(X, Y_lorenz, 'k--', label='Lorentzian')
-                    dec_angle_lorenz =  (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2  #out.params['center'].value / 2
-                    error =  abs( (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2 ) #round(ref_angle - dec_angle_lorenz, 3) 
+                    #dec_angle_lorenz =  (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2  #out.params['center'].value / 2
+                    #error =  abs( (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2 ) #round(ref_angle - dec_angle_lorenz, 3) 
+                    error =  (90-np.where(Y_lorenz==max(Y_lorenz))[0][0])/2  #round(ref_angle - dec_angle_lorenz, 3) 
                     results.append( [error, TR, CONDITION, SUBJECT_USE_ANALYSIS, sh[-1], brain_region])
             
             
@@ -164,7 +165,7 @@ for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
     plt.gca().legend(loc= 0, frameon=False)
-    plt.ylim(0,23)
+    #plt.ylim(0,23)
 
 
 
