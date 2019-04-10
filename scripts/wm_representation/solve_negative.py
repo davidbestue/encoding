@@ -384,7 +384,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         channel= ch2vrep3(channel1) ##function
                         
                         #Roll
-                        angle_trial =  beh_Subset['T'].iloc[trial] ## get the angle of the target
+                        angle_trial =  beh_Subset['Dist'].iloc[trial] ## get the angle of the target
                         to_roll = int( (ref_angle - angle_trial)*(len(channel)/360) ) ## degrees to roll
                         channel=roll(channel, to_roll) ## roll this degrees
                         channels_trial.append(channel) #Append it into the trial list
