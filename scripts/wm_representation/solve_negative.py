@@ -461,6 +461,7 @@ for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'n001', 'r001', 'b001', 'l001', 's0
             plt.show(block=False)
             TITLE_PLOT_H = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' heatmap.png'
             plt.savefig(TITLE_PLOT_H)
+            plt.close()
             ##
             
             #### line plot preferred (save)
@@ -478,6 +479,7 @@ for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'n001', 'r001', 'b001', 'l001', 's0
             plt.show(block=False)
             TITLE_PLOT = Subject_analysis + '_' + brain_region + '_' + CONDITION + '_' +distance_ch + '_' + Method_analysis + ' preferred.png'
             a.savefig(TITLE_PLOT)
+            plt.close()
                 
 
 
