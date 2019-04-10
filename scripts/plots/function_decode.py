@@ -14,6 +14,8 @@ from lmfit.models import LinearModel, LorentzianModel, GaussianModel
 
 
 root = '/mnt/c/Users/David/Desktop/together_mix_2TR_response_zs5/Conditions/'
+root = '/mnt/c/Users/David/Desktop/n001_mix_2TR_distractor_zs5/Conditions/'
+
 
 
 #Parameters
@@ -25,7 +27,7 @@ pre_stim_period= 0.5
 limit_time=5 
 
 ref_angle=45
-dec_thing = 'response'
+dec_thing = 'distractor'
 
 
 def ub_wind_path(PATH, system):
@@ -44,7 +46,7 @@ results=[]
 
 for i_c, CONDITION in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): #
     #plt.subplot(2,2,i_c+1)
-    for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'r001', 'b001', 'l001', 's001']:  #'n001', 'd001', 'r001', 'b001', 'l001', 's001'
+    for SUBJECT_USE_ANALYSIS in ['n001']:  #'n001', 'd001', 'r001', 'b001', 'l001', 's001'
         for brain_region in ["visual", "ips"]:  
             Method_analysis = 'together'
             distance='mix'
