@@ -178,8 +178,6 @@ plt.show(block=False)
 
 
 
-
-
 plt.figure()
 sns.barplot(x='subject', y='error', hue='CONDITION', palette=['deepskyblue', 'saddlebrown', 'forestgreen','darkorange'], data=df)
 plt.show(block=False) 
