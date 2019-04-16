@@ -118,10 +118,10 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     p_target = array(behaviour[:-1,4]) ## Get the position (hypotetical channel coef)
                     
                     ### shuffle trial labels
-                    v= list( p_target)
-                    import random
-                    random.shuffle(v)
-                    p_target = v
+                    #v= list( p_target)
+                    #import random
+                    #random.shuffle(v)
+                    #p_target = v
                     
                     ref_time=behaviour[-1, 1] ## Reference time (start scanner - begiinging of recording)
                     st_delay = behaviour[:-1, 11] -ref_time #start of the delay time & take off the reference from
@@ -390,7 +390,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     for time_scan in range(0, nscans_wm, 2 ): ## each time of the trial
                         #Get the activity of the TR in the trial      
                         Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0) #mean of 2TR
-                        random.shuffle(Signal)
+                        #random.shuffle(Signal)
                         #Run the inverse model
                         channel1 = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  Signal)
                         
