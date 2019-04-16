@@ -374,10 +374,12 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 ref_angle = 45 #Reference channel to center all
                 
                 ### shuffle trial labels
-                v= list( beh_Subset['T'])
+                w= list( beh_Subset['T'])
+                print([:5])
                 import random
-                random.shuffle(v)
-                beh_Subset['T']=v
+                random.shuffle(w)
+                print([:5])
+                beh_Subset['T2']=w
                 
                 #Lists to append all the trials rolled
                 Channel_all_trials_rolled=[]
@@ -396,7 +398,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         channel= ch2vrep3(channel1) ##function
                         
                         #Roll
-                        angle_trial =  beh_Subset['T'].iloc[trial] ## get the angle of the target
+                        angle_trial =  beh_Subset['T2'].iloc[trial] ## get the angle of the target
                         to_roll = int( (ref_angle - angle_trial)*(len(channel)/360) ) ## degrees to roll
                         channel=roll(channel, to_roll) ## roll this degrees
                         channels_trial.append(channel) #Append it into the trial list
