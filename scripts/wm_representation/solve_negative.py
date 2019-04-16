@@ -383,8 +383,10 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 #Lists to append all the trials rolled
                 Channel_all_trials_rolled=[]
+                Channel_without_rolling=[]
                 
                 for trial in range(0, len(beh_Subset)): #each trial of the condition
+                    channels_wr=[]
                     channels_trial=[] #List to append all the trial channels
                     
                     for time_scan in range(0, nscans_wm, 2 ): ## each time of the trial
@@ -396,6 +398,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         
                         ##Convert 36 into 720 channels for the reconstruction
                         channel= ch2vrep3(channel1) ##function
+                        channels_wr.append(channel)
                         
                         #Roll
                         angle_trial =  beh_Subset['T'].iloc[trial] ## get the angle of the target
@@ -406,12 +409,21 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         
                     
                     #Once all the TR of the trial are in the trial list, append this list to the global list
+                    Channel_without_rolling.append(channels_wr)
                     Channel_all_trials_rolled.append(channels_trial)
                 
-                
+                ##
+                Channel_without_rolling = array(Channel_without_rolling)
                 Channel_all_trials_rolled = array(Channel_all_trials_rolled)  # (trials, TRs, channels_activity) (of the session (whne together, all))
                 
                 #Mean of trials
+                
+                df_wr = pd.DataFrame()
+                for i in range(0, nscans_wm/2):
+                    n = list(Channel_without_rolling[:,i,:].mean(axis=0)) #mean of all the trials rolled
+                    df_wr[str( round(2.335*i, 2)  )] = n #name of the column
+                
+                
                 df = pd.DataFrame()
                 for i in range(0, nscans_wm/2):
                     n = list(Channel_all_trials_rolled[:,i,:].mean(axis=0)) #mean of all the trials rolled
