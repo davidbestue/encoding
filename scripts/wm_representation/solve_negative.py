@@ -224,8 +224,7 @@ for SUBJECT_USE_ANALYSIS in ['n001', 'd001', 'n001', 'r001', 'b001', 'l001', 's0
                 ###
                 ###
                 ###
-                #### 1. Imaging
-                
+                #### 1. Imaging                
                 #Extract the encoded channel response from the WM task trails
                 ## signal = weights * channels
                 #  weights-1 * signal = weights-1*weights * channel --> weights-1 * signal = channeö  --> This is not allowed because is not invertable (it is not a square matrix)
