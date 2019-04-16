@@ -273,7 +273,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                         data_filtered=F.filtered_boxcar.data
                         masked_data[:,voxel] = data_filtered                        
                         #Z score
-                        masked_data[:,voxel] = np.array( zscore( masked_data[:,voxel]  ) ) +5 ; ## zscore + 5 just to get + values
+                        masked_data[:,voxel] = np.array( zscore( masked_data[:,voxel]  ) ) + 10 ; ## zscore + 5 just to get + values
                     
                     
                     #             
