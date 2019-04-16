@@ -390,7 +390,7 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                     for time_scan in range(0, nscans_wm, 2 ): ## each time of the trial
                         #Get the activity of the TR in the trial      
                         Signal = array([Subset[trial,time_scan,:], Subset[trial,time_scan + 1,:]]).mean(axis=0) #mean of 2TR
-                        
+                        random.shuffle(Signal)
                         #Run the inverse model
                         channel1 = dot( dot ( inv( dot(Matrix_weights_transpose, Matrix_weights ) ),  Matrix_weights_transpose),  Signal)
                         
