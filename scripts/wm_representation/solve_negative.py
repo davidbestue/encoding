@@ -375,10 +375,10 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 
                 ### shuffle trial labels
                 w= list( beh_Subset['T'])
-                print([:5])
+                print(w[:5])
                 import random
                 random.shuffle(w)
-                print([:5])
+                print(w[:5])
                 beh_Subset['T2']=w
                 
                 #Lists to append all the trials rolled
