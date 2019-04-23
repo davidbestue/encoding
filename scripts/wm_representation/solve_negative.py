@@ -417,7 +417,6 @@ for SUBJECT_USE_ANALYSIS in ['n001']: #'d001', 'n001', 'r001', 'b001', 'l001', '
                 Channel_all_trials_rolled = array(Channel_all_trials_rolled)  # (trials, TRs, channels_activity) (of the session (whne together, all))
                 
                 #Mean of trials
-                
                 df_wr = pd.DataFrame()
                 for i in range(0, nscans_wm/2):
                     n = list(Channel_without_rolling[:,i,:].mean(axis=0)) #mean of all the trials rolled
