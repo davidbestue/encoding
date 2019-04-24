@@ -11,10 +11,15 @@ from Weigths_matrix import *
 import random
 
 
-n_trials=300
+n_trials_train=300
 training_angles = np.array([ random.randint(0,359) for i in range(n_trials)])
 training_data = fake_data(training_angles)
 
-#
+##
 WM = Weights_matrix( training_data, training_angles )
+##
 
+
+n_trials_test=150
+testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
+testing_data = fake_data(testing_angles)
