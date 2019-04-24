@@ -22,7 +22,7 @@ WM = Weights_matrix( training_data, training_angles )
 
 n_trials_test=600
 testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-testing_data = fake_data(testing_angles) 
+testing_data = fake_data(testing_angles)
 #random.shuffle(testing_angles)
 
 Representation(WM, testing_data, testing_angles)
