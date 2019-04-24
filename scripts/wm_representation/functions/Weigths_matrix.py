@@ -8,17 +8,12 @@ Created on Wed Apr 24 13:14:46 2019
 
 import numpy as np
 import pandas as pd
-
-#### function to get Weight matrix
-
-## trainiing data (trials, vx)
-## training_angles (trials)
+from sklearn.linear_model import Lasso
 
 
 #Generate the positions of the channels (there will be 14)
 sep_channels=10
 adjusted_size_contant = 48.519
-
 pos_channels = np.arange(sep_channels/2,360,sep_channels)
 pos_channels = [round(pos_channels[i],3) for i in range(0, len(pos_channels))]
 
@@ -67,6 +62,11 @@ def f(position_target):
 
 
 
+#### function to get Weight matrix
+## trainiing data (trials, vx)
+## training_angles (trials)
+
+
 def Weights_matrix( training_data, training_angles ):
     #####
     n_voxels = np.shape(training_data)[0]
@@ -100,7 +100,6 @@ def Weights_matrix( training_data, training_angles ):
     #####
     
     #Save the matrix of weights 
-    Matrix_save=pd.DataFrame(Matrix_weights) #convert the array to dataframe
-    Matrix_save.to_excel(writer_matrix,'sheet{}'.format(session_enc))
-    Matrix_weights_transpose=Matrix_weights.transpose() #create the transpose for the IEM
-    os.chdir(encoding_path)
+    Matrix_weights =pd.DataFrame(Matrix_weights) #convert the array to dataframe
+    
+    return Matrix_weights
