@@ -11,9 +11,7 @@ from Weigths_matrix import *
 from Representation import *
 import random
 
-
 numcores = multiprocessing.cpu_count()
-
 
 n_trials_train=900
 training_angles = np.array([ random.randint(0,359) for i in range(n_trials_train)])
@@ -26,6 +24,6 @@ WM_t = WM.transpose()
 
 n_trials_test=500
 testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-testing_data = fake_data(testing_angles)
+testing_data = fake_data(testing_angles) 
 
 Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180)
