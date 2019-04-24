@@ -48,7 +48,7 @@ def f(position_target):
     for r in list_r:
         if r<adjusted_size_contant:
             #f = ( 0.5 + 0.5*cos(r*pi/adjusted_size_contant) )
-            f = ( 0.5 + 0.5*np.cos(r*pi/adjusted_size_contant) )**7
+            f = ( 0.5 + 0.5*np.cos(r*np.pi/adjusted_size_contant) )**7
             f=round(f,3)
             f_list.append(f)
         else:
