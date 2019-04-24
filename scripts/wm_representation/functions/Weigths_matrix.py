@@ -69,7 +69,7 @@ def f(position_target):
 
 def Weights_matrix( training_data, training_angles ):
     #####
-    n_voxels = np.shape(training_data)[0]
+    n_voxels = np.shape(training_data)[1]
     
     ### Expected activity from the model
     M_model=[] #matrix of the activity from the model
