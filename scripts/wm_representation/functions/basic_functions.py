@@ -12,8 +12,12 @@ import pandas as pd
 #Generate the positions of the channels (there will be 14)
 sep_channels=10
 adjusted_size_contant = 48.519
+
 pos_channels = np.arange(sep_channels/2,360,sep_channels)
 pos_channels = [round(pos_channels[i],3) for i in range(0, len(pos_channels))]
+
+pos_channels2 = arange(0,360,0.5)
+pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))]
 
 
 def circ_dist(a1,a2):
