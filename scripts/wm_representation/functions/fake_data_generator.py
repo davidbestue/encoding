@@ -6,6 +6,7 @@ Created on Wed Apr 24 14:13:12 2019
 """
 
 #### generator of fake data
+import numpy as np
 
 def fake_data(angles):
     #n_vox=100   

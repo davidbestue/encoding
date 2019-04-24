@@ -2,9 +2,10 @@
 """
 Created on Wed Apr 24 14:32:56 2019
 
-@author: David
+@author: David Bestue
 """
 
+from basic_functions import *
 from fake_data_generator import *
 from Weigths_matrix import *
 import random
@@ -16,4 +17,4 @@ training_data = fake_data(training_angles)
 
 #
 WM = Weights_matrix( training_data, training_angles )
-WM
+

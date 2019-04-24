@@ -16,7 +16,7 @@ adjusted_size_contant = 48.519
 pos_channels = np.arange(sep_channels/2,360,sep_channels)
 pos_channels = [round(pos_channels[i],3) for i in range(0, len(pos_channels))]
 
-pos_channels2 = arange(0,360,0.5)
+pos_channels2 = np.arange(0,360,0.5)
 pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))]
 
 
@@ -72,7 +72,7 @@ def f2(position_target):
     f_list=[]
     for r in list_r:
         if r<adjusted_size_contant:
-            f = ( 0.5 + 0.5*cos(r*np.pi/adjusted_size_contant) )**7
+            f = ( 0.5 + 0.5*np.cos(r*np.pi/adjusted_size_contant) )**7
             f=round(f,3)
             f_list.append(f)
         else:
@@ -92,7 +92,7 @@ def ch2vrep3(channel):
     #Equivalent to the population vector
     all_basis_functions=[]
     for pos, ch_value in enumerate(pos_channels):
-        a = channel[pos]*array( f2(ch_value) )
+        a = channel[pos]*np.array( f2(ch_value) )
         #a= sum(a)
         all_basis_functions.append(a)
         #all_basis_functions.append(channel[pos]*array( f2(ch_value)  ))
@@ -100,3 +100,11 @@ def ch2vrep3(channel):
     
     vrep=sum(all_basis_functions)
     return vrep
+
+
+
+
+def posch1_to_posch2(ch_1):
+    return np.where(np.array(pos_channels2) == pos_channels[ch_1])[0][0]
+
+
