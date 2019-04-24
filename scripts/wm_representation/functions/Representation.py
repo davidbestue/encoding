@@ -11,27 +11,31 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from basic_functions import *
 from numpy.linalg import inv
+from joblib import Parallel, delayed
+import multiprocessing
 
 
 
+def trial_rep(Signal, angle_trial, Weights, Weights_t, ref):
+    channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
+    channel= ch2vrep3(channel_36) ###Convert 36 into 720 channels for the reconstruction
+    to_roll = int( (ref - angle_trial)*(len(channel)/360) ) ## degrees to roll
+    channel=np.roll(channel, to_roll) ## roll this degrees
+    return channel
 
 
-def Representation(Weights, testing_data, testing_angles):   
-    Weights_t=Weights.transpose()
-    ref_angle=180
-    Channel_all_trials_rolled=[] #Lists to append all the trials rolled
-    for trial in range(len(testing_angles)):
-        Signal = testing_data[trial, :]
-        channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
-        channel= ch2vrep3(channel_36) ###Convert 36 into 720 channels for the reconstruction
-        #Roll
-        angle_trial =  testing_angles[trial]
-        to_roll = int( (ref_angle - angle_trial)*(len(channel)/360) ) ## degrees to roll
-        channel=np.roll(channel, to_roll) ## roll this degrees
-        Channel_all_trials_rolled.append(channel)
+
+def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=180):
+    ## Make the data parallelizable
+    data_prall = []
+    for i in range(n_trials_test):
+        data_prall.append(testing_data[i, :])
     
-    ##
-    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)  # (trials, TRs, channels_activity) (of the session (whne together, all))
+    ###
+    numcores = multiprocessing.cpu_count()
+    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
+    
     df = pd.DataFrame()
     n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
     df['time_x'] = n #Name of the column
@@ -47,7 +51,6 @@ def Representation(Weights, testing_data, testing_angles):
     plt.show(block=False)
     
     return df
-    
-    
+
 
             
