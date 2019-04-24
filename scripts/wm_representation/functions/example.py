@@ -5,7 +5,7 @@ Created on Wed Apr 24 14:32:56 2019
 @author: David Bestue
 """
 
-from basic_functions import *
+from model_functions import *
 from fake_data_generator import *
 from Weigths_matrix import *
 from Representation import *

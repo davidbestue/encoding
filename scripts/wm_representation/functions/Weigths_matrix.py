@@ -8,7 +8,7 @@ Created on Wed Apr 24 13:14:46 2019
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Lasso
-from basic_functions import f, pos_channels
+from model_functions import f, pos_channels
 
 
 def Weights_matrix( training_data, training_angles ):

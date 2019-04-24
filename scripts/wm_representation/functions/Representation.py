@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from basic_functions import *
+from model_functions import *
 from numpy.linalg import inv
 from joblib import Parallel, delayed
 import multiprocessing
@@ -27,6 +27,7 @@ def trial_rep(Signal, angle_trial, Weights, Weights_t, ref):
 
 def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=180):
     ## Make the data parallelizable
+    n_trials_test = len(testing_data) #number trials
     data_prall = []
     for i in range(n_trials_test):
         data_prall.append(testing_data[i, :])
