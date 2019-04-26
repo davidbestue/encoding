@@ -15,7 +15,7 @@ numcores = multiprocessing.cpu_count()
 
 n_trials_train=900
 training_angles = np.array([ random.randint(0,359) for i in range(n_trials_train)])
-training_data = fake_data(training_angles) 
+training_data = fake_data(training_angles) +5
 
 ##
 WM = Weights_matrix( training_data, training_angles )
@@ -24,6 +24,6 @@ WM_t = WM.transpose()
 
 n_trials_test=20000
 testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-testing_data = fake_data(testing_angles) 
+testing_data = fake_data(testing_angles) +5
 
 Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180)
