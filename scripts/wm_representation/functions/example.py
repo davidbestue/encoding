@@ -24,6 +24,6 @@ WM_t = WM.transpose()
 
 n_trials_test=20000
 testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-testing_data = fake_data(testing_angles) +5
+testing_data = fake_data(testing_angles) +10
 
 Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180)
