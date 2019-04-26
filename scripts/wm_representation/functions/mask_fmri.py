@@ -26,7 +26,7 @@ def ub_wind_path(PATH, system):
     return C
 
 
-def mask_fmri(fmri_path, masks, beh_path, sys_use='unix'):
+def mask_fmri(fmri_path, masks, sys_use='unix'):
     ### Inputs: 
     ###### fmri_paths: list of paths
     ###### beh_paths: list of paths
@@ -54,4 +54,33 @@ def mask_fmri(fmri_path, masks, beh_path, sys_use='unix'):
     
     #append it and save the data
     return masked_data     
-        
+
+
+
+mri_n = '/home/david/Desktop/IEM_data/n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii'
+masks_n = ['/home/david/Desktop/IEM_data/temp_masks/n001/visual_fsign_rh.nii.gz', '/home/david/Desktop/IEM_data/temp_masks/n001/visual_fsign_lh.nii.gz']
+mask_fmri(mri_n, masks_n)
+
+
+
+root= '/home/david/Desktop/IEM_data/'
+files_n= [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
+          root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
+          root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
+
+
+
+#paralel
+from joblib import Parallel, delayed
+import multiprocessing
+
+numcores = multiprocessing.cpu_count()
+all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks_n, sys_use='unix')  for fmri_path in files_n)    ####
+np.shape(all_masked)
+
+
+
+
+
+
+
