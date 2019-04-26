@@ -89,11 +89,6 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     all_data_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
     np.shape(all_data_masked)
     
-    
-
-         
-        
-    
     ####
     ### 2. Process encoding data
     ###### In each session I will:
