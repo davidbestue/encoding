@@ -6,6 +6,8 @@ Created on Fri Apr 26 16:52:46 2019
 """
 
 
+##### remove when process of encoding is complete!
+
 import numpy as np
 import pandas as pd
 from nilearn.masking import apply_mask
