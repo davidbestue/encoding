@@ -505,7 +505,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region, root):
     
 
 
-func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, masks = data_to_use( 'n001', 'together', 'ips', root= '/home/david/Desktop/IEM_data/')
+#func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, masks = data_to_use( 'n001', 'together', 'ips', root= '/home/david/Desktop/IEM_data/')
 
 
 
