@@ -41,15 +41,15 @@ def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=1
     n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
     df['time_x'] = n #Name of the column
     #Plot heatmap
-    plt.figure()
-    plt.title('Heatmap decoding')
+    #plt.figure()
+    #plt.title('Heatmap decoding')
     #######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-    ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-    ax.plot([0.25, np.shape(df)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-    plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-    plt.ylabel('Angle')
-    plt.xlabel('time (s)')
-    plt.show(block=False)
+    #ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+    #ax.plot([0.25, np.shape(df)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+    #plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+    #plt.ylabel('Angle')
+    #plt.xlabel('time (s)')
+    #plt.show(block=False)
     
     return df
 
