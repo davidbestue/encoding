@@ -6,8 +6,8 @@ Created on Mon Apr 29 17:01:27 2019
 """
 
 
-def data_to_use( Subject_analysis, Method_analysis, brain_region, root='/home/david/Desktop/IEM_data/'):
-    
+def data_to_use( Subject_analysis, Method_analysis, brain_region):
+    root='/home/david/Desktop/IEM_data/'    
     if Method_analysis == "together":
         
         if Subject_analysis == "d001":
