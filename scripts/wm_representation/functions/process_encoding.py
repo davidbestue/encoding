@@ -74,7 +74,7 @@ def get_enc_info(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
     timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )] #make it an integrer
     #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
     #you short the timestamps and the matrix fro the hipotetical cannel coefici
-    while timestamps[-1]>n_scans_sess-2:
+    while timestamps[-1]>n_scans-2:
         timestamps=timestamps[:-1] ##  1st scan to take in each trial
         p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
     
@@ -89,12 +89,9 @@ beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/
 
 
 scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
-
-targets, timestamps = get_enc_info(beh_paths[0], scans_enc_runs[0], sys_use='unix', hd=6, TR=2.335)
-
-
-
-targets = Parallel(n_jobs = numcores)(delayed(get_enc_info)((beh_path, n_scans, sys_use='unix', hd=6, TR=2.335))  for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
+timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
 
 
 
