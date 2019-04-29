@@ -16,6 +16,9 @@ import multiprocessing
 from scipy import stats
 
 
+root= '/home/david/Desktop/IEM_data/'
+
+masks = [ root+'temp_masks/n001/visual_fsign_rh.nii.gz', root+ 'temp_masks/n001/visual_fsign_lh.nii.gz']
 
 wm_fmri_paths = [root +'n001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r04/nocfmri5_task_Ax.nii', root +'n001/WMtask/s01/r05/nocfmri5_task_Ax.nii',
                  root +'n001/WMtask/s02/r01/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r02/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r03/nocfmri5_task_Ax.nii', root +'n001/WMtask/s02/r04/nocfmri5_task_Ax.nii',
@@ -25,8 +28,6 @@ wm_fmri_paths = [root +'n001/WMtask/s01/r01/nocfmri5_task_Ax.nii', root +'n001/W
 wm_beh_paths=[root +'n001/WMtask/s01/r01/wm_beh.txt', root +'n001/WMtask/s01/r02/wm_beh.txt', root +'n001/WMtask/s01/r03/wm_beh.txt', root +'n001/WMtask/s01/r04/wm_beh.txt', root +'n001/WMtask/s01/r05/wm_beh.txt',
               root +'n001/WMtask/s02/r01/wm_beh.txt', root +'n001/WMtask/s02/r02/wm_beh.txt', root +'n001/WMtask/s02/r03/wm_beh.txt', root +'n001/WMtask/s02/r04/wm_beh.txt',
               root +'n001/WMtask/s03/r01/wm_beh.txt', root +'n001/WMtask/s03/r02/wm_beh.txt', root +'n001/WMtask/s03/r03/wm_beh.txt', root +'n001/WMtask/s03/r04/wm_beh.txt', root +'n001/WMtask/s03/r05/wm_beh.txt']
-
-
 
 
 
@@ -77,10 +78,10 @@ def mask_fmri_process(fmri_path, masks, sys_use='unix'):
 
 
 
-
+### Example
 #numcores = multiprocessing.cpu_count()
-wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
-scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
+#wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
+#scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
     
 
 def wm_timestamps_targets(masked_data, beh_path, n_scans, sys_use='unix', TR=2.335, nscans_wm=16):
@@ -120,15 +121,82 @@ def wm_timestamps_targets(masked_data, beh_path, n_scans, sys_use='unix', TR=2.3
     return run_activity, Beh
 
 
-
-activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=2.335, nscans_wm=16) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
-runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
-runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
-
-
+### Example
+#activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=2.335, nscans_wm=16) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
+#runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
+#runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
 
 
 
+def condition_wm( activity, behaviour, condition, distance='mix'):
+    if distance=='mix':
+        if condition == '1_0.2': 
+            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==1) , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==1)  ] 
+          
+        elif condition == '1_7':
+            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==1)  ] 
+            
+        elif condition == '2_0.2':
+            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==2)   , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==2) ] 
+          
+        elif condition == '2_7':
+            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==2)  ] 
+    
+    
+    else: ### close or far
+        if condition == '1_0.2':
+            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==1) *  np.array(behaviour['type']==distance)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==1) & (behaviour['type']==distance) ] 
+          
+        elif condition == '1_7':
+            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) * np.array(behaviour['type']==distance)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==1) & (behaviour['type']==distance)  ] 
+            
+        elif condition == '2_0.2':
+            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==2) * np.array(behaviour['type']==distance)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==2) & (behaviour['type']==distance)  ] 
+          
+        elif condition == '2_7':
+            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['type']==distance) , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==2) & (behaviour['type']==distance)  ]
+    
+    
+    return Subset, beh_Subset
+
+
+
+### Example
+#s_act, s_beh = condition_wm( sig, beh, condition='2_7', distance='mix')
+
+
+def process_encoding_files(fmri_paths, masks, beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
+    ### Mask and process the fmri data
+    numcores = multiprocessing.cpu_count()
+    wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
+    scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
+    
+    ### TRs of interest
+    activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=TR, nscans_wm=nscans_wm) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
+    runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
+    runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
+    
+    ## concatenate the runs
+    runs_signal = np.vstack(runs_signal)
+    runs_beh = pd.concat(runs_beh)
+    
+    ## get subset of activity
+    testing_activity, testing_behaviour = condition_wm( runs_signal, runs_beh, condition, distance='mix')
+    
+    return testing_activity, testing_behaviour
+
+###
+
+
+testing_activity, testing_behaviour = process_encoding_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=16, TR=2.335)
 
 
 
