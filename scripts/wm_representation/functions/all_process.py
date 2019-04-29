@@ -19,7 +19,7 @@ import time
 
 numcores = multiprocessing.cpu_count()
 
-def all_process( Subject, Brain_Region, Condition, method='together'):
+def all_process( Subject, Brain_Region, Condition, method='together', heatmap=True):
     ### Data to use
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     
@@ -44,15 +44,16 @@ def all_process( Subject, Brain_Region, Condition, method='together'):
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]
     
     #Plot heatmap
-    plt.figure()
-    plt.title(Condition)
-    ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-    ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-    ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-    plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-    plt.ylabel('Angle')
-    plt.xlabel('time (s)')
-    plt.show(block=False)
+    if heatmap==True:
+        plt.figure()
+        plt.title(Condition)
+        ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+        ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+        ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+        plt.ylabel('Angle')
+        plt.xlabel('time (s)')
+        plt.show(block=False)
     
     ######
     ######
@@ -66,8 +67,36 @@ def all_process( Subject, Brain_Region, Condition, method='together'):
 
 
 
-Conditions_4=['1_0.2', '1_7', '2_0.2', '2_7']
-Rep_4C = Parallel(n_jobs = numcores)(delayed(all_process) ( Condition, Subject='n001', Brain_Region='ips', method='together')  for Condition in Conditions_4)    
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
+Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001']
+brain_regions = ['visual', 'ips']
+
+#Rep_all_subj = Parallel(n_jobs = numcores)(delayed(all_process) ( Subject, Condition='1_0.2', Brain_Region='ips', method='together')  for Subject in Subjects)    
+#
+#
+#
+##### loop (2 min x vrep)
+#
+#Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
+#Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001']
+#brain_regions = ['visual', 'ips']
+#
+#
+#Reconstructions={}
+#
+#for Subject in Subjects:
+#    for Brain_region in brain_regions:
+#        plt.figure()
+#        for idx_c, Condition in enumerate(Conditions):
+#            plt.subplot(2,2,idx_c+1)
+#            df = all_process( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, method='together',  heatmap=False)
+#            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=df
+#            
+            
+
+            
+        
 
 
+all_process( Subject='n001', Brain_Region='ips', Condition='2_0.2', method='together')
 
