@@ -12,6 +12,8 @@ from nitime.timeseries import TimeSeries
 from nitime.analysis import FilterAnalyzer
 from joblib import Parallel, delayed
 import multiprocessing
+from scipy import stats
+
 
 
 def ub_wind_path(PATH, system):
@@ -61,6 +63,25 @@ def mask_fmri(fmri_path, masks, sys_use='unix'):
 
 
 
+
+
+#root= '/home/david/Desktop/IEM_data/'
+#
+#masks = ['/home/david/Desktop/IEM_data/temp_masks/n001/visual_fsign_rh.nii.gz', '/home/david/Desktop/IEM_data/temp_masks/n001/visual_fsign_lh.nii.gz']
+#
+#fmri_paths= [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
+#          root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
+#          root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
+#
+#
+#numcores = multiprocessing.cpu_count()
+#all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
+#scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
+
+
+
+
+
 def get_enc_info(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
     #### get the timestamps of the fmri data & the target location of the run
     beh_path = ub_wind_path(beh_path, system=sys_use) #change the path format wind-unix
@@ -82,48 +103,45 @@ def get_enc_info(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
     
 
 
-beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
-            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
-            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
-
-
-scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
-targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
-targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
-timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
-
-
-
-
-def process_enc_timestamps( masked_data, timestamps)
+#beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
+#            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
+#            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
+#
+#
+#scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
+#targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+#targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
+#timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
 
 
 
 
-
-        ####   2. Apply a filter for each voxel               
-        for voxel in range(0, n_voxels ):
-            data_to_filter = encoding_datasets[run][:,voxel] #data of the voxel along the session
-            #apply the filter 
-            data_to_filter = TimeSeries(data_to_filter, sampling_interval=TR)
-            F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02) ##upper and lower boundaries
-            data_filtered=F.filtered_boxcar.data
-            encoding_datasets[run][:,voxel] = data_filtered ## replace old data with the filtered one.
-        
-        
-        ####   3. Subset of data corresponding to the delay times (all voxels)
-        encoding_delay_activity = np.zeros(( len(timestamps), n_voxels)) ## emply matrix (n_trials, n_voxels)
-        for idx,t in enumerate(timestamps): #in each trial
-            delay_TRs =  encoding_datasets[run][t:t+2, :] #take the first scan of the delay and the nex
-            delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
-            encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
-        
-        
-        ####   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
-        for vxl in range(0, n_voxels ): # by voxel
-            vx_act = encoding_delay_activity[:, vxl]
-            vx_act_zs = np.array( zscore(vx_act) ) +10 ; ## zscore + 10 just to get + values
-            encoding_delay_activity[:, vxl] = vx_act_zs  ## replace previos activity
+def process_enc_timestamps( masked_data, timestamps, TR=2.335):
+    n_voxels = np.shape(masked_data)[1]
+    ####   2. Apply a filter for each voxel
+    for voxel in range(0, n_voxels ):
+        data_to_filter = masked_data[:,voxel] #data of the voxel along the session
+        #apply the filter 
+        data_to_filter = TimeSeries(data_to_filter, sampling_interval=TR)
+        F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02) ##upper and lower boundaries
+        data_filtered=F.filtered_boxcar.data
+        masked_data[:,voxel] = data_filtered ## replace old data with the filtered one.
+    
+    ####   3. Subset of data corresponding to the delay times (all voxels)
+    encoding_delay_activity = np.zeros(( len(timestamps), n_voxels)) ## emply matrix (n_trials, n_voxels)
+    for idx,t in enumerate(timestamps): #in each trial
+        delay_TRs =  masked_data[t:t+2, :] #take the first scan of the delay and the nex
+        delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
+        encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
+    
+    ###   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
+    for voxel in range(0, n_voxels ): # by voxel
+        vx_act = encoding_delay_activity[:, voxel]
+        vx_act_zs = np.array( stats.zscore(vx_act) ) +10 ; ## zscore + 10 just to get + values
+        encoding_delay_activity[:, voxel] = vx_act_zs  ## replace previos activity
+    
+    
+    return encoding_delay_activity
 
 
 
