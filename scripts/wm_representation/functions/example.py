@@ -16,11 +16,11 @@ import multiprocessing
 import time
 
 #
-#numcores = multiprocessing.cpu_count()
+numcores = multiprocessing.cpu_count()
 #
 #n_trials_train=900
 #training_angles = np.array([ random.randint(0,359) for i in range(n_trials_train)])
-#training_data = fake_data(training_angles) +5
+#training_data = fake_data(training_angles)
 #
 ###
 #WM = Weights_matrix( training_data, training_angles )
@@ -29,7 +29,7 @@ import time
 #
 #n_trials_test=20000
 #testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-#testing_data = fake_data(testing_angles) +10
+#testing_data = fake_data(testing_angles)
 #
 #Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 
@@ -72,7 +72,7 @@ start_process_enc = time.time()
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
 end_process_enc = time.time()
 process_encoding_time = end_process_enc - start_process_enc
-
+print( 'Time process encoding: ' +str(process_encoding_time))
 
 ### Train your weigths
 start_train_weights = time.time()
@@ -80,6 +80,7 @@ WM = Weights_matrix( training_dataset, training_targets )
 WM_t = WM.transpose()
 end_train_weights = time.time()
 process_train_weights = end_train_weights - start_train_weights
+print( 'Time train weights: ' +str(process_train_weights))
 
 
 
@@ -90,6 +91,7 @@ testing_activity, testing_behaviour = process_encoding_files(wm_fmri_paths, mask
 testing_angles = np.array(testing_behaviour['T'])
 end_process_wm = time.time()
 process_wm = end_process_wm - start_process_wm
+print( 'Time process wm: ' +str(process_wm))
 
 
 
@@ -120,11 +122,6 @@ plt.show(block=False)
 
 end_repres = time.time()
 process_recons = end_repres - start_repres
-
-
-print( 'Time process encoding: ' +str(process_encoding_time))
-print( 'Time train weights: ' +str(process_train_weights))
-print( 'Time process wm: ' +str(process_wm))
 print( 'Time process reconstruction: ' +str(process_recons))
 
 
