@@ -9,7 +9,7 @@ from model_functions import *
 from fake_data_generator import *
 from Weigths_matrix import *
 from Representation import *
-from process encoding import *
+from process_encoding import *
 import random
 
 numcores = multiprocessing.cpu_count()

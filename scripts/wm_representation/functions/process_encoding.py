@@ -51,8 +51,8 @@ def mask_fmri(fmri_path, masks, sys_use='unix'):
 
 
 
-def get_enc_info(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
-    #### get the timestamps of the fmri data & the target location of the run
+def get_enc_timestamps_targets(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
+    #### get the delay timestamps of the fmri data & the target location of the run
     beh_path = ub_wind_path(beh_path, system=sys_use) #change the path format wind-unix
     behaviour=np.genfromtxt(beh_path, skip_header=1) ## load the file
     p_target = np.array(behaviour[:-1,4]) ## Get the position (hypotetical channel coef)
@@ -109,15 +109,14 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     ###### sys_use (unix or windows: to change the paths)
     ###### hd hemodynamic delay (seconds)
     ###### TR=2.335 (fixed)
-    
     ## Processes:
     ### 1. Load and mask the data of all sessions     
     numcores = multiprocessing.cpu_count()
     all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
     scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
     
-    ### 2. timestamps and beh targets
-    targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=hd, TR=TR) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+    ### 2. delay timestamps and beh targets
+    targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_timestamps_targets)(beh_path, n_scans, sys_use='unix', hd=hd, TR=TR) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
     targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
     timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
     
@@ -135,21 +134,28 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
 ###############################################
     
 
-#root= '/home/david/Desktop/IEM_data/'
+root= '/home/david/Desktop/IEM_data/'
+
+masks = [ root+'temp_masks/n001/visual_fsign_rh.nii.gz', root+ 'temp_masks/n001/visual_fsign_lh.nii.gz']
+
+fmri_paths= [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
+             root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
+             root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
+
+beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
+            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
+            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
 #
-#masks = [ root+'temp_masks/n001/visual_fsign_rh.nii.gz', root+ 'temp_masks/n001/visual_fsign_lh.nii.gz']
-#
-#fmri_paths= [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
-#             root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
-#             root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
-#
-#beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
-#            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
-#            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
 #
 #
-#
-#training_dataset, training_targets = process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, TR=2.335)
+
+training_dataset, training_targets = process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, TR=2.335)
+
+
+
+
+
+
 
     
     
