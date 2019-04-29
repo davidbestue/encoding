@@ -14,6 +14,7 @@ from nitime.analysis import FilterAnalyzer
 from joblib import Parallel, delayed
 import multiprocessing
 from scipy import stats
+import time
 
 
 nscans_wm=16
