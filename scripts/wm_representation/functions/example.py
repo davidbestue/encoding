@@ -77,8 +77,10 @@ testing_angles = np.array(testing_behaviour['T'])
 
 
 ### Respresentation
+# TR separartion
 
-Representation(testing_activity, testing_angles, WM, WM_t, ref_angle=180)
+signal = testing_activity[:, 0, :]
+Representation(signal, testing_angles, WM, WM_t, ref_angle=180)
 
 
 

@@ -71,7 +71,7 @@ def mask_fmri_process(fmri_path, masks, sys_use='unix'):
         data_filtered=F.filtered_boxcar.data
         masked_data[:,voxel] = data_filtered                        
         #Z score
-        masked_data[:,voxel] = np.array( stats.zscore( masked_data[:,voxel]  ) ) + 10 ; ## zscore + 5 just to get + values
+        masked_data[:,voxel] = np.array( stats.zscore( masked_data[:,voxel]  ) ) ; ## zscore + 5 just to get + values
     
     #append it and save the data
     return masked_data    
