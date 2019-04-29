@@ -62,7 +62,7 @@ def mask_fmri(fmri_path, masks, sys_use='unix'):
 
 scans_enc_sess
 
-def get_enc_info(beh_path, n_scans_sess, sys_use='unix', hd=6, TR=2.335):
+def get_enc_info(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
     #### get the timestamps of the fmri data & the target location of the run
     beh_path = ub_wind_path(beh_path, system=sys_use) #change the path format wind-unix
     behaviour=np.genfromtxt(beh_path, skip_header=1) ## load the file
@@ -81,6 +81,22 @@ def get_enc_info(beh_path, n_scans_sess, sys_use='unix', hd=6, TR=2.335):
     return p_target, timestamps
 
     
+
+
+beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
+            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
+            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
+
+
+scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
+
+targets, timestamps = get_enc_info(beh_paths[0], scans_enc_runs[0], sys_use='unix', hd=6, TR=2.335)
+
+
+
+targets = Parallel(n_jobs = numcores)(delayed(get_enc_info)((beh_path, n_scans, sys_use='unix', hd=6, TR=2.335))  for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+
+
 
 
 
@@ -105,14 +121,13 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     ##
     ### 1. Load and mask the data of all sessions     
     numcores = multiprocessing.cpu_count()
-    all_data_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
-    scans_enc_sess = [len(all_data_masked[r]) for r in range(len(all_data_masked)) ]
+    all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
+    scans_enc_sess = [len(all_masked[r]) for r in range(len(all_masked)) ]
     
     
     ### 2. timestamps and beh targets
+    targets = Parallel(n_jobs = numcores)(delayed(get_enc_info)((beh_path, n_scans_sess, sys_use='unix', hd=6, TR=2.335))  for beh_path, n_scans_sess in zip( beh_paths, scans_enc_sess))    ####
     
-    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(get_enc_info)((beh_path, n_scans_sess, sys_use='unix', hd=6, TR=2.335))  for beh_path, n_scans_sess in zip( beh_paths, scans_enc_sess))    ####
-    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
     
     
     
