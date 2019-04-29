@@ -32,18 +32,6 @@ def ub_wind_path(PATH, system):
 
 
 def mask_fmri(fmri_path, masks, sys_use='unix'):
-    ### Inputs: 
-    ###### fmri_paths: list of paths
-    ###### beh_paths: list of paths
-    ###### masks: [rh_mask, lh_mask]
-    ###### sys_use (unix or windows: to change the paths)
-    ###### hd hemodynamic delay (seconds)
-    ###### TR=2.335 (fixed)
-    
-    ## Processes: 
-    ###### 1. Load and mask the data
-    ###### 2. Process encoding data
-    ##
     ### 1. Load and mask the data
     fmri_path = ub_wind_path(fmri_path, system=sys_use) #change the path format wind-unix
     
@@ -59,25 +47,6 @@ def mask_fmri(fmri_path, masks, sys_use='unix'):
     
     #append it and save the data
     return masked_data    
-
-
-
-
-
-
-#root= '/home/david/Desktop/IEM_data/'
-#
-#masks = ['/home/david/Desktop/IEM_data/temp_masks/n001/visual_fsign_rh.nii.gz', '/home/david/Desktop/IEM_data/temp_masks/n001/visual_fsign_lh.nii.gz']
-#
-#fmri_paths= [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
-#          root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
-#          root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
-#
-#
-#numcores = multiprocessing.cpu_count()
-#all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
-#scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
-
 
 
 
@@ -103,20 +72,7 @@ def get_enc_info(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
     
 
 
-#beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
-#            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
-#            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
-#
-#
-#scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
-#targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
-#targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
-#timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
-
-
-
-
-def process_enc_timestamps( masked_data, timestamps, TR=2.335):
+def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
     n_voxels = np.shape(masked_data)[1]
     ####   2. Apply a filter for each voxel
     for voxel in range(0, n_voxels ):
@@ -128,8 +84,8 @@ def process_enc_timestamps( masked_data, timestamps, TR=2.335):
         masked_data[:,voxel] = data_filtered ## replace old data with the filtered one.
     
     ####   3. Subset of data corresponding to the delay times (all voxels)
-    encoding_delay_activity = np.zeros(( len(timestamps), n_voxels)) ## emply matrix (n_trials, n_voxels)
-    for idx,t in enumerate(timestamps): #in each trial
+    encoding_delay_activity = np.zeros(( len(timestamp_run), n_voxels)) ## emply matrix (n_trials, n_voxels)
+    for idx,t in enumerate(timestamp_run): #in each trial
         delay_TRs =  masked_data[t:t+2, :] #take the first scan of the delay and the nex
         delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
         encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
@@ -145,21 +101,6 @@ def process_enc_timestamps( masked_data, timestamps, TR=2.335):
 
 
 
-
-#training_dataset  = Parallel(n_jobs = numcores)(delayed(process_enc_timestamps)( masked_data, timestamps, TR=2.335) for masked_data, timestamps in zip( all_masked, timestamps))    ####
-
-
-
-
-
-
-
-
-
-
-
-
-
 def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, TR=2.335):
     ### Inputs: 
     ###### fmri_paths: list of paths
@@ -169,33 +110,46 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     ###### hd hemodynamic delay (seconds)
     ###### TR=2.335 (fixed)
     
-    ### Outputs
-    Training_dataset_activity=[]
-    Training_dataset_targets=[]
-    
-    ## Processes: 
-    ###### 1. Load and mask the data
-    ###### 2. Process encoding data
-    ##
+    ## Processes:
     ### 1. Load and mask the data of all sessions     
     numcores = multiprocessing.cpu_count()
     all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
     scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
     
     ### 2. timestamps and beh targets
-    targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+    targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_info)(beh_path, n_scans, sys_use='unix', hd=hd, TR=TR) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
     targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
     timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
     
     ### 3. combine to get training data & process
-    training_dataset  = Parallel(n_jobs = numcores)(delayed(process_enc_timestamps)( masked_data, timestamps, TR=2.335) for masked_data, timestamps in zip( all_masked, timestamps))    ####
+    training_dataset  = Parallel(n_jobs = numcores)(delayed(process_enc_timestamps)( masked_data, timestamp_run, TR=TR) for masked_data, timestamp_run in zip( all_masked, timestamps))    ####
+    training_dataset = np.vstack(training_dataset)
+    training_targets = np.hstack(targets)
+    
+    return training_dataset, training_targets
 
+
+
+###############################################
+###############################################
+###############################################
     
-    
-    ##### Concatenate sessions to create Trianing Dataset  ### ASSUMPTION: each voxel is the same across sessions!               
-    Training_dataset_activity = np.vstack(Training_dataset_activity) #make an array (n_trials(all sessions together), voxels)
-    Training_dataset_targets = np.array(Training_dataset_targets) ## make an array (trials, 1)
-    
-    return Training_dataset_activity, Training_dataset_targets
+
+root= '/home/david/Desktop/IEM_data/'
+
+masks = [ root+'temp_masks/n001/visual_fsign_rh.nii.gz', root+ 'temp_masks/n001/visual_fsign_lh.nii.gz']
+
+fmri_paths= [root +'n001/encoding/s01/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r04/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s01/r05/nocfmri3_Encoding_Ax.nii',
+             root +'n001/encoding/s02/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s02/r04/nocfmri3_Encoding_Ax.nii',
+             root +'n001/encoding/s03/r01/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r02/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r03/nocfmri3_Encoding_Ax.nii', root +'n001/encoding/s03/r04/nocfmri3_Encoding_Ax.nii']
+
+beh_paths =[root +'n001/encoding/s01/r01/enc_beh.txt', root +'n001/encoding/s01/r02/enc_beh.txt', root +'n001/encoding/s01/r03/enc_beh.txt', root +'n001/encoding/s01/r04/enc_beh.txt', root +'n001/encoding/s01/r05/enc_beh.txt',
+            root +'n001/encoding/s02/r01/enc_beh.txt', root +'n001/encoding/s02/r02/enc_beh.txt', root +'n001/encoding/s02/r03/enc_beh.txt', root +'n001/encoding/s02/r04/enc_beh.txt',
+            root +'n001/encoding/s03/r01/enc_beh.txt', root +'n001/encoding/s03/r02/enc_beh.txt', root +'n001/encoding/s03/r03/enc_beh.txt', root +'n001/encoding/s03/r04/enc_beh.txt']
+
+
+
+training_dataset, training_targets = process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, TR=2.335)
+
     
     
