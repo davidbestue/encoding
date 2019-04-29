@@ -78,35 +78,52 @@ def mask_fmri_process(fmri_path, masks, sys_use='unix'):
 
 
 
-numcores = multiprocessing.cpu_count()
-all_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
-scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
-
-
-
-
-def get_enc_timestamps_targets(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
-    #### get the delay timestamps of the fmri data & the target location of the run
-    beh_path = ub_wind_path(beh_path, system=sys_use) #change the path format wind-unix
-    behaviour=np.genfromtxt(beh_path, skip_header=1) ## load the file
-    p_target = np.array(behaviour[:-1,4]) ## Get the position (hypotetical channel coef)
-    ref_time=behaviour[-1, 1] ## Reference time (start scanner - begiinging of recording)
-    st_delay = behaviour[:-1, 11] -ref_time #start of the delay time & take off the reference from
-    start_delay_hdf = st_delay + hd # add some seconds for the hemodynamic delay     
-    start_delay_hdf_scans = start_delay_hdf/TR  #convert seconds to scans (number of scan to take)
-    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )] #make it an integrer
-    #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
-    #you short the timestamps and the matrix fro the hipotetical cannel coefici
-    while timestamps[-1]>n_scans-2:
-        timestamps=timestamps[:-1] ##  1st scan to take in each trial
-        p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
+#numcores = multiprocessing.cpu_count()
+wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
+scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
     
-    return p_target, timestamps
+
+def wm_timestamps_targets(masked_data, beh_path, n_scans, sys_use='unix', TR=2.335, nscans_wm=16):
+    # Behaviour 
+    beh_path = ub_wind_path(beh_path, system=sys_use) #change depending on windoxs/unix
+    behaviour=np.genfromtxt(beh_path, skip_header=1) #open the file
+    Beh = pd.DataFrame(behaviour)  #convert it to dataframe
+    headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
+                'orient', 'horiz_vertical', 'A_R', 'A_err', 'Abs_angle_error', 'Error_interference', 'A_DC', 'A_DC_dist', 'Q_DC', 
+                'A_DF', 'A_DF_dist', 'Q_DF', 'A_DVF', 'Q_DVF', 'A_DVF_dist', 'Q_DVF_dist', 'presentation_att_cue_time', 'presentation_target_time',
+                'presentation_dist_time', 'presentation_probe_time', 'R_T', 'trial_time', 'disp_time']
+    Beh.columns=headers_col #add columns
+    #take off the reference    
+    ref_time = Beh.iloc[-1, 1] # get the reference(diff between tsat¡rt the display and start de recording)
+    start_trial=Beh['presentation_att_cue_time'].iloc[0:-1]  - ref_time #take off the reference  
+    Beh = Beh.iloc[0:-1, :] # behaviour is the same except the last line (reference time) 
+    start_trial_hdf_scans = start_trial/TR#transform seconds to scans 
+    timestamps = [  int(round(  start_trial_hdf_scans[n] ) ) for n in range(0, len(start_trial_hdf_scans) )]
+    
+    #adjust according to the number of scans you want (avoid having an incomplete trial)
+    while timestamps[-1]> (n_scans-nscans_wm):
+        timestamps=timestamps[:-1] #take off one trial form activity
+        Beh = Beh.iloc[0:-1, :] #take off one trial from behaviour
+    
+    
+    #append the timestands you want from this session
+    n_trials = len(timestamps)
+    n_voxels_wm = np.shape(masked_data)[1]
+    ### Take the important TRs (from cue, the next 14 TRs)
+    run_activity=np.zeros(( n_trials, nscans_wm,  n_voxels_wm   )) ## np.zeros matrix with the correct dimensions of the session
+    for idx, t in enumerate(timestamps): #beginning of the trial
+        for sc in range(0, nscans_wm): #each of the 14 TRs
+            trial_activity = masked_data[t+sc, :]   
+            run_activity[idx, sc, :] =trial_activity                    
+    
+    ### 
+    return run_activity, Beh
 
 
 
-
-
+activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=2.335, nscans_wm=16) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
+runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
+runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
 
 
 
