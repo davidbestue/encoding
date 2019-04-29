@@ -10,6 +10,7 @@ from fake_data_generator import *
 from Weigths_matrix import *
 from Representation import *
 from process_encoding import *
+from process_wm import *
 import random
 from joblib import Parallel, delayed
 import multiprocessing
