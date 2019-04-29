@@ -218,7 +218,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             
             func_encoding_sess = [root +'r001/encoding/s05/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s05/r04/nocfmri3_Encoding_Ax.nii',
                                   root +'r001/encoding/s06/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s06/r04/nocfmri3_Encoding_Ax.nii',
-                                  root +'r001/encoding/s07/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r04/nocfmri3_Encoding_Ax.nii']]
+                                  root +'r001/encoding/s07/r01/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r02/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r03/nocfmri3_Encoding_Ax.nii', root +'r001/encoding/s07/r04/nocfmri3_Encoding_Ax.nii']
             
             
             Beh_enc_files_sess =[root +'r001/encoding/s05/r01/enc_beh.txt', root +'r001/encoding/s05/r02/enc_beh.txt', root +'r001/encoding/s05/r03/enc_beh.txt', root +'r001/encoding/s05/r04/enc_beh.txt',
