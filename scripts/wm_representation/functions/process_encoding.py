@@ -51,7 +51,7 @@ def mask_fmri(fmri_path, masks, sys_use='unix'):
 
 
 
-def get_enc_timestamps_targets(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
+def enc_timestamps_targets(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
     #### get the delay timestamps of the fmri data & the target location of the run
     beh_path = ub_wind_path(beh_path, system=sys_use) #change the path format wind-unix
     behaviour=np.genfromtxt(beh_path, skip_header=1) ## load the file
@@ -116,7 +116,7 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     scans_enc_runs = [len(all_masked[r]) for r in range(len(all_masked)) ]
     
     ### 2. delay timestamps and beh targets
-    targets_timestamps  = Parallel(n_jobs = numcores)(delayed(get_enc_timestamps_targets)(beh_path, n_scans, sys_use='unix', hd=hd, TR=TR) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
+    targets_timestamps  = Parallel(n_jobs = numcores)(delayed(enc_timestamps_targets)(beh_path, n_scans, sys_use='unix', hd=hd, TR=TR) for beh_path, n_scans in zip( beh_paths, scans_enc_runs))    ####
     targets= [targets_timestamps[i][0] for i in range(len(targets_timestamps))]
     timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
     
