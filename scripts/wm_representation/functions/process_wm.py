@@ -16,6 +16,9 @@ import multiprocessing
 from scipy import stats
 
 
+nscans_wm=16
+
+
 #root= '/home/david/Desktop/IEM_data/'
 #
 #masks = [ root+'temp_masks/n001/visual_fsign_rh.nii.gz', root+ 'temp_masks/n001/visual_fsign_lh.nii.gz']

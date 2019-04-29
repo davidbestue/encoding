@@ -15,6 +15,7 @@ import multiprocessing
 from scipy import stats
 
 
+TR=2.335
 
 def ub_wind_path(PATH, system):
     if system=='wind':

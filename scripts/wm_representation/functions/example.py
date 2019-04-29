@@ -87,7 +87,6 @@ print( 'Time train weights: ' +str(process_train_weights))
 
 ### Process testing data
 start_process_wm = time.time()
-nscans_wm=16
 testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
 end_process_wm = time.time()
