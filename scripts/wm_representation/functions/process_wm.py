@@ -178,6 +178,7 @@ def condition_wm( activity, behaviour, condition, distance='mix'):
 
 def process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
     ### Mask and process the fmri data
+    start_process_wm = time.time()
     numcores = multiprocessing.cpu_count()
     wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
     scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
@@ -193,7 +194,9 @@ def process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance='mi
     
     ## get subset of activity
     testing_activity, testing_behaviour = condition_wm( runs_signal, runs_beh, condition, distance='mix')
-    
+    end_process_wm = time.time()
+    process_wm = end_process_wm - start_process_wm
+    print( 'Time process wm: ' +str(process_wm))
     return testing_activity, testing_behaviour
 
 ###

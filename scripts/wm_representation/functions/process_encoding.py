@@ -13,6 +13,7 @@ from nitime.analysis import FilterAnalyzer
 from joblib import Parallel, delayed
 import multiprocessing
 from scipy import stats
+import time
 
 
 TR=2.335
@@ -110,6 +111,7 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     ###### sys_use (unix or windows: to change the paths)
     ###### hd hemodynamic delay (seconds)
     ###### TR=2.335 (fixed)
+    start_process_enc = time.time()
     ## Processes:
     ### 1. Load and mask the data of all sessions     
     numcores = multiprocessing.cpu_count()
@@ -125,7 +127,10 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     training_dataset  = Parallel(n_jobs = numcores)(delayed(process_enc_timestamps)( masked_data, timestamp_run, TR=TR) for masked_data, timestamp_run in zip( all_masked, timestamps))    ####
     training_dataset = np.vstack(training_dataset)
     training_targets = np.hstack(targets)
-    
+    #####
+    end_process_enc = time.time()
+    process_encoding_time = end_process_enc - start_process_enc
+    print( 'Time process encoding: ' +str(process_encoding_time))  
     return training_dataset, training_targets
 
 
@@ -134,6 +139,7 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
 ###############################################
 ###############################################
     
+
 
 #root= '/home/david/Desktop/IEM_data/'
 #

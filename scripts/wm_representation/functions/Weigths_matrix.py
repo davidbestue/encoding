@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import Lasso
 from model_functions import f, pos_channels
+import time
 
 
 def Weights_matrix( training_data, training_angles ):
@@ -16,6 +17,7 @@ def Weights_matrix( training_data, training_angles ):
     ## function to get Weight matrix
     ## trainiing data (trials, vx)
     ## training_angles (trials)
+    start_train_weights = time.time()
     #####
     n_voxels = np.shape(training_data)[1]
     
@@ -49,5 +51,7 @@ def Weights_matrix( training_data, training_angles ):
     
     #Save the matrix of weights 
     Matrix_weights =pd.DataFrame(Matrix_weights) #convert the array to dataframe
-    
+    end_train_weights = time.time()
+    process_train_weights = end_train_weights - start_train_weights
+    print( 'Time train weights: ' +str(process_train_weights))    
     return Matrix_weights
