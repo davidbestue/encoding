@@ -95,13 +95,10 @@ for Subject in Subjects:
             plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
             plt.ylabel('Angle')
             plt.xlabel('time (s)')
-        plt.suptitle( Subject , fontsize=12)
+        plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
         plt.show(block=False)
                 
             
 
             
-        
-
-
 
