@@ -66,37 +66,42 @@ def all_process( Subject, Brain_Region, Condition, method='together', heatmap=Tr
     return Reconstruction
 
 
+### Example
+#all_process( Subject='n001', Brain_Region='ips', Condition='2_0.2', method='together')
 
+
+
+######
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
-Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001']
+Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips']
 
-#Rep_all_subj = Parallel(n_jobs = numcores)(delayed(all_process) ( Subject, Condition='1_0.2', Brain_Region='ips', method='together')  for Subject in Subjects)    
-#
-#
-#
-##### loop (2 min x vrep)
-#
-#Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
-#Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001']
-#brain_regions = ['visual', 'ips']
-#
-#
-#Reconstructions={}
-#
-#for Subject in Subjects:
-#    for Brain_region in brain_regions:
-#        plt.figure()
-#        for idx_c, Condition in enumerate(Conditions):
-#            plt.subplot(2,2,idx_c+1)
-#            df = all_process( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, method='together',  heatmap=False)
-#            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=df
-#            
+
+Reconstructions={}
+
+for Subject in Subjects:
+    for Brain_region in brain_regions:
+        plt.figure()
+        for idx_c, Condition in enumerate(Conditions):
+            plt.subplot(2,2,idx_c+1)
+            Reconstruction = all_process( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, method='together',  heatmap=False)
+            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+            
+            ## Plot the 4 heatmaps
+            plt.title(Condition)
+            ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+            ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+            ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+            plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+            plt.ylabel('Angle')
+            plt.xlabel('time (s)')
+        plt.suptitle( Subject , fontsize=12)
+        plt.show(block=False)
+                
             
 
             
         
 
 
-all_process( Subject='n001', Brain_Region='ips', Condition='2_0.2', method='together')
 
