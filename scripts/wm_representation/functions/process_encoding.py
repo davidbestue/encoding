@@ -146,6 +146,8 @@ def process_enc_timestamps( masked_data, timestamps, TR=2.335):
 
 
 
+#training_dataset  = Parallel(n_jobs = numcores)(delayed(process_enc_timestamps)( masked_data, timestamps, TR=2.335) for masked_data, timestamps in zip( all_masked, timestamps))    ####
+
 
 
 
@@ -186,37 +188,8 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     timestamps = [targets_timestamps[i][1] for i in range(len(targets_timestamps))]
     
     ### 3. combine to get training data & process
-       
-        
-        ####   2. Apply a filter for each voxel               
-        for voxel in range(0, n_voxels ):
-            data_to_filter = encoding_datasets[run][:,voxel] #data of the voxel along the session
-            #apply the filter 
-            data_to_filter = TimeSeries(data_to_filter, sampling_interval=TR)
-            F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02) ##upper and lower boundaries
-            data_filtered=F.filtered_boxcar.data
-            encoding_datasets[run][:,voxel] = data_filtered ## replace old data with the filtered one.
-        
-        
-        ####   3. Subset of data corresponding to the delay times (all voxels)
-        encoding_delay_activity = np.zeros(( len(timestamps), n_voxels)) ## emply matrix (n_trials, n_voxels)
-        for idx,t in enumerate(timestamps): #in each trial
-            delay_TRs =  encoding_datasets[run][t:t+2, :] #take the first scan of the delay and the nex
-            delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
-            encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
-        
-        
-        ####   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
-        for vxl in range(0, n_voxels ): # by voxel
-            vx_act = encoding_delay_activity[:, vxl]
-            vx_act_zs = np.array( zscore(vx_act) ) +10 ; ## zscore + 10 just to get + values
-            encoding_delay_activity[:, vxl] = vx_act_zs  ## replace previos activity
-        
-        
-        ####   5. append activity and targets of the session
-        p_target = list(p_target) ### make a list that will be added to another list
-        Training_dataset_targets.extend(p_target) ## append the position of the target for the trial    
-        Training_dataset_activity.append(encoding_delay_activity) ## append the activity used for the training
+    training_dataset  = Parallel(n_jobs = numcores)(delayed(process_enc_timestamps)( masked_data, timestamps, TR=2.335) for masked_data, timestamps in zip( all_masked, timestamps))    ####
+
     
     
     ##### Concatenate sessions to create Trianing Dataset  ### ASSUMPTION: each voxel is the same across sessions!               
