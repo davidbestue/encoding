@@ -60,8 +60,27 @@ def mask_fmri(fmri_path, masks, sys_use='unix'):
 
 
 
+scans_enc_sess
 
+def get_enc_info(beh_path, n_scans_sess, sys_use='unix', hd=6, TR=2.335):
+    #### get the timestamps of the fmri data & the target location of the run
+    beh_path = ub_wind_path(beh_path, system=sys_use) #change the path format wind-unix
+    behaviour=np.genfromtxt(beh_path, skip_header=1) ## load the file
+    p_target = np.array(behaviour[:-1,4]) ## Get the position (hypotetical channel coef)
+    ref_time=behaviour[-1, 1] ## Reference time (start scanner - begiinging of recording)
+    st_delay = behaviour[:-1, 11] -ref_time #start of the delay time & take off the reference from
+    start_delay_hdf = st_delay + hd # add some seconds for the hemodynamic delay     
+    start_delay_hdf_scans = start_delay_hdf/TR  #convert seconds to scans (number of scan to take)
+    timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )] #make it an integrer
+    #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
+    #you short the timestamps and the matrix fro the hipotetical cannel coefici
+    while timestamps[-1]>n_scans_sess-2:
+        timestamps=timestamps[:-1] ##  1st scan to take in each trial
+        p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
+    
+    return p_target, timestamps
 
+    
 
 
 
@@ -87,7 +106,21 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
     ### 1. Load and mask the data of all sessions     
     numcores = multiprocessing.cpu_count()
     all_data_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
-    np.shape(all_data_masked)
+    scans_enc_sess = [len(all_data_masked[r]) for r in range(len(all_data_masked)) ]
+    
+    
+    ### 2. timestamps and beh targets
+    
+    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(get_enc_info)((beh_path, n_scans_sess, sys_use='unix', hd=6, TR=2.335))  for beh_path, n_scans_sess in zip( beh_paths, scans_enc_sess))    ####
+    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
+    
+    
+    
+    numcores = multiprocessing.cpu_count()
+    all_data_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri)(fmri_path, masks, sys_use='unix')  for fmri_path in fmri_paths)    ####
+    scans_enc_sess = [len(all_data_masked[r]) for r in range(len(all_data_masked)) ]
+    
+    
     
     ####
     ### 2. Process encoding data
@@ -116,7 +149,7 @@ def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, T
         timestamps = [  int(round(  start_delay_hdf_scans[n] ) ) for n in range(0, len(start_delay_hdf_scans) )] #make it an integrer
         #In case  the last one has no space, exclude it (and do the same for the ones of step 1, lin step 3 you will combie and they must have the same length)
         #you short the timestamps and the matrix fro the hipotetical cannel coefici
-        while timestamps[-1]>len(encoding_datasets[run])-2:
+        while timestamps[-1]>  len(encoding_datasets[run])-2:
             timestamps=timestamps[:-1] ##  1st scan to take in each trial
             p_target = p_target[:-1] ## targets of the session (append to the genearl at the end)
         
