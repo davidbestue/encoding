@@ -13,6 +13,8 @@ from process_encoding import *
 import random
 from joblib import Parallel, delayed
 import multiprocessing
+import time
+
 #
 #numcores = multiprocessing.cpu_count()
 #
@@ -66,20 +68,34 @@ wm_beh_paths=[root +'n001/WMtask/s01/r01/wm_beh.txt', root +'n001/WMtask/s01/r02
 
 
 ##### Process training data
+start_process_enc = time.time()
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
+end_process_enc = time.time()
+process_encoding_time = end_process_enc - start_process_enc
+
 
 ### Train your weigths
+start_train_weights = time.time()
 WM = Weights_matrix( training_dataset, training_targets )
 WM_t = WM.transpose()
+end_train_weights = time.time()
+process_train_weights = end_train_weights - start_train_weights
+
 
 
 ### Process testing data
+start_process_wm = time.time()
 nscans_wm=16
 testing_activity, testing_behaviour = process_encoding_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
+end_process_wm = time.time()
+process_wm = end_process_wm - start_process_wm
+
+
 
 
 ### Respresentation
+start_repres = time.time()
 # TR separartion
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 numcores = multiprocessing.cpu_count()
@@ -100,6 +116,16 @@ plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), pos
 plt.ylabel('Angle')
 plt.xlabel('time (s)')
 plt.show(block=False)
+
+
+end_repres = time.time()
+process_recons = end_repres - start_repres
+
+
+print( 'Time process encoding: ' +str(process_encoding_time))
+print( 'Time train weights: ' +str(process_train_weights))
+print( 'Time process wm: ' +str(process_wm))
+print( 'Time process reconstruction: ' +str(process_recons))
 
 
 
