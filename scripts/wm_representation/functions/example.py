@@ -11,23 +11,23 @@ from Weigths_matrix import *
 from Representation import *
 from process_encoding import *
 import random
-
-numcores = multiprocessing.cpu_count()
-
-n_trials_train=900
-training_angles = np.array([ random.randint(0,359) for i in range(n_trials_train)])
-training_data = fake_data(training_angles) +5
-
-##
-WM = Weights_matrix( training_data, training_angles )
-WM_t = WM.transpose()
-##
-
-n_trials_test=20000
-testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-testing_data = fake_data(testing_angles) +10
-
-Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180)
+#
+#numcores = multiprocessing.cpu_count()
+#
+#n_trials_train=900
+#training_angles = np.array([ random.randint(0,359) for i in range(n_trials_train)])
+#training_data = fake_data(training_angles) +5
+#
+###
+#WM = Weights_matrix( training_data, training_angles )
+#WM_t = WM.transpose()
+###
+#
+#n_trials_test=20000
+#testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
+#testing_data = fake_data(testing_angles) +10
+#
+#Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 
 
 
@@ -72,16 +72,32 @@ WM_t = WM.transpose()
 
 
 ### Process testing data
-testing_activity, testing_behaviour = process_encoding_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=16, TR=2.335)
+nscans_wm=16
+testing_activity, testing_behaviour = process_encoding_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
 
 
 ### Respresentation
 # TR separartion
+signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+numcores = multiprocessing.cpu_count()
+Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False)  for signal in signal_paralel)    ####
 
-signal = testing_activity[:, 0, :]
-Representation(signal, testing_angles, WM, WM_t, ref_angle=180)
+Reconstruction = pd.concat(Reconstructions, axis=1) 
+column_names = [str(i * TR) for i in range(nscans_wm)]
+Reconstruction.colums = column_names
 
+
+#Plot heatmap
+plt.figure()
+plt.title('Heatmap decoding')
+######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+plt.ylabel('Angle')
+plt.xlabel('time (s)')
+plt.show(block=False)
 
 
 
