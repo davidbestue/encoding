@@ -173,7 +173,7 @@ def condition_wm( activity, behaviour, condition, distance='mix'):
 #s_act, s_beh = condition_wm( sig, beh, condition='2_7', distance='mix')
 
 
-def process_wm_files(fmri_paths, masks, beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
+def process_wm_files(wm_fmri_paths, masks, beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
     ### Mask and process the fmri data
     numcores = multiprocessing.cpu_count()
     wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
