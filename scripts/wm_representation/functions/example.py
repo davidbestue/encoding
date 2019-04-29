@@ -11,6 +11,8 @@ from Weigths_matrix import *
 from Representation import *
 from process_encoding import *
 import random
+from joblib import Parallel, delayed
+import multiprocessing
 #
 #numcores = multiprocessing.cpu_count()
 #
