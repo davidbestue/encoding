@@ -2,11 +2,11 @@
 """
 Created on Mon Apr 29 17:01:27 2019
 
-@author: David
+@author: David Bestue
 """
 
 
-def data_to_use( Subject_analysis, Method_analysis, brain_region, root):
+def data_to_use( Subject_analysis, Method_analysis, brain_region, root='/home/david/Desktop/IEM_data/'):
     
     if Method_analysis == "together":
         
@@ -505,7 +505,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region, root):
     
 
 
-#func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, masks = data_to_use( 'n001', 'together', 'ips', root= '/home/david/Desktop/IEM_data/')
+#func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, masks = data_to_use( 'n001', 'together', 'ips')
 
 
 
