@@ -67,7 +67,7 @@ def all_process( Subject, Brain_Region, Condition, method='together'):
 
 
 Conditions_4=['1_0.2', '1_7', '2_0.2', '2_7']
-Rep_4C = Parallel(n_jobs = numcores)(delayed(all_process) (Subject='n001', Brain_Region='ips', Condition, method='together')  for Condition in Conditions_4)    
+Rep_4C = Parallel(n_jobs = numcores)(delayed(all_process) ( Condition, Subject='n001', Brain_Region='ips', method='together')  for Condition in Conditions_4)    
 
 
 
