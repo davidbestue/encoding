@@ -6,7 +6,7 @@ Created on Mon Apr 29 17:01:27 2019
 """
 
 
-def data_to_use( Subject_analysis, Method_analysis, brain_region):
+def data_to_use( Subject_analysis, Method_analysis, brain_region, root):
     
     if Method_analysis == "together":
         
@@ -503,4 +503,13 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
     return func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, masks
 
     
-    
+
+
+func_encoding_sess, Beh_enc_files_sess, func_wmtask_sess, Beh_WM_files_sess, masks = data_to_use( 'n001', 'together', 'ips', root= '/home/david/Desktop/IEM_data/')
+
+
+
+
+
+
+  
