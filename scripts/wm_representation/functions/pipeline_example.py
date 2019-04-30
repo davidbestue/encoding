@@ -18,7 +18,7 @@ import time
 
 
 ### Data to use
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 'n001', 'together', 'visual')
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 's001', 'together', 'visual')
 
 ##### Process training data
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
@@ -28,7 +28,7 @@ WM = Weights_matrix( training_dataset, training_targets )
 WM_t = WM.transpose()
 
 ##### Process testing data
-testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_0.2', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
 #random.shuffle(testing_angles)
 
