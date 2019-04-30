@@ -5,7 +5,7 @@ Scripts to run the IEM in a simplified way. Some files are **functions** and oth
 
 ### Process:  
 
-#### fake_data_recosntruction.py  
+#### fake_data_reconstruction.py  
 + Runs the whole analysis using fake data (calling functions).   
 
 #### pipeline_example.py  
