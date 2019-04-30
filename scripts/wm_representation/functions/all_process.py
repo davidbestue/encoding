@@ -53,6 +53,7 @@ def all_process( Subject, Brain_Region, Condition, method='together', heatmap=Tr
         plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
         plt.ylabel('Angle')
         plt.xlabel('time (s)')
+        plt.tight_layout()
         plt.show(block=False)
     
     ######
@@ -96,6 +97,7 @@ for Subject in Subjects:
             plt.ylabel('Angle')
             plt.xlabel('time (s)')
         plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
+        plt.tight_layout()
         plt.show(block=False)
                 
             
