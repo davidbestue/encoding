@@ -15,6 +15,7 @@ from data_to_use import *
 from joblib import Parallel, delayed
 import multiprocessing
 import time
+import random
 
 
 ### Data to use
@@ -30,7 +31,7 @@ WM_t = WM.transpose()
 ##### Process testing data
 testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_0.2', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
-
+#random.shuffle(testing_angles)
 
 ### Respresentation
 start_repres = time.time()
