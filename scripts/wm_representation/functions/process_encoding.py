@@ -103,7 +103,7 @@ def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
 
 
 
-def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=6, TR=2.335):
+def process_encoding_files(fmri_paths, masks, beh_paths, sys_use='unix', hd=4, TR=2.335):
     ### Inputs: 
     ###### fmri_paths: list of paths
     ###### beh_paths: list of paths

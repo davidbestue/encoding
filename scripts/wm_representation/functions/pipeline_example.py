@@ -15,7 +15,6 @@ from data_to_use import *
 from joblib import Parallel, delayed
 import multiprocessing
 import time
-import random
 
 
 ### Data to use
@@ -65,34 +64,5 @@ print( 'Time process reconstruction: ' +str(process_recons))
 
 
 
-###############################################
-###############################################
-###############################################
-###############################################
-###############################################
 
-#import random
-#
-#n_trials_train=900
-#training_angles = np.array([ random.randint(0,359) for i in range(n_trials_train)])
-#training_data = fake_data(training_angles)
-#
-###
-#WM = Weights_matrix( training_data, training_angles )
-#WM_t = WM.transpose()
-###
-#
-#n_trials_test=2000
-#testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-#testing_data = fake_data(testing_angles)
-#
-#Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
-
-
-
-###############################################
-###############################################
-###############################################
-###############################################
-###############################################
 
