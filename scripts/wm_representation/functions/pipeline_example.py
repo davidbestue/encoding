@@ -18,7 +18,7 @@ import time
 
 
 ### Data to use
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 's001', 'together', 'visual')
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 'l001', 'together', 'visual')
 
 ##### Process training data
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
