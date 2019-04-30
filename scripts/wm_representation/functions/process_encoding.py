@@ -76,6 +76,7 @@ def enc_timestamps_targets(beh_path, n_scans, sys_use='unix', hd=6, TR=2.335):
 
 def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
     n_voxels = np.shape(masked_data)[1]
+    new=masked_data
     ####   2. Apply a filter for each voxel
     for voxel in range(0, n_voxels ):
         data_to_filter = masked_data[:,voxel] #data of the voxel along the session
@@ -83,12 +84,12 @@ def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
         data_to_filter = TimeSeries(data_to_filter, sampling_interval=TR)
         F = FilterAnalyzer(data_to_filter, ub=0.15, lb=0.02) ##upper and lower boundaries
         data_filtered=F.filtered_boxcar.data
-        masked_data[:,voxel] = data_filtered ## replace old data with the filtered one.
+        new[:,voxel] = data_filtered ## replace old data with the filtered one.
     
     ####   3. Subset of data corresponding to the delay times (all voxels)
     encoding_delay_activity = np.zeros(( len(timestamp_run), n_voxels)) ## emply matrix (n_trials, n_voxels)
     for idx,t in enumerate(timestamp_run): #in each trial
-        delay_TRs =  masked_data[t:t+2, :] #take the first scan of the delay and the nex
+        delay_TRs =  new[t:t+2, :] #take the first scan of the delay and the nex
         delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
         encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
     
