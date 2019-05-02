@@ -115,7 +115,7 @@ for i in range(len(Reconstructions.keys())):
         
 writer.save()     
 
-### read the file.
+### read the file. (back to dictionary)
 #xls = pd.ExcelFile(path_save)
 #sheets = xls.sheet_names
 ####
