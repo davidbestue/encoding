@@ -73,6 +73,8 @@ def all_process( Subject, Brain_Region, Condition, method='together', heatmap=Tr
 
 
 ######
+
+path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_all.xlsx'
     
 Reconstructions={}
 
@@ -104,4 +106,14 @@ for Subject in Subjects:
             
 
             
+### save into a excel file all the reconstructions
 
+writer = pd.ExcelWriter(path_save)
+
+for i in range(len(Reconstructions.keys())):
+    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i])
+
+        
+
+writer.save()     
+        
