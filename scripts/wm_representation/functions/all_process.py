@@ -107,7 +107,6 @@ for Subject in Subjects:
 
             
 ### save into a excel file all the reconstructions
-
 writer = pd.ExcelWriter(path_save)
 
 for i in range(len(Reconstructions.keys())):
@@ -115,4 +114,13 @@ for i in range(len(Reconstructions.keys())):
 
         
 writer.save()     
-        
+
+### read the file.
+#xls = pd.ExcelFile(path_save)
+#sheets = xls.sheet_names
+####
+#R={}
+#for sh in sheets:
+#    R[sh]  = pd.read_excel(xls, sheet_name=sh)
+
+
