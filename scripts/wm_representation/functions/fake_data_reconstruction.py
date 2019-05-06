@@ -33,9 +33,9 @@ WM = Weights_matrix( training_data, training_angles )
 WM_t = WM.transpose()
 ##
 
-n_trials_test=2000
+n_trials_test=20000
 testing_angles = np.array([ random.randint(0,359) for i in range(n_trials_test)])
-testing_data = fake_data(testing_angles)
+testing_data = fake_data(testing_angles, nt1, nt2)
 
 Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 
@@ -53,3 +53,19 @@ Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 #t, nt1, nt2 = list(testing_behaviour['T']), list(testing_behaviour['NT1']), list(testing_behaviour['NT2'])
 #testing_angles=t
 #testing_data = fake_data_3(t, nt1, nt2)
+
+
+
+
+nt1 = np.array([ random.randint(0,359) for i in range(n_trials_test)])
+nt2 = np.array([ random.randint(0,359) for i in range(n_trials_test)])
+testing_data = fake_data_3(testing_angles, nt1, nt2)
+Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
+
+
+
+
+
+
+
+
