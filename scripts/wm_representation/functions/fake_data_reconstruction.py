@@ -46,3 +46,10 @@ Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 ###############################################
 ###############################################
 ###############################################
+
+#if you want to use the ones of behaviour
+#enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 's001', 'together', 'visual')
+#testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_0.2', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+#t, nt1, nt2 = list(testing_behaviour['T']), list(testing_behaviour['NT1']), list(testing_behaviour['NT2'])
+#testing_angles=t
+#testing_data = fake_data_3(t, nt1, nt2)
