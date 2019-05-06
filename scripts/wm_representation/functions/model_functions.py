@@ -103,7 +103,6 @@ def ch2vrep3(channel):
 
 
 
-
 def posch1_to_posch2(ch_1):
     return np.where(np.array(pos_channels2) == pos_channels[ch_1])[0][0]
 
