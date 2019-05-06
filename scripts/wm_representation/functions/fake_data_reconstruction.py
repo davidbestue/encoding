@@ -56,11 +56,11 @@ Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 
 
 
-testing_angles = np.array([ 180 for i in range(n_trials_test)])
-nt1 = np.array([270 for i in range(n_trials_test)])
-nt2 = np.array([ 90 for i in range(n_trials_test)])
-testing_data = fake_data_3(testing_angles, nt1, nt2)
-Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
+#testing_angles = np.array([ 180 for i in range(n_trials_test)])
+#nt1 = np.array([270 for i in range(n_trials_test)])
+#nt2 = np.array([ 90 for i in range(n_trials_test)])
+#testing_data = fake_data_3(testing_angles, nt1, nt2)
+#Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
 
 
 
