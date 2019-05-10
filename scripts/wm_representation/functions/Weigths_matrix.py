@@ -61,5 +61,5 @@ def Weights_matrix( training_data, training_angles ):
     Matrix_weights =pd.DataFrame(Matrix_weights) #convert the array to dataframe
     end_train_weights = time.time()
     process_train_weights = end_train_weights - start_train_weights
-    print( 'Time train weights: ' +str(process_train_weights))    
+    print( 'Time train Weights: ' +str(process_train_weights))    
     return Matrix_weights
