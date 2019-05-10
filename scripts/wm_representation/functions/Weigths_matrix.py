@@ -33,7 +33,6 @@ def Weights_matrix( training_data, training_angles ):
     channel_names = ['ch_' +str(i+1) for i in range(0, len(pos_channels))] #names of the channels 
     M_model.columns=channel_names
     
-    
     ####   2. Train the model and get matrix of weights
     Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
     
