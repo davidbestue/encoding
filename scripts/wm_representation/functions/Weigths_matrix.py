@@ -44,7 +44,7 @@ def Weights_matrix( training_data, training_angles ):
         X = sm.add_constant(X)
         a = sm.OLS(Y, X )
         resul = a.fit()
-        print(resul.params[0])
+        #print(resul.params[0])
         betas= resul.params[1:]
         Matrix_weights[voxel_x, :]=betas
         
