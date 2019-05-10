@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Apr 24 14:32:56 2019
-
 @author: David Bestue
 """
 
