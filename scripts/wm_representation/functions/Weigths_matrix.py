@@ -42,9 +42,11 @@ def Weights_matrix( training_data, training_angles ):
         Y = training_data[:, voxel_x] ## Y is the real activity
         X = M_model ## X is the hipothetycal activity 
         ###
+        X = sm.add_constant(X)
         a = sm.OLS(Y, X )
         resul = a.fit()
-        betas= resul.params
+        print(resul.params[0])
+        betas= resul.params[1:]
         Matrix_weights[voxel_x, :]=betas
         
         #### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
