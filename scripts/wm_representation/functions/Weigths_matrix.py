@@ -11,6 +11,7 @@ from sklearn.linear_model import Lasso
 from model_functions import f, pos_channels
 import time
 import statsmodels.api as sm
+from scipy.stats import zscore
 
 
 
@@ -35,11 +36,11 @@ def Weights_matrix( training_data, training_angles ):
     
     ####   2. Train the model and get matrix of weights
     Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
-    
+    M_model_zscored = zscore(M_model, axis=1) ## Standarize
     for voxel_x in range(0, n_voxels): #train each voxel
         # set Y and X for the GLM
         Y = training_data[:, voxel_x] ## Y is the real activity
-        X = M_model ## X is the hipothetycal activity 
+        X = M_model_zscored ## X is the hipothetycal activity 
         ###
         X = sm.add_constant(X)
         a = sm.OLS(Y, X )
@@ -49,6 +50,8 @@ def Weights_matrix( training_data, training_angles ):
         Matrix_weights[voxel_x, :]=betas
         
         #### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
+        #Y = training_data[:, voxel_x] ## Y is the real activity
+        #X = M_model## X is the hipothetycal activity (no seed to standarize, normalize of lasso does it)
         #lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=True,  positive=True, normalize=True, selection='random')   
         #lin.fit(X,Y) # fits the best combination of weights to explain the activity
         #betas = lin.coef_ #ignore the intercept and just get the weights of each channel
