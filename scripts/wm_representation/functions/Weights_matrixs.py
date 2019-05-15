@@ -194,8 +194,8 @@ def Weights_matrix_Lasso( training_data, training_angles ):
 
 def Weights_matrix_Lasso_neg( training_data, training_angles ):
     #####
-    #### no intercept
-    #### no normalized
+    #### yes intercept
+    #### yes normalized
     ### also negative
     start_train_weights = time.time()
     #####
