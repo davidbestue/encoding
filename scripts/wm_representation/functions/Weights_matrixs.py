@@ -147,7 +147,7 @@ def Weights_matrix_LM_zs( training_data, training_angles ):
 
 def Weights_matrix_LM_i( training_data, training_angles ):
     ## you fit an intercept
-    ## regressor are scaled
+    ## regressor are not scaled
     #####
     start_train_weights = time.time()
     #####
@@ -188,10 +188,10 @@ def Weights_matrix_LM_i( training_data, training_angles ):
 ##### Lasso
 
 
-def Weights_matrix_Lasso_i_zs( training_data, training_angles ):
+def Weights_matrix_Lasso_i_p( training_data, training_angles ):
     #####
     #### fit intercept
-    #### normalized
+    #### possitive true
     start_train_weights = time.time()
     #####
     n_voxels = np.shape(training_data)[1]
@@ -233,10 +233,10 @@ def Weights_matrix_Lasso_i_zs( training_data, training_angles ):
 
 
 
-def Weights_matrix_Lasso( training_data, training_angles ):
+def Weights_matrix_Lasso_p( training_data, training_angles ):
     #####
     #### no intercept
-    #### no normalized
+    #### possitive
     start_train_weights = time.time()
     #####
     n_voxels = np.shape(training_data)[1]
@@ -318,11 +318,10 @@ def Weights_matrix_Lasso_neg( training_data, training_angles ):
 
 
 
-def Weights_matrix_Lasso_lm( training_data, training_angles ):
+def Weights_matrix_Lasso_b( training_data, training_angles ):
     #####
     #### yes intercept
-    #### yes normalized
-    ### also negative
+    #### also negative
     start_train_weights = time.time()
     #####
     n_voxels = np.shape(training_data)[1]
@@ -344,7 +343,7 @@ def Weights_matrix_Lasso_lm( training_data, training_angles ):
         ### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
         Y = training_data[:, voxel_x] ## Y is the real activity
         X = M_model ## X is the hipothetycal activit
-        lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=False,  positive=False, normalize=False, selection='random')   
+        lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=True,  positive=False, normalize=True, selection='random')   
         lin.fit(X,Y) # fits the best combination of weights to explain the activity
         betas = lin.coef_ #ignore the intercept and just get the weights of each channel
         Matrix_weights[voxel_x, :]=betas #save the 36 weights for each voxel
@@ -362,13 +361,10 @@ def Weights_matrix_Lasso_lm( training_data, training_angles ):
 
 
 
-
-
-def Weights_matrix_Lasso_ni_zs( training_data, training_angles ):
+def Weights_matrix_Lasso( training_data, training_angles ):
     #####
-    #### yes intercept
-    #### yes normalized
-    ### also negative
+    #### no intercept
+    #### also negative
     start_train_weights = time.time()
     #####
     n_voxels = np.shape(training_data)[1]
