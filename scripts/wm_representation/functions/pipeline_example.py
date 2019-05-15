@@ -23,7 +23,7 @@ enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use(
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
 
 ##### Train your weigths
-WM = Weights_matrix_Lasso_lm( training_dataset, training_targets )
+WM = Weights_matrix_Lasso_ni_zs( training_dataset, training_targets )
 WM_t = WM.transpose()
 
 ##### Process testing data
