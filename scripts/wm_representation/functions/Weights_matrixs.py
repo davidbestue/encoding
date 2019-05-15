@@ -15,7 +15,7 @@ from scipy.stats import zscore
 
 
 
-
+### LM
 
 def Weights_matrix_LM( training_data, training_angles ):
     # no intercept
@@ -103,7 +103,7 @@ def Weights_matrix_LM_i_zs( training_data, training_angles ):
 
 
 def Weights_matrix_LM_zs( training_data, training_angles ):
-    ## you fit an intercept
+    ## you do not fit an intercept
     ## regressor are scaled
     #####
     start_train_weights = time.time()
@@ -185,6 +185,7 @@ def Weights_matrix_LM_i( training_data, training_angles ):
 
 
 
+##### Lasso
 
 
 def Weights_matrix_Lasso_i_zs( training_data, training_angles ):
