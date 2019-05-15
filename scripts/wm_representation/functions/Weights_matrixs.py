@@ -218,7 +218,7 @@ def Weights_matrix_Lasso_neg( training_data, training_angles ):
         ### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
         Y = training_data[:, voxel_x] ## Y is the real activity
         X = M_model ## X is the hipothetycal activit
-        lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=False,  positive=False, normalize=False, selection='random')   
+        lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=True,  positive=False, normalize=True, selection='random')   
         lin.fit(X,Y) # fits the best combination of weights to explain the activity
         betas = lin.coef_ #ignore the intercept and just get the weights of each channel
         Matrix_weights[voxel_x, :]=betas #save the 36 weights for each voxel
