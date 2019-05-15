@@ -80,7 +80,7 @@ def Weights_matrix_LM_i_zs( training_data, training_angles ):
     
     ####   2. Train the model and get matrix of weights
     Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
-    M_model=sm.add_constant(M_model)
+    M_model['intercept'] = 1
     M_model_zscored = zscore(M_model, axis=0) ## Standarize
     for voxel_x in range(0, n_voxels): #train each voxel
         # set Y and X for the GLM
