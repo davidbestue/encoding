@@ -6,7 +6,7 @@ Created on Wed Apr 24 14:32:56 2019
 
 from model_functions import *
 from fake_data_generator import *
-from Weigths_matrixs import *
+from Weights_matrixs import *
 from Representation import *
 from process_encoding import *
 from process_wm import *
@@ -17,13 +17,13 @@ import time
 
 
 ### Data to use
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 's001', 'together', 'visual')
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( 'n001', 'together', 'visual')
 
 ##### Process training data
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
 
 ##### Train your weigths
-WM = Weights_matrix( training_dataset, training_targets )
+WM = Weights_matrix_LM( training_dataset, training_targets )
 WM_t = WM.transpose()
 
 ##### Process testing data

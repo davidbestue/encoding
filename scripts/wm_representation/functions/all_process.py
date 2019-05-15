@@ -7,7 +7,7 @@ Created on Mon Apr 29 17:36:53 2019
 
 from model_functions import *
 from fake_data_generator import *
-from Weigths_matrix import *
+from Weights_matrixs import *
 from Representation import *
 from process_encoding import *
 from process_wm import *
