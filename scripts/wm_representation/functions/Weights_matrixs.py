@@ -80,13 +80,14 @@ def Weights_matrix_LM_i_zs( training_data, training_angles ):
     
     ####   2. Train the model and get matrix of weights
     Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
+    M_model=sm.add_constant(M_model)
     M_model_zscored = zscore(M_model, axis=0) ## Standarize
     for voxel_x in range(0, n_voxels): #train each voxel
         # set Y and X for the GLM
         Y = training_data[:, voxel_x] ## Y is the real activity
         X = M_model_zscored ## X is the hipothetycal activity 
         ###
-        X = sm.add_constant(X)
+        #X = sm.add_constant(X)
         a = sm.OLS(Y, X )
         resul = a.fit()
         betas= resul.params[1:]
