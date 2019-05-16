@@ -27,7 +27,7 @@ WM = Weights_matrix_Lasso_b( training_dataset, training_targets )
 WM_t = WM.transpose()
 
 ##### Process testing data
-testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_0.2', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
 #random.shuffle(testing_angles)
 
