@@ -7,6 +7,21 @@ Created on Thu May 16 10:26:31 2019
 
 ## Shuffle function to get decoding value!
 
+
+#iterations = 4
+#
+#testing_angles_sh=[]
+#for n_rep in range(iterations):
+#    random.shuffle(testing_angles)
+#    testing_angles_sh.append(testing_angles)
+#
+#
+####   
+#
+#rep_shuff = Parallel(n_jobs = numcores)(delayed(Representation)(testing_activity, testing_angles, WM, WM_t, ref_angle=180, plot=False) for testing_angles in testing_angles_sh) 
+
+
+
 nscans_wm=16
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 
@@ -29,7 +44,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, ref_a
 
 
 
-sh_rec = shuffled_reconstruction(signal_paralel, testing_angles, 20, WM, WM_t)
+sh_rec = shuffled_reconstruction(signal_paralel, testing_angles, 100, WM, WM_t)
 
 
 
