@@ -29,7 +29,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, ref_a
 
 
 
-shuffled_reconstruction(signal_paralel, testing_angles, 3, WM, WM_t)
+sh_rec = shuffled_reconstruction(signal_paralel, testing_angles, 20, WM, WM_t)
 
 
 
