@@ -29,9 +29,10 @@ signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, ref_angle=180):
     testing_angles_sh=[]
     for n_rep in range(iterations):
-        random.shuffle(targets)
-        testing_angles_sh.append(targets)
+        new_targets = sample(testing_angles, len(testing_angles))
+        testing_angles_sh.append(new_targets)
     
+    #
     ##
     Reconstructions_sh=[]
     for n_rep in range(iterations):
@@ -44,7 +45,62 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, ref_a
 
 
 
-sh2_rec = shuffled_reconstruction(signal_paralel, testing_angles, 100, WM, WM_t)
+sh2_rec = shuffled_reconstruction(signal_paralel, testing_angles, 25, WM, WM_t)
+#df_shuff = {}
+#for i in range(len(sh2_rec)):
+#    df_shuff[str(i)] = sh2_rec[i]
+#
+#
+#panel = pd.Panel(df_shuff)
+#df_shuff_100_means = panel.mean(axis=0)
+#df_shuff_100_means.columns =  [str(i * TR) for i in range(nscans_wm)]
+#df_shuff_100_stds = panel.std(axis=0)
+#df_shuff_100_stds.columns =  [str(i * TR) for i in range(nscans_wm)]
+
+
+#Plot heatmap
+plt.figure()
+plt.title('Heatmap decoding')
+######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+ax = sns.heatmap(df_shuff_100, yticklabels=list(Reconstruction.index), cmap="coolwarm", vmin=-0.4, vmax = 0.6) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+plt.ylabel('Angle')
+plt.xlabel('time (s)')
+plt.tight_layout()
+plt.show(block=False)
+
+
+a = pd.DataFrame(Reconstruction.iloc[360,:])
+a = a.reset_index()
+a.columns = ['times', 'decoding']
+a['times']=a['times'].astype(float)
+
+
+#b = pd.DataFrame(df_shuff_100_means.iloc[360,:])
+#b= b.reset_index()
+#b.columns = ['times', 'decoding']
+
+
+
+#sh2_rec = shuffled_reconstruction(signal_paralel, testing_angles, 100, WM, WM_t)
+
+df_shuffle=[]
+for i in range(len(sh2_rec)):
+    n = sh2_rec[i].iloc[360, :]
+    n = n.reset_index()
+    n.columns = ['times', 'decoding']
+    n['times']=n['times'].astype(float)
+    df_shuffle.append(n)
+
+
+df_shuffle=pd.concat(df_shuffle)
+
+#
+#fmri = sns.load_dataset("fmri")
+#ax = sns.lineplot(x="timepoint", y="signal", data=fmri)
+#
+
 
 #
 #

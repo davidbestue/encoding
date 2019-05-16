@@ -94,7 +94,7 @@ def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
         delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
         encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
     
-    ###   4. zscore + 10 in each voxel in the temporal dimension (with the other 2TR of the same session)
+    ###   4. zscore  in each voxel in the temporal dimension (with the other 2TR of the same session)
     for voxel in range(0, n_voxels ): # by voxel
         vx_act = encoding_delay_activity[:, voxel]
         vx_act_zs = np.array( stats.zscore(vx_act) )  ; ## zscore + 10 just to get + values
