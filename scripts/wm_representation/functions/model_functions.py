@@ -103,6 +103,26 @@ def ch2vrep3(channel):
 
 
 
+def ch2vrep3_int(channel):
+    #Input the channel activity
+    #Return the visual respresentation of this channel activity
+    ###
+    #It multiplies each channel by its corresponding f function --> 36 values
+    #It sums all the 36 values of the 36 channels  --> 36 values (a way to smooth)
+    #Equivalent to the population vector
+    all_basis_functions=[]
+    for pos, ch_value in enumerate(pos_channels):
+        a = channel[-1] + channel[pos]*np.array( f2(ch_value) )
+        #a= sum(a)
+        all_basis_functions.append(a)
+        #all_basis_functions.append(channel[pos]*array( f2(ch_value)  ))
+    
+    
+    vrep=sum(all_basis_functions)
+    return vrep
+
+
+
 def posch1_to_posch2(ch_1):
     return np.where(np.array(pos_channels2) == pos_channels[ch_1])[0][0]
 
