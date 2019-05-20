@@ -111,8 +111,9 @@ def ch2vrep3_int(channel):
     #It sums all the 36 values of the 36 channels  --> 36 values (a way to smooth)
     #Equivalent to the population vector
     all_basis_functions=[]
+    channel_pos = channel[1:]
     for pos, ch_value in enumerate(pos_channels):
-        a = channel[-1] + channel[pos]*np.array( f2(ch_value) )
+        a = channel[0] + channel_pos[pos]*np.array( f2(ch_value) )
         #a= sum(a)
         all_basis_functions.append(a)
         #all_basis_functions.append(channel[pos]*array( f2(ch_value)  ))
