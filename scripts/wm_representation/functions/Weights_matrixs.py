@@ -164,7 +164,7 @@ def Weights_matrix_LM_i( training_data, training_angles ):
     M_model.columns=channel_names
     
     ####   2. Train the model and get matrix of weights
-    Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
+    Matrix_weights=np.zeros(( n_voxels, len(pos_channels) +1)) # (voxels, channels) how each channels is represented in each voxel
     for voxel_x in range(0, n_voxels): #train each voxel
         # set Y and X for the GLM
         Y = training_data[:, voxel_x] ## Y is the real activity
@@ -173,7 +173,7 @@ def Weights_matrix_LM_i( training_data, training_angles ):
         X = sm.add_constant(X)
         a = sm.OLS(Y, X )
         resul = a.fit()
-        betas= resul.params[1:]
+        betas= resul.params
         Matrix_weights[voxel_x, :]=betas
     
     #Save the matrix of weights 

@@ -24,7 +24,7 @@ enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use(
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=4, TR=2.335)
 
 ##### Train your weigths
-WM = Weights_matrix_Lasso_b( training_dataset, training_targets )
+WM = Weights_matrix_LM_i( training_dataset, training_targets )
 WM_t = WM.transpose()
 
 ##### Process testing data
@@ -38,7 +38,7 @@ numcores = multiprocessing.cpu_count()
 
 # TR separartion
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
-Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=False)  for signal in signal_paralel)    ####
+Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=True)  for signal in signal_paralel)    ####
 Reconstruction = pd.concat(Reconstructions, axis=1) 
 Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]
 
@@ -53,6 +53,8 @@ plt.ylabel('Angle')
 plt.xlabel('time (s)')
 plt.tight_layout()
 plt.show(block=False)
+
+
 
 ######
 ######
