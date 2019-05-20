@@ -295,7 +295,7 @@ def Weights_matrix_Lasso_i_b( training_data, training_angles ):
     M_model.columns=channel_names
     
     ####   2. Train the model and get matrix of weights
-    Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
+    Matrix_weights=np.zeros(( n_voxels, len(pos_channels) + 1)) # (voxels, channels) how each channels is represented in each voxel
     for voxel_x in range(0, n_voxels): #train each voxel
         
         ### Lasso with penalization of 0.0001 (higher gives all zeros), fiting intercept (around 10 ) and forcing the weights to be positive
@@ -304,6 +304,7 @@ def Weights_matrix_Lasso_i_b( training_data, training_angles ):
         lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=True,  positive=False, normalize=True, selection='random')   
         lin.fit(X,Y) # fits the best combination of weights to explain the activity
         betas = lin.coef_ #ignore the intercept and just get the weights of each channel
+        betas.append( lin.intercept_)
         Matrix_weights[voxel_x, :]=betas #save the 36 weights for each voxel
     
     
