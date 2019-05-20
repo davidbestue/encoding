@@ -113,13 +113,13 @@ def ch2vrep3_int(channel):
     all_basis_functions=[]
     channel_pos = channel[1:]
     for pos, ch_value in enumerate(pos_channels):
-        a = channel[0] + channel_pos[pos]*np.array( f2(ch_value) )
+        a =  channel_pos[pos]*np.array( f2(ch_value) )
         #a= sum(a)
         all_basis_functions.append(a)
         #all_basis_functions.append(channel[pos]*array( f2(ch_value)  ))
     
     
-    vrep=sum(all_basis_functions)
+    vrep=  sum(all_basis_functions)
     return vrep
 
 
