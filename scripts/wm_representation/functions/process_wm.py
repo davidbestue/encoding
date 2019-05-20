@@ -176,11 +176,14 @@ def condition_wm( activity, behaviour, condition, distance='mix'):
     
     
     #####zscore
-
-
+    ### Per voxel (problem of mixing session, not in encoding)
+    ### Get just the scans_wm that I will use
+    for sc_time in range(nscans_wm):
+        for voxel in range(0, n_voxels):
+            Subset[:, sc_time, voxel] =  np.array( stats.zscore(Subset[:, sc_time, voxel]  ) ) ;
     
     
-    
+    ####
     return Subset, beh_Subset
 
 
