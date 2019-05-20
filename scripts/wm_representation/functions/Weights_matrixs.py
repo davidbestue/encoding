@@ -303,7 +303,7 @@ def Weights_matrix_Lasso_i_b( training_data, training_angles ):
         X = M_model ## X is the hipothetycal activit
         lin = Lasso(alpha=0.001, precompute=True,  fit_intercept=True,  positive=False, normalize=True, selection='random')   
         lin.fit(X,Y) # fits the best combination of weights to explain the activity
-        betas = lin.coef_ #ignore the intercept and just get the weights of each channel
+        betas = list( lin.coef_) #ignore the intercept and just get the weights of each channel
         betas.append( lin.intercept_)
         Matrix_weights[voxel_x, :]=betas #save the 36 weights for each voxel
     
