@@ -18,8 +18,8 @@ from scipy import stats
 
 
 
-def trial_rep(Signal, angle_trial, Weights, Weights_t, ref, intercept=False):
-    if intercept==True:
+def trial_rep(Signal, angle_trial, Weights, Weights_t, ref, intercept_):
+    if intercept_==True:
         channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) [:36]#Run the inverse model
     else:
         channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
@@ -32,7 +32,7 @@ def trial_rep(Signal, angle_trial, Weights, Weights_t, ref, intercept=False):
 
 
 
-def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False):
+def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False, intercept=False):
     ## Make the data parallelizable
     n_trials_test = len(testing_data) #number trials
     data_prall = []
@@ -44,7 +44,7 @@ def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=1
     
     ###
     numcores = multiprocessing.cpu_count()
-    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
     
     df = pd.DataFrame()
