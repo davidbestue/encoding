@@ -28,7 +28,7 @@ WM = Weights_matrix_LM( training_dataset, training_targets )
 WM_t = WM.transpose()
 
 ##### Process testing data
-testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 testing_angles = np.array(testing_behaviour['T'])
 ##random.shuffle(testing_angles)
 
@@ -46,7 +46,7 @@ Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]
 plt.figure()
 plt.title('Heatmap decoding')
 ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="inferno") #, vmin=-0.4, vmax = 0.6) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") #, vmin=-0.4, vmax = 0.6) # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
 ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
 plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
 plt.ylabel('Angle')
