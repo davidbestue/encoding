@@ -65,7 +65,7 @@ def mask_fmri_process(fmri_path, masks, sys_use='unix'):
     masked_data_lh = apply_mask(fmri_path, mask_img_lh)    
     masked_data=np.hstack([masked_data_rh, masked_data_lh])
     
-    ### 2. Filter and zscore
+    ### 2. Filter ####and zscore
     n_voxels = np.shape(masked_data)[1]
     for voxel in range(0, n_voxels):
         data_to_filter = masked_data[:,voxel]                        
@@ -129,7 +129,13 @@ def wm_timestamps_targets(masked_data, beh_path, n_scans, sys_use='unix', TR=2.3
 #activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=2.335, nscans_wm=16) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
 #runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
 #runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
+    
 
+
+
+#### zscore
+#### What enters must be zscored!
+### Each column 
 
 
 def condition_wm( activity, behaviour, condition, distance='mix'):
@@ -167,6 +173,12 @@ def condition_wm( activity, behaviour, condition, distance='mix'):
         elif condition == '2_7':
             Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['type']==distance) , :, :]
             beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==2) & (behaviour['type']==distance)  ]
+    
+    
+    #####zscore
+
+
+    
     
     
     return Subset, beh_Subset
