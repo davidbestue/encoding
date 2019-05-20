@@ -18,8 +18,13 @@ from scipy import stats
 
 
 
-def trial_rep(Signal, angle_trial, Weights, Weights_t, ref):
-    channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
+def trial_rep(Signal, angle_trial, Weights, Weights_t, ref, intercept=False):
+    if intercept==True:
+        channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) [:36]#Run the inverse model
+    else:
+        channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
+    
+    ###       
     channel= ch2vrep3(channel_36) ###Convert 36 into 720 channels for the reconstruction
     to_roll = int( (ref - angle_trial)*(len(channel)/360) ) ## degrees to roll
     channel=np.roll(channel, to_roll) ## roll this degrees

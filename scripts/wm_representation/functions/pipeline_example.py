@@ -38,7 +38,7 @@ numcores = multiprocessing.cpu_count()
 
 # TR separartion
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
-Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False)  for signal in signal_paralel)    ####
+Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=True)  for signal in signal_paralel)    ####
 Reconstruction = pd.concat(Reconstructions, axis=1) 
 Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]
 
