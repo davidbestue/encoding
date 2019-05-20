@@ -265,29 +265,29 @@ def preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance=
 
 
 #testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=16, TR=2.335)
-
-def process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
-    ### Mask and process the fmri data
-    start_process_wm = time.time()
-    numcores = multiprocessing.cpu_count()
-    wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
-    scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
-    
-    ### TRs of interest
-    activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=TR, nscans_wm=nscans_wm) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
-    runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
-    runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
-    
-    ## concatenate the runs
-    runs_signal = np.vstack(runs_signal)
-    runs_beh = pd.concat(runs_beh)
-    
-    ## get subset of activity
-    testing_activity, testing_behaviour = condition_wm( runs_signal, runs_beh, condition, distance='mix')
-    end_process_wm = time.time()
-    process_wm = end_process_wm - start_process_wm
-    print( 'Time process wm: ' +str(process_wm))
-    return testing_activity, testing_behaviour
+#
+#def process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
+#    ### Mask and process the fmri data
+#    start_process_wm = time.time()
+#    numcores = multiprocessing.cpu_count()
+#    wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
+#    scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
+#    
+#    ### TRs of interest
+#    activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_timestamps_targets)(masked_data, beh_path, n_scans, sys_use='unix', TR=TR, nscans_wm=nscans_wm) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
+#    runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
+#    runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
+#    
+#    ## concatenate the runs
+#    runs_signal = np.vstack(runs_signal)
+#    runs_beh = pd.concat(runs_beh)
+#    
+#    ## get subset of activity
+#    testing_activity, testing_behaviour = condition_wm( runs_signal, runs_beh, condition, distance='mix')
+#    end_process_wm = time.time()
+#    process_wm = end_process_wm - start_process_wm
+#    print( 'Time process wm: ' +str(process_wm))
+#    return testing_activity, testing_behaviour
 
 
 
