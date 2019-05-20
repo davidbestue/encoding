@@ -97,7 +97,7 @@ def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
     ###   4. zscore  in each voxel in the temporal dimension (with the other 2TR of the same session)
     for voxel in range(0, n_voxels ): # by voxel
         vx_act = encoding_delay_activity[:, voxel]
-        vx_act_zs = np.array( stats.zscore(vx_act) )  ; ## zscore + 10 just to get + values
+        vx_act_zs = np.array( stats.zscore(vx_act) )  ; ## zscore 
         encoding_delay_activity[:, voxel] = vx_act_zs  ## replace previos activity
     
     

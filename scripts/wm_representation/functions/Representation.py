@@ -32,8 +32,8 @@ def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=1
     n_trials_test = len(testing_data) #number trials
     data_prall = []
     for i in range(n_trials_test):
-        data_prall.append(testing_data[i, :])
-        #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula must be zscored!
+        #data_prall.append(testing_data[i, :])
+        data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula must be zscored!
         
         
     
