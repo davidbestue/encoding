@@ -191,7 +191,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction = all_process_condition( Subject=Subject, Brain_Region=Brain_region, WM, WM_t, Condition=Condition, method='together',  heatmap=False)
+            Reconstruction = all_process_condition( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, Condition=Condition, method='together',  heatmap=False)
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             ## Plot the 4 heatmaps
             plt.title(Condition)
