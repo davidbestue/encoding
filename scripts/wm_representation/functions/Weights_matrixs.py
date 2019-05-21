@@ -53,8 +53,9 @@ def Weights_matrix_LM( training_data, training_angles ):
     end_train_weights = time.time()
     process_train_weights = end_train_weights - start_train_weights
     print( 'Time train Weights: ' +str(process_train_weights))   
+    Inter = False #intercept true or false
     
-    return Matrix_weights
+    return Matrix_weights, Inter
 
 
 
@@ -95,7 +96,8 @@ def Weights_matrix_LM_i( training_data, training_angles ):
     end_train_weights = time.time()
     process_train_weights = end_train_weights - start_train_weights
     print( 'Time train Weights: ' +str(process_train_weights))    
-    return Matrix_weights
+    Inter = True #intercept true or false
+    return Matrix_weights, Inter
 
 
 
@@ -138,8 +140,9 @@ def Weights_matrix_Lasso( training_data, training_angles ):
     end_train_weights = time.time()
     process_train_weights = end_train_weights - start_train_weights
     print( 'Time train Weights: ' +str(process_train_weights))   
+    Inter = False #intercept true or false
     
-    return Matrix_weights
+    return Matrix_weights, Inter
 
 
 
@@ -182,8 +185,9 @@ def Weights_matrix_Lasso_i( training_data, training_angles ):
     end_train_weights = time.time()
     process_train_weights = end_train_weights - start_train_weights
     print( 'Time train Weights: ' +str(process_train_weights))   
+    Inter = True #intercept true or false
     
-    return Matrix_weights
+    return Matrix_weights, Inter
 
 
 
