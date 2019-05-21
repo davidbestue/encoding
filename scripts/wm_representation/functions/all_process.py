@@ -183,7 +183,7 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         plt.figure()
         ### Data to use
-        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method='together', Brain_Region)
+        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_Region)
         ##### Process training data
         training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=4, TR=2.335)
         ##### Train your weigths
