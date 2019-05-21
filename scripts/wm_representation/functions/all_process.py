@@ -24,16 +24,15 @@ def all_process( Subject, Brain_Region, Condition, method='together', heatmap=Tr
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     
     ##### Process training data
-    training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335)
+    training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=4, TR=2.335)
     
     ##### Train your weigths
-    WM = Weights_matrix( training_dataset, training_targets )
+    WM = Weights_matrix_LM( training_dataset, training_targets )
     WM_t = WM.transpose()
     
     ##### Process testing data
-    testing_activity, testing_behaviour = process_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-    testing_angles = np.array(testing_behaviour['T'])
-    
+    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+    testing_angles = np.array(testing_behaviour['T'])    
     
     ### Respresentation
     start_repres = time.time()    
@@ -74,12 +73,12 @@ def all_process( Subject, Brain_Region, Condition, method='together', heatmap=Tr
 
 ######
 
-path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_all.xlsx'
+path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_n001.xlsx'
     
 Reconstructions={}
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
-Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips']
 
 
