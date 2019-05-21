@@ -10,7 +10,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from model_functions import *
-from numpy.linalg import inv
 from joblib import Parallel, delayed
 import multiprocessing
 from scipy import stats
@@ -20,7 +19,7 @@ from scipy import stats
 
 def trial_rep(Signal, angle_trial, Weights, Weights_t, ref, intercept_):
     ###
-    channel_36 = np.dot( np.dot ( inv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
+    channel_36 = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
     ###
     if intercept_==True:     
         channel= ch2vrep3_int(channel_36)
