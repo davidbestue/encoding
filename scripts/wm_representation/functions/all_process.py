@@ -170,12 +170,12 @@ def all_process_condition( Subject, Brain_Region, WM, WM_t, Condition, method='t
 
 ############ More optimal
 
-path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_r001.xlsx'
+path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_Lasso_i.xlsx'
     
 Reconstructions={}
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
-Subjects=['r001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips']
 
 
