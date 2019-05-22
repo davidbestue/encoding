@@ -216,3 +216,16 @@ for i in range(len(Reconstructions.keys())):
 writer.save()   
 
 
+
+#xls = pd.ExcelFile('Reconstructions_n001.xlsx')
+#sheets = xls.sheet_names
+###
+#R={}
+#for sh in sheets:
+#    R[sh]  = pd.read_excel(xls, sheet_name=sh)
+
+
+
+
+
+
