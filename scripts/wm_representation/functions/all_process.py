@@ -172,7 +172,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
     ### shuffle the targets
     testing_angles_sh=[]
     for n_rep in range(iterations):
-        new_targets = sample(testing_angles, len(testing_angles))
+        new_targets = np.random.sample(testing_angles, len(testing_angles))
         testing_angles_sh.append(new_targets)
     
     
