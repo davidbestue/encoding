@@ -161,17 +161,14 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     
     ####### Shuff
     #### Compute the shuffleing
-    shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject)
-    
-    
-    
+    shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
     
     return Reconstruction, shuffled_rec
 
 
 
 
-def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180, intercept=False, nscans_wm=16 ):
+def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180):
     ### shuffle the targets
     testing_angles_sh=[]
     for n_rep in range(iterations):
@@ -229,7 +226,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=2, Inter=Inter, Condition=Condition, method='together',  heatmap=False, nscans_wm=16)
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=2, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
