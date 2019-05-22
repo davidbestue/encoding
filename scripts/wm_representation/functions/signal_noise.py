@@ -149,19 +149,26 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
 ##### Measure of difference to shuffle
 
 
-decode_to_noise=[]
-for times in df.times.unique():
-    values = df.loc[(df['label']=='shuffle') & (df['condition']=='2_7') & (df['region'] =='visual') & (df['times']==times), 'decoding']
-    value_decoding = df.loc[(df['label']=='signal') & (df['condition']=='2_7') & (df['region'] =='visual') & (df['times']==times), 'decoding'].values[0]
-    prediction = ( value_decoding - np.mean(values) )/ np.std(values)
-    #### non parametric kernel method
-    #predict = statsmodels.nonparametric.kernel_density.KDEMultivariate(values, var_type='c', bw='cv_ls')
-    #prediction = 1 / predict.pdf([ value_decoding])
-    decode_to_noise.append(prediction)
+
+for brain_region in ['visual', 'ips']:
+    for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
+        for subject in ['n001', 'r001', 'd001', 'b001', 's001', 'l001']:
+            subj_decoding=[]
+            for times in df.times.unique():
+                decode_to_noise = []
+                values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding']
+                value_decoding = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'].values[0]
+                #### zscore method
+                prediction = ( value_decoding - np.mean(values) )/ np.std(values)
+                #### non parametric kernel method
+                #predict = statsmodels.nonparametric.kernel_density.KDEMultivariate(values, var_type='c', bw='cv_ls')
+                #prediction = 1 / predict.pdf([ value_decoding])
+                decode_to_noise.append(prediction)
+                subj_decoding[np.array(decode_to_noise)]
 
 
 
 
-
+plt.plot(decode_to_noise)
 
 
