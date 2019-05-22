@@ -26,26 +26,70 @@ nscans_wm=16
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 
 
-def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, ref_angle=180):
+def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180, intercept=False ):
+    ### shuffle the targets
     testing_angles_sh=[]
     for n_rep in range(iterations):
         new_targets = sample(testing_angles, len(testing_angles))
         testing_angles_sh.append(new_targets)
     
-    #
-    ##
+    
+    ### make the reconstryctions and append them
     Reconstructions_sh=[]
     for n_rep in range(iterations):
-        Reconstructions_i = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_sh[n_rep], WM, WM_t, ref_angle=180, plot=False)  for signal in signal_paralel) 
+        Reconstructions_i = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_sh[n_rep], WM, WM_t, intercept=Inter, ref_angle=180, plot=False)  for signal in signal_paralel) 
         Reconstruction_i = pd.concat(Reconstructions_i, axis=1) 
         Reconstruction_i.columns =  [str(i * TR) for i in range(nscans_wm)]
         Reconstructions_sh.append(Reconstruction_i)
     
-    return Reconstructions_sh
+    ### Get just the supposed target location
+    df_shuffle=[]
+    for i in range(len(Reconstructions_sh)):
+        n = shuffled_rec[i].iloc[360, :]
+        n = n.reset_index()
+        n.columns = ['times', 'decoding']
+        n['times']=n['times'].astype(float)
+        n['region'] = region
+        n['subject'] = subject
+        n['condition'] = condition
+        df_shuffle.append(n)
+    
+    ##
+    df_shuffle = pd.concat(df_shuffle)
+    return df_shuffle
 
 
 
-sh2_rec = shuffled_reconstruction(signal_paralel, testing_angles, 25, WM, WM_t)
+shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, 25, WM, WM_t, Inter=False, region=, condition=, subject=)
+
+
+
+#df_shuffle=[]
+#for i in range(len(shuffled_rec)):
+#    n = shuffled_rec[i].iloc[360, :]
+#    n = n.reset_index()
+#    n.columns = ['times', 'decoding']
+#    n['times']=n['times'].astype(float)
+#    
+#    
+#    df_shuffle.append(n)
+#
+#
+#df_shuffle=pd.concat(df_shuffle)
+#
+#
+#    df = R[dataframes]
+#    a = pd.DataFrame(df.iloc[360,:])
+#    a = a.reset_index()
+#    a.columns = ['times', 'decoding']
+#    a['times']=a['times'].astype(float)
+#    a['region'] = dataframes.split('_')[1]
+#    a['subject'] = dataframes.split('_')[0]
+#    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
+#    Decoding_df.append(a)
+
+
+
 #df_shuff = {}
 #for i in range(len(sh2_rec)):
 #    df_shuff[str(i)] = sh2_rec[i]
