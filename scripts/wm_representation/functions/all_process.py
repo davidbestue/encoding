@@ -208,13 +208,13 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
 
 
 
-path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_LM_shuff.xlsx'
-    
+path_save_reconstructions = '/home/david/Desktop/KAROLINSKA/Reconstructions_n001_LM.xlsx'
 Reconstructions={}
+path_save_shuffle = '/home/david/Desktop/KAROLINSKAReconstructions_n001_LM_shuff.xlsx'
 Reconstructions_shuff=[]
 
 
-Conditions=['1_0.2']
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
 Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips']
 
@@ -231,7 +231,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=2, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=25, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
@@ -248,6 +248,20 @@ for Subject in Subjects:
         plt.tight_layout()
         plt.show(block=False)
         
+
+
+### Save Recosntructions
+writer = pd.ExcelWriter(path_save_reconstructions)
+for i in range(len(Reconstructions.keys())):
+    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i])
+
+writer.save()   
+
+### Save Shuffle
+Df_shuffle = pd.concat(Reconstructions_shuff)
+Df_shuffle.to_excel(path_save_shuffle)
+
+
 
 
 
