@@ -179,15 +179,19 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
     ### make the reconstryctions and append them
     Reconstructions_sh=[]
     for n_rep in range(iterations):
+        time_rec_shuff_start = time.time()
         Reconstructions_i = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_sh[n_rep], WM, WM_t, intercept=Inter, ref_angle=180, plot=False)  for signal in signal_paralel) 
         Reconstruction_i = pd.concat(Reconstructions_i, axis=1) 
         Reconstruction_i.columns =  [str(i * TR) for i in range(nscans_wm)]
         Reconstructions_sh.append(Reconstruction_i)
+        time_rec_shuff_end = time.time()
+        time_rec_shuff = time_rec_shuff_end - time_rec_shuff_start
+        print('shuff_' + str(n_rep) + ': ' +str(time_rec_shuff) )
     
     ### Get just the supposed target location
     df_shuffle=[]
     for i in range(len(Reconstructions_sh)):
-        n = shuffled_rec[i].iloc[360, :]
+        n = Reconstructions_sh[i].iloc[360, :]
         n = n.reset_index()
         n.columns = ['times', 'decoding']
         n['times']=n['times'].astype(float)
@@ -198,6 +202,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
     
     ##
     df_shuffle = pd.concat(df_shuffle)
+    
     return df_shuffle
 
 
