@@ -2,12 +2,13 @@
 """
 Created on Wed May 22 17:23:51 2019
 
-@author: David
-"""
+@author: David Bestue 
+""" 
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 
 ### Load reconstruction and take the interesting part
@@ -142,3 +143,25 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
 #plt.figure()
 #ax = sns.lineplot(x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']=='1_7') & (df['subject'] =='n001')  & (df['region'] =='ips')]) 
 #plt.show(block=False)
+
+
+
+##### Measure of difference to shuffle
+
+
+decode_to_noise=[]
+for times in df.times.unique():
+    values = df.loc[(df['label']=='shuffle') & (df['condition']=='2_7') & (df['region'] =='visual') & (df['times']==times), 'decoding']
+    value_decoding = df.loc[(df['label']=='signal') & (df['condition']=='2_7') & (df['region'] =='visual') & (df['times']==times), 'decoding'].values[0]
+    prediction = ( value_decoding - np.mean(values) )/ np.std(values)
+    #### non parametric kernel method
+    #predict = statsmodels.nonparametric.kernel_density.KDEMultivariate(values, var_type='c', bw='cv_ls')
+    #prediction = 1 / predict.pdf([ value_decoding])
+    decode_to_noise.append(prediction)
+
+
+
+
+
+
+
