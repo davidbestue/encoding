@@ -43,12 +43,39 @@ Df_shuff['label'] = 'shuffle'
 
 ##combine them
 df = pd.concat([Df, Df_shuff])
+for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
+    fig = plt.figure()
+    fig.set_size_inches(10, 5)
+    fig.tight_layout()
+    fig.suptitle(condition)
+    ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
+    
+    sns.lineplot(ax= ax1, x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']==condition) & (df['subject'] =='n001')  & (df['region'] =='visual')]) 
+    sns.lineplot(ax= ax2, x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']==condition) & (df['subject'] =='n001')  & (df['region'] =='ips')]) 
+    axes=[ax1, ax2]
+    Titles=['visual', 'ips']
+    
+    for i, Ax in enumerate(axes):
+        Ax.spines['right'].set_visible(False)
+        Ax.spines['top'].set_visible(False)
+        Ax.title.set_text(Titles[i])
+        #Ax.legend_.remove()
+        #Ax.set_xticklabels(['in','out'])
+        #Ax.set_xlabel('Distance T-Dist')
+        Ax.set_ylabel('decoding value')
+        Ax.set_xlabel('time')
+        #Ax.set_ylim(-8,8)
+    
+    
+    plt.show(block=False)
 
 
-plt.figure()
-ax = sns.lineplot(x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']=='1_7') & (df['subject'] =='n001')  & (df['region'] =='visual')]) 
-plt.show(block=False)
 
-plt.figure()
-ax = sns.lineplot(x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']=='1_7') & (df['subject'] =='n001')  & (df['region'] =='ips')]) 
-plt.show(block=False)
+#plt.figure()
+#ax = sns.lineplot(x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']=='1_7') & (df['subject'] =='n001')  & (df['region'] =='visual')]) 
+#plt.show(block=False)
+#
+#plt.figure()
+#ax = sns.lineplot(x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']=='1_7') & (df['subject'] =='n001')  & (df['region'] =='ips')]) 
+#plt.show(block=False)
