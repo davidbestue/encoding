@@ -152,7 +152,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
 subj_decoding=[]
 for brain_region in ['visual', 'ips']:
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
-        for subject in ['n001', 'n001']:
+        for subject in df.subject.unique():
             decode_timepoint = []
             for times in df.times.unique():                
                 values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding']
