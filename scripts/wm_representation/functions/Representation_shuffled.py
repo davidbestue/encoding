@@ -22,11 +22,7 @@ Created on Thu May 16 10:26:31 2019
 
 
 
-nscans_wm=16
-signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
-
-
-def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180, intercept=False ):
+def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180, intercept=False, nscans_wm=16 ):
     ### shuffle the targets
     testing_angles_sh=[]
     for n_rep in range(iterations):
