@@ -166,13 +166,13 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     return Reconstruction, shuffled_rec
 
 
-
+import random
 
 def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180):
     ### shuffle the targets
     testing_angles_sh=[]
     for n_rep in range(iterations):
-        new_targets = np.random.sample(testing_angles, len(testing_angles))
+        new_targets = random.sample(targets, len(targets))
         testing_angles_sh.append(new_targets)
     
     
