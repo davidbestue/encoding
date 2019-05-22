@@ -114,7 +114,7 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 path_save_reconstructions = '/home/david/Desktop/KAROLINSKA/Reconstructions_n001_LM.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/KAROLINSKAReconstructions_n001_LM_shuff.xlsx'
+path_save_shuffle = '/home/david/Desktop/KAROLINSKA/Reconstructions_n001_LM_shuff.xlsx'
 Reconstructions_shuff=[]
 
 
