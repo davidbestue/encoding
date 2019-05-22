@@ -43,16 +43,79 @@ Df_shuff['label'] = 'shuffle'
 
 ##combine them
 df = pd.concat([Df, Df_shuff])
+
+presentation_period= 0.35 
+presentation_period_cue=  0.50
+inter_trial_period= 0.1 
+pre_cue_period= 0.5 
+pre_stim_period= 0.5 
+limit_time=5 
+ref_angle=45
+
+
 for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
+    
+    if condition == '1_0.2':
+        delay1 = 0.2
+        delay2 = 11.8
+        cue=0
+        t_p = cue + presentation_period_cue + pre_stim_period 
+        d_p = t_p + presentation_period +delay1 
+        r_t = d_p + presentation_period + delay2
+    elif condition == '1_7':
+        delay1 = 7
+        delay2 = 5
+        cue=0
+        t_p = cue + presentation_period_cue + pre_stim_period 
+        d_p = t_p + presentation_period +delay1 
+        r_t = d_p + presentation_period + delay2
+    elif condition == '2_0.2':
+        delay1 = 0.2
+        delay2 = 12
+        cue=0
+        d_p = cue + presentation_period_cue + pre_stim_period 
+        t_p = d_p + presentation_period +delay1 
+        r_t = t_p + presentation_period + delay2    
+    elif condition == '2_7':
+        delay1 = 7
+        delay2 = 12
+        cue=0
+        d_p = cue + presentation_period_cue + pre_stim_period 
+        t_p = d_p + presentation_period +delay1 
+        r_t = t_p + presentation_period + delay2
+        
+    
+    start_hrf = 3
+    sec_hdrf = 4
+    
+    d_p1 = (start_hrf + d_p) 
+    t_p1 = (start_hrf +t_p)
+    r_t1=  (start_hrf + r_t)
+    #
+    d_p2 = d_p1 + sec_hdrf 
+    t_p2 = t_p1 + sec_hdrf
+    r_t2=  r_t1 + sec_hdrf 
+    
+    y_vl_min = -0.2 #df_all_by_subj.Decoding.min()
+    y_vl_max = 0.2 #◙df_all_by_subj.Decoding.max()
+    
     fig = plt.figure()
-    fig.set_size_inches(10, 5)
+    fig.set_size_inches(10, 4)
     fig.tight_layout()
     fig.suptitle(condition)
     ax1 = fig.add_subplot(121)
     ax2 = fig.add_subplot(122)
     
     sns.lineplot(ax= ax1, x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']==condition) & (df['subject'] =='n001')  & (df['region'] =='visual')]) 
+    ax1.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    ax1.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    ax1.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )    
+    
     sns.lineplot(ax= ax2, x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']==condition) & (df['subject'] =='n001')  & (df['region'] =='ips')]) 
+    ax2.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    ax2.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    ax2.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )    
+    
     axes=[ax1, ax2]
     Titles=['visual', 'ips']
     
