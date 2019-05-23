@@ -12,7 +12,7 @@ import numpy as np
 
 
 ### Load reconstruction and take the interesting part
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_n001_LM.xlsx')
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM.xlsx')
 sheets = xls.sheet_names
 ##
 R={}
@@ -38,7 +38,7 @@ for dataframes in R.keys():
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal'
 
-Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_n001_LM_shuff.xlsx')
+Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_shuff.xlsx')
 Df_shuff['label'] = 'shuffle'
 
 
