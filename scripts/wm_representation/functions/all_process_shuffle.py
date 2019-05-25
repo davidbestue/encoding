@@ -112,15 +112,15 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_pfc.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_shuff.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_pfc_shuff.xlsx'
 Reconstructions_shuff=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
 Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips']
+brain_regions = ['pfc']
 
 
 for Subject in Subjects:
