@@ -11,6 +11,8 @@ import seaborn as sns
 import numpy as np
 
 
+
+#### signal visual, ipc
 ### Load reconstruction and take the interesting part
 xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM.xlsx')
 sheets = xls.sheet_names
@@ -34,16 +36,49 @@ for dataframes in R.keys():
 
 
 
-## Load the shuffle (it already has the interesting part)
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal'
 
+
+#### signal pfc
+### Load reconstruction and take the interesting part
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_pfc.xlsx')
+sheets = xls.sheet_names
+##
+R={}
+for sh in sheets:
+    R[sh]  = pd.read_excel(xls, sheet_name=sh)
+
+Decoding_df =[]
+
+for dataframes in R.keys():
+    df = R[dataframes]
+    a = pd.DataFrame(df.iloc[360,:])
+    a = a.reset_index()
+    a.columns = ['times', 'decoding']
+    a['times']=a['times'].astype(float)
+    a['region'] = dataframes.split('_')[1]
+    a['subject'] = dataframes.split('_')[0]
+    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
+    Decoding_df.append(a)
+
+
+
+Df_pfc = pd.concat(Decoding_df)
+Df_pfc['label'] = 'signal'
+
+
+
+
+## Load the shuffle (it already has the interesting part)
 Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_shuff.xlsx')
 Df_shuff['label'] = 'shuffle'
+Df_shuff_pfc = pd.read_excel('/home/david/Desktop/Reconstructions_LM_pfc_shuff.xlsx')
+Df_shuff_pfc['label'] = 'shuffle'
 
 
 ##combine them
-df = pd.concat([Df, Df_shuff])
+df = pd.concat([Df, Df_pfc, Df_shuff, Df_shuff_pfc])
 
 presentation_period= 0.35 
 presentation_period_cue=  0.50
@@ -101,12 +136,12 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     y_vl_max = 0.2 #◙df_all_by_subj.Decoding.max()
     
     fig = plt.figure()
-    fig.set_size_inches(10, 4)
+    fig.set_size_inches(13, 4)
     fig.tight_layout()
     fig.suptitle(condition)
-    ax1 = fig.add_subplot(121)
-    ax2 = fig.add_subplot(122)
-    
+    ax1 = fig.add_subplot(131)
+    ax2 = fig.add_subplot(132)
+    ax3 = fig.add_subplot(133)
     sns.lineplot(ax= ax1, x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']==condition)  & (df['region'] =='visual')]) 
     ax1.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     ax1.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
@@ -117,8 +152,13 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     ax2.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
     ax2.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )    
     
-    axes=[ax1, ax2]
-    Titles=['visual', 'ips']
+    sns.lineplot(ax= ax3, x="times", y="decoding", hue='label', hue_order = ['signal', 'shuffle'],  data=df.loc[ (df['condition']==condition)  & (df['region'] =='ips')]) 
+    ax3.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
+    ax3.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
+    ax3.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )  
+    
+    axes=[ax1, ax2, ax3]
+    Titles=['visual', 'ips', 'pfc']
     
     for i, Ax in enumerate(axes):
         Ax.spines['right'].set_visible(False)
@@ -150,7 +190,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
 
 
 subj_decoding=[]
-for brain_region in ['visual', 'ips']:
+for brain_region in ['visual', 'ips', 'pfc']:
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
             decode_timepoint = []
@@ -231,7 +271,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     fig.tight_layout()
     fig.suptitle(condition)
     ax1 = fig.add_subplot(111)
-    sns.lineplot(ax= ax1, x="times", y="decoding", hue='region', hue_order = ['visual', 'ips'],  data=df.loc[ (df['condition']==condition)]) 
+    sns.lineplot(ax= ax1, x="times", y="decoding", hue='region', hue_order = ['visual', 'ips', 'pfc'],  data=df.loc[ (df['condition']==condition)]) 
     ax1.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     ax1.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
     ax1.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )     
