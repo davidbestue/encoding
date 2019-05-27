@@ -112,15 +112,15 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_pfc.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconstructions_Lasso_pfc.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_pfc_shuff.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions_Lasso_pfc_shuff.xlsx'
 Reconstructions_shuff=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
 Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['pfc']
+brain_regions = ['visual', 'ips', 'pfc']
 
 
 for Subject in Subjects:
@@ -131,11 +131,11 @@ for Subject in Subjects:
         ##### Process training data
         training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=4, TR=2.335)
         ##### Train your weigths
-        WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
+        WM, Inter = Weights_matrix_Lasso( training_dataset, training_targets )
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=40, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
