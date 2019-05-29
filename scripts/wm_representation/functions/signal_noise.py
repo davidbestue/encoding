@@ -10,11 +10,89 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
+##### LM
+#
+##### signal visual, ipc
+#### Load reconstruction and take the interesting part
+#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM.xlsx')
+#sheets = xls.sheet_names
+###
+#R={}
+#for sh in sheets:
+#    R[sh]  = pd.read_excel(xls, sheet_name=sh)
+#
+#Decoding_df =[]
+#
+#for dataframes in R.keys():
+#    df = R[dataframes]
+#    a = pd.DataFrame(df.iloc[360,:])
+#    a = a.reset_index()
+#    a.columns = ['times', 'decoding']
+#    a['times']=a['times'].astype(float)
+#    a['region'] = dataframes.split('_')[1]
+#    a['subject'] = dataframes.split('_')[0]
+#    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
+#    Decoding_df.append(a)
+#
+#
+#
+#Df = pd.concat(Decoding_df)
+#Df['label'] = 'signal'
+#
+#
+##### signal pfc
+#### Load reconstruction and take the interesting part
+#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_pfc.xlsx')
+#sheets = xls.sheet_names
+###
+#R={}
+#for sh in sheets:
+#    R[sh]  = pd.read_excel(xls, sheet_name=sh)
+#
+#Decoding_df =[]
+#
+#for dataframes in R.keys():
+#    df = R[dataframes]
+#    a = pd.DataFrame(df.iloc[360,:])
+#    a = a.reset_index()
+#    a.columns = ['times', 'decoding']
+#    a['times']=a['times'].astype(float)
+#    a['region'] = dataframes.split('_')[1]
+#    a['subject'] = dataframes.split('_')[0]
+#    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
+#    Decoding_df.append(a)
+#
+#
+#
+#Df_pfc = pd.concat(Decoding_df)
+#Df_pfc['label'] = 'signal'
+#
+#
+#
+#
+### Load the shuffle (it already has the interesting part)
+#Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_shuff.xlsx')
+#Df_shuff['label'] = 'shuffle'
+#Df_shuff_pfc = pd.read_excel('/home/david/Desktop/Reconstructions_LM_pfc_shuff.xlsx')
+#Df_shuff_pfc['label'] = 'shuffle'
+#
+#
+###combine them
+#df = pd.concat([Df, Df_pfc, Df_shuff, Df_shuff_pfc])
+#
+#
 
 
-#### signal visual, ipc
-### Load reconstruction and take the interesting part
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM.xlsx')
+
+
+
+
+
+
+################## Lasso
+
+
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_pfc.xlsx')
 sheets = xls.sheet_names
 ##
 R={}
@@ -40,45 +118,13 @@ Df = pd.concat(Decoding_df)
 Df['label'] = 'signal'
 
 
-#### signal pfc
-### Load reconstruction and take the interesting part
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_pfc.xlsx')
-sheets = xls.sheet_names
-##
-R={}
-for sh in sheets:
-    R[sh]  = pd.read_excel(xls, sheet_name=sh)
-
-Decoding_df =[]
-
-for dataframes in R.keys():
-    df = R[dataframes]
-    a = pd.DataFrame(df.iloc[360,:])
-    a = a.reset_index()
-    a.columns = ['times', 'decoding']
-    a['times']=a['times'].astype(float)
-    a['region'] = dataframes.split('_')[1]
-    a['subject'] = dataframes.split('_')[0]
-    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
-    Decoding_df.append(a)
-
-
-
-Df_pfc = pd.concat(Decoding_df)
-Df_pfc['label'] = 'signal'
-
-
-
-
 ## Load the shuffle (it already has the interesting part)
-Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_shuff.xlsx')
+Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_pfc_shuff.xlsx')
 Df_shuff['label'] = 'shuffle'
-Df_shuff_pfc = pd.read_excel('/home/david/Desktop/Reconstructions_LM_pfc_shuff.xlsx')
-Df_shuff_pfc['label'] = 'shuffle'
 
 
-##combine them
-df = pd.concat([Df, Df_pfc, Df_shuff, Df_shuff_pfc])
+df = pd.concat([Df, Df_shuff])
+
 
 presentation_period= 0.35 
 presentation_period_cue=  0.50
