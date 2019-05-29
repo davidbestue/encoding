@@ -368,7 +368,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
         t_p = cue + presentation_period_cue + pre_stim_period 
         d_p = t_p + presentation_period +delay1 
         r_t = d_p + presentation_period + delay2
-        ylim = [0, 27]
+        xlim = [0, 27]
         
     elif condition == '1_7':
         delay1 = 7
@@ -377,7 +377,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
         t_p = cue + presentation_period_cue + pre_stim_period 
         d_p = t_p + presentation_period +delay1 
         r_t = d_p + presentation_period + delay2
-        ylim = [0, 27]
+        xlim = [0, 27]
         
     elif condition == '2_0.2':
         delay1 = 0.2
@@ -386,7 +386,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
         d_p = cue + presentation_period_cue + pre_stim_period 
         t_p = d_p + presentation_period +delay1 
         r_t = t_p + presentation_period + delay2   
-        ylim = [0, 27]
+        xlim = [0, 27]
         
     elif condition == '2_7':
         delay1 = 7
@@ -395,7 +395,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
         d_p = cue + presentation_period_cue + pre_stim_period 
         t_p = d_p + presentation_period +delay1 
         r_t = t_p + presentation_period + delay2
-        ylim = [0, 35]
+        xlim = [0, 35]
         
     
     start_hrf = 3
@@ -422,7 +422,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     ax1.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     ax1.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
     ax1.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )     
-    plt.ylim(ylim)
+    plt.xlim(xlim)
     
     axes=[ax1]
     for i, Ax in enumerate(axes):
