@@ -417,7 +417,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     fig.tight_layout()
     fig.suptitle(condition)
     ax1 = fig.add_subplot(111)
-    sns.lineplot(ax= ax1, x="times", y="decoding", hue='region', hue_order = ['visual', 'ips', 'pfc'],  data=df.loc[ (df['condition']==condition)]) 
+    sns.lineplot(ax= ax1, x="times", y="decoding", hue='region', hue_order = ['visual', 'ips', 'pfc'],  ci=69, data=df.loc[ (df['condition']==condition)]) 
     plt.plot([0, 16], [0,0], 'k--')
     ax1.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
     ax1.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
