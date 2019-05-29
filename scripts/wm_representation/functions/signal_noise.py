@@ -399,7 +399,8 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
         
     
     start_hrf = 3
-    sec_hdrf = 4
+    sec_hdrf = 3
+    resp_time = 4
     
     d_p1 = (start_hrf + d_p) 
     t_p1 = (start_hrf +t_p)
@@ -407,7 +408,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     #
     d_p2 = d_p1 + sec_hdrf 
     t_p2 = t_p1 + sec_hdrf
-    r_t2=  r_t1 + sec_hdrf + 4
+    r_t2=  r_t1 + sec_hdrf + resp_time
     
     y_vl_min = -5 #df_all_by_subj.Decoding.min()
     y_vl_max = 5 #◙df_all_by_subj.Decoding.max()
