@@ -92,7 +92,7 @@ import numpy as np
 ################## Lasso
 
 
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_pfc.xlsx')
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
 sheets = xls.sheet_names
 ##
 R={}
@@ -119,7 +119,7 @@ Df['label'] = 'signal'
 
 
 ## Load the shuffle (it already has the interesting part)
-Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_pfc_shuff.xlsx')
+Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_shuff.xlsx')
 Df_shuff['label'] = 'shuffle'
 
 
