@@ -112,9 +112,9 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_Lasso_pfc.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconstructions_Lasso_frontal.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_Lasso_pfc_shuff.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions_Lasso_frontal_shuff.xlsx'
 Reconstructions_shuff=[]
 
 
@@ -125,45 +125,45 @@ brain_regions = ['front_sup', 'front_mid', 'front_inf']
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
-#        plt.figure()
+        plt.figure()
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         ##### Process training data
         training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=4, TR=2.335)
-#        ##### Train your weigths
-#        WM, Inter = Weights_matrix_Lasso( training_dataset, training_targets )
-#        WM_t = WM.transpose()
-#        for idx_c, Condition in enumerate(Conditions):
-#            plt.subplot(2,2,idx_c+1)
-#            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
-#            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-#            Reconstructions_shuff.append(shuff)
-#            ## Plot the 4 heatmaps
-#            plt.title(Condition)
-#            ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-#            ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-#            ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-#            plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-#            plt.ylabel('Angle')
-#            plt.xlabel('time (s)')
-#            
-#            
-#        plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
-#        plt.tight_layout()
-#        plt.show(block=False)
-#        
-#
-#
-#### Save Recosntructions
-#writer = pd.ExcelWriter(path_save_reconstructions)
-#for i in range(len(Reconstructions.keys())):
-#    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i])
-#
-#writer.save()   
-#
-#### Save Shuffle
-#Df_shuffle = pd.concat(Reconstructions_shuff)
-#Df_shuffle.to_excel(path_save_shuffle)
+        ##### Train your weigths
+        WM, Inter = Weights_matrix_Lasso( training_dataset, training_targets )
+        WM_t = WM.transpose()
+        for idx_c, Condition in enumerate(Conditions):
+            plt.subplot(2,2,idx_c+1)
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False)
+            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+            Reconstructions_shuff.append(shuff)
+            ## Plot the 4 heatmaps
+            plt.title(Condition)
+            ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+            ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+            ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+            plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+            plt.ylabel('Angle')
+            plt.xlabel('time (s)')
+            
+            
+        plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
+        plt.tight_layout()
+        plt.show(block=False)
+        
+
+
+### Save Recosntructions
+writer = pd.ExcelWriter(path_save_reconstructions)
+for i in range(len(Reconstructions.keys())):
+    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i])
+
+writer.save()   
+
+### Save Shuffle
+Df_shuffle = pd.concat(Reconstructions_shuff)
+Df_shuffle.to_excel(path_save_shuffle)
 
 
 
