@@ -109,8 +109,8 @@ for dataframes in R.keys():
     a = a.reset_index()
     a.columns = ['times', 'decoding']
     a['times']=a['times'].astype(float)
-    #a['region'] = dataframes.split('_')[1]
-    a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
+    a['region'] = dataframes.split('_')[1]
+    #a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
     a['subject'] = dataframes.split('_')[0]
     a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
     Decoding_df.append(a)
@@ -334,7 +334,7 @@ ref_angle=45
 
 
 subj_decoding=[]
-for brain_region in ['front_sup', 'front_mid', 'front_inf']: #['visual', 'ips', 'pfc']:
+for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
             decode_timepoint = []
@@ -403,7 +403,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
         xlim = [0, 35]
         
     
-    start_hrf = 3
+    start_hrf = 4
     sec_hdrf = 3
     resp_time = 4
     
