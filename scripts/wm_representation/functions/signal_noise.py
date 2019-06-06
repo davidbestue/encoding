@@ -92,7 +92,9 @@ import numpy as np
 ################## Lasso
 
 
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
+#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_frontal.xlsx')
+
 sheets = xls.sheet_names
 ##
 R={}
@@ -119,7 +121,9 @@ Df['label'] = 'signal'
 
 
 ## Load the shuffle (it already has the interesting part)
-Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_shuff.xlsx')
+#Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_shuff.xlsx')
+Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_frontal_shuff.xlsx')
+
 Df_shuff['label'] = 'shuffle'
 
 
@@ -329,7 +333,7 @@ ref_angle=45
 
 
 subj_decoding=[]
-for brain_region in ['visual', 'ips', 'pfc']:
+for brain_region in ['front_sup', 'front_mid', 'front_inf']: #['visual', 'ips', 'pfc']:
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
             decode_timepoint = []
