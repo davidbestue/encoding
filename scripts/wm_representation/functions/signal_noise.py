@@ -109,7 +109,8 @@ for dataframes in R.keys():
     a = a.reset_index()
     a.columns = ['times', 'decoding']
     a['times']=a['times'].astype(float)
-    a['region'] = dataframes.split('_')[1]
+    #a['region'] = dataframes.split('_')[1]
+    a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
     a['subject'] = dataframes.split('_')[0]
     a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
     Decoding_df.append(a)
