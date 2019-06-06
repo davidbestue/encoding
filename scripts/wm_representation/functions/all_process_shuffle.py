@@ -112,9 +112,9 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_frontal.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_6.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_frontal_shuff.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_6_shuff.xlsx'
 Reconstructions_shuff=[]
 
 
@@ -129,7 +129,7 @@ for Subject in Subjects:
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         ##### Process training data
-        training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=4, TR=2.335)
+        training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
         ##### Train your weigths
         WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
         WM_t = WM.transpose()

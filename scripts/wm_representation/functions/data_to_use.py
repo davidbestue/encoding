@@ -56,17 +56,17 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Masklh = 'd001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_sup":
+            elif brain_region=="frontsup":
                 Maskrh = 'front_sup_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_sup_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_mid":
+            elif brain_region=="frontmid":
                 Maskrh = 'front_middle_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_middle_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
-            elif brain_region=="front_inf":
+            elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]      
@@ -113,17 +113,17 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Masklh = 'n001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_sup":
+            elif brain_region=="frontsup":
                 Maskrh = 'front_sup_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_sup_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_mid":
+            elif brain_region=="frontmid":
                 Maskrh = 'front_middle_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_middle_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
-            elif brain_region=="front_inf":
+            elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]               
@@ -169,17 +169,17 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Masklh = 'b001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
             
-            elif brain_region=="front_sup":
+            elif brain_region=="frontsup":
                 Maskrh = 'front_sup_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_sup_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_mid":
+            elif brain_region=="frontmid":
                 Maskrh = 'front_middle_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_middle_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
-            elif brain_region=="front_inf":
+            elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]                   
@@ -229,17 +229,17 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Masklh = 'l001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ] 
             
-            elif brain_region=="front_sup":
+            elif brain_region=="frontsup":
                 Maskrh = 'front_sup_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_sup_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_mid":
+            elif brain_region=="frontmid":
                 Maskrh = 'front_middle_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_middle_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
-            elif brain_region=="front_inf":
+            elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]           
@@ -294,17 +294,17 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Masklh = 's001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ] 
             
-            elif brain_region=="front_sup":
+            elif brain_region=="frontsup":
                 Maskrh = 'front_sup_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_sup_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_mid":
+            elif brain_region=="frontmid":
                 Maskrh = 'front_middle_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_middle_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
-            elif brain_region=="front_inf":
+            elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]               
@@ -351,17 +351,17 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Masklh = 'r001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
             
-            elif brain_region=="front_sup":
+            elif brain_region=="frontsup":
                 Maskrh = 'front_sup_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_sup_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
-            elif brain_region=="front_mid":
+            elif brain_region=="frontmid":
                 Maskrh = 'front_middle_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_middle_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
-            elif brain_region=="front_inf":
+            elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]       
