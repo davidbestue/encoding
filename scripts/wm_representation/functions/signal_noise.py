@@ -334,8 +334,6 @@ ref_angle=45
 
 
 ##### Measure of difference to shuffle
-
-
 subj_decoding=[]
 for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
@@ -362,9 +360,6 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
 
 
 df = pd.concat(subj_decoding)
-
-
-
 
 
 for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
