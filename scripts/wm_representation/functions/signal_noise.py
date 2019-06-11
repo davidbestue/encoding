@@ -408,8 +408,7 @@ for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
     
     start_hrf = 4
     sec_hdrf = 3
-    resp_time = 4
-    
+    resp_time = 4    
     d_p1 = (start_hrf + d_p) 
     t_p1 = (start_hrf +t_p)
     r_t1=  (start_hrf + r_t)
