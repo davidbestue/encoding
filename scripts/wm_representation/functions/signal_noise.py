@@ -90,8 +90,6 @@ import numpy as np
 
 
 ################## Lasso
-
-
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_frontal.xlsx')
 xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_6.xlsx')
