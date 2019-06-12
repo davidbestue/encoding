@@ -458,7 +458,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     #plt.show(block=False)
 
 plt.tight_layout()
-plt.suptitle( 'Sprague by session n001, ' +distance + '_' + Method_analysis, fontsize=12)
+plt.suptitle( 'Signal-shuffle conditions', fontsize=12)
 plt.show(block=False)
 
 
