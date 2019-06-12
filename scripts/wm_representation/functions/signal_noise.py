@@ -468,7 +468,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 
 
 plt.suptitle( 'LM', fontsize=18)
-plt.tight_layout()
+plt.tight_layout(w_pad=5, h_pad=5)
 plt.show(block=False)
 
 
