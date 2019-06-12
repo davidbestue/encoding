@@ -92,8 +92,8 @@ import numpy as np
 ################## Lasso
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_frontal.xlsx')
-#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_6.xlsx')
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_6.xlsx')
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_6.xlsx')
+#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_6.xlsx')
 
 
 sheets = xls.sheet_names
@@ -125,8 +125,8 @@ Df['label'] = 'signal'
 ## Load the shuffle (it already has the interesting part)
 #Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_shuff.xlsx')
 #Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_frontal_shuff.xlsx')
-#Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_6_shuff.xlsx')
-Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_6_shuff.xlsx')
+Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_6_shuff.xlsx')
+#Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_6_shuff.xlsx')
 
 
 
@@ -421,56 +421,31 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     
     #fig = plt.figure()
     ax = fig.add_subplot(2,2, indx_c+1) 
-    #plt.subplot(2,2, indx_c+1)
-    #ñfig.set_size_inches(20, 20)
-    #fig.tight_layout()
-    #fig.suptitle(condition)
-    #ax1 = fig.add_subplot(111)
-    #sns.lineplot(ax=ax1, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69, data=df.loc[ (df['condition']==condition)]) 
     sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=df.loc[ (df['condition']==condition)]) 
     
-    plt.plot([0, 35], [0,0], 'k--')
-#    ax1.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3, label='target'  )
-#    ax1.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3, label='distractor'  )
-#    ax1.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3, label='response'  )     
+    plt.plot([0, 35], [0,0], 'k--')   
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  )
     plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3) #, label='distractor'  )
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3) #, label='response'  )     
     TITLE_BR = condition 
-    #plt.legend(loc=1, frameon=False)
     plt.title(TITLE_BR)
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
+    plt.xticks([5,15,25])
+    plt.yticks([-4, 0 , 4])
     plt.xlim(xlim)
-    if indx_c==0:        
-        legend = ax.legend()
-        handles, labels = ax.get_legend_handles_labels()
-        ax.legend(handles=handles[1:], labels=labels[1:])
+    if indx_c==3:        
         plt.gca().legend(loc= 2, frameon=False)
-
+        plt.xticks([10, 20 ,30])
+        
     else:
         plt.gca().legend(loc= 1, frameon=False).remove()
     
-    
-    
-    
-#    axes=[ax1]
-#    for i, Ax in enumerate(axes):
-#        Ax.spines['right'].set_visible(False)
-#        Ax.spines['top'].set_visible(False)
-#        #Ax.legend_.remove()
-#        #Ax.set_xticklabels(['in','out'])
-#        #Ax.set_xlabel('Distance T-Dist')
-#        Ax.set_ylabel('decoding value')
-#        Ax.set_xlabel('time')
-#        #Ax.set_ylim(-8,8)
-    
-    
-    #plt.show(block=False)
 
 
+##♥    
 plt.suptitle( 'LM', fontsize=18)
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95])
 plt.show(block=False)
