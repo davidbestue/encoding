@@ -92,8 +92,8 @@ import numpy as np
 ################## Lasso
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_frontal.xlsx')
-xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_6.xlsx')
-#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_6.xlsx')
+#xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_6.xlsx')
+xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_LM_6.xlsx')
 
 
 sheets = xls.sheet_names
@@ -125,8 +125,8 @@ Df['label'] = 'signal'
 ## Load the shuffle (it already has the interesting part)
 #Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_shuff.xlsx')
 #Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_frontal_shuff.xlsx')
-Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_6_shuff.xlsx')
-#Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_6_shuff.xlsx')
+#Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_Lasso_6_shuff.xlsx')
+Df_shuff = pd.read_excel('/home/david/Desktop/Reconstructions_LM_6_shuff.xlsx')
 
 
 
