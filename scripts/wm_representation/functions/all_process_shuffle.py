@@ -48,6 +48,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
         n = Reconstructions_sh[i].iloc[360, :]
         n = n.reset_index()
         n.columns = ['times', 'decoding']
+        n['decoding'] = [sum(Reconstructions_sh[i].iloc[:, i] * f2(180)) for i in range(len(n))]
         n['times']=n['times'].astype(float)
         n['region'] = region
         n['subject'] = subject
@@ -112,15 +113,15 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_6.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_6_shuff.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_suff.xlsx'
 Reconstructions_shuff=[]
 
 
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
-Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']
+Conditions=['2_7'] #['1_0.2', '1_7', '2_0.2', '2_7']
+Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+brain_regions = ['visual'] #, 'ips', 'frontsup', 'frontmid', 'frontinf']
 
 
 for Subject in Subjects:

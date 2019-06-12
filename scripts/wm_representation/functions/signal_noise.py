@@ -9,6 +9,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from model_functions import *
+
 
 ##### LM
 #
@@ -109,6 +111,7 @@ for dataframes in R.keys():
     a = pd.DataFrame(df.iloc[360,:])
     a = a.reset_index()
     a.columns = ['times', 'decoding']
+    a['decoding'] = [sum(R[dataframes].iloc[:,i] * f2(180)) for i in range(len(a))]
     a['times']=a['times'].astype(float)
     a['region'] = dataframes.split('_')[1]
     #a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
