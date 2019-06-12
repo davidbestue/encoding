@@ -444,8 +444,12 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
     plt.xlim(xlim)
-    if indx_c==0:
-        plt.gca().legend(loc= 1, frameon=False)
+    if indx_c==0:        
+        legend = ax.legend()
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles=handles[1:], labels=labels[1:])
+        plt.gca().legend(loc= 2, frameon=False)
+
     else:
         plt.gca().legend(loc= 1, frameon=False).remove()
     
@@ -468,14 +472,14 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 
 
 plt.suptitle( 'LM', fontsize=18)
-plt.tight_layout(w_pad=5, h_pad=5)
+plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95])
 plt.show(block=False)
 
 
 
 
 #☼fig = plt.figure()  # create a figure object
-ax = fig.add_subplot(1, 1, 1)  # create an axes object in the figure
+#ax = fig.add_subplot(1, 1, 1)  # create an axes object in the figure
 
 #fig = plt.figure(figsize=(6,8))
 
