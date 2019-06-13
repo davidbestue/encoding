@@ -163,8 +163,6 @@ for i in range(len(Reconstructions.keys())):
 
 writer.save()   
 
-##########################
-##########################
 
 ### Save signal
 
