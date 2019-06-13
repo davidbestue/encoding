@@ -28,7 +28,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
     for n_rep in range(iterations):
         #new_targets = random.sample(targets, len(targets))
         #testing_angles_sh.append(new_targets)
-        testing_angles_sh.append( random.choice([0, 90, 180, 270]) ) ## instead of shuffle, take a region where there is no activity!
+        testing_angles_sh.append( np.array([random.choice([0, 90, 180, 270]) for i in range(len(targets))])) ## instead of shuffle, take a region where there is no activity!
     
     ### make the reconstryctions and append them
     Reconstructions_sh=[]
