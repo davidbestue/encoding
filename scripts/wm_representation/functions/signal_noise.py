@@ -341,8 +341,8 @@ ref_angle=45
 
 ##### Measure of difference to shuffle
 subj_decoding=[]
-for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
-    for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
+for brain_region in ['visual']: #['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
+    for condition in ['2_7']: #['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
             decode_timepoint = []
             for times in df.times.unique():                
@@ -365,10 +365,10 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
 
 
 
-df = pd.concat(subj_decoding)
+dfsn = pd.concat(subj_decoding)
 
 fig = plt.figure(figsize=(10,8))
-for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
+for indx_c, condition in enumerate(['2_7']): #enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     
     if condition == '1_0.2':
         delay1 = 0.2
@@ -422,8 +422,8 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     y_vl_max = 5 #◙df_all_by_subj.Decoding.max()
     
     #fig = plt.figure()
-    ax = fig.add_subplot(2,2, indx_c+1) 
-    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=df.loc[ (df['condition']==condition)]) 
+    ax = fig.add_subplot(1,1, indx_c+1) 
+    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) 
     
     plt.plot([0, 35], [0,0], 'k--')   
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  )
@@ -515,7 +515,7 @@ for Subject in ['n001', 'b001', 'd001', 'r001', 'l001', 's001']:
         
         #fig = plt.figure()
         ax = fig.add_subplot(2,2, indx_c+1) 
-        sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=df.loc[ (df['condition']==condition) & (df['subject']== Subject )]) 
+        sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition) & (dfsn['subject']== Subject )]) 
         
         plt.plot([0, 35], [0,0], 'k--')   
         plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  )
