@@ -26,9 +26,9 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
     ### shuffle the targets
     testing_angles_sh=[]
     for n_rep in range(iterations):
-        new_targets = random.sample(targets, len(targets))
-        testing_angles_sh.append(new_targets)
-    
+        #new_targets = random.sample(targets, len(targets))
+        #testing_angles_sh.append(new_targets)
+        testing_angles_sh.append( random.choice([0, 90, 180, 270]) ) ## instead of shuffle, take a region where there is no activity!
     
     ### make the reconstryctions and append them
     Reconstructions_sh=[]
@@ -113,9 +113,9 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_2.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_3.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_suff_2.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_suff_3.xlsx'
 Reconstructions_shuff=[]
 
 
@@ -136,7 +136,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=200, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=20, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
