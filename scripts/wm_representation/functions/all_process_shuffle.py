@@ -48,7 +48,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
         n = Reconstructions_sh[i].iloc[360, :]
         n = n.reset_index()
         n.columns = ['times', 'decoding']
-        n['decoding'] = [sum(Reconstructions_sh[i].iloc[:, i] * f2(180)) for i in range(len(n))]
+        n['decoding'] = [sum(Reconstructions_sh[i].iloc[:, ts] * f2(180)) for ts in range(len(n))]
         n['times']=n['times'].astype(float)
         n['region'] = region
         n['subject'] = subject
