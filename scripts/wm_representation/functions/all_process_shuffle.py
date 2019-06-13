@@ -113,16 +113,16 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_n001_2_7_visual.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconst_LMaxpv_n001.xlsx'
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_n001_2_7_visual.xlsx'
-path_save_shuffle = '/home/david/Desktop/shuff_LM_n001_2_7_visual.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LMaxpv_n001.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LMaxpv_n001.xlsx'
 Reconstructions_shuff=[]
 
 
-Conditions=['1_0.2'] #, '1_7', '2_0.2', '2_7']
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
 Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual'] #, 'ips', 'frontsup', 'frontmid', 'frontinf']
+brain_regions = ['visual', 'ips', 'frontsup' ]#, 'frontmid', 'frontinf']
 
 
 for Subject in Subjects:
@@ -137,7 +137,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=3, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
