@@ -194,8 +194,6 @@ Df.to_excel( path_save_signal )
 Df_shuffle = pd.concat(Reconstructions_shuff)
 Df_shuffle.to_excel(path_save_shuffle)
 
-
-
 ###########
 
 
