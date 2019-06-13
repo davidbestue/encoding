@@ -341,8 +341,8 @@ ref_angle=45
 
 ##### Measure of difference to shuffle
 subj_decoding=[]
-for brain_region in ['visual']: #['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
-    for condition in ['2_7']: #['1_0.2', '1_7', '2_0.2', '2_7']:        
+for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: 
+    for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
             decode_timepoint = []
             for times in df.times.unique():                
@@ -368,7 +368,7 @@ for brain_region in ['visual']: #['visual', 'ips', 'frontsup', 'frontmid', 'fron
 dfsn = pd.concat(subj_decoding)
 
 fig = plt.figure(figsize=(10,8))
-for indx_c, condition in enumerate(['2_7']): #enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
+for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     
     if condition == '1_0.2':
         delay1 = 0.2
