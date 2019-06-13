@@ -136,7 +136,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=2, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=10, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
