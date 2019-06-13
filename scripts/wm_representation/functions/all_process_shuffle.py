@@ -113,13 +113,14 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_3.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_n001_2_7_visual.xlsx'
 Reconstructions={}
-path_save_shuffle = '/home/david/Desktop/Reconstructions_LM_n001_2_7_visual_suff_3.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_n001_2_7_visual.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LM_n001_2_7_visual.xlsx'
 Reconstructions_shuff=[]
 
 
-Conditions=['2_7'] #['1_0.2', '1_7', '2_0.2', '2_7']
+Conditions=['1_0.2'] #, '1_7', '2_0.2', '2_7']
 Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual'] #, 'ips', 'frontsup', 'frontmid', 'frontinf']
 
@@ -136,7 +137,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             plt.subplot(2,2,idx_c+1)
-            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=20, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=3, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
@@ -162,9 +163,40 @@ for i in range(len(Reconstructions.keys())):
 
 writer.save()   
 
+##########################
+##########################
+
+### Save signal
+
+Decoding_df =[]
+
+for dataframes in Reconstructions.keys():
+    df = Reconstructions[dataframes]
+    a = pd.DataFrame(df.iloc[360,:])
+    a = a.reset_index()
+    a.columns = ['times', 'decoding']
+    a['decoding'] = [sum(df.iloc[:,i] * f2(180)) for i in range(len(a))]
+    a['times']=a['times'].astype(float)
+    a['region'] = dataframes.split('_')[1]
+    #a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
+    a['subject'] = dataframes.split('_')[0]
+    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
+    Decoding_df.append(a)
+
+
+
+Df = pd.concat(Decoding_df)
+Df['label'] = 'signal'
+Df.to_excel( path_save_signal )
+
+
 ### Save Shuffle
 Df_shuffle = pd.concat(Reconstructions_shuff)
 Df_shuffle.to_excel(path_save_shuffle)
+
+
+
+###########
 
 
 
