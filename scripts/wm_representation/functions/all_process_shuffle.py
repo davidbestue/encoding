@@ -63,7 +63,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
 
 
 
-def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, method='together', heatmap=True):
+def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
