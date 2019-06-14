@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jun 14 15:39:32 2019
-
-@author: David
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Wed May 22 12:53:25 2019
 
 @author: David Bestue
