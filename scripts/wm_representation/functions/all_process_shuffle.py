@@ -111,16 +111,16 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LMaxpv_n001.xlsx'
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM.xlsx'
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LMaxpv_n001.xlsx'
-path_save_shuffle = '/home/david/Desktop/shuff_LMaxpv_n001.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
 Reconstructions_shuff=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
-Subjects=['n001'] #, 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'frontsup' ]#, 'frontmid', 'frontinf']
+Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+brain_regions = ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']
 
 
 for Subject in Subjects:
@@ -187,6 +187,7 @@ Df.to_excel( path_save_signal )
 
 ### Save Shuffle
 Df_shuffle = pd.concat(Reconstructions_shuff)
+Df_shuffle['label'] = 'shuffle'
 Df_shuffle.to_excel(path_save_shuffle)
 
 
