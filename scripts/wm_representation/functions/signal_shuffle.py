@@ -54,6 +54,26 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
 
 dfsn = pd.concat(subj_decoding) #put together for subject, condition and brain region the decoding value compared to shuffle.
 
+### line for decoding shuffled move to 0
+from sklearn import preprocessing
+n = Df_shuff[['decoding', 'times']]
+n = n.reset_index()[['decoding', 'times']]
+n = n.pivot(columns='times')
+x=n.values
+mean_scaler = preprocessing.StandardScaler(with_mean= True, with_std=False) #center but do not remove the std
+x_scaled = mean_scaler.fit_transform(x)
+n = pd.DataFrame(x_scaled)
+n = n.melt()
+n = n[~np.isnan(n.iloc[:,1])]
+n = n.reset_index()[['variable', 'value']]
+n['variable'] = n['variable'].replace( list(range(16)), Df_shuff.times.unique() )
+n.columns=['times', 'decoding']
+
+
+
+
+
+
 fig = plt.figure(figsize=(10,8))
 for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
     #features of the plot for the different conditions. Fixed values
@@ -110,9 +130,11 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     
     #fig = plt.figure()
     ax = fig.add_subplot(2,2, indx_c+1) 
-    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'frontmid', 'frontinf'
+    ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
+    ax.lines[0].set_linestyle("--")
+    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'frontmid', 'frontinf'
     
-    plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
+    #plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
     plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3) #, label='distractor'  ) #plot aprox time of distractor
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3) #, label='response'  )   #plot aprox time of response
@@ -140,22 +162,11 @@ plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space b
 plt.show(block=False) #show
 
 
-from sklearn import preprocessing
-n = Df_shuff[['decoding', 'times']]
-n = n.reset_index()[['decoding', 'times']]
-n = n.pivot(columns='times')
-x=n.values
-mean_scaler = preprocessing.StandardScaler(with_mean= True, with_std=False) #center but do not remove the std
-x_scaled = mean_scaler.fit_transform(x)
-n = pd.DataFrame(x_scaled)
-n = n.melt()
-n = n[~np.isnan(n.iloc[:,1])]
-n = n.reset_index()[['variable', 'value']]
-n['variable'] = n['variable'].replace( list(range(16)), Df_shuff.times.unique() )
-n.columns=['times', 'decoding']
+
 
 plt.figure()
-sns.lineplot(x='times', y='decoding', data=n) #figure to get the intervals of shuffle
+ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
+ax.lines[0].set_linestyle("--")
 plt.show(block=False)
 
 
