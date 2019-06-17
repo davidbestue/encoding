@@ -71,9 +71,6 @@ n.columns=['times', 'decoding']
 
 
 
-
-
-
 fig = plt.figure(figsize=(10,8))
 for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
     #features of the plot for the different conditions. Fixed values
@@ -160,17 +157,6 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 plt.suptitle( 'LM', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
-
-
-
-
-plt.figure()
-ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
-ax.lines[0].set_linestyle("--")
-plt.show(block=False)
-
-
-
 
 
 plt.figure()
