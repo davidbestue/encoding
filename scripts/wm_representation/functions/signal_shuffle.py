@@ -14,22 +14,18 @@ from model_functions import *
 #path_save_signal ='/home/david/Desktop/signal_LMaxpv_n001.xlsx'
 #path_save_shuffle = '/home/david/Desktop/shuff_LMaxpv_n001.xlsx'
 
-path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
-path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM.xlsx'  #load the file of signal (cooming from all_process_shuffle)
+path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx' #load the file of shuffle
 
-Df = pd.read_excel(path_save_signal)
+Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 Df_shuff = pd.read_excel(path_save_shuffle)
 
 
-df = pd.concat([Df, Df_shuff])
+df = pd.concat([Df, Df_shuff]) #concatenate the files
 
-presentation_period= 0.35 
-presentation_period_cue=  0.50
-inter_trial_period= 0.1 
-pre_cue_period= 0.5 
-pre_stim_period= 0.5 
-limit_time=5 
-ref_angle=45
+presentation_period= 0.35 #stim presnetation time
+presentation_period_cue=  0.50 #presentation of attentional cue time
+pre_stim_period= 0.5 #time between cue and stim
 
 
 ##### Measure of difference to shuffle
@@ -39,18 +35,15 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
         for subject in df.subject.unique():
             decode_timepoint = []
             for times in df.times.unique():                
-                values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding']
-                value_decoding = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'].values[0]
+                values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## all shuffled reconstructions
+                value_decoding = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'].values[0] #the real reconstruction
                 #### zscore method
-                prediction = ( value_decoding - np.mean(values) )/ np.std(values)
-                #### non parametric kernel method
-                #predict = statsmodels.nonparametric.kernel_density.KDEMultivariate(values, var_type='c', bw='cv_ls')
-                #prediction = 1 / predict.pdf([ value_decoding])
+                prediction = ( value_decoding - np.mean(values) )/ np.std(values) #zscore to get the decode compared to shuffle
                 decode_timepoint.append(prediction)
             ####
-            decode_timepoint = pd.DataFrame(decode_timepoint)
-            decode_timepoint.columns=['decoding']
-            decode_timepoint['times'] = df.times.unique()
+            decode_timepoint = pd.DataFrame(decode_timepoint) 
+            decode_timepoint.columns=['decoding'] #decode compared to shuffle
+            decode_timepoint['times'] = df.times.unique() #times
             decode_timepoint['subject'] = subject
             decode_timepoint['region'] = brain_region
             decode_timepoint['condition'] = condition
@@ -58,7 +51,7 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
 
 
 
-dfsn = pd.concat(subj_decoding)
+dfsn = pd.concat(subj_decoding) #put together for subject, condition and brain region the decoding value compared to shuffle
 
 fig = plt.figure(figsize=(10,8))
 for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
