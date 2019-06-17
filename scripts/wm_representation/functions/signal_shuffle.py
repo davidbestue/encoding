@@ -11,11 +11,11 @@ import seaborn as sns
 import numpy as np
 from model_functions import *
 
-#path_save_signal ='/home/david/Desktop/signal_LMaxpv_n001.xlsx'
-#path_save_shuffle = '/home/david/Desktop/shuff_LMaxpv_n001.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LMaxpv_n001.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LMaxpv_n001.xlsx'
 
-path_save_signal ='/home/david/Desktop/signal_LM.xlsx'  #load the file of signal (cooming from all_process_shuffle)
-path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx' #load the file of shuffle
+#path_save_signal ='/home/david/Desktop/signal_LM.xlsx'  #load the file of signal (cooming from all_process_shuffle)
+#path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx' #load the file of shuffle
 
 Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 Df_shuff = pd.read_excel(path_save_shuffle)
@@ -97,35 +97,35 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     start_hrf = 4 #start of the Hemodynamic response (4seconds)
     sec_hdrf = 3 #time it can last
        
-    d_p1 = (start_hrf + d_p) 
-    t_p1 = (start_hrf +t_p)
-    r_t1=  (start_hrf + r_t)
+    d_p1 = (start_hrf + d_p) ##strat of didtractor (time)
+    t_p1 = (start_hrf +t_p) ## strat of target (time)
+    r_t1=  (start_hrf + r_t) ## start of response (time)
     #
-    d_p2 = d_p1 + sec_hdrf 
-    t_p2 = t_p1 + sec_hdrf
-    r_t2=  r_t1 + sec_hdrf + resp_time
+    d_p2 = d_p1 + sec_hdrf # end of distractor (time)
+    t_p2 = t_p1 + sec_hdrf # end of target (time)
+    r_t2=  r_t1 + sec_hdrf + resp_time #end of response (time)
     
-    y_vl_min = -5 #df_all_by_subj.Decoding.min()
+    y_vl_min = -5 #df_all_by_subj.Decoding.min() #values min and max
     y_vl_max = 5 #◙df_all_by_subj.Decoding.max()
     
     #fig = plt.figure()
     ax = fig.add_subplot(2,2, indx_c+1) 
     sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'frontmid', 'frontinf'
     
-    plt.plot([0, 35], [0,0], 'k--')   
-    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  )
-    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3) #, label='distractor'  )
-    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3) #, label='response'  )     
+    plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
+    plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
+    plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3) #, label='distractor'  ) #plot aprox time of distractor
+    plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3) #, label='response'  )   #plot aprox time of response
     TITLE_BR = condition 
-    plt.title(TITLE_BR)
-    plt.gca().spines['right'].set_visible(False)
-    plt.gca().spines['top'].set_visible(False)
+    plt.title(TITLE_BR) #condition title
+    plt.gca().spines['right'].set_visible(False) #no right axis
+    plt.gca().spines['top'].set_visible(False) #no  top axis
     plt.gca().get_xaxis().tick_bottom()
     plt.gca().get_yaxis().tick_left()
-    plt.xticks([5,15,25])
+    plt.xticks([5,15,25]) #just this tcks
     plt.yticks([-4, 0 , 4])
     plt.xlim(xlim)
-    if indx_c==3:        
+    if indx_c==3: #legend in just this condition (to avoid repetitions)       
         plt.gca().legend(loc= 2, frameon=False)
         plt.xticks([10, 20 ,30])
         
@@ -134,15 +134,15 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     
 
 
-##♥    
-plt.suptitle( 'LM', fontsize=18)
-plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95])
-plt.show(block=False)
+##
+plt.suptitle( 'LM', fontsize=18) ## main title
+plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
+plt.show(block=False) #show
 
 
 
 
 plt.figure()
-sns.lineplot(x='times', y='decoding', data=Df_shuff)
+sns.lineplot(x='times', y='decoding', data=Df_shuff) #figure to get the intervals of shuffle
 plt.show(block=False)
 
