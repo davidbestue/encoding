@@ -140,62 +140,31 @@ plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space b
 plt.show(block=False) #show
 
 
-
-
-plt.figure()
-
-
-df_use = psy_tests[['Grit', 'Conscient', 'Consistency', 'Perseverance']]
-
-
-x = df_use.values #returns a numpy array
-
-
-mean_scaler = preprocessing.StandardScaler(with_mean= True, with_std=False) #center but do not remove the std
-x_scaled = mean_scaler.fit_transform(x)
-psy_tests_centered = pd.DataFrame(x_scaled)
-psy_tests_centered.columns=df_use.columns
-
-sns.lineplot(x='times', y='decoding', data=Df_shuff) #figure to get the intervals of shuffle
-plt.show(block=False)
-
-
-
 from sklearn import preprocessing
-df_use=Df_shuff[['decoding', 'decoding']]
-x=df_use.values
-mean_scaler = preprocessing.StandardScaler(with_mean= True, with_std=False) #center but do not remove the std
-x_scaled = mean_scaler.fit_transform(x)
-x_scaled =np.array(pd.DataFrame(x_scaled).iloc[:, 0])
-Df_shuff['x_scaled'] = x_scaled
-plt.figure()
-sns.lineplot(x='times', y='x_scaled', data=Df_shuff) #figure to get the intervals of shuffle
-plt.show(block=False)
-
-
 n = Df_shuff[['decoding', 'times']]
 n = n.reset_index()[['decoding', 'times']]
 n = n.pivot(columns='times')
 x=n.values
 mean_scaler = preprocessing.StandardScaler(with_mean= True, with_std=False) #center but do not remove the std
 x_scaled = mean_scaler.fit_transform(x)
-
 n = pd.DataFrame(x_scaled)
 n = n.melt()
-
-
 n = n[~np.isnan(n.iloc[:,1])]
+n = n.reset_index()[['variable', 'value']]
+n['variable'] = n['variable'].replace( list(range(16)), Df_shuff.times.unique() )
+n.columns=['times', 'decoding']
+
+plt.figure()
+sns.lineplot(x='times', y='decoding', data=n) #figure to get the intervals of shuffle
+plt.show(block=False)
 
 
 
-gr_times=[]
-for gr in n.times.unique():
-    a = n_grouped.get_group(gr)
-    gr_times.append(a.decoding)
-    
 
 
-
+plt.figure()
+sns.lineplot(x='times', y='decoding', data=Df_shuff) #figure to get the intervals of shuffle
+plt.show(block=False)
 
 
 
