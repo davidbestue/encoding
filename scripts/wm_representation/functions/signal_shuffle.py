@@ -23,7 +23,6 @@ Df_shuff = pd.read_excel(path_save_shuffle)
 
 df = pd.concat([Df, Df_shuff])
 
-
 presentation_period= 0.35 
 presentation_period_cue=  0.50
 inter_trial_period= 0.1 
