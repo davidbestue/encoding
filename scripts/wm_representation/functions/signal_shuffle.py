@@ -26,6 +26,7 @@ df = pd.concat([Df, Df_shuff]) #concatenate the files
 presentation_period= 0.35 #stim presnetation time
 presentation_period_cue=  0.50 #presentation of attentional cue time
 pre_stim_period= 0.5 #time between cue and stim
+resp_time = 4  #time the response is active
 
 
 ##### Measure of difference to shuffle
@@ -54,8 +55,8 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
 dfsn = pd.concat(subj_decoding) #put together for subject, condition and brain region the decoding value compared to shuffle
 
 fig = plt.figure(figsize=(10,8))
-for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
-    
+for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
+    #features of the plot for the different conditions. Fixed values
     if condition == '1_0.2':
         delay1 = 0.2
         delay2 = 11.8
@@ -93,9 +94,9 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
         xlim = [0, 35]
         
     
-    start_hrf = 4
-    sec_hdrf = 3
-    resp_time = 4    
+    start_hrf = 4 #start of the Hemodynamic response (4seconds)
+    sec_hdrf = 3 #time it can last
+       
     d_p1 = (start_hrf + d_p) 
     t_p1 = (start_hrf +t_p)
     r_t1=  (start_hrf + r_t)
