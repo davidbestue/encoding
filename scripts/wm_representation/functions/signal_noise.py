@@ -85,9 +85,6 @@ from model_functions import *
 #
 
 
-
-
-
 ################## Lasso
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso.xlsx')
 #xls = pd.ExcelFile('/home/david/Desktop/Reconstructions_Lasso_frontal.xlsx')
