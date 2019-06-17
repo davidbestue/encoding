@@ -108,7 +108,6 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 ##########################################################################################################
 
-
 path_save_reconstructions = '/home/david/Desktop/Reconst_LM.xlsx'
 Reconstructions={}
 path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
