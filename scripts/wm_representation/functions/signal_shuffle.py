@@ -52,7 +52,7 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
 
 
 
-dfsn = pd.concat(subj_decoding) #put together for subject, condition and brain region the decoding value compared to shuffle
+dfsn = pd.concat(subj_decoding) #put together for subject, condition and brain region the decoding value compared to shuffle.
 
 fig = plt.figure(figsize=(10,8))
 for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
