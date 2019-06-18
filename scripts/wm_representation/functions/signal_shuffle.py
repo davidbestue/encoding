@@ -159,7 +159,6 @@ plt.suptitle( 'LM', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
 
-#
 #plt.figure()
 #sns.lineplot(x='times', y='decoding', data=Df_shuff) #figure to get the intervals of shuffle
 #plt.show(block=False)
