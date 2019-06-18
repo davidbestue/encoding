@@ -130,7 +130,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     ax = fig.add_subplot(2,2, indx_c+1) 
     ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
     ax.lines[0].set_linestyle("--")
-    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'frontmid', 'frontinf'
+    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'frontmid', 'frontinf'
     
     #plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
@@ -159,10 +159,10 @@ plt.suptitle( 'LM', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
 
-
-plt.figure()
-sns.lineplot(x='times', y='decoding', data=Df_shuff) #figure to get the intervals of shuffle
-plt.show(block=False)
+#
+#plt.figure()
+#sns.lineplot(x='times', y='decoding', data=Df_shuff) #figure to get the intervals of shuffle
+#plt.show(block=False)
 
 
 
