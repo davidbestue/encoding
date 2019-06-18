@@ -17,10 +17,10 @@ n = pd.read_excel('n.xlsx')
 
 
 
-pal = sns.diverging_palette(220, 20, n=3)
-pal = (sns.diverging_palette(270,20, n=7)[0], sns.diverging_palette(270,20, n=7)[-1], sns.diverging_palette(270,50, n=7)[-1])
-pal='parula'
-
+#pal = sns.diverging_palette(220, 20, n=3)
+#pal = (sns.diverging_palette(270,20, n=7)[0], sns.diverging_palette(270,20, n=7)[-1], sns.diverging_palette(270,50, n=7)[-1])
+pal="tab10"
+pal = sns.color_palette("tab10").as_hex()[0:2]
 
 presentation_period= 0.35 #stim presnetation time
 presentation_period_cue=  0.50 #presentation of attentional cue time
@@ -86,8 +86,8 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     ax = fig.add_subplot(2,2, indx_c+1) 
     ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
     ax.lines[0].set_linestyle("--")
-    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['frontsup', 'frontmid', 'frontinf'],  ci=69, 
-                 palette=pal, data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'visual', 'ips',  'frontmid', 'frontinf'
+    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  [ 'visual', 'ips'],  ci=69, palette=pal,
+                   data=dfsn.loc[ (dfsn['condition']==condition)]) #'visual', 'ips', 'frontsup', 'frontmid', 'frontinf'
     
     #plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
@@ -115,6 +115,14 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 plt.suptitle( 'LM', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
+
+
+#pal = sns.color_palette("tab10_r").as_hex()[4:7]
+#
+#
+#print(sns.color_palette("tab10", n_colors=12, desat=1).as_hex())
+#sns.palplot(sns.color_palette("tab10", n_colors=12))
+#plt.show()
 
 
 
