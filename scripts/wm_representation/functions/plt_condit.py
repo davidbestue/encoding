@@ -18,6 +18,8 @@ n = pd.read_excel('n.xlsx')
 
 
 pal = sns.diverging_palette(220, 20, n=3)
+pal = (sns.diverging_palette(270,20, n=7)[0], sns.diverging_palette(270,20, n=7)[-1], sns.diverging_palette(270,50, n=7)[-1])
+pal='parula'
 
 
 presentation_period= 0.35 #stim presnetation time
