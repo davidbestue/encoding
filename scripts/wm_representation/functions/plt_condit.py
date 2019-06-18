@@ -12,7 +12,7 @@ import seaborn as sns
 import numpy as np
 
 
-dfs = pd.read_excel('dfsn.xlsx')
+dfsn = pd.read_excel('dfsn.xlsx')
 n = pd.read_excel('n.xlsx')
 
 
