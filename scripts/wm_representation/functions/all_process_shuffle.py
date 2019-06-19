@@ -167,11 +167,10 @@ for dataframes in Reconstructions.keys():
     df = Reconstructions[dataframes]
     a = pd.DataFrame(df.iloc[ref_angle*2,:]) ##*2 because there are 720
     a = a.reset_index()
-    a.columns = ['times', 'decoding']
-    a['decoding'] = [sum(df.iloc[:,i] * f2(ref_angle)) for i in range(len(a))]
+    a.columns = ['times', 'decoding'] # column names
+    a['decoding'] = [sum(df.iloc[:,i] * f2(ref_angle)) for i in range(len(a))] #"population vector method" scalar product
     a['times']=a['times'].astype(float)
     a['region'] = dataframes.split('_')[1]
-    #a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
     a['subject'] = dataframes.split('_')[0]
     a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
     Decoding_df.append(a)
