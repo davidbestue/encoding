@@ -17,7 +17,6 @@ from model_functions import *
 path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
 path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
 
-
 Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 Df_shuff = pd.read_excel(path_save_shuffle)
 
