@@ -90,7 +90,7 @@ def process_enc_timestamps( masked_data, timestamp_run, TR=2.335):
     ####   3. Subset of data corresponding to the delay times (all voxels)
     encoding_delay_activity = np.zeros(( len(timestamp_run), n_voxels)) ## emply matrix (n_trials, n_voxels)
     for idx,t in enumerate(timestamp_run): #in each trial
-        delay_TRs =  data_filtered[t:t+2, :] #take the first scan of the delay and the nex
+        delay_TRs =  data_filtered[t:t+2, :] #take the first scan of the delay and the next
         delay_TRs_mean =np.mean(delay_TRs, axis=0) #make the mean in each voxel of 2TR
         encoding_delay_activity[idx, :] =delay_TRs_mean #index the line in the matrix
     
