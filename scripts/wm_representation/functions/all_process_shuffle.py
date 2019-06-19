@@ -51,10 +51,10 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
         n['region'] = region
         n['subject'] = subject
         n['condition'] = condition
-        df_shuffle.append(n)
+        df_shuffle.append(n) #save thhis
     
     ##
-    df_shuffle = pd.concat(df_shuffle)    
+    df_shuffle = pd.concat(df_shuffle)    #same shape as the decosing of the signal
     return df_shuffle
 
 
@@ -69,9 +69,9 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     start_repres = time.time()    
     # TR separartion
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
-    Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    ####
-    Reconstruction = pd.concat(Reconstructions, axis=1) 
-    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    
+    Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+    Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
     #Plot heatmap
     if heatmap==True:
         plt.figure()
@@ -91,7 +91,7 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     
     end_repres = time.time()
     process_recons = end_repres - start_repres
-    print( 'Time process reconstruction: ' +str(process_recons))
+    print( 'Time process reconstruction: ' +str(process_recons)) #print time of the process
     
     ####### Shuff
     #### Compute the shuffleing
@@ -101,9 +101,11 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 ##########################################################################################################
+##########################################################################################################  RUN
 ##########################################################################################################
 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM.xlsx'
+##paths to save the 3 files 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM.xlsx' 
 Reconstructions={}
 path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
 path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
@@ -113,6 +115,7 @@ Reconstructions_shuff=[]
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7']
 Subjects=['n001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']
+ref_angle=180
 
 
 for Subject in Subjects:
@@ -144,6 +147,9 @@ for Subject in Subjects:
         plt.tight_layout()
         plt.show(block=False)
         
+        
+        
+        
 
 
 ### Save Recosntructions
@@ -151,18 +157,18 @@ writer = pd.ExcelWriter(path_save_reconstructions)
 for i in range(len(Reconstructions.keys())):
     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i])
 
-writer.save()   
+writer.save()   #save reconstructions (heatmaps)
 
 
-### Save signal
+### Save signal from the reconstyructions
 Decoding_df =[]
 
 for dataframes in Reconstructions.keys():
     df = Reconstructions[dataframes]
-    a = pd.DataFrame(df.iloc[360,:])
+    a = pd.DataFrame(df.iloc[ref_angle*2,:]) ##*2 because there are 720
     a = a.reset_index()
     a.columns = ['times', 'decoding']
-    a['decoding'] = [sum(df.iloc[:,i] * f2(180)) for i in range(len(a))]
+    a['decoding'] = [sum(df.iloc[:,i] * f2(ref_angle)) for i in range(len(a))]
     a['times']=a['times'].astype(float)
     a['region'] = dataframes.split('_')[1]
     #a['region'] = dataframes.split('_')[1] + '_' + dataframes.split('_')[2]
@@ -174,13 +180,13 @@ for dataframes in Reconstructions.keys():
 
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal'
-Df.to_excel( path_save_signal )
+Df.to_excel( path_save_signal ) #save signal
 
 
 ### Save Shuffle
 Df_shuffle = pd.concat(Reconstructions_shuff)
 Df_shuffle['label'] = 'shuffle'
-Df_shuffle.to_excel(path_save_shuffle)
+Df_shuffle.to_excel(path_save_shuffle)  #save shuffle
 
 
 
