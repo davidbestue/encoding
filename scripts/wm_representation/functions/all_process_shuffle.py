@@ -179,13 +179,13 @@ for dataframes in Reconstructions.keys():
 
 
 Df = pd.concat(Decoding_df)
-Df['label'] = 'signal'
+Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
 
 
 ### Save Shuffle
 Df_shuffle = pd.concat(Reconstructions_shuff)
-Df_shuffle['label'] = 'shuffle'
+Df_shuffle['label'] = 'shuffle' ## add the label of shuffle
 Df_shuffle.to_excel(path_save_shuffle)  #save shuffle
 
 
