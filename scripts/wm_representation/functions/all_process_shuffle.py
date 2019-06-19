@@ -22,31 +22,31 @@ numcores = multiprocessing.cpu_count()
 
 def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180):
     ### shuffle the targets
-    testing_angles_sh=[]
+    testing_angles_sh=[] #new targets shuffled
     for n_rep in range(iterations):
-        #new_targets = random.sample(targets, len(targets))
+        #new_targets = random.sample(targets, len(targets)) #shuffle the labels of the target
         #testing_angles_sh.append(new_targets)
         testing_angles_sh.append( np.array([random.choice([0, 90, 180, 270]) for i in range(len(targets))])) ## instead of shuffle, take a region where there is no activity!
     
     ### make the reconstryctions and append them
     Reconstructions_sh=[]
     for n_rep in range(iterations):
-        time_rec_shuff_start = time.time()
+        time_rec_shuff_start = time.time() #time it takes
         Reconstructions_i = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_sh[n_rep], WM, WM_t, intercept=Inter, ref_angle=180, plot=False)  for signal in signal_paralel) 
-        Reconstruction_i = pd.concat(Reconstructions_i, axis=1) 
-        Reconstruction_i.columns =  [str(i * TR) for i in range(nscans_wm)]
-        Reconstructions_sh.append(Reconstruction_i)
-        time_rec_shuff_end = time.time()
+        Reconstruction_i = pd.concat(Reconstructions_i, axis=1) #mean of all the trials
+        Reconstruction_i.columns =  [str(i * TR) for i in range(nscans_wm)] #column names
+        Reconstructions_sh.append(Reconstruction_i) #append the reconstruction (of the current iteration)
+        time_rec_shuff_end = time.time() #time
         time_rec_shuff = time_rec_shuff_end - time_rec_shuff_start
-        print('shuff_' + str(n_rep) + ': ' +str(time_rec_shuff) )
+        print('shuff_' + str(n_rep) + ': ' +str(time_rec_shuff) ) #print time of the reconstruction shuffled
     
     ### Get just the supposed target location
     df_shuffle=[]
     for i in range(len(Reconstructions_sh)):
-        n = Reconstructions_sh[i].iloc[360, :]
+        n = Reconstructions_sh[i].iloc[ref_angle*2, :] #around the ref_angle (x2 beacuse now we have 720 instead of 360)
         n = n.reset_index()
         n.columns = ['times', 'decoding']
-        n['decoding'] = [sum(Reconstructions_sh[i].iloc[:, ts] * f2(180)) for ts in range(len(n))]
+        n['decoding'] = [sum(Reconstructions_sh[i].iloc[:, ts] * f2(ref_angle)) for ts in range(len(n))] #population vector method (scalar product)
         n['times']=n['times'].astype(float)
         n['region'] = region
         n['subject'] = subject
@@ -54,8 +54,7 @@ def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter
         df_shuffle.append(n)
     
     ##
-    df_shuffle = pd.concat(df_shuffle)
-    
+    df_shuffle = pd.concat(df_shuffle)    
     return df_shuffle
 
 
@@ -66,15 +65,13 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
     testing_angles = np.array(testing_behaviour['T'])    
-    
     ### Respresentation
     start_repres = time.time()    
     # TR separartion
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
     Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    ####
     Reconstruction = pd.concat(Reconstructions, axis=1) 
-    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]
-    
+    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    
     #Plot heatmap
     if heatmap==True:
         plt.figure()
