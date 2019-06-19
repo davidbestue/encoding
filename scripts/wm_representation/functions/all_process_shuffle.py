@@ -76,7 +76,6 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     if heatmap==True:
         plt.figure()
         plt.title(Condition)
-        ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
         ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
         ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
         plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
@@ -135,7 +134,6 @@ for Subject in Subjects:
             Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
             plt.title(Condition)
-            ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
             ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
             ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
             plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
@@ -155,7 +153,7 @@ for Subject in Subjects:
 ### Save Recosntructions
 writer = pd.ExcelWriter(path_save_reconstructions)
 for i in range(len(Reconstructions.keys())):
-    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i])
+    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
 
 writer.save()   #save reconstructions (heatmaps)
 
