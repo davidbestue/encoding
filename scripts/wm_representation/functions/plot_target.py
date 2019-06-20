@@ -104,7 +104,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 
 
 ##
-plt.suptitle( 'LM distractor', fontsize=18) ## main title
+plt.suptitle( 'LM target', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
 
