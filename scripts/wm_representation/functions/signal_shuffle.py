@@ -13,8 +13,8 @@ from model_functions import *
 
 #path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
 #path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
-path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
-path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_dist.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LM_dist.xlsx'
 
 Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 Df_shuff = pd.read_excel(path_save_shuffle)
@@ -128,7 +128,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     ax = fig.add_subplot(2,2, indx_c+1) 
     ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
     ax.lines[0].set_linestyle("--")
-    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['frontsup', 'frontmid', 'frontinf'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'visual', 'ips',  'frontmid', 'frontinf'
+    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips'],  ci=69,  data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'visual', 'ips',  'frontmid', 'frontinf'
     
     #plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
