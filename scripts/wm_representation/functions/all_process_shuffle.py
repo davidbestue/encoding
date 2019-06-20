@@ -64,7 +64,7 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-    testing_angles = np.array(testing_behaviour['T'])    
+    testing_angles = np.array(testing_behaviour['A_R'])    
     ### Respresentation
     start_repres = time.time()    
     # TR separartion
@@ -104,10 +104,10 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_resp.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
-path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_resp.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LM_resp.xlsx'
 Reconstructions_shuff=[]
 
 
