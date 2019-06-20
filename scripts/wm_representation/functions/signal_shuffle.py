@@ -11,9 +11,8 @@ import seaborn as sns
 import numpy as np
 from model_functions import *
 
-#path_save_signal ='/home/david/Desktop/signal_LMaxpv_n001.xlsx'
-#path_save_shuffle = '/home/david/Desktop/shuff_LMaxpv_n001.xlsx'
-
+#path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
+#path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
 path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
 path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
 
