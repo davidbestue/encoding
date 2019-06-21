@@ -62,7 +62,6 @@ def all_process_condition( Subject, Brain_Region, WM, WM_t, Inter, Condition, me
 
 
 path_save = '/home/david/Desktop/KAROLINSKA/Reconstructions_Lasso_i.xlsx'
-    
 Reconstructions={}
 Reconstructions_shuff=[]
 
