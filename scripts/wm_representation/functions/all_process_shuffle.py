@@ -104,10 +104,10 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 ##########################################################################################################
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_resp.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_resp.xlsx'
-path_save_shuffle = '/home/david/Desktop/shuff_LM_resp.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_response.xlsx'
+path_save_shuffle = '/home/david/Desktop/shuff_LM_response.xlsx'
 Reconstructions_shuff=[]
 
 
