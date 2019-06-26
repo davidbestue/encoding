@@ -69,7 +69,7 @@ n['variable'] = n['variable'].replace( list(range(16)), Df_shuff.times.unique() 
 n.columns=['times', 'decoding']
 
 
-pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[2:4]
+pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:2]
 
 
 fig = plt.figure(figsize=(10,8))
