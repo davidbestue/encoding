@@ -41,7 +41,7 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontmid', 'frontinf']: #['vi
                 value_decoding = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'].values[0] #the real reconstruction
                 #### zscore method
                 for n_rep in range(len(values)):
-                    prediction = abs(value_decoding) - abs(values.iloc[n_rep])
+                    prediction = value_decoding - values.iloc[n_rep]
                     subj_decoding.append([prediction, times, subject, brain_region, condition])
 
 #
