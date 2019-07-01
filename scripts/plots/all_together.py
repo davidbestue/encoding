@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Mar 20 15:05:44 2019
-
-@author: David
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Fri Jan  4 11:56:47 2019
 
-@author: David
+@author: David Bestue
 """
+
 import os
 import pandas as pd
 import numpy as np
