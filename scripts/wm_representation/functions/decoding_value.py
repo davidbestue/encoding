@@ -48,7 +48,7 @@ for brain_region in ['visual', 'ips', 'frontsup', 'frontinf']: #['visual', 'ips'
                 values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## all shuffled reconstructions
                 value_decoding = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'].values[0] #the real reconstruction
                 #### zscore method
-                prediction = (value_decoding - np.mean(values)) / std(values)
+                prediction = (value_decoding - np.mean(values)) / np.std(values)
                 subj_decoding.append([prediction, times, subject, brain_region, condition])
                 
                 
