@@ -108,16 +108,16 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
     Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
     #Plot heatmap
-    if heatmap==True:
-        plt.figure()
-        plt.title(Condition)
-        ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-        ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-        plt.ylabel('Angle')
-        plt.xlabel('time (s)')
-        plt.tight_layout()
-        plt.show(block=False)
+    #if heatmap==True:
+    #    plt.figure()
+    #    plt.title(Condition)
+    #    ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+    #    ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+    #    plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+    #    plt.ylabel('Angle')
+    #    plt.xlabel('time (s)')
+    #    plt.tight_layout()
+    #    plt.show(block=False)
     
     ######
     ######
