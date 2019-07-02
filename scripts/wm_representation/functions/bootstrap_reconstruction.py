@@ -154,7 +154,7 @@ ref_angle=180
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
-        plt.figure()
+        #plt.figure()
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         ##### Process training data
@@ -163,22 +163,22 @@ for Subject in Subjects:
         WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
-            plt.subplot(2,2,idx_c+1)
+            #plt.subplot(2,2,idx_c+1)
             Reconstruction, boots = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=10, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
             ## Plot the 4 heatmaps
-            plt.title(Condition)
-            ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-            ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-            plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-            plt.ylabel('Angle')
-            plt.xlabel('time (s)')
+            #plt.title(Condition)
+            #ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+            #ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+            #plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+            #plt.ylabel('Angle')
+            #plt.xlabel('time (s)')
             
             
-        plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
-        plt.tight_layout()
-        plt.show(block=False)
+        #plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
+        #plt.tight_layout()
+        #plt.show(block=False)
         
         
         
