@@ -9,7 +9,7 @@ Created on Tue Jul  2 11:35:45 2019
 """
 Created on Mon Jul  1 18:24:32 2019
 
-@author: David
+@author: David Bestue
 """
 from model_functions import *
 from fake_data_generator import *
