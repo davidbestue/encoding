@@ -1,5 +1,19 @@
 # -*- coding: utf-8 -*-
 """
+Created on Tue Jul  2 11:36:25 2019
+
+@author: David
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jul  2 11:35:45 2019
+
+@author: David
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Jul  1 18:24:32 2019
 
 @author: David
@@ -139,15 +153,15 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_ox.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_hid.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_response_boot_ox.xlsx'
-path_save_boots = '/home/david/Desktop/boots_LM_response_boot_ox.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_response_boot_hid.xlsx'
+path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 Reconstructions_boots=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
-Subjects=['n001', 'r001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['s001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'frontsup', 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 ref_angle=180
 
