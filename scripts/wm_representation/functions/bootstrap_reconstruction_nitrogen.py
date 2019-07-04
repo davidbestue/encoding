@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul  2 11:35:45 2019
-
-@author: David
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Mon Jul  1 18:24:32 2019
 
 @author: David Bestue
@@ -22,6 +15,7 @@ from joblib import Parallel, delayed
 import multiprocessing
 import time
 import random
+
 
 
 numcores = multiprocessing.cpu_count()
