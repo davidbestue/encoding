@@ -40,7 +40,7 @@ resp_time = 4  #time the response is active
 
 ##### Measure of difference to shuffle
 subj_decoding=[]
-for brain_region in ['visual', 'ips', 'frontsup', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
+for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
             #decode_timepoint = []
@@ -66,7 +66,7 @@ dfsn
 
 
 
-pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:2]
+pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:3]
 
 
 fig = plt.figure(figsize=(10,8))
@@ -127,7 +127,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     ax = fig.add_subplot(2,2, indx_c+1) 
     #ax = sns.lineplot(x='times', y='decoding',  color = 'black', data=n) #figure to get the intervals of shuffle
     #ax.lines[0].set_linestyle("--")
-    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips'],  ci=95, palette=pal, data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
+    sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontinf'],  ci=95, palette=pal, data=dfsn.loc[ (dfsn['condition']==condition)]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
     
     plt.plot([0, 35], [0,0], 'k--')   ## plot chance level (0)
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
