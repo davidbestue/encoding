@@ -95,10 +95,10 @@ def bootstrap_reconstruction(testing_activity, targets, iterations, WM, WM_t, In
 
 
 
-def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, method='together', heatmap=False):
+def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance='mix', method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
-    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
     testing_angles = np.array(testing_behaviour['A_R'])    
     ### Respresentation
     start_repres = time.time()    
@@ -164,7 +164,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
-            Reconstruction, boots = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, boots = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
             ## Plot the 4 heatmaps
