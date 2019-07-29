@@ -2,7 +2,7 @@
 """
 Created on Mon Jul  1 18:24:32 2019
 
-@author: David Bestue
+@author: David
 """
 from model_functions import *
 from fake_data_generator import *
@@ -15,7 +15,6 @@ from joblib import Parallel, delayed
 import multiprocessing
 import time
 import random
-
 
 
 numcores = multiprocessing.cpu_count()
@@ -96,10 +95,10 @@ def bootstrap_reconstruction(testing_activity, targets, iterations, WM, WM_t, In
 
 
 
-def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, method='together', heatmap=False):
+def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
-    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
     testing_angles = np.array(testing_behaviour['A_R'])    
     ### Respresentation
     start_repres = time.time()    
@@ -130,9 +129,9 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
     df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
     ####### Shuff
     #### Compute the shuffleing
-    #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
+    shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
     
-    return Reconstruction, df_boots
+    return Reconstruction, df_boots, shuffled_rec
 
 
 
@@ -140,15 +139,17 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_nit.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_far_nit.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_response_boot_nit.xlsx'
-path_save_boots = '/home/david/Desktop/boots_LM_response_boot_nit.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_response_boot_far_nit.xlsx'
+path_save_boots = '/home/david/Desktop/boots_LM_response_boot_far_nit.xlsx'
+path_save_shuff = '/home/david/Desktop/shuff_LM_response_boot_far_nit.xlsx'
 Reconstructions_boots=[]
+Reconstructions_shuff=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
-Subjects=['d001', 'b001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['s001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'frontsup', 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 ref_angle=180
 
@@ -165,9 +166,10 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
-            Reconstruction, boots = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
+            Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
             #plt.title(Condition)
             #ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
@@ -184,7 +186,6 @@ for Subject in Subjects:
         
         
         
-
 
 ### Save Recosntructions
 writer = pd.ExcelWriter(path_save_reconstructions)
@@ -216,14 +217,17 @@ Df['label'] = 'signal' #ad the label of signal (you will concatenate this df wit
 Df.to_excel( path_save_signal ) #save signal
 
 
-### Save Shuffle
+### Save bootstraps
 Df_boots = pd.concat(Reconstructions_boots)
 Df_boots['label'] = 'boots' ## add the label of shuffle
 Df_boots.to_excel(path_save_boots)  #save shuffle
 
 
 
-
+### Save Shuffle
+Df_boots = pd.concat(Reconstructions_shuff)
+Df_boots['label'] = 'shuffle' ## add the label of shuffle
+Df_boots.to_excel(path_save_shuff)  #save shuffle
 
 
 
