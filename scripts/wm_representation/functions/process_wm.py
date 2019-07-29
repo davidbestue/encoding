@@ -153,7 +153,7 @@ def condition_wm( activity, behaviour, condition, distance='mix', zscore_=True):
 
 
 
-def wm_condition(masked_data, beh_path, n_scans, condition, sys_use='unix', TR=2.335, nscans_wm=16):
+def wm_condition(masked_data, beh_path, n_scans, condition, sys_use='unix', TR=2.335, nscans_wm=16, distance='mix'):
     # Behaviour 
     beh_path = ub_wind_path(beh_path, system=sys_use) #change depending on windoxs/unix
     behaviour=np.genfromtxt(beh_path, skip_header=1) #open the file
@@ -188,7 +188,7 @@ def wm_condition(masked_data, beh_path, n_scans, condition, sys_use='unix', TR=2
     
     ### 
     
-    Subset, beh_Subset = condition_wm( run_activity, Beh, condition, distance='mix', zscore_=False)
+    Subset, beh_Subset = condition_wm( run_activity, Beh, condition, distance=distance, zscore_=False)
     
     return Subset, beh_Subset
 
@@ -204,7 +204,7 @@ def preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance=
     scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
     
     ### TRs of interest
-    activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_condition)(masked_data, beh_path, n_scans, condition, sys_use='unix', TR=TR, nscans_wm=nscans_wm) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
+    activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_condition)(masked_data, beh_path, n_scans, condition, distance=distance, sys_use='unix', TR=TR, nscans_wm=nscans_wm) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
     runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
     runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
     
