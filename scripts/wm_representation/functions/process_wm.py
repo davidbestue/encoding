@@ -114,21 +114,26 @@ def condition_wm( activity, behaviour, condition, distance, zscore_=True):
     
     
     else: ### close or far
+        if distance=='close':
+            distance_t = 1
+        elif distance == 'far':
+            distance_t = 3
+        ####
         if condition == '1_0.2':
-            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==1) *  np.array(behaviour['type']==distance)  , :, :]
-            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==1) & (behaviour['type']==distance) ] 
+            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==1) *  np.array(behaviour['type']==distance_t)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==1) & (behaviour['type']==distance_t) ] 
           
         elif condition == '1_7':
-            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) * np.array(behaviour['type']==distance)  , :, :]
-            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==1) & (behaviour['type']==distance)  ] 
+            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) * np.array(behaviour['type']==distance_t)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==1) & (behaviour['type']==distance_t)  ] 
             
         elif condition == '2_0.2':
-            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==2) * np.array(behaviour['type']==distance)  , :, :]
-            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==2) & (behaviour['type']==distance)  ] 
+            Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==2) * np.array(behaviour['type']==distance_t)  , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==0.2) & (behaviour['order']==2) & (behaviour['type']==distance_t)  ] 
           
         elif condition == '2_7':
-            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['type']==distance) , :, :]
-            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==2) & (behaviour['type']==distance)  ]
+            Subset = activity[  np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['type']==distance_t) , :, :]
+            beh_Subset = behaviour.loc[(behaviour['delay1']==7) & (behaviour['order']==2) & (behaviour['type']==distance_t)  ]
     
     
     #####zscore
