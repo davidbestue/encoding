@@ -129,9 +129,9 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
     df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
     ####### Shuff
     #### Compute the shuffleing
-    #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
+    shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
     
-    return Reconstruction, df_boots
+    return Reconstruction, df_boots, shuffled_rec
 
 
 
@@ -139,10 +139,11 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_ox.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_far_ox.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_response_boot_ox.xlsx'
-path_save_boots = '/home/david/Desktop/boots_LM_response_boot_ox.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_response_boot_far_ox.xlsx'
+path_save_boots = '/home/david/Desktop/boots_LM_response_boot_far_ox.xlsx'
+path_save_shuff = '/home/david/Desktop/shuff_LM_response_boot_far_ox.xlsx'
 Reconstructions_boots=[]
 
 
@@ -164,9 +165,10 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
-            Reconstruction, boots = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
+            Reconstructions_shuff.append(shuff)
             ## Plot the 4 heatmaps
             #plt.title(Condition)
             #ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
@@ -183,7 +185,6 @@ for Subject in Subjects:
         
         
         
-
 
 ### Save Recosntructions
 writer = pd.ExcelWriter(path_save_reconstructions)
@@ -215,14 +216,17 @@ Df['label'] = 'signal' #ad the label of signal (you will concatenate this df wit
 Df.to_excel( path_save_signal ) #save signal
 
 
-### Save Shuffle
+### Save bootstraps
 Df_boots = pd.concat(Reconstructions_boots)
 Df_boots['label'] = 'boots' ## add the label of shuffle
 Df_boots.to_excel(path_save_boots)  #save shuffle
 
 
 
-
+### Save Shuffle
+Df_boots = pd.concat(Reconstructions_shuff)
+Df_boots['label'] = 'shuffle' ## add the label of shuffle
+Df_boots.to_excel(path_save_shuff)  #save shuffle
 
 
 
