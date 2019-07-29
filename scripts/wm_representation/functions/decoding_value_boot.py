@@ -29,13 +29,13 @@ Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
 
 
 
-path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
+#path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
 path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
 #path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM_dist.xlsx'
 #path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM_dist.xlsx'
 
 
-Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
+#Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 Df_shuff = pd.read_excel(path_save_shuffle)
 
 
@@ -58,15 +58,17 @@ for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['
             for times in df.times.unique():    
                 values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## all shuffled reconstructions
                 values_boot = df.loc[(df['label']=='boots') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
-                #### zscore method
-                prediction = (value_decoding - np.mean(values)) / np.std(values)
-                subj_decoding.append([prediction, times, subject, brain_region, condition])
+                
+                for n_boot in range(0, len(values_boot)):
+                    #### zscore method
+                    prediction = (values_boot.iloc[n_boot] - np.mean(values)) / np.std(values)
+                    subj_decoding.append([prediction, times, subject, brain_region, condition])
                 
                 
-                ##### zscore method
-                #for n_rep in range(len(values)):
-                #    prediction = value_decoding - values.iloc[n_rep]
-                #    subj_decoding.append([prediction, times, subject, brain_region, condition])
+                    ##### zscore method
+                    #for n_rep in range(len(values)):
+                    #    prediction = value_decoding - values.iloc[n_rep]
+                    #    subj_decoding.append([prediction, times, subject, brain_region, condition])
 
 #
 
