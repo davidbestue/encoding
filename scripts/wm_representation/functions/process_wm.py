@@ -94,7 +94,7 @@ def mask_fmri_process(fmri_path, masks, sys_use='unix'):
 ### Each column 
 
 
-def condition_wm( activity, behaviour, condition, distance='mix', zscore_=True):
+def condition_wm( activity, behaviour, condition, distance, zscore_=True):
     if distance=='mix':
         if condition == '1_0.2': 
             Subset = activity[  np.array(behaviour['delay1']==0.2)  *  np.array(behaviour['order']==1) , :, :]
@@ -153,7 +153,7 @@ def condition_wm( activity, behaviour, condition, distance='mix', zscore_=True):
 
 
 
-def wm_condition(masked_data, beh_path, n_scans, condition, sys_use='unix', TR=2.335, nscans_wm=16, distance='mix'):
+def wm_condition(masked_data, beh_path, n_scans, condition,  distance, sys_use='unix', TR=2.335, nscans_wm=16):
     # Behaviour 
     beh_path = ub_wind_path(beh_path, system=sys_use) #change depending on windoxs/unix
     behaviour=np.genfromtxt(beh_path, skip_header=1) #open the file
