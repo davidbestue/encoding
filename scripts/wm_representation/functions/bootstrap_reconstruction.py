@@ -145,6 +145,7 @@ path_save_signal ='/home/david/Desktop/signal_LM_response_boot_far_ox.xlsx'
 path_save_boots = '/home/david/Desktop/boots_LM_response_boot_far_ox.xlsx'
 path_save_shuff = '/home/david/Desktop/shuff_LM_response_boot_far_ox.xlsx'
 Reconstructions_boots=[]
+Reconstructions_shuff=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
@@ -165,7 +166,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
-            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=2, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
             Reconstructions_shuff.append(shuff)
