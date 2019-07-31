@@ -137,7 +137,6 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 
-
 ##paths to save the 3 files 
 path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_close_nit.xlsx' 
 Reconstructions={}
