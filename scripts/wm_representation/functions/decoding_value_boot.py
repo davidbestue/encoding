@@ -39,15 +39,8 @@ shuff_hid = pd.read_excel(path_hid_shuffle)
 
 
 
-
-
-
 Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
-
-
-
-#Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
-Df_shuff = pd.read_excel(path_save_shuffle)
+Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
 
 df = pd.concat([Df, Df_shuff]) #concatenate the files
