@@ -11,28 +11,33 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-#path_save_signal ='/home/david/Desktop/signal_LM.xlsx'
-#path_save_shuffle = '/home/david/Desktop/shuff_LM.xlsx'
-#path_save_signal ='/home/david/Desktop/signal_LM_dist.xlsx'
-#path_save_shuffle = '/home/david/Desktop/shuff_LM_dist.xlsx'
 
+# path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_ox.xlsx'
+# path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_nit.xlsx'
+# path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_hid.xlsx'
+# path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
 
 path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_ox.xlsx'
 path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_nit.xlsx'
 path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_hid.xlsx'
+path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
+
+
+Df_shuff = pd.read_excel(path_save_shuffle)
 
 df_ox = pd.read_excel(path_ox)
 df_nit = pd.read_excel(path_nit)
 df_hid = pd.read_excel(path_hid)
 
+
+
+
+
+
+
+
 Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
 
-
-
-#path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
-path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
-#path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM_dist.xlsx'
-#path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM_dist.xlsx'
 
 
 #Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
