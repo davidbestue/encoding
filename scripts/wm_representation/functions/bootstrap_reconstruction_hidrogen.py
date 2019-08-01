@@ -99,7 +99,7 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-    testing_angles = np.array(testing_behaviour['A_R'])    
+    testing_angles = np.array(testing_behaviour['Dist'])    
     ### Respresentation
     start_repres = time.time()    
     # TR separartion
@@ -138,11 +138,12 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_boot_close_hid.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_far_boot_far_hid.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_response_boot_close_hid.xlsx'
-path_save_boots = '/home/david/Desktop/boots_LM_response_boot_close_hid.xlsx'
-path_save_shuff = '/home/david/Desktop/shuff_LM_response_boot_close_hid.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_dist_boot_far_hid.xlsx'
+path_save_boots = '/home/david/Desktop/boots_LM_dist_boot_far_hid.xlsx'
+path_save_shuff = '/home/david/Desktop/shuff_LM_dist_boot_far_hid.xlsx'
+
 Reconstructions_boots=[]
 Reconstructions_shuff=[]
 
