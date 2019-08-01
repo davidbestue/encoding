@@ -17,7 +17,6 @@ import numpy as np
 #path_save_shuffle = '/home/david/Desktop/shuff_LM_dist.xlsx'
 
 
-
 path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
 path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
 #path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM_dist.xlsx'
