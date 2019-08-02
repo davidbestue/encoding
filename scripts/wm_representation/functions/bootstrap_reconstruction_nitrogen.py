@@ -137,11 +137,11 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_dist_boot_far_nit.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_dist_boot_close_nit.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/signal_LM_dist_boot_far_nit.xlsx'
-path_save_boots = '/home/david/Desktop/boots_LM_dist_boot_far_nit.xlsx'
-path_save_shuff = '/home/david/Desktop/shuff_LM_dist_boot_far_nit.xlsx'
+path_save_signal ='/home/david/Desktop/signal_LM_dist_boot_close_nit.xlsx'
+path_save_boots = '/home/david/Desktop/boots_LM_dist_boot_close_nit.xlsx'
+path_save_shuff = '/home/david/Desktop/shuff_LM_dist_boot_close_nit.xlsx'
 
 Reconstructions_boots=[]
 Reconstructions_shuff=[]
@@ -165,7 +165,7 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
-            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='far', iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='close', iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
             Reconstructions_shuff.append(shuff)
