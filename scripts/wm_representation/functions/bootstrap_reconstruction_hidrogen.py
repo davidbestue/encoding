@@ -68,7 +68,7 @@ def bootstrap_reconstruction(testing_activity, targets, iterations, WM, WM_t, In
         signal_boots = testing_activity[indexes_boots, :, :] 
         signal_boots_paralel =[ signal_boots[:, i, :] for i in range(nscans_wm)]
         
-        Reconstructions_boot = Parallel(n_jobs = numcores, prefer="threads")(delayed(Representation)(signal, targets_boot, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_boots_paralel)    #### reconstruction standard (paralel)
+        Reconstructions_boot = Parallel(n_jobs = numcores)(delayed(Representation)(signal, targets_boot, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_boots_paralel)    #### reconstruction standard (paralel)
         Reconstructions_boot = pd.concat(Reconstructions_boot, axis=1) #mean of all the trials
         Reconstructions_boot.columns =  [str(i * TR) for i in range(nscans_wm)] #column names
         Reconstructions_boots.append(Reconstructions_boot) #append the reconstruction (of the current iteration)
