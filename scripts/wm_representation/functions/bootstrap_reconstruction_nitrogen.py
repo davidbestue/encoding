@@ -17,7 +17,7 @@ import time
 import random
 
 
-numcores = multiprocessing.cpu_count()
+numcores = multiprocessing.cpu_count() - 10
 
 def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180):
     ### shuffle the targets
