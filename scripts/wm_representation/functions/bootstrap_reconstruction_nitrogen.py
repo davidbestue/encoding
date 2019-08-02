@@ -137,7 +137,7 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 ##paths to save the 3 files 
-path_save_reconstructions = '/home/david/Desktop/Reconst_LM_far_boot_far_nit.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconst_LM_dist_boot_far_nit.xlsx' 
 Reconstructions={}
 path_save_signal ='/home/david/Desktop/signal_LM_dist_boot_far_nit.xlsx'
 path_save_boots = '/home/david/Desktop/boots_LM_dist_boot_far_nit.xlsx'
