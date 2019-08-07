@@ -30,6 +30,12 @@ testing_angles = np.array(testing_behaviour['T'])
 ##
 
 
+X = np.column_stack([1, testing_activity[0, 1, :] ])
+p = fit.predict(X)
+x = p[:,0]
+y = p[:,1]
+
+weights.predict(X)
 
 
 
@@ -60,10 +66,7 @@ return training_weights
 
 
 ######### Testing ###########
-X = np.column_stack([np.ones(np.shape(spikes_test)[0]),spikes_test])
-p = fit.predict(X)
-x = p[:,0]
-y = p[:,1]
+
 #####
 ##### Error --> take the resulting vector in sin/cos space
 ### from sin and cos get the angle (-pi, pi)
