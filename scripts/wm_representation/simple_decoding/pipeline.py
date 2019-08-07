@@ -4,15 +4,18 @@ Created on Wed Apr 24 14:32:56 2019
 @author: David Bestue
 """
 
-import statsmodels.api as sm
+
 import sys
 sys.path.append('/home/david/Desktop/GitHub/encoding/scripts/wm_representation/functions/')
 from data_to_use import *
 from process_encoding import *
+from training_fucntion import *
+from process_wm import *
 
 
 Subject='n001'
 Brain_region='visual'
+nscans_wm = 18
 
 
 ### Data to use
@@ -20,34 +23,16 @@ enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use(
 ##### Process training data
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
 ##### Train your weigths
-WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
-WM_t = WM.transpose()
-
-
-
-def train_each_vxl( training_dataset, training_targets ):
-    #
-    ### X Training
-    ## X matrix (intercept and spikes)
-    X = np.column_stack([np.ones(np.shape(training_dataset)[0]),  training_dataset])
-    ## Y (sinus and cos of the target)
-    sinus =np.sin([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
-    cosinus = np.cos([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
-    Y = np.column_stack([cosinus, sinus])
-    Y = Y.astype(float) #to make it work in the cluster
-    X = X.astype(float)
-    model = sm.OLS(Y, X)
-    ##train the model
-    training_weights = model.fit()  ## training_weights.params
-    return training_weights
+weights = train_each_vxl( training_dataset, training_targets )
+##### Process testing data
+testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+testing_angles = np.array(testing_behaviour['T'])
+##
 
 
 
 
 
-
-
-    return weights
 
 
 
