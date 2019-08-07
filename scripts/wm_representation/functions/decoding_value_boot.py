@@ -47,7 +47,6 @@ path_hid_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_
 
 
 
-
 df_ox = pd.read_excel(path_ox)
 df_nit = pd.read_excel(path_nit)
 df_hid = pd.read_excel(path_hid)
