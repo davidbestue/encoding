@@ -12,7 +12,6 @@ import seaborn as sns
 import numpy as np
 
 
-
 ## for the response (mixed)
 # path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_nit.xlsx'
@@ -27,6 +26,7 @@ import numpy as np
 # path_ox = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_nit.xlsx'
 # path_hid = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_hid.xlsx'
+
 
 path_ox = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_ox.xlsx'
 path_nit = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_nit.xlsx'
