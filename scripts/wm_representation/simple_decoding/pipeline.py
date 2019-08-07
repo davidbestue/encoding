@@ -65,7 +65,7 @@ Y = Y.astype(float) #to make it work in the cluster
 X = X.astype(float)
 model = sm.OLS(Y, X)
 ##train the model
-fit=model.fit()
+training_weights = model.fit()
 
 ######### Testing ###########
 X = np.column_stack([np.ones(np.shape(spikes_test)[0]),spikes_test])
