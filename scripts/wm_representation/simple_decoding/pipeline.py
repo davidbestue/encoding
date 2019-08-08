@@ -4,7 +4,6 @@ Created on Wed Apr 24 14:32:56 2019
 @author: David Bestue
 """
 
-
 import sys
 sys.path.append('/home/david/Desktop/GitHub/encoding/scripts/wm_representation/functions/')
 from data_to_use import *
