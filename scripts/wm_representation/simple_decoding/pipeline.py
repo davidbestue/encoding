@@ -16,6 +16,7 @@ from process_wm import *
 Subject='n001'
 Brain_region='visual'
 nscans_wm = 18
+condition='2_7'
 
 
 def circdist(a1,a2):
@@ -33,27 +34,80 @@ enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use(
 training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
 ##### Train your weigths
 weights = train_each_vxl( training_dataset, training_targets )
-##### Process testing data
-testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-testing_angles = np.array(testing_behaviour['T'])
-##
 
 
 df = []
 
-for scan_s in range(16):
-    for trial_n in range(91):
+##### Process testing data
+testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+
+
+
+def angle_between(p1, p2):
+    ang1 = np.arctan2(*p1[::-1])
+    ang2 = np.arctan2(*p2[::-1])
+    #return np.rad2deg((ang1 - ang2) % (2 * np.pi))
+    return abs( np.rad2deg(ang1-ang2))
+
+
+
+def test_wm(testing_activity, testing_behaviour):
+    df=[]
+    testing_angles = np.array(testing_behaviour['T'])
+    for scan_s in range(nscans_wm):
+        for trial_n in range(len(testing_angles)):
+            test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
+            x,y = weights.predict(test_interc)[0]
+            y_real =np.sin(np.radians(testing_angles[trial_n]) )
+            x_real = np.cos(np.radians(testing_angles[trial_n]) )
+            error = angle_between( (x,y), (x_real, y_real))
+            time = scan_s * TR
+            target = testing_behaviour['T'].iloc[trial_n]
+            response= testing_behaviour['A_R'].iloc[trial_n]
+            df.append( [ error, Subject, Brain_region, time, trial_n, condition, target, response ])
+    #
+    df=pd.DataFrame(df)
+    df.columns=['error', 'Subject', 'Brain_region', 'time', 'trial', 'condition', 'target', 'response']
+    return df
+
+
+
+test_wm(testing_activity, testing_behaviour)
+
+
+
+
+
+def decode_trial( activity, target):
+    test_interc = [1] + list(activity)
+    x,y = weights.predict(test_interc)[0]
+    y_real =np.sin(np.radians(target) )
+    x_real = np.cos(np.radians(target) )
+    error = angle_between( (x,y), (x_real, y_real))
+    return error
+
+
+
+
+
+
+testing_angles = np.array(testing_behaviour['T'])
+for scan_s in range(nscans_wm):
+    for trial_n in range(len(testing_angles)):
         test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
         x,y = weights.predict(test_interc)[0]
         y_real =np.sin(np.radians(testing_angles[trial_n]) )
         x_real = np.cos(np.radians(testing_angles[trial_n]) )
         error = angle_between( (x,y), (x_real, y_real))
         time = scan_s * TR
-        df.append( [ error, Subject, Brain_region, time, trial_n ])
+        target = testing_angles.iloc[trial_n]
+        response= testing_behaviour['A_R'].iloc[trail_n]
+        df.append( [ error, Subject, Brain_region, time, trial_n, condition, target, response ])
     
 
 
-
+df=pd.DataFrame(df)
+df.columns=['error', 'Subject', 'Brain_region', 'time', 'trial', 'condition', 'target', 'response']
 
 
 
