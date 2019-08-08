@@ -78,8 +78,6 @@ def train_each_vxl( training_dataset, training_targets ):
 
 
 
-
-
 cond_res = []
 for Subject in ['n001', 'd001', 'r001', 's001', 'b001', 'l001']:
     print(Subject)
