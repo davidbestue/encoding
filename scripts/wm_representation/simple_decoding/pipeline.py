@@ -13,11 +13,6 @@ from training_fucntion import *
 from process_wm import *
 
 
-Subject='n001'
-Brain_region='visual'
-nscans_wm = 18
-condition='2_7'
-
 
 def circdist(a1,a2):
     ## Returns the minimal distance in angles between to angles 
@@ -76,6 +71,7 @@ def train_each_vxl( training_dataset, training_targets ):
 
 
 
+nscans_wm = 18
 
 
 cond_res = []
@@ -108,7 +104,10 @@ plt.show(block=False)
 
 
 
-
+#################################
+#################################
+#################################
+#################################
 
 
 test_wm(testing_activity, testing_behaviour)
