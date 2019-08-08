@@ -28,20 +28,6 @@ def circdist(a1,a2):
     return min(options)
 
 
-### Data to use
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-##### Process training data
-training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
-##### Train your weigths
-weights = train_each_vxl( training_dataset, training_targets )
-
-
-df = []
-
-##### Process testing data
-testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-
-
 
 def angle_between(p1, p2):
     ang1 = np.arctan2(*p1[::-1])
@@ -72,7 +58,65 @@ def test_wm(testing_activity, testing_behaviour):
 
 
 
+def train_each_vxl( training_dataset, training_targets ):
+    #
+    ### X Training
+    ## X matrix (intercept and spikes)
+    X = np.column_stack([np.ones(np.shape(training_dataset)[0]),  training_dataset])
+    ## Y (sinus and cos of the target)
+    sinus =np.sin([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
+    cosinus = np.cos([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
+    Y = np.column_stack([cosinus, sinus])
+    Y = Y.astype(float) #to make it work in the cluster
+    X = X.astype(float)
+    model = sm.OLS(Y, X)
+    ##train the model
+    weights = model.fit()  ## training_weights.params
+    return weights
+
+
+
+
+
+
+
+cond_res = []
+for Subject in ['n001', 'd001', 'r001', 's001', 'b001', 'l001']:
+    print(Subject)
+    for Brain_region in ['visual', 'ips', 'frontinf']:
+        ### Data to use
+        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+        ##### Process training data
+        training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
+        ##### Train your weigths
+        weights = train_each_vxl( training_dataset, training_targets )
+        for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
+            ##### Process testing data
+            testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+            results = test_wm(testing_activity, testing_behaviour)
+            cond_res.append(results)
+
+
+
+
+
+
+
+df = pd.concat(cond_res, ignore_index=True)
+plt.figure()
+sns.lineplot(x='time', y='error', hue='condition', data=df.loc[df['Brain_region']=='visual'])
+plt.show(block=False)
+
+
+
+
+
+
+
 test_wm(testing_activity, testing_behaviour)
+
+
+
 
 
 
@@ -130,24 +174,6 @@ def angle_between(p1, p2):
     #return np.rad2deg((ang1 - ang2) % (2 * np.pi))
     return abs( np.rad2deg(ang1-ang2))
 
-
-
-
-def train_each_vxl( training_dataset, training_targets ):
-    #
-    ### X Training
-    ## X matrix (intercept and spikes)
-    X = np.column_stack([np.ones(np.shape(training_dataset)[0]),  training_dataset])
-    ## Y (sinus and cos of the target)
-    sinus =np.sin([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
-    cosinus = np.cos([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
-    Y = np.column_stack([cosinus, sinus])
-    Y = Y.astype(float) #to make it work in the cluster
-    X = X.astype(float)
-    model = sm.OLS(Y, X)
-    ##train the model
-    weights = model.fit()  ## training_weights.params
-    return weights
 
 
 
