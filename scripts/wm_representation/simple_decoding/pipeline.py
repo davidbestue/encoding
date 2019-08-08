@@ -97,15 +97,14 @@ for Subject in ['n001', 'd001', 'r001', 's001', 'b001', 'l001']:
 df = pd.concat(cond_res, ignore_index=True)
 #### df.to_excel('liniar_decoding_results.xlsx')
 
-
-
-
 presentation_period= 0.35 #stim presnetation time
 presentation_period_cue=  0.50 #presentation of attentional cue time
 pre_stim_period= 0.5 #time between cue and stim
 resp_time = 4  #time the response is active
 
+
 pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:3]
+
 
 
 fig = plt.figure(figsize=(10,8))
@@ -195,8 +194,6 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 plt.suptitle( '', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
-
-
 
 
 #### quality of each subject
