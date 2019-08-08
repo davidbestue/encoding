@@ -18,6 +18,15 @@ Brain_region='visual'
 nscans_wm = 18
 
 
+def circdist(a1,a2):
+    ## Returns the minimal distance in angles between to angles 
+    op1=abs(a2-a1)
+    angs=[a1,a2]
+    op2=min(angs)+(360-max(angs))
+    options=[op1,op2]
+    return min(options)
+
+
 ### Data to use
 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
 ##### Process training data
@@ -33,12 +42,59 @@ for scan_s in range(16):
     for trial_n in range(91):
         test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
         x,y = weights.predict(test_interc)[0]
-        pred_angle = np.degrees(np.arctan2(y, x))
+        y_real =np.sin(np.radians(testing_angles[0]) )
+        x_real = np.cos(np.radians(testing_angles[0]) )
+        error = angle_between( (x,y), (x_real, y_real))
+    
+
+
+
+
+
+
+        #pred_angle = np.degrees(np.arctan2(y, x))
         ##
-        if pred_angle<0:
-            pred_angle = 360+pred_angle 
+        #if pred_angle<0:
+        #    pred_angle = 360+pred_angle 
         ##
-        
+        #abs_error = circdist(testing_angles[trial_n], pred_angle)
+
+
+
+
+
+angle_between( (x,y), (x_real, y_real))
+
+def angle_between(p1, p2):
+    ang1 = np.arctan2(*p1[::-1])
+    ang2 = np.arctan2(*p2[::-1])
+    #return np.rad2deg((ang1 - ang2) % (2 * np.pi))
+    return abs( np.rad2deg(ang1-ang2))
+
+
+
+
+def train_each_vxl( training_dataset, training_targets ):
+    #
+    ### X Training
+    ## X matrix (intercept and spikes)
+    X = np.column_stack([np.ones(np.shape(training_dataset)[0]),  training_dataset])
+    ## Y (sinus and cos of the target)
+    sinus =np.sin([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
+    cosinus = np.cos([np.radians(np.array(training_targets)[i]) for i in range(0, len(training_targets))])
+    Y = np.column_stack([cosinus, sinus])
+    Y = Y.astype(float) #to make it work in the cluster
+    X = X.astype(float)
+    model = sm.OLS(Y, X)
+    ##train the model
+    weights = model.fit()  ## training_weights.params
+    return weights
+
+
+
+
+
+
 
 
 
