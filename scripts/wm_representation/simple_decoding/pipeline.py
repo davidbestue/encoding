@@ -38,10 +38,6 @@ y = p[:,1]
 weights.predict(X)
 
 
-
-
-
-
 spikes_train, spikes_test, beh_train, beh_test = train_test_split(df.groupby('neuron').get_group(Neur)['spikes'],
                                                                   df.groupby('neuron').get_group(Neur)['beh'],
                                                                   test_size=size_test)  
