@@ -11,7 +11,7 @@ def angle_between(p1, p2):
 
 
 
-def test_wm(testing_activity, testing_behaviour, weights, nscans_wm, TR ):
+def test_wm(testing_activity, testing_behaviour, weights, nscans_wm, TR, Subject, Brain_region, condition ):
     df=[]
     testing_angles = np.array(testing_behaviour['T'])
     for scan_s in range(nscans_wm):

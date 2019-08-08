@@ -35,7 +35,7 @@ for Subject in ['n001', 'd001', 'r001', 's001', 'b001', 'l001']:
         for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
             ##### Process testing data
             testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=condition, distance='mix', sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-            results = test_wm(testing_activity, testing_behaviour, weights, nscans_wm, TR)
+            results = test_wm(testing_activity, testing_behaviour, weights, nscans_wm, TR, Subject, Brain_region, condition )
             cond_res.append(results)
 
 
