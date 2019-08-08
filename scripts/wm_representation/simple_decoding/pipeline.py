@@ -29,8 +29,17 @@ testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, 
 testing_angles = np.array(testing_behaviour['T'])
 ##
 
-test_interc = [1] + list(testing_activity[0,0,:])
-weights.predict(test_interc)
+for scan_s in range(16):
+    for trial_n in range(91):
+        test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
+        x,y = weights.predict(test_interc)[0]
+        pred_angle = np.degrees(np.arctan2(y, x))
+        ##
+        if pred_angle<0:
+            pred_angle = 360+pred_angle 
+        ##
+        
+
 
 
 
