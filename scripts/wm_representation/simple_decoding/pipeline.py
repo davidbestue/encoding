@@ -220,57 +220,6 @@ plt.show(block=False)
 #################################
 
 
-test_wm(testing_activity, testing_behaviour)
-
-
-
-
-
-
-
-
-def decode_trial( activity, target):
-    test_interc = [1] + list(activity)
-    x,y = weights.predict(test_interc)[0]
-    y_real =np.sin(np.radians(target) )
-    x_real = np.cos(np.radians(target) )
-    error = angle_between( (x,y), (x_real, y_real))
-    return error
-
-
-
-
-
-
-testing_angles = np.array(testing_behaviour['T'])
-for scan_s in range(nscans_wm):
-    for trial_n in range(len(testing_angles)):
-        test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
-        x,y = weights.predict(test_interc)[0]
-        y_real =np.sin(np.radians(testing_angles[trial_n]) )
-        x_real = np.cos(np.radians(testing_angles[trial_n]) )
-        error = angle_between( (x,y), (x_real, y_real))
-        time = scan_s * TR
-        target = testing_angles.iloc[trial_n]
-        response= testing_behaviour['A_R'].iloc[trail_n]
-        df.append( [ error, Subject, Brain_region, time, trial_n, condition, target, response ])
-    
-
-
-df=pd.DataFrame(df)
-df.columns=['error', 'Subject', 'Brain_region', 'time', 'trial', 'condition', 'target', 'response']
-
-
-
-        #pred_angle = np.degrees(np.arctan2(y, x))
-        ##
-        #if pred_angle<0:
-        #    pred_angle = 360+pred_angle 
-        ##
-        #abs_error = circdist(testing_angles[trial_n], pred_angle)
-
-
-
 
 
 angle_between( (x,y), (x_real, y_real))
