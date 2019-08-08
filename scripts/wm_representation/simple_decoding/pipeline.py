@@ -8,6 +8,7 @@ from training_fucntion import *
 from testing_functions import *
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 import sys
 functions_path = os.path.join( os.path.abspath(os.path.join(os.getcwd(), os.pardir)), 'functions')  # go one directory back and join with functions
