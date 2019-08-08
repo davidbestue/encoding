@@ -4,16 +4,18 @@ Created on Wed Apr 24 14:32:56 2019
 @author: David Bestue
 """
 
+from training_fucntion import *
+from testing_functions import *
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 import sys
 functions_path = os.path.join( os.path.abspath(os.path.join(os.getcwd(), os.pardir)), 'functions')  # go one directory back and join with functions
 sys.path.append(functions_path) ## add the diectory to the path, so now you can import from that (see what is inside with sys.path 
 from data_to_use import *
 from process_encoding import *
-from training_fucntion import *
 from process_wm import *
-from testing_functions import *
-import matplotlib.pyplot as plt
-import seaborn as sns
+
 
 
 nscans_wm = 18
