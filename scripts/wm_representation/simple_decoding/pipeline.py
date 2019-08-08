@@ -38,13 +38,18 @@ testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, 
 testing_angles = np.array(testing_behaviour['T'])
 ##
 
+
+df = []
+
 for scan_s in range(16):
     for trial_n in range(91):
         test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
         x,y = weights.predict(test_interc)[0]
-        y_real =np.sin(np.radians(testing_angles[0]) )
-        x_real = np.cos(np.radians(testing_angles[0]) )
+        y_real =np.sin(np.radians(testing_angles[trial_n]) )
+        x_real = np.cos(np.radians(testing_angles[trial_n]) )
         error = angle_between( (x,y), (x_real, y_real))
+        time = scan_s * TR
+        df.append( [ error, Subject, Brain_region, time, trial_n ])
     
 
 
