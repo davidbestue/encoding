@@ -11,45 +11,10 @@ from data_to_use import *
 from process_encoding import *
 from training_fucntion import *
 from process_wm import *
+from testing_functions import *
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-
-
-def circdist(a1,a2):
-    ## Returns the minimal distance in angles between to angles 
-    op1=abs(a2-a1)
-    angs=[a1,a2]
-    op2=min(angs)+(360-max(angs))
-    options=[op1,op2]
-    return min(options)
-
-
-
-def angle_between(p1, p2):
-    ang1 = np.arctan2(*p1[::-1])
-    ang2 = np.arctan2(*p2[::-1])
-    #return np.rad2deg((ang1 - ang2) % (2 * np.pi))
-    return abs( np.rad2deg(ang1-ang2))
-
-
-
-def test_wm(testing_activity, testing_behaviour, weights):
-    df=[]
-    testing_angles = np.array(testing_behaviour['T'])
-    for scan_s in range(nscans_wm):
-        for trial_n in range(len(testing_angles)):
-            test_interc = [1] + list(testing_activity[trial_n, scan_s, :])
-            x,y = weights.predict(test_interc)[0]
-            y_real =np.sin(np.radians(testing_angles[trial_n]) )
-            x_real = np.cos(np.radians(testing_angles[trial_n]) )
-            error = angle_between( (x,y), (x_real, y_real))
-            time = scan_s * TR
-            target = testing_behaviour['T'].iloc[trial_n]
-            response= testing_behaviour['A_R'].iloc[trial_n]
-            df.append( [ error, Subject, Brain_region, time, trial_n, condition, target, response ])
-    #
-    df=pd.DataFrame(df)
-    df.columns=['error', 'Subject', 'Brain_region', 'time', 'trial', 'condition', 'target', 'response']
-    return df
 
 
 
@@ -104,8 +69,6 @@ resp_time = 4  #time the response is active
 
 
 pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:3]
-
-
 
 fig = plt.figure(figsize=(10,8))
 for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
@@ -204,9 +167,5 @@ plt.ylim(110, 130)
 plt.show(block=False)
 
 
-#################################
-#################################
-#################################
-#################################
 
 
