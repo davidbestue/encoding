@@ -5,7 +5,8 @@ Created on Wed Apr 24 14:32:56 2019
 """
 
 import sys
-sys.path.append('/home/david/Desktop/GitHub/encoding/scripts/wm_representation/functions/')
+functions_path = os.path.join( os.path.abspath(os.path.join(os.getcwd(), os.pardir)), 'functions')  # go one directory back and join with functions
+sys.path.append(functions_path) ## add the diectory to the path, so now you can import from that (see what is inside with sys.path 
 from data_to_use import *
 from process_encoding import *
 from training_fucntion import *
