@@ -29,6 +29,10 @@ testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, 
 testing_angles = np.array(testing_behaviour['T'])
 ##
 
+test_interc = [1] + list(testing_activity[0,0,:])
+weights.predict(test_interc)
+
+
 
 X = np.column_stack([1, testing_activity[0, 1, :] ])
 p = fit.predict(X)
