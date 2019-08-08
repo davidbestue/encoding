@@ -199,17 +199,12 @@ plt.show(block=False) #show
 
 
 
-
-
-#### best and worst subject
+#### quality of each subject
 
 plt.figure()
 sns.factorplot(x='Subject', y='error', kind='bar', data=df)
 plt.ylim(110, 130)
 plt.show(block=False)
-
-
-
 
 
 #################################
