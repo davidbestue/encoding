@@ -45,7 +45,12 @@ df_plot.columns=[ 'old_mean', 'new_mean', 'inf', 'sup', 'brain_reg', 'time', 'co
 
 fig = plt.figure(figsize=(10,8))
 ax = fig.add_subplot(2,2, 1) 
-sns.lineplot( ax=ax, x="time", y="new_mean", hue='brain_reg', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=df_plot.loc[ (df_plot['condition']=='1_7')]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
+data_cond =  df_plot.loc[ (df_plot['condition']=='1_7')]
+sns.lineplot( ax=ax, x="time", y="new_mean", hue='brain_reg', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=data_cond) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
+
+plt.fill_between(  list(df_plot.time.unique()) , list(data_cond.loc[data_cond['brain_reg']=='visual', 'inf']) , list(data_cond.loc[data_cond['brain_reg']=='visual', 'sup']) , color=tab[0], alpha=0.3) #, label='target'  ) #plot aprox time of target
+plt.fill_between(  list(df_plot.time.unique()) , list(data_cond.loc[data_cond['brain_reg']=='ips', 'inf']) , list(data_cond.loc[data_cond['brain_reg']=='ips', 'sup']) , color=tab[1], alpha=0.3) #, label='target'  ) #plot aprox time of target
+plt.fill_between(  list(df_plot.time.unique()) , list(data_cond.loc[data_cond['brain_reg']=='frontinf', 'inf']) , list(data_cond.loc[data_cond['brain_reg']=='frontinf', 'sup']) , color=tab[2], alpha=0.3) #, label='target'  ) #plot aprox time of target
 
 
 plt.show(block=False)
