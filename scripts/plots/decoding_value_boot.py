@@ -98,8 +98,8 @@ for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['
 #
 
 
-dfss = pd.DataFrame(decod_sum_subj) 
-dfss.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle
+dfsn = pd.DataFrame(decod_sum_subj) 
+dfsn.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle
 
 
 dfsn = pd.DataFrame(subj_decoding) 
