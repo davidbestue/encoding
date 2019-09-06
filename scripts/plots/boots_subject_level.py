@@ -5,72 +5,6 @@
 
 
 
-def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
-    #### you give a 2 column df, one column qith the value and the other column with subject index:
-    list_subjects = data[col_subj].unique()
-    sample=[]
-    for n in range(n_iterations):
-        resampled=[]
-        new_sample = list(np.random.randint(0, len(list_subjects), len(list_subjects)))
-        for res_s in new_sample:
-            resampled = resampled + list(data.loc[data[col_subj]==list_subjects[res_s], col_int].values) 
-        #
-        sample.append(stat(resampled))
-    #
-    stats_sorted = np.sort(sample)
-    new_mean=np.mean(sample)
-    return (new_mean, stats_sorted[int((alpha/2.0)*n_iterations)],
-            stats_sorted[int((1-alpha/2.0)*n_iterations)])
-
-
-
-
-
-
-##########################
-##########################
-##########################
-
-
-
-
-
-
-
-
-
-
-
-boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
-
-data.decoding.mean() 
-
-
-def bootstrap(data, num_samples, statistic, alpha):
-    """Returns bootstrap estimate of 100.0*(1-alpha) CI for statistic."""
-    n = len(data)
-    idx = npr.randint(0, n, (num_samples, n))
-    samples = data[idx]
-    stat = np.sort(statistic(samples, 1))
-    return (stat[int((alpha/2.0)*num_samples)],
-            stat[int((1-alpha/2.0)*num_samples)])
-
-
-
-
-
-bootstrap(data.decoding, 1000, np.mean, 0.05)
-
-ci = np.asarray((lower, upper))
-    kwargs.update({"central_data": central_data, "ci": ci, "data": data})
-
-fig = plt.figure(figsize=(10,8))
-ax = fig.add_subplot(2,2, 1) 
-sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=dfsn.loc[ (dfsn['condition']=='1_7')]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
-plt.show(block=False)
-
-
-
 
 # -*- coding: utf-8 -*-
 """
@@ -141,6 +75,25 @@ presentation_period= 0.35 #stim presnetation time
 presentation_period_cue=  0.50 #presentation of attentional cue time
 pre_stim_period= 0.5 #time between cue and stim
 resp_time = 4  #time the response is active
+
+
+
+def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
+    #### you give a 2 column df, one column qith the value and the other column with subject index:
+    list_subjects = data[col_subj].unique()
+    sample=[]
+    for n in range(n_iterations):
+        resampled=[]
+        new_sample = list(np.random.randint(0, len(list_subjects), len(list_subjects)))
+        for res_s in new_sample:
+            resampled = resampled + list(data.loc[data[col_subj]==list_subjects[res_s], col_int].values) 
+        #
+        sample.append(stat(resampled))
+    #
+    stats_sorted = np.sort(sample)
+    new_mean=np.mean(sample)
+    return (new_mean, stats_sorted[int((alpha/2.0)*n_iterations)],
+            stats_sorted[int((1-alpha/2.0)*n_iterations)])
 
 
 
