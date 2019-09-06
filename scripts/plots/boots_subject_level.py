@@ -62,8 +62,6 @@ shuff_ox = pd.read_excel(path_ox_shuffle)
 shuff_nit = pd.read_excel(path_nit_shuffle)
 shuff_hid = pd.read_excel(path_hid_shuffle)
 
-
-
 Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
 Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
