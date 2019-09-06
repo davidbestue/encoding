@@ -3,7 +3,6 @@
 
 
 
-data = dfsn.loc[(dfsn['condition']=='2_7') & (dfsn['times']==35.025) & (dfsn['region']=='frontinf'), ['decoding', 'subject'] ]
 
 
 def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
@@ -25,6 +24,167 @@ def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
 
 
 
+
+
+
+##########################
+##########################
+##########################
+
+
+
+
+
+
+
+
+
+
+
+boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
+
+data.decoding.mean() 
+
+
+def bootstrap(data, num_samples, statistic, alpha):
+    """Returns bootstrap estimate of 100.0*(1-alpha) CI for statistic."""
+    n = len(data)
+    idx = npr.randint(0, n, (num_samples, n))
+    samples = data[idx]
+    stat = np.sort(statistic(samples, 1))
+    return (stat[int((alpha/2.0)*num_samples)],
+            stat[int((1-alpha/2.0)*num_samples)])
+
+
+
+
+
+bootstrap(data.decoding, 1000, np.mean, 0.05)
+
+ci = np.asarray((lower, upper))
+    kwargs.update({"central_data": central_data, "ci": ci, "data": data})
+
+fig = plt.figure(figsize=(10,8))
+ax = fig.add_subplot(2,2, 1) 
+sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=dfsn.loc[ (dfsn['condition']=='1_7')]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
+plt.show(block=False)
+
+
+
+
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun 28 11:36:19 2019
+
+@author: David
+"""
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+
+## for the response (mixed)
+# path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_ox.xlsx'
+# path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_nit.xlsx'
+# path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_hid.xlsx'
+# path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
+#Df_shuff = pd.read_excel(path_save_shuffle)
+
+# path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_ox.xlsx'
+# path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_nit.xlsx'
+# path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_hid.xlsx'
+
+# path_ox = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_ox.xlsx'
+# path_nit = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_nit.xlsx'
+# path_hid = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_hid.xlsx'
+
+
+# path_ox = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_ox.xlsx'
+# path_nit = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_nit.xlsx'
+# path_hid = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_hid.xlsx'
+
+# path_ox_shuffle = 'C:\\Users\\David\\Desktop\\dist_close\\shuff_LM_dist_boot_close_ox.xlsx'
+# path_nit_shuffle = 'C:\\Users\\David\\Desktop\\dist_close\\shuff_LM_dist_boot_close_nit.xlsx'
+# path_hid_shuffle = 'C:\\Users\\David\\Desktop\\dist_close\\shuff_LM_dist_boot_close_hid.xlsx'
+
+
+path_ox = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_ox.xlsx'
+path_nit = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_nit.xlsx'
+path_hid = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_hid.xlsx'
+
+path_ox_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_ox.xlsx'
+path_nit_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_nit.xlsx'
+path_hid_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_hid.xlsx'
+
+
+
+df_ox = pd.read_excel(path_ox)
+df_nit = pd.read_excel(path_nit)
+df_hid = pd.read_excel(path_hid)
+
+shuff_ox = pd.read_excel(path_ox_shuffle)
+shuff_nit = pd.read_excel(path_nit_shuffle)
+shuff_hid = pd.read_excel(path_hid_shuffle)
+
+
+
+Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
+Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
+
+
+df = pd.concat([Df, Df_shuff]) #concatenate the files
+
+presentation_period= 0.35 #stim presnetation time
+presentation_period_cue=  0.50 #presentation of attentional cue time
+pre_stim_period= 0.5 #time between cue and stim
+resp_time = 4  #time the response is active
+
+
+
+
+##### Measure of difference to shuffle
+subj_decoding=[]
+#decod_sum_subj = []
+for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
+    for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
+        for subject in df.subject.unique():
+            #decode_timepoint = []
+            for times in df.times.unique():    
+                values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## all shuffled reconstructions
+                values_boot = df.loc[(df['label']=='boots') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
+                #values_boot = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
+                #prediction_subj = (np.mean(values_boot) - np.mean(values)) / np.std(values)
+                #decod_sum_subj.append([prediction_subj, times, subject, brain_region, condition]) #subject base
+                for n_boot in range(0, len(values_boot)): ##trial base
+                    #### zscore method
+                    prediction = (values_boot.iloc[n_boot] - np.mean(values)) / np.std(values)
+                    subj_decoding.append([prediction, times, subject, brain_region, condition])
+                
+                
+                    ##### zscore method
+                    #for n_rep in range(len(values)):
+                    #    prediction = value_decoding - values.iloc[n_rep]
+                    #    subj_decoding.append([prediction, times, subject, brain_region, condition])
+
+#
+
+
+# dfsn = pd.DataFrame(decod_sum_subj) 
+# dfsn.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle
+
+
+dfsn = pd.DataFrame(subj_decoding) 
+dfsn.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle
+
+
+pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:3]
+
+#### get the inf and superior of the bootstrap by doing a bootstrap by subject (not using the ci of the sns.lineplot)
+
+
 df_plot = []
 for brain_reg in ['visual', 'ips', 'frontinf']:
     for time in list(dfsn.times.unique()) :
@@ -40,21 +200,6 @@ for brain_reg in ['visual', 'ips', 'frontinf']:
 
 df_plot = pd.DataFrame(df_plot) 
 df_plot.columns=[ 'old_mean', 'new_mean', 'inf', 'sup', 'brain_reg', 'time', 'condition' ] #decode compared to shuffle
-
-
-
-fig = plt.figure(figsize=(10,8))
-ax = fig.add_subplot(2,2, 1) 
-data_cond =  df_plot.loc[ (df_plot['condition']=='1_7')]
-sns.lineplot( ax=ax, x="time", y="new_mean", hue='brain_reg', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=data_cond) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
-plt.fill_between(  list(df_plot.time.unique()) , list(data_cond.loc[data_cond['brain_reg']=='visual', 'inf']) , list(data_cond.loc[data_cond['brain_reg']=='visual', 'sup']) , color=pal[0], alpha=0.3) #, label='target'  ) #plot aprox time of target
-plt.fill_between(  list(df_plot.time.unique()) , list(data_cond.loc[data_cond['brain_reg']=='ips', 'inf']) , list(data_cond.loc[data_cond['brain_reg']=='ips', 'sup']) , color=pal[1], alpha=0.3) #, label='target'  ) #plot aprox time of target
-plt.fill_between(  list(df_plot.time.unique()) , list(data_cond.loc[data_cond['brain_reg']=='frontinf', 'inf']) , list(data_cond.loc[data_cond['brain_reg']=='frontinf', 'sup']) , color=pal[2], alpha=0.3) #, label='target'  ) #plot aprox time of target
-
-
-plt.show(block=False)
-
-
 
 
 
@@ -159,48 +304,5 @@ plt.suptitle( '', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
-
-data.decoding.mean() 
-
-
-def bootstrap(data, num_samples, statistic, alpha):
-    """Returns bootstrap estimate of 100.0*(1-alpha) CI for statistic."""
-    n = len(data)
-    idx = npr.randint(0, n, (num_samples, n))
-    samples = data[idx]
-    stat = np.sort(statistic(samples, 1))
-    return (stat[int((alpha/2.0)*num_samples)],
-            stat[int((1-alpha/2.0)*num_samples)])
-
-
-
-
-
-bootstrap(data.decoding, 1000, np.mean, 0.05)
-
-ci = np.asarray((lower, upper))
-    kwargs.update({"central_data": central_data, "ci": ci, "data": data})
-
-fig = plt.figure(figsize=(10,8))
-ax = fig.add_subplot(2,2, 1) 
-sns.lineplot( ax=ax, x="times", y="decoding", hue='region', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=dfsn.loc[ (dfsn['condition']=='1_7')]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
-plt.show(block=False)
 
 
