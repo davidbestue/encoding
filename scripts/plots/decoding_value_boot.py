@@ -73,6 +73,7 @@ resp_time = 4  #time the response is active
 
 ##### Measure of difference to shuffle
 subj_decoding=[]
+decod_sum_subj = []
 for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['front_sup', 'front_mid', 'front_inf']
     for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:        
         for subject in df.subject.unique():
@@ -81,8 +82,10 @@ for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['
                 values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## all shuffled reconstructions
                 values_boot = df.loc[(df['label']=='boots') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
                 #values_boot = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
-                
-                for n_boot in range(0, len(values_boot)):
+                prediction_subj = (np.mean(values_boot) - np.mean(values)) / np.std(values)
+                decod_sum_subj.append([prediction_subj, times, subject, brain_region, condition]) #subject base
+
+                for n_boot in range(0, len(values_boot)): ##trial base
                     #### zscore method
                     prediction = (values_boot.iloc[n_boot] - np.mean(values)) / np.std(values)
                     subj_decoding.append([prediction, times, subject, brain_region, condition])
@@ -94,6 +97,11 @@ for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['
                     #    subj_decoding.append([prediction, times, subject, brain_region, condition])
 
 #
+
+
+dfss = pd.DataFrame(decod_sum_subj) 
+dfss.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle
+
 
 dfsn = pd.DataFrame(subj_decoding) 
 dfsn.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle

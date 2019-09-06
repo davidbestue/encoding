@@ -30,3 +30,5 @@ def test_wm(testing_activity, testing_behaviour, weights, nscans_wm, TR, Subject
     df.columns=['error', 'Subject', 'Brain_region', 'time', 'trial', 'condition', 'target', 'response']
     return df
 
+
+
