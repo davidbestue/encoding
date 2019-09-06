@@ -42,6 +42,24 @@ df_plot = pd.DataFrame(df_plot)
 df_plot.columns=[ 'old_mean', 'new_mean', 'inf', 'sup', 'brain_reg', 'time', 'condition' ] #decode compared to shuffle
 
 
+
+fig = plt.figure(figsize=(10,8))
+ax = fig.add_subplot(2,2, 1) 
+sns.lineplot( ax=ax, x="time", y="new_mean", hue='brain_reg', hue_order =  ['visual', 'ips', 'frontinf'], ci=None, palette=pal, data=df_plot.loc[ (df_plot['condition']=='1_7')]) #, 'visual', 'ips',  'frontmid', 'frontsup', 'frontinf'
+
+
+plt.show(block=False)
+
+
+
+
+
+
+
+
+
+
+
 boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
 
 data.decoding.mean() 
