@@ -102,7 +102,6 @@ pre_stim_period= 0.5 #time between cue and stim
 resp_time = 4  #time the response is active
 
 
-
 def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
     #### you give a 2 column df, one column qith the value and the other column with subject index:
     list_subjects = data[col_subj].unique()
@@ -119,8 +118,6 @@ def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
     new_mean=np.mean(sample)
     return (new_mean, stats_sorted[int((alpha/2.0)*n_iterations)],
             stats_sorted[int((1-alpha/2.0)*n_iterations)])
-
-
 
 
 ##### Measure of difference to shuffle
