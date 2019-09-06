@@ -194,7 +194,6 @@ for brain_reg in ['visual', 'ips', 'frontinf']:
 df_plot = pd.DataFrame(df_plot) 
 df_plot.columns=[ 'old_mean', 'new_mean', 'inf', 'sup', 'brain_reg', 'time', 'condition' ] #decode compared to shuffle
 
-
 ##########################
 ##########################
 ##########################
