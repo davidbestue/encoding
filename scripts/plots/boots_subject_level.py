@@ -32,6 +32,13 @@ path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM_dist.xlsx'
 Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 Df_shuff = pd.read_excel(path_save_shuffle)
 
+## response
+path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM_response.xlsx'
+path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM_response.xlsx'
+Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
+Df_shuff = pd.read_excel(path_save_shuffle)
+
+
 
 # path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_nit.xlsx'
