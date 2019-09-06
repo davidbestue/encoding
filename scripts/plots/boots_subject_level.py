@@ -91,15 +91,7 @@ Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
 Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
 
-
-
-
-
-
-#############################
 ############################
-
-
 
 
 df = pd.concat([Df, Df_shuff]) #concatenate the files
