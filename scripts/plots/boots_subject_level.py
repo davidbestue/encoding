@@ -28,11 +28,18 @@ def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
 df_plot = []
 for brain_reg in ['visual', 'ips', 'frontinf']:
     for time in list(dfsn.times.unique()) :
-        for condition in ['1_02', '1_7', '2_02', '2_7']:
+        for condition in ['1_0.2', '1_7', '2_0.2', '2_7']:
             data = dfsn.loc[(dfsn['condition']==condition) & (dfsn['times']==time) & (dfsn['region']==brain_reg), ['decoding', 'subject'] ]
             old_mean = data.decoding.mean()
-            new_mean, inf, sup = boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
-            df_plot.append( old_mean, new_mean, inf, sup, brain_reg, time, condition)
+            new_mean, inf_l, sup_l = boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
+            df_plot.append( [old_mean, new_mean, inf_l, sup_l, brain_reg, time, condition])
+
+
+
+
+
+df_plot = pd.DataFrame(df_plot) 
+df_plot.columns=[ 'old_mean', 'new_mean', 'inf', 'sup', 'brain_reg', 'time', 'condition' ] #decode compared to shuffle
 
 
 boots_by_subj(data, 'decoding', 'subject', 1000, 0.05, np.mean)
