@@ -179,12 +179,7 @@ for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['
 dfsn = pd.DataFrame(subj_decoding) 
 dfsn.columns=['decoding', 'times', 'subject', 'region', 'condition' ] #decode compared to shuffle
 
-
-pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:3]
-
 #### get the inf and superior of the bootstrap by doing a bootstrap by subject (not using the ci of the sns.lineplot)
-
-
 df_plot = []
 for brain_reg in ['visual', 'ips', 'frontinf']:
     for time in list(dfsn.times.unique()) :
@@ -195,21 +190,16 @@ for brain_reg in ['visual', 'ips', 'frontinf']:
             df_plot.append( [old_mean, new_mean, inf_l, sup_l, brain_reg, time, condition])
 
 
-
-
-
+#
 df_plot = pd.DataFrame(df_plot) 
 df_plot.columns=[ 'old_mean', 'new_mean', 'inf', 'sup', 'brain_reg', 'time', 'condition' ] #decode compared to shuffle
 
 
-
-
 ##########################
 ##########################
 ##########################
 
-
-
+pal = sns.color_palette("tab10", n_colors=12, desat=1).as_hex()[0:3]
 
 
 fig = plt.figure(figsize=(10,8))
