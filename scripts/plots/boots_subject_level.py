@@ -11,10 +11,10 @@ import numpy as np
 
 
 ## target
-path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
-path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
-Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
-Df_shuff = pd.read_excel(path_save_shuffle)
+# path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
+# path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
+# Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
+# Df_shuff = pd.read_excel(path_save_shuffle)
 
 # ## distractor
 # path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM_dist.xlsx'
