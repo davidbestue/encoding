@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 # -*- coding: utf-8 -*-
 """
 Created on Fri Jun 28 11:36:19 2019
@@ -37,7 +29,6 @@ import numpy as np
 # path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM_response.xlsx'
 # Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 # Df_shuff = pd.read_excel(path_save_shuffle)
-
 
 
 #Target_close
