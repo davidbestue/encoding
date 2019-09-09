@@ -242,8 +242,8 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
         conf_inf = list( data_cond.loc[data_cond['brain_reg']==brain_reg].inf )
         conf_sup = list( data_cond.loc[data_cond['brain_reg']==brain_reg].sup )
         color_sign = pal[index_color]
-        y_min_shad = 5
-        y_max_shad = 6
+        y_min_shad = 5 + index_color
+        y_max_shad = 6 + index_color
         line_significance(all_timepoints, conf_inf, conf_sup, y_min_shad, y_max_shad, color_sh=color_sign)
     #
     ###
