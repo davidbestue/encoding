@@ -17,7 +17,6 @@ path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_ox.xlsx'
 path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_nit.xlsx'
 path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_hid.xlsx'
 path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
-Df = pd.concat([path_ox, path_nit, path_hid], ignore_index=True)
 Df_shuff = pd.read_excel(path_save_shuffle)
 
 # path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_ox.xlsx'
@@ -48,9 +47,9 @@ Df_shuff = pd.read_excel(path_save_shuffle)
 
 
 
-# df_ox = pd.read_excel(path_ox)
-# df_nit = pd.read_excel(path_nit)
-# df_hid = pd.read_excel(path_hid)
+df_ox = pd.read_excel(path_ox)
+df_nit = pd.read_excel(path_nit)
+df_hid = pd.read_excel(path_hid)
 
 # shuff_ox = pd.read_excel(path_ox_shuffle)
 # shuff_nit = pd.read_excel(path_nit_shuffle)
@@ -58,7 +57,7 @@ Df_shuff = pd.read_excel(path_save_shuffle)
 
 
 
-# Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
+Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
 # Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
 
