@@ -85,9 +85,7 @@ Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
 ############################
 
-
 df = pd.concat([Df, Df_shuff]) #concatenate the files
-
 presentation_period= 0.35 #stim presnetation time
 presentation_period_cue=  0.50 #presentation of attentional cue time
 pre_stim_period= 0.5 #time between cue and stim
