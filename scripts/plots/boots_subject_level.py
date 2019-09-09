@@ -243,6 +243,7 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     plt.xticks([5,15,25]) #just this tcks
     plt.yticks([-4, 0 , 4])
     plt.xlim(xlim)
+    plt.fill_between(  xlim, [data_cond.iloc[8].time, data_cond.iloc[8].time], [data_cond.iloc[10].time, data_cond.iloc[10].time], color='b', alpha=0.3)
     if indx_c==3: #legend in just this condition (to avoid repetitions)       
         plt.gca().legend(loc= 2, frameon=False)
         plt.xticks([10, 20 ,30])
@@ -256,6 +257,15 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
 plt.suptitle( '', fontsize=18) ## main title
 plt.tight_layout(w_pad=5, h_pad=5, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
 plt.show(block=False) #show
+
+
+
+
+
+
+
+
+
 
 
 
