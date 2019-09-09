@@ -264,7 +264,9 @@ plt.show(block=False) #show
 
 ############################
 
-all_timepoints = list(df_plot.time.unique()) 
+all_timepoints = data_cond.loc[data_cond['brain_reg']=='visual'].time
+conf_inf = data_cond.loc[data_cond['brain_reg']=='visual'].inf
+conf_sup = data_cond.loc[data_cond['brain_reg']=='visual'].sup
 
 def line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad):
     for idx_t in range(  len(timepoints)-1 ):
@@ -276,7 +278,7 @@ def line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad):
 
 
 plt.figure()
-line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad)
+line_significance(all_timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad)
 plt.xlim(xlim)
 plt.ylim(-8, 8)
 plt.show(block=False)
