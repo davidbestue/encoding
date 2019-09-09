@@ -10,11 +10,11 @@ import seaborn as sns
 import numpy as np
 
 
-# ## target
-# path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
-# path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
-# Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
-# Df_shuff = pd.read_excel(path_save_shuffle)
+## target
+path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM.xlsx'
+path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
+Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
+Df_shuff = pd.read_excel(path_save_shuffle)
 
 # ## distractor
 # path_save_signal ='C:\\Users\\David\\Desktop\\signal_LM_dist.xlsx'
@@ -59,25 +59,25 @@ import numpy as np
 
 
 # #Distractor_far
-path_ox = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_ox.xlsx'
-path_nit = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_nit.xlsx'
-path_hid = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_hid.xlsx'
+# path_ox = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_ox.xlsx'
+# path_nit = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_nit.xlsx'
+# path_hid = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_hid.xlsx'
 
-path_ox_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_ox.xlsx'
-path_nit_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_nit.xlsx'
-path_hid_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_hid.xlsx'
+# path_ox_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_ox.xlsx'
+# path_nit_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_nit.xlsx'
+# path_hid_shuffle = 'C:\\Users\\David\\Desktop\\dist_far\\shuff_LM_dist_boot_far_hid.xlsx'
 
 
-df_ox = pd.read_excel(path_ox)
-df_nit = pd.read_excel(path_nit)
-df_hid = pd.read_excel(path_hid)
+# df_ox = pd.read_excel(path_ox)
+# df_nit = pd.read_excel(path_nit)
+# df_hid = pd.read_excel(path_hid)
 
-shuff_ox = pd.read_excel(path_ox_shuffle)
-shuff_nit = pd.read_excel(path_nit_shuffle)
-shuff_hid = pd.read_excel(path_hid_shuffle)
+# shuff_ox = pd.read_excel(path_ox_shuffle)
+# shuff_nit = pd.read_excel(path_nit_shuffle)
+# shuff_hid = pd.read_excel(path_hid_shuffle)
 
-Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
-Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
+# Df = pd.concat([df_ox, df_nit, df_hid], ignore_index=True)
+# Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
 
 ############################
