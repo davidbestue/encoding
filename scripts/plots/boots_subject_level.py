@@ -110,21 +110,6 @@ def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
 
 
 
-def line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad):
-    for idx_t in range(  len(timepoints)-1 ):
-        #if ci_inf[idx_t]<= 0 <= ci_sup[idx_t]:    #### inferior and superior
-        #    plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
-        if ci_inf[idx_t]<= 0 :
-            plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
-        else:
-            plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='b', alpha=0.3)
-
-
-
-
-
-
-
 ##### Measure of difference to shuffle
 subj_decoding=[]
 #decod_sum_subj = []
@@ -250,6 +235,18 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='b', alpha=0.3) #, label='target'  ) #plot aprox time of target
     plt.fill_between(  [ d_p1, d_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='g', alpha=0.3) #, label='distractor'  ) #plot aprox time of distractor
     plt.fill_between(  [ r_t1, r_t2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='y', alpha=0.3) #, label='response'  )   #plot aprox time of response
+    
+    ## Plot the significance line
+    for index_color, brain_reg in enumerate(['visual', 'ips', 'frontinf']):
+        all_timepoints = list( data_cond.loc[data_cond['brain_reg']==brain_reg].time )
+        conf_inf = list( data_cond.loc[data_cond['brain_reg']==brain_reg].inf )
+        conf_sup = list( data_cond.loc[data_cond['brain_reg']==brain_reg].sup )
+        color_sign = pal[index_color]
+        y_min_shad = 5
+        y_max_shad = 6
+        line_significance(all_timepoints, conf_inf, conf_sup, y_min_shad, y_max_shad, color_sh=color_sign)
+    #
+    ###
     TITLE_BR = condition 
     plt.title(TITLE_BR) #condition title
     plt.gca().spines['right'].set_visible(False) #no right axis
@@ -259,7 +256,6 @@ for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']):
     plt.xticks([5,15,25]) #just this tcks
     plt.yticks([-4, 0 , 4])
     plt.xlim(xlim)
-    plt.fill_between(  xlim, [data_cond.iloc[8].time, data_cond.iloc[8].time], [data_cond.iloc[10].time, data_cond.iloc[10].time], color='b', alpha=0.3)
     if indx_c==3: #legend in just this condition (to avoid repetitions)       
         plt.gca().legend(loc= 2, frameon=False)
         plt.xticks([10, 20 ,30])
@@ -280,17 +276,29 @@ plt.show(block=False) #show
 
 ############################
 
-all_timepoints = list( data_cond.loc[data_cond['brain_reg']=='visual'].time )
-conf_inf = list( data_cond.loc[data_cond['brain_reg']=='visual'].inf )
-conf_sup = list( data_cond.loc[data_cond['brain_reg']=='visual'].sup )
-y_min_shad = 5
-y_max_shad = 6
+# all_timepoints = list( data_cond.loc[data_cond['brain_reg']=='visual'].time )
+# conf_inf = list( data_cond.loc[data_cond['brain_reg']=='visual'].inf )
+# conf_sup = list( data_cond.loc[data_cond['brain_reg']=='visual'].sup )
+# y_min_shad = 5
+# y_max_shad = 6
 
 
-plt.figure()
-line_significance(all_timepoints, conf_inf, conf_sup, y_min_shad, y_max_shad)
-plt.xlim(xlim)
-plt.ylim(-8, 8)
-plt.show(block=False)
+# plt.figure()
+# line_significance(all_timepoints, conf_inf, conf_sup, y_min_shad, y_max_shad, color_sh='b')
+# plt.xlim(xlim)
+# plt.ylim(-8, 8)
+# plt.show(block=False)
+
+
+
+
+def line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad, color_sh):
+    for idx_t in range(  len(timepoints)-1 ):
+        #if ci_inf[idx_t]<= 0 <= ci_sup[idx_t]:    #### inferior and superior
+        #    plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
+        if ci_inf[idx_t]<= 0 :
+            plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
+        else:
+            plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color=color_sh, alpha=0.3)
 
 
