@@ -118,8 +118,8 @@ for brain_region in ['visual', 'ips', 'frontinf']: #['visual', 'ips', 'pfc']: ['
             #decode_timepoint = []
             for times in df.times.unique():    
                 values = df.loc[(df['label']=='shuffle') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## all shuffled reconstructions
-                values_boot = df.loc[(df['label']=='boots') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
-                #values_boot = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
+                #values_boot = df.loc[(df['label']=='boots') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
+                values_boot = df.loc[(df['label']=='signal') & (df['condition']==condition) & (df['region'] ==brain_region)  & (df['subject'] ==subject) & (df['times']==times), 'decoding'] ## bootstrap reconstructions
                 #prediction_subj = (np.mean(values_boot) - np.mean(values)) / np.std(values)
                 #decod_sum_subj.append([prediction_subj, times, subject, brain_region, condition]) #subject base
                 for n_boot in range(0, len(values_boot)): ##trial base
