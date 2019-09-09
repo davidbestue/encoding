@@ -268,8 +268,15 @@ all_timepoints = list(df_plot.time.unique())
 
 def line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad):
     for idx_t in range(  len(timepoints)-1 ):
-        if 
-        plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='b', alpha=0.3)
+        if ci_inf<= 0 <= ci_sup:
+            plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
+        else:
+            plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='b', alpha=0.3)
+
+
+
+plt.figure()
+line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad)
 plt.xlim(xlim)
 plt.ylim(-8, 8)
 plt.show(block=False)
