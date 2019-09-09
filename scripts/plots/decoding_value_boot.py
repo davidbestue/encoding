@@ -17,17 +17,28 @@ path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_ox.xlsx'
 path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_nit.xlsx'
 path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_hid.xlsx'
 path_save_shuffle = 'C:\\Users\\David\\Desktop\\shuff_LM.xlsx'
+
+df_ox = pd.read_excel(path_ox)
+df_nit = pd.read_excel(path_nit)
+df_hid = pd.read_excel(path_hid)
+
 Df_shuff = pd.read_excel(path_save_shuffle)
 
+
+## response far
 # path_ox = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_nit.xlsx'
 # path_hid = 'C:\\Users\\David\\Desktop\\boots_LM_response_boot_far_hid.xlsx'
 
+## response close
 # path_ox = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_nit.xlsx'
 # path_hid = 'C:\\Users\\David\\Desktop\\close\\signal_LM_response_boot_close_hid.xlsx'
 
 
+
+
+## dist close
 # path_ox = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_nit.xlsx'
 # path_hid = 'C:\\Users\\David\\Desktop\\dist_close\\boots_LM_dist_boot_close_hid.xlsx'
@@ -36,7 +47,7 @@ Df_shuff = pd.read_excel(path_save_shuffle)
 # path_nit_shuffle = 'C:\\Users\\David\\Desktop\\dist_close\\shuff_LM_dist_boot_close_nit.xlsx'
 # path_hid_shuffle = 'C:\\Users\\David\\Desktop\\dist_close\\shuff_LM_dist_boot_close_hid.xlsx'
 
-
+## dist far
 # path_ox = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_ox.xlsx'
 # path_nit = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_nit.xlsx'
 # path_hid = 'C:\\Users\\David\\Desktop\\dist_far\\boots_LM_dist_boot_far_hid.xlsx'
