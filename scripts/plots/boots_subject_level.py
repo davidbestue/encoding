@@ -114,10 +114,10 @@ def boots_by_subj(data, col_int, col_subj, n_iterations, alpha, stat):
 
 def line_significance(timepoints, ci_inf, ci_sup, y_min_shad, y_max_shad, color_sh):
     for idx_t in range(  len(timepoints)-1 ):
-        #if ci_inf[idx_t]<= 0 <= ci_sup[idx_t]:    #### inferior and superior
-        #    plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
-        if ci_inf[idx_t]<= 0 :
+        if ci_inf[idx_t]<= 0 <= ci_sup[idx_t]:    #### inferior and superior
             plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
+        #if ci_inf[idx_t]<= 0 :
+        #    plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color='w', alpha=0.3)
         else:
             plt.fill_between(  [timepoints[idx_t], timepoints[idx_t+1] ], [y_min_shad, y_min_shad], [y_max_shad, y_max_shad], color=color_sh, alpha=0.3)
 
