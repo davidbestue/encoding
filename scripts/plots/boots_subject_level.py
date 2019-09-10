@@ -28,7 +28,6 @@ import numpy as np
 # Df = pd.read_excel(path_save_signal) #convert them to pd.dataframes
 # Df_shuff = pd.read_excel(path_save_shuffle)
 
-
 #Target_close
 path_ox = 'C:\\Users\\David\\Desktop\\close\\boots_LM_response_boot_close_ox.xlsx'
 path_nit = 'C:\\Users\\David\\Desktop\\close\\boots_LM_response_boot_close_nit.xlsx'
