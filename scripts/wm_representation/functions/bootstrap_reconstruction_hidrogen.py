@@ -22,6 +22,8 @@ numcores = multiprocessing.cpu_count() - 10
 
 
 ##paths to save the 3 files 
+decoding_thing = 'Response'
+Distance_to_use = 'mix'
 path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_hid.xlsx' 
 Reconstructions={}
 path_save_signal ='/home/david/Desktop/signal_LM_response_boot_hid.xlsx'
@@ -50,7 +52,9 @@ for Subject in Subjects:
         WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
-            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance='mix', iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            Reconstruction, boots, shuff = all_process_condition_shuff_boot( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
+            distance=Distance_to_use, decode_item= decoding_thing, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             Reconstructions_boots.append(boots)
             Reconstructions_shuff.append(shuff)
