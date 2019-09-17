@@ -84,7 +84,6 @@ Df_shuff = pd.concat([shuff_ox, shuff_nit, shuff_hid], ignore_index=True)
 
 ############################
 
-
 df = pd.concat([Df, Df_shuff]) #concatenate the files
 
 presentation_period= 0.35 #stim presnetation time
