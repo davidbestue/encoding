@@ -81,7 +81,6 @@ for i in range(len(Reconstructions.keys())):
 
 writer.save()   #save reconstructions (heatmaps)
 
-
 ### Save signal from the reconstyructions
 Decoding_df =[]
 
