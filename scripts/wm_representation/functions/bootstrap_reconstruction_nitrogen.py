@@ -4,6 +4,7 @@ Created on Mon Jul  1 18:24:32 2019
 
 @author: David Bestue
 """
+
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
@@ -17,11 +18,9 @@ import multiprocessing
 import time
 import random
 
-
 numcores = multiprocessing.cpu_count() - 10
 
-
-##paths to save the 3 files 
+#paths to save the 3 files 
 decoding_thing = 'Response'
 Distance_to_use = 'mix'
 path_save_reconstructions = '/home/david/Desktop/Reconst_LM_response_nit.xlsx' 
