@@ -93,7 +93,6 @@ resp_time = 4  #time the response is active
 
 
 
-
 ##### Measure of difference to shuffle
 subj_decoding=[]
 decod_sum_subj = []
