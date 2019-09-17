@@ -111,7 +111,6 @@ Df_boots['label'] = 'boots' ## add the label of shuffle
 Df_boots.to_excel(path_save_boots)  #save shuffle
 
 
-
 ### Save Shuffle
 Df_boots = pd.concat(Reconstructions_shuff)
 Df_boots['label'] = 'shuffle' ## add the label of shuffle
