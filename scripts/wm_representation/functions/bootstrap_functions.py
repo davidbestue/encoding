@@ -241,6 +241,9 @@ Reconstruction, Reconstructions_x, testing_behaviour = all_process_condition_shu
 
 
 
+testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False, intercept=False
+
+
 Subject=Subject
 Brain_Region=Brain_region
 WM=WM
@@ -268,8 +271,36 @@ else:
     'Error specifying the decode item'
 #
 #
+
 testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
 ### Respresentation
 start_repres = time.time()    
 # TR separartion
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+
+Reconstructions_x  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+
+
+
+
+testing_data = testing_activity
+Weights =WM
+Weights_t = WM_t
+ref_angle=180
+plot=False
+intercept=False
+
+
+n_trials_test = len(testing_data) #number trials
+data_prall = []
+for i in range(n_trials_test):
+    data_prall.append(testing_data[i, :])
+    #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
+    
+    
+
+###
+numcores = multiprocessing.cpu_count()
+Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+#Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
