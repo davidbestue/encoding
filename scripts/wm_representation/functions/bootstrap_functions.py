@@ -143,6 +143,9 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 
+############################# Remove after sending files to rita
+
+
 
 def all_process_condition_shuff_boot_rita( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
@@ -164,9 +167,8 @@ def all_process_condition_shuff_boot_rita( Subject, Brain_Region, WM, WM_t, Inte
     start_repres = time.time()    
     # TR separartion
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
-    Reconstructions  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-    Reconstruction = pd.concat(Reconstructions[0], axis=1) #mean of the reconstructions (all trials)
-    all_trials_rec = Reconstructions[1]
+    Reconstructions_x  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+    Reconstruction = pd.concat(Reconstructions_x[0], axis=1) #mean of the reconstructions (all trials)
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
     #Plot heatmap
     if heatmap==True:
@@ -190,7 +192,7 @@ def all_process_condition_shuff_boot_rita( Subject, Brain_Region, WM, WM_t, Inte
     ####### Shuff
     #### Compute the shuffleing
     #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
-    return Reconstruction, all_trials_rec, testing_behaviour #, df_boots, shuffled_rec
+    return Reconstruction, Reconstructions_x, testing_behaviour #, df_boots, shuffled_rec
 
 
 
@@ -235,5 +237,39 @@ def Representation_rita(testing_data, testing_angles, Weights, Weights_t, ref_an
 
 
 
-Reconstruction, Reconstructions, testing_behaviour = all_process_condition_shuff_boot_rita( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance=Distance_to_use, decode_item= decoding_thing, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+Reconstruction, Reconstructions_x, testing_behaviour = all_process_condition_shuff_boot_rita( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance=Distance_to_use, decode_item= decoding_thing, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
 
+
+
+Subject=Subject
+Brain_Region=Brain_region
+WM=WM
+WM_t=WM_t
+distance=Distance_to_use
+decode_item= decoding_thing
+iterations=50
+Inter=Inter
+Condition=Condition
+method='together'
+heatmap=False
+
+
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+##### Process testing data
+testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+#
+if decode_item == 'Target':
+    dec_I = 'T'
+elif decode_item == 'Response':
+    dec_I = 'A_R'
+elif decode_item == 'Distractor':
+    dec_I = 'Dist'
+else:
+    'Error specifying the decode item'
+#
+#
+testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+### Respresentation
+start_repres = time.time()    
+# TR separartion
+signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
