@@ -156,52 +156,52 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 
-def all_process_condition_shuff_boot_rita( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
-    enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
-    ##### Process testing data
-    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-    #
-    if decode_item == 'Target':
-        dec_I = 'T'
-    elif decode_item == 'Response':
-        dec_I = 'A_R'
-    elif decode_item == 'Distractor':
-        dec_I = 'Dist'
-    else:
-        'Error specifying the decode item'
-    #
-    #
-    testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    ### Respresentation
-    start_repres = time.time()    
-    # TR separartion
-    signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
-    Reconstructions_x  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-    Reconstruction = pd.concat(Reconstructions_x[0], axis=1) #mean of the reconstructions (all trials)
-    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
-    #Plot heatmap
-    if heatmap==True:
-        plt.figure()
-        plt.title(Condition)
-        ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-        ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-        plt.ylabel('Angle')
-        plt.xlabel('time (s)')
-        plt.tight_layout()
-        plt.show(block=False)
-    ##
-    ######
-    ######
-    ######
-    end_repres = time.time()
-    process_recons = end_repres - start_repres
-    print( 'Time process reconstruction: ' +str(process_recons)) #print time of the process
-    #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
-    ####### Shuff
-    #### Compute the shuffleing
-    #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
-    return Reconstruction, Reconstructions_x, testing_behaviour #, df_boots, shuffled_rec
+# def all_process_condition_shuff_boot_rita( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+#     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+#     ##### Process testing data
+#     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+#     #
+#     if decode_item == 'Target':
+#         dec_I = 'T'
+#     elif decode_item == 'Response':
+#         dec_I = 'A_R'
+#     elif decode_item == 'Distractor':
+#         dec_I = 'Dist'
+#     else:
+#         'Error specifying the decode item'
+#     #
+#     #
+#     testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+#     ### Respresentation
+#     start_repres = time.time()    
+#     # TR separartion
+#     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+#     Reconstructions_x  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+#     Reconstruction = pd.concat(Reconstructions_x[0], axis=1) #mean of the reconstructions (all trials)
+#     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
+#     #Plot heatmap
+#     if heatmap==True:
+#         plt.figure()
+#         plt.title(Condition)
+#         ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+#         ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+#         plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+#         plt.ylabel('Angle')
+#         plt.xlabel('time (s)')
+#         plt.tight_layout()
+#         plt.show(block=False)
+#     ##
+#     ######
+#     ######
+#     ######
+#     end_repres = time.time()
+#     process_recons = end_repres - start_repres
+#     print( 'Time process reconstruction: ' +str(process_recons)) #print time of the process
+#     #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
+#     ####### Shuff
+#     #### Compute the shuffleing
+#     #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
+#     return Reconstruction, Reconstructions_x, testing_behaviour #, df_boots, shuffled_rec
 
 
 
@@ -209,107 +209,118 @@ def all_process_condition_shuff_boot_rita( Subject, Brain_Region, WM, WM_t, Inte
 
 
 
-def Representation_rita(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False, intercept=False):
-    ## Make the data parallelizable
-    n_trials_test = len(testing_data) #number trials
-    data_prall = []
-    for i in range(n_trials_test):
-        data_prall.append(testing_data[i, :])
-        #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
+# def Representation_rita(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False, intercept=False):
+#     ## Make the data parallelizable
+#     n_trials_test = len(testing_data) #number trials
+#     data_prall = []
+#     for i in range(n_trials_test):
+#         data_prall.append(testing_data[i, :])
+#         #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
         
         
     
-    ###
-    numcores = multiprocessing.cpu_count()
-    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-    #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
+#     ###
+#     numcores = multiprocessing.cpu_count()
+#     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+#     #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+#     Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
     
-    df = pd.DataFrame()
-    n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
-    df['TR'] = n #Name of the column
-    if plot==True:
-        #Plot heatmap
-        plt.figure()
-        plt.title('Heatmap decoding')
-        ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-        ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-        ax.plot([0.25, np.shape(df)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-        plt.ylabel('Angle')
-        plt.xlabel('time (s)')
-        plt.show(block=False)
+#     df = pd.DataFrame()
+#     n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
+#     df['TR'] = n #Name of the column
+#     if plot==True:
+#         #Plot heatmap
+#         plt.figure()
+#         plt.title('Heatmap decoding')
+#         ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
+#         ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+#         ax.plot([0.25, np.shape(df)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+#         plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+#         plt.ylabel('Angle')
+#         plt.xlabel('time (s)')
+#         plt.show(block=False)
     
-    return df, Channel_all_trials_rolled
+#     return df, Channel_all_trials_rolled
 
 
 
 
 
-Reconstruction, Reconstructions_x, testing_behaviour = all_process_condition_shuff_boot_rita( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance=Distance_to_use, decode_item= decoding_thing, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+# Reconstruction, Reconstructions_x, testing_behaviour = all_process_condition_shuff_boot_rita( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, distance=Distance_to_use, decode_item= decoding_thing, iterations=50, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
 
 
 
-testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False, intercept=False
+# testing_data, testing_angles, Weights, Weights_t, ref_angle=180, plot=False, intercept=False
 
 
-Subject=Subject
-Brain_Region=Brain_region
-WM=WM
-WM_t=WM_t
-distance=Distance_to_use
-decode_item= decoding_thing
-iterations=50
-Inter=Inter
-Condition=Condition
-method='together'
-heatmap=False
+# Subject=Subject
+# Brain_Region=Brain_region
+# WM=WM
+# WM_t=WM_t
+# distance=Distance_to_use
+# decode_item= decoding_thing
+# iterations=50
+# Inter=Inter
+# Condition=Condition
+# method='together'
+# heatmap=False
 
 
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
-##### Process testing data
-testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-#
-if decode_item == 'Target':
-    dec_I = 'T'
-elif decode_item == 'Response':
-    dec_I = 'A_R'
-elif decode_item == 'Distractor':
-    dec_I = 'Dist'
-else:
-    'Error specifying the decode item'
-#
-#
+# enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+# ##### Process testing data
+# testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+# #
+# if decode_item == 'Target':
+#     dec_I = 'T'
+# elif decode_item == 'Response':
+#     dec_I = 'A_R'
+# elif decode_item == 'Distractor':
+#     dec_I = 'Dist'
+# else:
+#     'Error specifying the decode item'
+# #
+# #
 
-testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-### Respresentation
-start_repres = time.time()    
-# TR separartion
-signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+# testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+# ### Respresentation
+# start_repres = time.time()    
+# # TR separartion
+# signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 
-Reconstructions_x  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-
-
+# Reconstructions_x  = Parallel(n_jobs = numcores)(delayed(Representation_rita)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
 
 
-testing_data = testing_activity
-Weights =WM
-Weights_t = WM_t
-ref_angle=180
-plot=False
-intercept=False
 
 
-n_trials_test = len(testing_data) #number trials
-data_prall = []
-for i in range(n_trials_test):
-    data_prall.append(testing_data[i, :])
-    #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
+# testing_data = testing_activity
+# Weights =WM
+# Weights_t = WM_t
+# ref_angle=180
+# plot=False
+# intercept=False
+
+
+# n_trials_test = len(testing_data) #number trials
+# data_prall = []
+# for i in range(n_trials_test):
+#     data_prall.append(testing_data[i, :])
+#     #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
     
     
 
-###
-numcores = multiprocessing.cpu_count()
-Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-#Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
+# ###
+# numcores = multiprocessing.cpu_count()
+# Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+# #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+# Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
+
+
+
+
+
+# testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+# ### Respresentation
+# start_repres = time.time()    
+# # TR separartion
+# signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+# Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
