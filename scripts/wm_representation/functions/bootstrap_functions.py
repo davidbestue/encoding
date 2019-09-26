@@ -206,6 +206,7 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 
+# testing_data=signal_paralel[0]
 
 
 
@@ -298,6 +299,11 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 # ref_angle=180
 # plot=False
 # intercept=False
+
+
+
+# signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+
 
 
 # n_trials_test = len(testing_data) #number trials
