@@ -154,8 +154,7 @@ def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=1
 #         #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
         
         
-    
-# ###
+###
 # numcores = multiprocessing.cpu_count() -10
 # Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, WM, WM_t, ref=180, intercept_ = Inter)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
 # #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
