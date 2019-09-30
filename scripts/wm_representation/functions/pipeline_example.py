@@ -38,7 +38,7 @@ testing_angles = np.array(testing_behaviour['T'])
 
 ### Respresentation
 start_repres = time.time()
-numcores = multiprocessing.cpu_count()
+numcores = multiprocessing.cpu_count() -10 
 
 # TR separartion
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
