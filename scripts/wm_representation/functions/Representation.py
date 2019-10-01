@@ -61,6 +61,7 @@ def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=1
         
         
     
+    
     ###
     numcores = multiprocessing.cpu_count()
     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
