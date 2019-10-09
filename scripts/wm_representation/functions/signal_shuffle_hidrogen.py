@@ -36,8 +36,8 @@ Reconstructions_shuff=[]
 
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
-Subjects=['d001', 'b001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'frontsup', 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+Subjects=['d001', 'b001', 'r001', 'n001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+brain_regions = ['visual', 'ips', 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 ref_angle=180
 
 
@@ -110,8 +110,6 @@ Df.to_excel( path_save_signal ) #save signal
 # Df_boots = pd.concat(Reconstructions_boots)
 # Df_boots['label'] = 'boots' ## add the label of shuffle
 # Df_boots.to_excel(path_save_boots)  #save shuffle
-
-
 
 ### Save Shuffle
 Df_boots = pd.concat(Reconstructions_shuff)
