@@ -30,10 +30,8 @@ path_save_shuff = '/home/david/Desktop/response_far/shuff_LM_response_far_hid.xl
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
 
-
 Reconstructions_shuff=[]
 #Reconstructions_boots=[]
-
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
 Subjects=['d001', 'b001', 'r001', 'n001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
