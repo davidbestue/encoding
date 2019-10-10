@@ -22,11 +22,11 @@ numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
 decoding_thing = 'Response'
-Distance_to_use = 'close'
-path_save_reconstructions = '/home/david/Desktop/response_close/Reconst_LM_response_close_hid.xlsx' 
+Distance_to_use = 'far'
+path_save_reconstructions = '/home/david/Desktop/response_far/Reconst_LM_response_far_hid.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/response_close/signal_LM_response_close_hid.xlsx'
-path_save_shuff = '/home/david/Desktop/response_close/shuff_LM_response_close_hid.xlsx'
+path_save_signal ='/home/david/Desktop/response_far/signal_LM_response_far_hid.xlsx'
+path_save_shuff = '/home/david/Desktop/response_far/shuff_LM_response_far_hid.xlsx'
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
 
