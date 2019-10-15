@@ -18,7 +18,7 @@ import time
 import random
 
 
-numcores = multiprocessing.cpu_count() - 10
+numcores = multiprocessing.cpu_count() - 1
 
 ##paths to save the 3 files 
 decoding_thing = 'Target'
