@@ -18,15 +18,15 @@ import time
 import random
 
 
-numcores = multiprocessing.cpu_count() - 2
+numcores = multiprocessing.cpu_count() - 1
 
 ##paths to save the 3 files 
 decoding_thing = 'Target'
-Distance_to_use = 'far'
-path_save_reconstructions = '/home/david/Desktop/target_far/Reconst_LM_target_far_hid.xlsx' 
+Distance_to_use = 'close'
+path_save_reconstructions = '/home/david/Desktop/target_close/Reconst_LM_target_close_hid.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/target_far/signal_LM_target_far_hid.xlsx'
-path_save_shuff = '/home/david/Desktop/target_far/shuff_LM_target_far_hid.xlsx'
+path_save_signal ='/home/david/Desktop/target_close/signal_LM_target_close_hid.xlsx'
+path_save_shuff = '/home/david/Desktop/target_close/shuff_LM_target_close_hid.xlsx'
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
 
