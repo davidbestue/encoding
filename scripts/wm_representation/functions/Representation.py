@@ -88,8 +88,6 @@ def Representation(testing_data, testing_angles, Weights, Weights_t, ref_angle=1
 
 #Representation(testing_data, testing_angles, WM, WM_t, ref_angle=180, plot=True)
         
-
-
 # def trial_rep_ccw(Signal, angle_trial, Weights, Weights_t, ref, intercept_):
 #     ###
 #     channel_36 = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_t, Weights ) ),  Weights_t),  Signal) #Run the inverse model
