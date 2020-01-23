@@ -36,7 +36,7 @@ Reconstructions_shuff=[]
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
 Subjects=['d001', 'b001', 'r001', 'd001', 'b001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'frontsup', 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
-ref_angle=180
+ref_angle=180 ##changes of this value should not affect anything (just the plot position but not the decoding signal in the heatmap)
 
 
 for Subject in Subjects:
