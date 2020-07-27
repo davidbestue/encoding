@@ -160,13 +160,13 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 masks = [ path_masks + Maskrh, path_masks + Masklh ]
             
             elif brain_region=="ips":
-                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
+                Maskrh = 'b001_loc_parietal_rh.nii.gz' #'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'b001_loc_parietal_lh.nii.gz' #'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
             elif brain_region=="pfc":
-                Maskrh = 'b001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
-                Masklh = 'b001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
+                Maskrh = 'b001_loc_frontal_rh.nii.gz' #'b001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
+                Masklh = 'b001_loc_frontal_lh.nii.gz' #'b001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
             
             elif brain_region=="frontsup":
@@ -220,13 +220,13 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 masks = [ path_masks + Maskrh, path_masks + Masklh ]
             
             elif brain_region=="ips":
-                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
+                Maskrh = 'l001_loc_parietal_rh.nii.gz' #'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'l001_loc_parietal_lh.nii.gz' #'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh ]
             
             elif brain_region=="pfc":
-                Maskrh = 'l001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
-                Masklh = 'l001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
+                Maskrh = 'l001_loc_frontal_rh.nii.gz' #'l001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
+                Masklh = 'l001_loc_frontal_lh.nii.gz' #'l001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ] 
             
             elif brain_region=="frontsup":
@@ -285,13 +285,13 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
             elif brain_region=="ips":
-                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
+                Maskrh = 's001_loc_parietal_rh.nii.gz' #'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 's001_loc_parietal_lh.nii.gz' #'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]
             
             elif brain_region=="pfc":
-                Maskrh = 's001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
-                Masklh = 's001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
+                Maskrh = 's001_loc_frontal_rh.nii.gz' #'s001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
+                Masklh = 's001_loc_frontal_lh.nii.gz' #'s001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ] 
             
             elif brain_region=="frontsup":
@@ -342,13 +342,13 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 masks = [ path_masks + Maskrh, path_masks + Masklh ]
             
             elif brain_region=="ips":
-                Maskrh = 'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
-                Masklh = 'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
+                Maskrh = 'r001_loc_parietal_rh.nii.gz' #'ips_str_rh.nii.gz' #'ips_fsign_rh.nii.gz'
+                Masklh = 'r001_loc_parietal_lh.nii.gz' #'ips_str_lh.nii.gz' #'ips_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]   
             
             elif brain_region=="pfc":
-                Maskrh = 'r001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
-                Masklh = 'r001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
+                Maskrh = 'r001_loc_frontal_rh.nii.gz' #'r001_frontal_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
+                Masklh = 'r001_loc_frontal_lh.nii.gz' #'r001_frontal_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
             
             elif brain_region=="frontsup":
