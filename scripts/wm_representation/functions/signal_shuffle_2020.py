@@ -23,10 +23,10 @@ numcores = multiprocessing.cpu_count() - 10
 ##paths to save the 3 files 
 decoding_thing = 'Target'
 Distance_to_use = 'close'
-path_save_reconstructions = '/home/david/Desktop/z.xlsx' #n001_d001_target_close.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/all_target_close.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/target_close/a.xlsx' #signal_n001_d001_target_close.xlsx'
-path_save_shuff = '/home/david/Desktop/target_close/b.xlsx' #shuff_n001_d001_target_close.xlsx'
+path_save_signal ='/home/david/Desktop/target_close/signal_all_target_close.xlsx'
+path_save_shuff = '/home/david/Desktop/target_close/shuff_all_target_close.xlsx'
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
 
@@ -52,7 +52,7 @@ for Subject in Subjects:
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
             Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
-            distance=Distance_to_use, decode_item= decoding_thing, iterations=1, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            distance=Distance_to_use, decode_item= decoding_thing, iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
 
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             #Reconstructions_boots.append(boots)
