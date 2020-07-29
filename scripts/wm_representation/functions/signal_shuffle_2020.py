@@ -29,7 +29,6 @@ path_save_signal ='/home/david/Desktop/target_close/signal_all_target_close.xlsx
 path_save_shuff = '/home/david/Desktop/target_close/shuff_all_target_close.xlsx'
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
-
 Reconstructions_shuff=[]
 #Reconstructions_boots=[]
 
