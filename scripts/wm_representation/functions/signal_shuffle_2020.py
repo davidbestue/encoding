@@ -24,10 +24,10 @@ numcores = multiprocessing.cpu_count() - 10
 ##paths to save the 3 files 
 decoding_thing = 'Target'
 Distance_to_use = 'far'
-path_save_reconstructions = '/home/david/Desktop/all_target_close.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/all_target_far.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/target_close/signal_all_target_close.xlsx'
-path_save_shuff = '/home/david/Desktop/target_close/shuff_all_target_close.xlsx'
+path_save_signal ='/home/david/Desktop/target_far/signal_all_target_far.xlsx'
+path_save_shuff = '/home/david/Desktop/target_far/shuff_all_target_far.xlsx'
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
 Reconstructions_shuff=[]
