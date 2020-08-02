@@ -18,7 +18,6 @@ import time
 import random
 #
 
-
 numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
