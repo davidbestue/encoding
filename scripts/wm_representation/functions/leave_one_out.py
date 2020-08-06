@@ -33,7 +33,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     ### Respresentation
     start_repres = time.time()    
     # TR separartion
-    signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+    signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
     Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
