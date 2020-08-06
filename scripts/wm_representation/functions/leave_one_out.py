@@ -108,6 +108,7 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
             errors_.append(model_trained_err)
         ##
         error_shuff_ = np.mean(errors_)
+
     #####
     #####
     errors_shuffle.append(error_shuff_)
@@ -138,7 +139,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     ### Error in each TR done with leave one out
     error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
     #
-    Reconstruction = pd.concat(error_TR, axis=1) #mean error en each TR
+    Reconstruction = pd.concat(error_TR, axis=1) #mean error en each TR (1 fila con n_scans columnas)
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
      ######
     end_l1out = time.time()
@@ -149,8 +150,10 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     ####### Shuff
     #### Compute the shuffleing
     shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles_angles_s, iterations=iterations) for signal, angles in zip(signal_paralel, angles_paralel))
+    Reconstruction_sh = pd.concat(shuffled_rec, axis=1) #
+    Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
    
-    return Reconstruction, shuffled_rec
+    return Reconstruction, Reconstruction_sh
 
 
 
