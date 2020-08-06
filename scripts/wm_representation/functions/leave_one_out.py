@@ -105,12 +105,9 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     ### Error in each TR done with leave one out
-    error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel)    #### reconstruction standard (paralel)
+    error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
     #
-
-
-    Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-    Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+    Reconstruction = pd.concat(error_TR, axis=1) #mean error en each TR
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
     #Plot heatmap
     if heatmap==True:
@@ -127,9 +124,9 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     ######
     ######
     ######
-    end_repres = time.time()
-    process_recons = end_repres - start_repres
-    print( 'Time process reconstruction: ' +str(process_recons)) #print time of the process
+    end_l1out = time.time()
+    process_l1out = end_l1out - start_l1out
+    print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
     
     #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
     ####### Shuff
