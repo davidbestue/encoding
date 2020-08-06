@@ -9,8 +9,6 @@ from joblib import Parallel, delayed
 import multiprocessing
 import time
 import random
-
-import numpy as np
 from sklearn.model_selection import LeaveOneOut
 
 
