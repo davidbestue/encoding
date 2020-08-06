@@ -13,6 +13,16 @@ import random
 import numpy as np
 from sklearn.model_selection import LeaveOneOut
 
+def err_deg(a1,ref):
+    ### Calculate the error ref-a1 in an efficient way in the circular space
+    ### it uses complex numbers!
+    ### Input in degrees (0-360)
+    a1=np.radians(a1)
+    ref=np.radians(ref)
+    err = np.angle(np.exp(1j*ref)/np.exp(1j*(a1) ), deg=True) 
+    err=round(err, 2)
+    return err
+
 
 def model_PV(X_train, X_test, y_train, y_test):
     ##
@@ -38,19 +48,13 @@ def model_PV(X_train, X_test, y_train, y_test):
     #####
     ##### Error --> take the resulting vector in sin/cos space
     ### from sin and cos get the angle (-pi, pi)
-    pred_angle = [ np.degrees(np.arctan2(y[i], x[i])) for i in range(0, len(y))]
-    for i in range(0, len(pred_angle)):
-        if pred_angle[i]<0:
-            pred_angle[i]=360+pred_angle[i]
+    pred_angle = np.degrees(np.arctan2(y, x)) 
+    if pred_angle<0:
+            pred_angle=360+pred_angle
     ##
-    #error=[ circdist(beh_test[i], pred_angle[i]) for i in range(0, len(pred_angle))]
-    error=[ circdist(beh_test.values[i], pred_angle[i]) for i in range(0, len(pred_angle))]
-    
-    #low_value --> predicted positionns close to real
-    neur_err.append(np.mean(error))
-
-
-    return angle_decoded
+    error_ = err_deg(pred_angle, y_test)
+    ##
+    return error_
 
 
 
