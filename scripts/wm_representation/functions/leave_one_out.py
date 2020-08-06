@@ -16,6 +16,40 @@ from sklearn.model_selection import LeaveOneOut
 
 def model_PV(X_train, X_test, y_train, y_test):
     ##
+    ######## Trainning #########
+    ## X matrix (intercept and spikes)
+    X = np.column_stack([np.ones(np.shape(X_train)[0]), X_train])
+    ## Y (sinus and cos)
+    sinus =np.sin([np.radians(np.array(y_train)[i]) for i in range(0, len(y_train))])
+    cosinus = np.cos([np.radians(np.array(y_train)[i]) for i in range(0, len(y_rain))])
+    Y = np.column_stack([cosinus, sinus])
+    ### one OLS for sin and cos: output: beta of intercetp and bea of spikes (two B intercepts and 2 B for spikes )
+    Y = Y.astype(float) #to make it work in the cluster
+    X = X.astype(float)
+    model = sm.OLS(Y, X)
+    ##train the model
+    fit=model.fit()
+
+    ######### Testing the remaining one ###########
+    X_ = np.column_stack([np.ones(np.shape(X_test)[0]), X_test])
+    p = fit.predict(X_)
+    x = p[0]
+    y = p[1]
+    #####
+    ##### Error --> take the resulting vector in sin/cos space
+    ### from sin and cos get the angle (-pi, pi)
+    pred_angle = [ np.degrees(np.arctan2(y[i], x[i])) for i in range(0, len(y))]
+    for i in range(0, len(pred_angle)):
+        if pred_angle[i]<0:
+            pred_angle[i]=360+pred_angle[i]
+    ##
+    #error=[ circdist(beh_test[i], pred_angle[i]) for i in range(0, len(pred_angle))]
+    error=[ circdist(beh_test.values[i], pred_angle[i]) for i in range(0, len(pred_angle))]
+    
+    #low_value --> predicted positionns close to real
+    neur_err.append(np.mean(error))
+
+
     return angle_decoded
 
 
