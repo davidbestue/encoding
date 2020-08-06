@@ -84,11 +84,9 @@ def Pop_vect_leave_one_out(testing_data, testing_angles):
 
 
 def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
-    ## A esta función entrarán los datos de un TR. 
-    ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
-    ## Separar en train and test para leave on out procedure
-    ## Hago esto para tener la mejor estimación posible del error (no hay training task)
-    ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
+    ## A esta función entrarán los datos de un TR y haré el shuffleing. 
+    ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
+    ## de tantas iterations shuffled (contiene un loop for y un shuffle )
     loo = LeaveOneOut()
     errors_shuffle=[]
     #########
