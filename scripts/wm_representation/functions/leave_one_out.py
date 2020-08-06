@@ -10,10 +10,10 @@ import multiprocessing
 import time
 import random
 
-
+import numpy as np
 from sklearn.model_selection import LeaveOneOut
 
-X = np.array([[1, 2], [3, 4]])
+X = np.array([[1, 2,5,6], [7, 4,5,6]])
 y = np.array([1, 2])
 
 loo = LeaveOneOut()
@@ -79,6 +79,9 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     start_repres = time.time()    
     # TR separartion
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
+    #### Error in each TR done with leave one out
+
+
     Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
     Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
