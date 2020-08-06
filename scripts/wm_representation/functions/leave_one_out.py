@@ -114,7 +114,6 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-
     if decode_item == 'Target':
         dec_I = 'T'
     elif decode_item == 'Response':
@@ -123,7 +122,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
         dec_I = 'Dist'
     else:
         'Error specifying the decode item'
-
+    #
     #
     start_l1out = time.time()  
     testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
@@ -134,13 +133,14 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #
     Reconstruction = pd.concat(error_TR, axis=1) #mean error en each TR (1 fila con n_scans columnas)
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
-     ######
+    ######
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
     print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
     ####### Shuff
     #### Compute the shuffleing (n_iterations defined on top)
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles_angles_s, iterations=iterations) for signal, angles in zip(signal_paralel, angles_paralel))
+    itera_paralel=[iterations for i in range(nscans_wm)]
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=testing_angles_angles_s, iterations=itera) for signal, angles, itera in zip(signal_paralel, angles_paralel, itera_paralel))
     Reconstruction_sh = pd.concat(shuffled_rec, axis=1) #
     Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
     return Reconstruction, Reconstruction_sh
