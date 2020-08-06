@@ -13,6 +13,8 @@ import random
 import numpy as np
 from sklearn.model_selection import LeaveOneOut
 
+
+
 def err_deg(a1,ref):
     ### Calculate the error ref-a1 in an efficient way in the circular space
     ### it uses complex numbers!
@@ -52,6 +54,7 @@ def model_PV(X_train, X_test, y_train, y_test):
     if pred_angle<0:
             pred_angle=360+pred_angle
     ##
+    print(pred_angle, y_test)
     error_ = err_deg(pred_angle, y_test)
     ##
     return error_
@@ -59,7 +62,7 @@ def model_PV(X_train, X_test, y_train, y_test):
 
 
 
-def Pop_vect_leave_one_out(testing_data, testing_angles, ref_angle=180):
+def Pop_vect_leave_one_out(testing_data, testing_angles):
     ## A esta función entrarán los datos de un TR. 
     ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
     ## Separar en train and test para leave on out procedure
@@ -75,28 +78,9 @@ def Pop_vect_leave_one_out(testing_data, testing_angles, ref_angle=180):
         ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
         model_trained_err = model_PV(X_train, X_test, y_train, y_test)
         errors_.append(model_trained_err)
-
     ##
-    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-    #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
-    
-    df = pd.DataFrame()
-    n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
-    df['TR'] = n #Name of the column
-    if plot==True:
-        #Plot heatmap
-        plt.figure()
-        plt.title('Heatmap decoding')
-        ######midpoint = df.values.mean() # (df.values.max() - df.values.min()) / 2
-        ax = sns.heatmap(df, yticklabels=list(df.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-        ax.plot([0.25, np.shape(df)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-        plt.ylabel('Angle')
-        plt.xlabel('time (s)')
-        plt.show(block=False)
-    
-    return df
+    error = np.mean(errors_)
+    return error
 
 
 
@@ -116,12 +100,13 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
         'Error specifying the decode item'
 
     #
-    testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    ### Respresentation
-    start_repres = time.time()    
-    # TR separartion
+    start_l1out = time.time()  
+    testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     ### Error in each TR done with leave one out
+    error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel)    #### reconstruction standard (paralel)
+    #
 
 
     Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
