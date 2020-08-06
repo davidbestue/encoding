@@ -14,11 +14,16 @@ import random
 from sklearn.model_selection import LeaveOneOut
 
 
+
+
+
 def Pop_vect_angle(testing_data, testing_angles, ref_angle=180):
 	## A esta función entrarán los datos de un TR. 
 	## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
-    ## Make the data parallelizable
-    numcores = multiprocessing.cpu_count()
+    ## Separar en train and test para leave on out procedure
+    ## Hago esto para tener la mejor estimación posible del error (no hay training task)
+    ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
+    
     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
