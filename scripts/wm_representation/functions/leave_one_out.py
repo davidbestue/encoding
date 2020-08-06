@@ -28,13 +28,16 @@ for train_index, test_index in loo.split(X):
 
 
 def Pop_vect_angle(testing_data, testing_angles, ref_angle=180):
-	## A esta función entrarán los datos de un TR. 
-	## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
+    ## A esta función entrarán los datos de un TR. 
+    ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
     ## Separar en train and test para leave on out procedure
     ## Hago esto para tener la mejor estimación posible del error (no hay training task)
     ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
     loo = LeaveOneOut()
-	loo.get_n_splits(X)
+    for train_index, test_index in loo.split(testing_data):
+        X_train, X_test = testing_data[train_index], testing_data[test_index]
+        y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+    ##
     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
@@ -79,7 +82,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     start_repres = time.time()    
     # TR separartion
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
-    #### Error in each TR done with leave one out
+    ### Error in each TR done with leave one out
 
 
     Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
