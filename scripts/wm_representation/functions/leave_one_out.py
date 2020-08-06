@@ -38,7 +38,6 @@ def model_PV(X_train, X_test, y_train, y_test):
     model = sm.OLS(Y, X)
     ##train the model
     fit=model.fit()
-
     ######### Testing the remaining one ###########
     X_ = np.column_stack([np.ones(np.shape(X_test)[0]), X_test])
     p = fit.predict(X_)
@@ -103,7 +102,6 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
             errors_.append(model_trained_err)
         ##
         error_shuff_ = np.mean(errors_)
-
     #####
     #####
     errors_shuffle.append(error_shuff_)
@@ -140,14 +138,11 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
     print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
-    
-    #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
     ####### Shuff
     #### Compute the shuffleing (n_iterations defined on top)
     shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles_angles_s, iterations=iterations) for signal, angles in zip(signal_paralel, angles_paralel))
     Reconstruction_sh = pd.concat(shuffled_rec, axis=1) #
     Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
-   
     return Reconstruction, Reconstruction_sh
 
 
