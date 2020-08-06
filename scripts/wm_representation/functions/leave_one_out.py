@@ -13,6 +13,16 @@ import random
 
 from sklearn.model_selection import LeaveOneOut
 
+X = np.array([[1, 2], [3, 4]])
+y = np.array([1, 2])
+
+loo = LeaveOneOut()
+
+
+for train_index, test_index in loo.split(X):
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+    print(X_train, X_test, y_train, y_test)
 
 
 
@@ -23,7 +33,8 @@ def Pop_vect_angle(testing_data, testing_angles, ref_angle=180):
     ## Separar en train and test para leave on out procedure
     ## Hago esto para tener la mejor estimación posible del error (no hay training task)
     ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
-    
+    loo = LeaveOneOut()
+	loo.get_n_splits(X)
     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
