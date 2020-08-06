@@ -13,21 +13,13 @@ import random
 import numpy as np
 from sklearn.model_selection import LeaveOneOut
 
-X = np.array([[1, 2,5,6], [7, 4,5,6]])
-y = np.array([1, 2])
 
-loo = LeaveOneOut()
-
-
-for train_index, test_index in loo.split(X):
-    X_train, X_test = X[train_index], X[test_index]
-    y_train, y_test = y[train_index], y[test_index]
-    print(X_train, X_test, y_train, y_test)
+def model_PV(X_train, X_test, y_train, y_test):
 
 
 
 
-def Pop_vect_angle(testing_data, testing_angles, ref_angle=180):
+def Pop_vect_leave_one_out(testing_data, testing_angles, ref_angle=180):
     ## A esta función entrarán los datos de un TR. 
     ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
     ## Separar en train and test para leave on out procedure
