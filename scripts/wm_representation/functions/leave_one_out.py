@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
