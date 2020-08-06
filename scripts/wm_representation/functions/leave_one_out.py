@@ -15,18 +15,9 @@ from sklearn.model_selection import LeaveOneOut
 
 
 def Pop_vect_angle(testing_data, testing_angles, ref_angle=180):
-	## A esta función entrarán
+	## A esta función entrarán los datos de un TR. 
+	## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
     ## Make the data parallelizable
-    n_trials_test = len(testing_data) #number trials
-    data_prall = []
-    for i in range(n_trials_test):
-        data_prall.append(testing_data[i, :])
-        #data_prall.append(    np.array( stats.zscore(    testing_data[i, :] ))   ) ###what enters the formula is zscored!
-        
-        
-    
-    
-    ###
     numcores = multiprocessing.cpu_count()
     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
