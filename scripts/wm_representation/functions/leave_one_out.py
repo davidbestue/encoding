@@ -96,7 +96,7 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
     #########
     ########
     for i in iterations:
-        testing_angles_sh = 
+        testing_angles_sh = new_targets = random.sample(testing_angles, len(testing_angles))
         errors_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
@@ -148,8 +148,8 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
     ####### Shuff
     #### Compute the shuffleing
-    shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
-    
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles_angles_s, iterations=iterations) for signal, angles in zip(signal_paralel, angles_paralel))
+   
     return Reconstruction, shuffled_rec
 
 
