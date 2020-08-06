@@ -85,6 +85,36 @@ def Pop_vect_leave_one_out(testing_data, testing_angles):
 
 
 
+def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
+    ## A esta función entrarán los datos de un TR. 
+    ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
+    ## Separar en train and test para leave on out procedure
+    ## Hago esto para tener la mejor estimación posible del error (no hay training task)
+    ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
+    loo = LeaveOneOut()
+    errors_shuffle=[]
+    #########
+    ########
+    for sss
+        errors_=[]
+        for train_index, test_index in loo.split(testing_data):
+            X_train, X_test = testing_data[train_index], testing_data[test_index]
+            y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+            ##
+            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+            model_trained_err = model_PV(X_train, X_test, y_train, y_test)
+            errors_.append(model_trained_err)
+        ##
+        error_shuff_ = np.mean(errors_)
+    #####
+    #####
+    errors_shuffle.append(error_shuff_)
+    return errors_shuffle
+
+
+
+
 def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
@@ -109,21 +139,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #
     Reconstruction = pd.concat(error_TR, axis=1) #mean error en each TR
     Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
-    #Plot heatmap
-    if heatmap==True:
-        plt.figure()
-        plt.title(Condition)
-        ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-        ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-        plt.ylabel('Angle')
-        plt.xlabel('time (s)')
-        plt.tight_layout()
-        plt.show(block=False)
-    
-    ######
-    ######
-    ######
+     ######
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
     print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
