@@ -148,7 +148,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     
     #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
     ####### Shuff
-    #### Compute the shuffleing
+    #### Compute the shuffleing (n_iterations defined on top)
     shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles_angles_s, iterations=iterations) for signal, angles in zip(signal_paralel, angles_paralel))
     Reconstruction_sh = pd.concat(shuffled_rec, axis=1) #
     Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
