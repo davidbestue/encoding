@@ -52,7 +52,7 @@ def model_PV(X_train, X_test, y_train, y_test):
     if pred_angle<0:
             pred_angle=360+pred_angle
     ##
-    print(pred_angle, y_test)
+    #print(pred_angle, y_test)
     error_ = err_deg(pred_angle, y_test)
     ##
     return error_
