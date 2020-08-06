@@ -34,9 +34,16 @@ def Pop_vect_angle(testing_data, testing_angles, ref_angle=180):
     ## Hago esto para tener la mejor estimación posible del error (no hay training task)
     ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
     loo = LeaveOneOut()
+    errors_=[]
     for train_index, test_index in loo.split(testing_data):
         X_train, X_test = testing_data[train_index], testing_data[test_index]
         y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+        ##
+        ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+        ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+        model_trained_err = model_PV(X_train, X_test, y_train, y_test)
+        errors_.append(model_trained_err)
+
     ##
     Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
     #Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep_decode_trial_by_trial)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
