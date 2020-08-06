@@ -95,11 +95,12 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
     errors_shuffle=[]
     #########
     ########
-    for sss
+    for i in iterations:
+        testing_angles_sh = 
         errors_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
-            y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+            y_train, y_test = testing_angles_h[train_index], testing_angles_sh[test_index]
             ##
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
