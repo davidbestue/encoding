@@ -108,8 +108,8 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
             model_trained_err = model_PV(X_train, X_test, y_train, y_test)
             errors_.append(model_trained_err) ## error de todos los train-test
         ##
-        error_shuff_ = np.mean(errors_) ## mean error de ese shuffle
-        errors_shuffle.append(error_shuff_)
+        error_shuff_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
+        errors_shuffle.append(error_shuff_abs)
         #
     return errors_shuffle
 
