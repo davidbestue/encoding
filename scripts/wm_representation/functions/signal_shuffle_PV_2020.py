@@ -87,24 +87,13 @@ testing_angles=angles_paralel[0]
 error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
 
 
-loo = LeaveOneOut()
-errors_=[]
-for train_index, test_index in loo.split(testing_data):
-    X_train, X_test = testing_data[train_index], testing_data[test_index]
-    y_train, y_test = testing_angles[train_index], testing_angles[test_index]
-    ##
-    ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
-    ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-    loo = LeaveOneOut()
-    errors_=[]
-    for train_index, test_index in loo.split(testing_data):
-        X_train, X_test = testing_data[train_index], testing_data[test_index]
-        y_train, y_test = testing_angles[train_index], testing_angles[test_index]
-        ##
-        ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
-        ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-        model_trained_err = model_PV(X_train, X_test, y_train, y_test)
-        errors_.append(model_trained_err)
-    ##
-    errors_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
-    error = np.mean(errors_abs)
+
+iterations=3
+itera_paralel=[iterations for i in range(nscans_wm)]
+shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
+
+
+Reconstruction_sh = pd.DataFrame(shuffled_rec) #
+Reconstruction_sh = Reconstruction_sh.transpose()
+Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
+return Reconstruction, Reconstruction_sh
