@@ -25,7 +25,7 @@ numcores = multiprocessing.cpu_count() #- 10
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'close'
 #path_save_reconstructions = '/home/david/Desktop/all_target_mix.xlsx' 
-Reconstructions={}
+Reconstructions=[]
 #path_save_signal ='/home/david/Desktop/target_close/signal_all_target_mix.xlsx'
 #path_save_shuff = '/home/david/Desktop/target_close/shuff_all_target_mix.xlsx'
 
@@ -44,7 +44,7 @@ for Subject in Subjects:
             Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
             ##
-            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+            Reconstructions.append(Reconstruction)
             #Reconstructions_boots.append(boots)
             Reconstructions_shuff.append(shuff)
 
@@ -52,7 +52,7 @@ for Subject in Subjects:
 ###
 
 ### Save signal from the reconstructions
-Decoding_df =[]
+Decoding_df = pd.concat(Reconstructions)
 
 for dataframes in Reconstructions.keys():
     a=pd.DataFrame(Reconstruction.iloc[0,:].values) #before it was transpose to mimic the shuffle ones 
