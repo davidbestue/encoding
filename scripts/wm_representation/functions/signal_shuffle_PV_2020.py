@@ -48,6 +48,7 @@ for Subject in Subjects:
         #WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
         #WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
+            print(Condition)
             Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=2, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
 
