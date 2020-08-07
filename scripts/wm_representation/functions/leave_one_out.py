@@ -35,7 +35,7 @@ def model_PV(X_train, X_test, y_train, y_test):
     X = np.column_stack([np.ones(np.shape(X_train)[0]), X_train])
     ## Y (sinus and cos)
     sinus =np.sin([np.radians(np.array(y_train)[i]) for i in range(0, len(y_train))])
-    cosinus = np.cos([np.radians(np.array(y_train)[i]) for i in range(0, len(y_rain))])
+    cosinus = np.cos([np.radians(np.array(y_train)[i]) for i in range(0, len(y_train))])
     Y = np.column_stack([cosinus, sinus])
     ### one OLS for sin and cos: output: beta of intercetp and bea of spikes (two B intercepts and 2 B for spikes )
     Y = Y.astype(float) #to make it work in the cluster
