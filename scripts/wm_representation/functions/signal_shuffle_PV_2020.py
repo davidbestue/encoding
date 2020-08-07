@@ -73,3 +73,5 @@ Condition='1_0.2'
 Subject='d001'
 distance='close'
 testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+decode_item == 'Target':
+dec_I = 'T'
