@@ -66,7 +66,7 @@ for dataframes in Reconstructions.keys():
 
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
-Df.to_excel( path_save_signal ) #save signal
+#Df.to_excel( path_save_signal ) #save signal
 # Subject='d001'
 # method='together' 
 # Brain_Region='visual'
