@@ -63,3 +63,11 @@ for Subject in Subjects:
 
 #Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, 
 #    Brain_Region=Brain_region, Condition=Condition, iterations=2, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
+
+
+Subject='d001'
+method='together' 
+Brain_Region='visual'
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+Condition='1_0.2'
+Subject='d001'
