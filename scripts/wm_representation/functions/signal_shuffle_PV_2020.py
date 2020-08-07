@@ -43,9 +43,30 @@ for Subject in Subjects:
             print(Condition)
             Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
+            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+            #Reconstructions_boots.append(boots)
+            Reconstructions_shuff.append(shuff)
+
+
+###
+
+### Save signal from the reconstructions
+Decoding_df =[]
+
+for dataframes in Reconstructions.keys():
+    a=pd.DataFrame(Reconstruction.iloc[0,:].values) #before it was transpose to mimic the shuffle ones 
+    a['time']=[i * TR for i in range(nscans_wm)]
+    a.columns=['decoding', 'time']  
+    a['region'] = dataframes.split('_')[1]
+    a['subject'] = dataframes.split('_')[0]
+    a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
+    Decoding_df.append(a)
 
 
 
+Df = pd.concat(Decoding_df)
+Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
+Df.to_excel( path_save_signal ) #save signal
 # Subject='d001'
 # method='together' 
 # Brain_Region='visual'
