@@ -23,7 +23,7 @@ numcores = multiprocessing.cpu_count() #- 10
 
 ##paths to save the 3 files 
 decoding_thing = 'Target' #'Distractor' #'Target'
-Distance_to_use = 'mix'
+Distance_to_use = 'close'
 #path_save_reconstructions = '/home/david/Desktop/all_target_mix.xlsx' 
 Reconstructions={}
 #path_save_signal ='/home/david/Desktop/target_close/signal_all_target_mix.xlsx'
