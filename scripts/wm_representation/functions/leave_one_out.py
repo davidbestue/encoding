@@ -14,6 +14,9 @@ import random
 from sklearn.model_selection import LeaveOneOut
 
 
+numcores = multiprocessing.cpu_count() #- 10
+
+
 def err_deg(a1,ref):
     ### Calculate the error ref-a1 in an efficient way in the circular space
     ### it uses complex numbers!
