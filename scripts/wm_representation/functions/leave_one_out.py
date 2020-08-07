@@ -46,7 +46,7 @@ def model_PV(X_train, X_test, y_train, y_test):
     ######### Testing the remaining one ###########
     X_ = np.column_stack([np.ones(np.shape(X_test)[0]), X_test])
     p = fit.predict(X_)
-    x = p[0][0]
+    x = p[0][0] ## estan dentro de una list 
     y = p[0][1]
     #####
     ##### Error --> take the resulting vector in sin/cos space
