@@ -51,7 +51,7 @@ for Subject in Subjects:
 
 ###
 
-### Save signal from the reconstructions
+### Save signal from the reconstructions and shuffles
 Decoding_df = pd.concat(Reconstructions, axis=0) 
 Decoding_df['label']='signal'
 Shuffle_df = pd.concat(Reconstructions_shuff, axis=0) 
