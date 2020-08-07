@@ -80,7 +80,8 @@ def Pop_vect_leave_one_out(testing_data, testing_angles):
         model_trained_err = model_PV(X_train, X_test, y_train, y_test)
         errors_.append(model_trained_err)
     ##
-    error = np.mean(errors_)
+    errors_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
+    error = np.mean(errors_abs) ##you need the absolute error to get an estimate of the decoding
     return error
 
 
