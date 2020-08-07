@@ -96,6 +96,7 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
     #########
     ########
     for i in range(iterations):
+        #
         testing_angles_sh = np.array(random.sample(testing_angles, len(testing_angles)) )
         errors_=[]
         for train_index, test_index in loo.split(testing_data):
@@ -105,12 +106,11 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
             model_trained_err = model_PV(X_train, X_test, y_train, y_test)
-            errors_.append(model_trained_err)
+            errors_.append(model_trained_err) ## error de todos los train-test
         ##
-        error_shuff_ = np.mean(errors_)
-    #####
-    #####
-    errors_shuffle.append(error_shuff_)
+        error_shuff_ = np.mean(errors_) ## mean error de ese shuffle
+        errors_shuffle.append(error_shuff_)
+        #
     return errors_shuffle
 
 
@@ -146,8 +146,12 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
     ####### Shuff
     #### Compute the shuffleing (n_iterations defined on top)
+    start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
     shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
+    end_shuff = time.time()
+    process_shuff = end_shuff - start_shuff
+    print( 'Time shuff: ' +str(process_shuff))
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
     Reconstruction_sh = Reconstruction_sh.transpose()
     Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)

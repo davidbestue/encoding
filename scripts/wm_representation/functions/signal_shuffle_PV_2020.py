@@ -39,30 +39,11 @@ brain_regions = ['visual'] #, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', '
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
-        #plt.figure()
-        ### Data to use
-        #enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-        ##### Process training data
-        #training_dataset, training_targets = process_encoding_files(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
-        ##### Train your weigths
-        #WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
-        #WM_t = WM.transpose()
         for idx_c, Condition in enumerate(Conditions):
             print(Condition)
             Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=2, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
 
-            # Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
-            # distance=Distance_to_use, decode_item= decoding_thing, iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
-
-            # Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-            # Reconstructions_shuff.append(shuff)
-
-
-
-
-#Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, 
-#    Brain_Region=Brain_region, Condition=Condition, iterations=2, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
 
 
 Subject='d001'
