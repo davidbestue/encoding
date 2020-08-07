@@ -61,5 +61,5 @@ for Subject in Subjects:
 
 
 
-Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, 
-    Brain_Region=Brain_region, Condition=Condition, iterations=2, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
+#Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, 
+#    Brain_Region=Brain_region, Condition=Condition, iterations=2, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
