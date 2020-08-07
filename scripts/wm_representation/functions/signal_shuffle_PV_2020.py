@@ -25,23 +25,22 @@ numcores = multiprocessing.cpu_count() #- 10
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'close'
 #path_save_reconstructions = '/home/david/Desktop/all_target_mix.xlsx' 
-Reconstructions=[]
 #path_save_signal ='/home/david/Desktop/target_close/signal_all_target_mix.xlsx'
 #path_save_shuff = '/home/david/Desktop/target_close/shuff_all_target_mix.xlsx'
-
+Reconstructions=[]
 Reconstructions_shuff=[]
 
 Conditions=['1_0.2']#, '1_7', '2_0.2', '2_7'] #
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['d001', 'n001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual'] #, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
-#ref_angle=180
+
 
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Condition)
-            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
+            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=5, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
             ##
             Reconstructions.append(Reconstruction)
