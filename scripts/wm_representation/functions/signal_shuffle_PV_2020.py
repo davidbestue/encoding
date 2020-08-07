@@ -84,6 +84,9 @@ signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 testing_data=signal_paralel[0]
 testing_angles=angles_paralel[0]
 
+error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
+
+
 loo = LeaveOneOut()
 errors_=[]
 for train_index, test_index in loo.split(testing_data):
@@ -103,4 +106,5 @@ for train_index, test_index in loo.split(testing_data):
         model_trained_err = model_PV(X_train, X_test, y_train, y_test)
         errors_.append(model_trained_err)
     ##
-    error = np.mean(errors_)
+    errors_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
+    error = np.mean(errors_abs)
