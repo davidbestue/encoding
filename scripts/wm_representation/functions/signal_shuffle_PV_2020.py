@@ -73,5 +73,24 @@ Condition='1_0.2'
 Subject='d001'
 distance='close'
 testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-decode_item == 'Target':
+decode_item = 'Target'
 dec_I = 'T'
+testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
+signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+
+
+
+testing_data=signal_paralel[0]
+testing_angles=angles_paralel[0]
+
+loo = LeaveOneOut()
+errors_=[]
+for train_index, test_index in loo.split(testing_data):
+    X_train, X_test = testing_data[train_index], testing_data[test_index]
+    y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+    ##
+    ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+    ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+    model_trained_err = model_PV(X_train, X_test, y_train, y_test)
+    errors_.append(model_trained_err)
