@@ -43,6 +43,7 @@ for Subject in Subjects:
             print(Condition)
             Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
+            ##
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             #Reconstructions_boots.append(boots)
             Reconstructions_shuff.append(shuff)

@@ -138,8 +138,14 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
     #
     Reconstruction = pd.DataFrame(error_TR) #mean error en each TR (1 fila con n_scans columnas)
-    Reconstruction = Reconstruction.transpose()
-    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
+    Reconstruction['time']=[i * TR for i in range(nscans_wm)]
+    Reconstruction.columns=['decoding', 'time']  
+    Reconstruction['region'] = Brain_Region
+    Reconstruction['subject'] = Subject
+    Reconstruction['condition'] = Condition
+    #Reconstruction = Reconstruction.transpose()
+    #Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
+    
     ######
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
@@ -152,9 +158,17 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     end_shuff = time.time()
     process_shuff = end_shuff - start_shuff
     print( 'Time shuff: ' +str(process_shuff))
+    ###
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
     Reconstruction_sh = Reconstruction_sh.transpose()
     Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
+    Reconstruction_sh=Reconstruction_sh.melt()
+    Reconstruction_sh.columns=['times', 'decoding'] 
+    Reconstruction_sh['times'] = Reconstruction_sh['times'].astype(float) 
+    Reconstruction_sh['region'] = Brain_Region
+    Reconstruction_sh['subject'] = Subject
+    Reconstruction_sh['condition'] = Condition
+
     return Reconstruction, Reconstruction_sh
 
 
