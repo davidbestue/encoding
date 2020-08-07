@@ -46,32 +46,32 @@ for Subject in Subjects:
 
 
 
-Subject='d001'
-method='together' 
-Brain_Region='visual'
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-Condition='1_0.2'
-Subject='d001'
-distance='close'
-testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-decode_item = 'Target'
-dec_I = 'T'
-testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
-signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+# Subject='d001'
+# method='together' 
+# Brain_Region='visual'
+# enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+# Condition='1_0.2'
+# Subject='d001'
+# distance='close'
+# testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+# decode_item = 'Target'
+# dec_I = 'T'
+# testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+# angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
+# signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 
 
-testing_data=signal_paralel[0]
-testing_angles=angles_paralel[0]
+# testing_data=signal_paralel[0]
+# testing_angles=angles_paralel[0]
 
-error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
-
-
-iterations=3
-itera_paralel=[iterations for i in range(nscans_wm)]
-shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
+# error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
 
 
-Reconstruction_sh = pd.DataFrame(shuffled_rec) #
-Reconstruction_sh = Reconstruction_sh.transpose()
-Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
+# iterations=3
+# itera_paralel=[iterations for i in range(nscans_wm)]
+# shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
+
+
+# Reconstruction_sh = pd.DataFrame(shuffled_rec) #
+# Reconstruction_sh = Reconstruction_sh.transpose()
+# Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
