@@ -21,12 +21,12 @@ import random
 numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
-decoding_thing = 'Target' #'Distractor' #'Target'
+decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'mix'
-path_save_reconstructions = '/home/david/Desktop/all_target_mix.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/all_distractor_mix.xlsx' 
 Reconstructions={}
-path_save_signal ='/home/david/Desktop/target_close/signal_all_target_mix.xlsx'
-path_save_shuff = '/home/david/Desktop/target_close/shuff_all_target_mix.xlsx'
+path_save_signal ='/home/david/Desktop/target_close/signal_all_distractor_mix.xlsx'
+path_save_shuff = '/home/david/Desktop/target_close/shuff_all_distractor_mix.xlsx'
 #path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
 
 Reconstructions_shuff=[]
