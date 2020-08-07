@@ -61,12 +61,10 @@ angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
 signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
 
 
-
 testing_data=signal_paralel[0]
 testing_angles=angles_paralel[0]
 
 error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
-
 
 
 iterations=3
@@ -77,4 +75,3 @@ shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)
 Reconstruction_sh = pd.DataFrame(shuffled_rec) #
 Reconstruction_sh = Reconstruction_sh.transpose()
 Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
-return Reconstruction, Reconstruction_sh
