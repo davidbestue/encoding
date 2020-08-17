@@ -155,9 +155,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
     shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
-    end_shuff = time.time()
-    process_shuff = end_shuff - start_shuff
-    print( 'Time shuff: ' +str(process_shuff))
+    #
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
     Reconstruction_sh = Reconstruction_sh.transpose()
@@ -168,6 +166,10 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     Reconstruction_sh['region'] = Brain_Region
     Reconstruction_sh['subject'] = Subject
     Reconstruction_sh['condition'] = Condition
+    #
+    end_shuff = time.time()
+    process_shuff = end_shuff - start_shuff
+    print( 'Time shuff: ' +str(process_shuff))
 
     return Reconstruction, Reconstruction_sh
 
