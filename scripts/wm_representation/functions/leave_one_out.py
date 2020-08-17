@@ -91,6 +91,9 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
+    ## Alternativa: En vez de hacer n_iterations, hacer el shuffleing una vez y hacer una media de todos los errores
+    ## Pro alternativa: menos tiempo de computacion
+    ## Contra: mas variabilidad (barras de error menos robustas)
     loo = LeaveOneOut()
     errors_shuffle=[]
     #########
