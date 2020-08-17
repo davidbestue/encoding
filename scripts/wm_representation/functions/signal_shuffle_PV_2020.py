@@ -37,7 +37,7 @@ brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'fro
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
-            print(Condition)
+            print(Subject + ', ' + Brain_region +', ' + Condition)
             Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=2, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ##
