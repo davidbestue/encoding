@@ -24,8 +24,8 @@ numcores = multiprocessing.cpu_count() - 10
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/leave1out/signal_all_target_mix_l1o_prueba2.xlsx'
-path_save_shuffle = '/home/david/Desktop/leave1out/shuff_all_target_mix_l1o_prueba2.xlsx'
+path_save_signal ='/home/david/Desktop/leave1out/signal_all_target_mix_l1o_prueba10.xlsx'
+path_save_shuffle = '/home/david/Desktop/leave1out/shuff_all_target_mix_l1o_prueba10.xlsx'
 
 Reconstructions=[]
 Reconstructions_shuff=[]
