@@ -30,9 +30,9 @@ path_save_shuffle = '/home/david/Desktop/leave1out/shuff_all_target_mix_l1o_prue
 Reconstructions=[]
 Reconstructions_shuff=[]
 
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
+Conditions=['1_0.2']#, '1_7', '2_0.2', '2_7'] #
 Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+brain_regions = ['visual']#, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
