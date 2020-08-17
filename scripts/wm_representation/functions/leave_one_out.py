@@ -14,7 +14,7 @@ import random
 from sklearn.model_selection import LeaveOneOut
 
 
-numcores = multiprocessing.cpu_count() #- 10
+numcores = multiprocessing.cpu_count() - 10
 
 
 def err_deg(a1,ref):
