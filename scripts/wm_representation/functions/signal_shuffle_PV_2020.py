@@ -30,15 +30,15 @@ path_save_shuffle = '/home/david/Desktop/leave1out/shuff_all_target_mix_l1o_prue
 Reconstructions=[]
 Reconstructions_shuff=[]
 
-Conditions=['1_0.2']#, '1_7', '2_0.2', '2_7'] #
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual']#, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
-            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=2, 
+            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ##
             Reconstructions.append(Reconstruction)
