@@ -142,7 +142,7 @@ def leave_one_out_shuff( Subject, Brain_Region, Condition, iterations, distance,
     error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
     ### save in the right format for the plots
     Reconstruction = pd.DataFrame(error_TR) #mean error en each TR (1 fila con n_scans columnas)
-    Reconstruction['time']=[i * TR for i in range(nscans_wm)]
+    Reconstruction['times']=[i * TR for i in range(nscans_wm)]
     Reconstruction.columns=['decoding', 'time']  
     Reconstruction['region'] = Brain_Region
     Reconstruction['subject'] = Subject
