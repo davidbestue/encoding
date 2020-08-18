@@ -21,11 +21,11 @@ import random
 numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
-decoding_thing = 'Distractor' #'Distractor' #'Target'
+decoding_thing = 'Targer' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/leave1out/signal_all_distractor_mix_l1o_prueba10.xlsx'
-path_save_shuffle = '/home/david/Desktop/leave1out/shuff_all_distractor_mix_l1o_prueba10.xlsx'
+path_save_signal ='/home/david/Desktop/leave1out/signal_all_target_mix_l1o.xlsx'
+path_save_shuffle = '/home/david/Desktop/leave1out/shuff_all_target_mix_l1o.xlsx'
 
 Reconstructions=[]
 Reconstructions_shuff=[]
@@ -38,7 +38,7 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
-            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
+            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ##
             Reconstructions.append(Reconstruction)
