@@ -21,7 +21,7 @@ import random
 numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
-decoding_thing = 'Targer' #'Distractor' #'Target'
+decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
 path_save_signal ='/home/david/Desktop/leave1out/signal_all_target_mix_l1o.xlsx'
