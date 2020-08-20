@@ -100,7 +100,7 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
     ########
     for i in range(iterations):
         # aquí estoy haciendo un shuffle normal (mezclar A_t)
-        testing_angles_sh = np.array(random.sample(testing_angles, len(testing_angles)) )
+        #testing_angles_sh = np.array(random.sample(testing_angles, len(testing_angles)) )
         # una alternativa para que sea igual, sería asignar random 0, 90, 180 y 270
         testing_angles_sh = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))])
         errors_=[]
