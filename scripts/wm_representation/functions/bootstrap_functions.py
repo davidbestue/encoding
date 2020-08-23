@@ -141,9 +141,6 @@ def all_process_condition_shuff_boot( Subject, Brain_Region, WM, WM_t, Inter, Co
 
 
 
-
-
-
 def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
