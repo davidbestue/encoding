@@ -17,9 +17,12 @@ import random
 numcores = multiprocessing.cpu_count() - 10
 
 
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual'] #, 'ips', 'pfc']
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual', 'ips', 'pfc']
 
+
+path_save_signal='/home/david/Desktop/target_close/signal_encoding.xlsx'
+path_save_shuffle='/home/david/Desktop/target_close/shuffle_encoding.xlsx'
 
 
 def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
@@ -72,13 +75,21 @@ for Subject in Subjects:
         Reconstruction['region'] = Brain_Region
         Reconstruction['subject'] = Subject
         Reconstruction['label'] = 'signal'
+        Reconstructions.append(Reconstruction)
         #
         error_shuff = shuff_Pop_vect_leave_one_out(training_dataset, training_targets, 10)
         Reconstruction_shuff = pd.DataFrame(error_shuff)
         Reconstruction_shuff.columns=['decoding']  
         Reconstruction_shuff['region'] = Brain_Region
         Reconstruction_shuff['subject'] = Subject
-        Reconstruction['label'] = 'shuffle'
+        Reconstruction_shuff['label'] = 'shuffle'
+        Reconstructions_shuff.append(Reconstruction_shuff)
 
 
 
+### Save signal from the reconstructions and shuffles
+Decoding_df = pd.concat(Reconstructions, axis=0) 
+Decoding_df.to_excel( path_save_signal )
+
+Shuffle_df = pd.concat(Reconstructions_shuff, axis=0) 
+Shuffle_df.to_excel( path_save_shuffle )
