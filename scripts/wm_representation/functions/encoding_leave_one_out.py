@@ -64,7 +64,7 @@ Reconstructions_shuff=[]
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
-        print(Subject, Brain_region)
+        print(Subject + ', ' + Brain_region)
         #plt.figure()
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
