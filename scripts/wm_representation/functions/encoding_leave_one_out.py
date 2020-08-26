@@ -39,7 +39,7 @@ for Subject in Subjects:
         error_= Pop_vect_leave_one_out(training_dataset, training_targets) #no hay que hacer paralel porque no hay multiple wm
         Reconstruction = pd.DataFrame([error_]) #solo hay 1!
         Reconstruction.columns=['decoding']  
-        Reconstruction['region'] = Brain_Region
+        Reconstruction['region'] = Brain_region
         Reconstruction['subject'] = Subject
         Reconstruction['label'] = 'signal'
         Reconstructions.append(Reconstruction)
@@ -47,7 +47,7 @@ for Subject in Subjects:
         error_shuff = shuff_Pop_vect_leave_one_out2(training_dataset, training_targets, 10)
         Reconstruction_shuff = pd.DataFrame(error_shuff)
         Reconstruction_shuff.columns=['decoding']  
-        Reconstruction_shuff['region'] = Brain_Region
+        Reconstruction_shuff['region'] = Brain_region
         Reconstruction_shuff['subject'] = Subject
         Reconstruction_shuff['label'] = 'shuffle'
         Reconstructions_shuff.append(Reconstruction_shuff)
