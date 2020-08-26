@@ -14,7 +14,7 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 10
+numcores = multiprocessing.cpu_count() - 3
 
 
 Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
