@@ -32,9 +32,16 @@ np.random.seed(0)
 X = np.random.randn(300, 2)
 Y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0)
 
+#a=[1,2,3,4]
+#Y=np.array([random.choice(a) for i in range(300)] )# elegir de a n veces
+
+
 # fit the model
 clf = svm.NuSVC(gamma='auto')
 clf.fit(X, Y)
+
+
+### error in the fit???'' hoooow????
 
 # plot the decision function for each datapoint on the grid
 Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
