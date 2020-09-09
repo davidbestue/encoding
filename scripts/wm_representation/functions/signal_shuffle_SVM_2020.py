@@ -50,6 +50,6 @@ plt.scatter(X[:, 0], X[:, 1], s=30, c=Y, cmap=plt.cm.Paired,
 plt.xticks(())
 plt.yticks(())
 plt.axis([-3, 3, -3, 3])
-plt.show()
+plt.show(block=False)
 
 
