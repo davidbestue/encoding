@@ -51,3 +51,41 @@ plt.xticks(())
 plt.yticks(())
 plt.axis([-3, 3, -3, 3])
 plt.show()
+
+
+
+#### Randomizaciones varias
+
+np.random.randint(low=2, high=5, size=(300,3)) # una array con min y max de dimensiones (size)
+np.random.randn(300, 2) #una array de estas dimensiones de distrib normal
+
+import random
+a=[1,3,4,5,67]
+[random.choice(a) for i in range(10)] # elegir de a n veces 
+np.array(random.sample(a, len(a)) ) #mezclar a
+
+
+a = df.col.values # nezclar a como antes, pero si es una columna de un dataframe
+shuff= np.array(random.sample(a, len(a)) )
+df['a_shuff'] = a
+
+
+
+
+
+final=[]
+
+n_animales=20
+n_dias=7
+
+for animal in range(n_animales):
+    animalito=[] #cada animal será una lista. Dentro de esta lista habra tantas listas como dias (20)
+    for dia in range(n_dias):
+        numeritos=[1,2,3,4] #numeros del 1 al 4
+        random.shuffle(numeritos) #los mezclo
+        tres_ =  numeritos[:3] #pillo los tres primeros, alterantiva: [numeritos.pop(0) for i in range(3) ] 
+        animalito.append(tres_) #los guardo "dentro" del animal
+    ##
+    final.append(animalito) #cuando he hecho todos los dias, guardo el animal en "final"
+
+
