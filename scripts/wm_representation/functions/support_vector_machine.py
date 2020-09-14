@@ -68,7 +68,7 @@ def SVM_leave_one_out(testing_data, testing_quadrants):
 
 
 
-def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
+def shuff_SVM_leave_one_out(testing_data, testing_angles, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -76,28 +76,28 @@ def shuff_Pop_vect_leave_one_out(testing_data, testing_angles, iterations):
     ## Pro alternativa: menos tiempo de computacion
     ## Contra: mas variabilidad (barras de error menos robustas)
     loo = LeaveOneOut()
-    errors_shuffle=[]
+    accuracies_shuffle=[]
     #########
     ########
     for i in range(iterations):
         # aquí estoy haciendo un shuffle normal (mezclar A_t)
-        #testing_angles_sh = np.array(random.sample(testing_angles, len(testing_angles)) )
-        # una alternativa para que sea igual, sería asignar random 0, 90, 180 y 270
-        testing_angles_sh = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))])
-        errors_=[]
+        testing_angles_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_angles))])
+        # una alternativa sería poner el cuadrante en el que no haya nada...
+        
+        accs_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
             y_train, y_test = testing_angles_sh[train_index], testing_angles_sh[test_index]
             ##
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-            model_trained_err = model_PV(X_train, X_test, y_train, y_test)
-            errors_.append(model_trained_err) ## error de todos los train-test
+            model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
+            accs_.append(model_trained_acc) ## error de todos los train-test
         ##
-        error_shuff_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
-        errors_shuffle.append(error_shuff_abs)
+        error_shuff_abs = np.mean(accs_) 
+        accuracies_shuffle.append(error_shuff_abs)
         #
-    return errors_shuffle
+    return accuracies_shuffle
 
 
 
