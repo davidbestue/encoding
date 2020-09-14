@@ -18,48 +18,28 @@ from sklearn import svm
 numcores = multiprocessing.cpu_count() - 10
 
 
-def err_deg(a1,ref):
-    ### Calculate the error ref-a1 in an efficient way in the circular space
-    ### it uses complex numbers!
-    ### Input in degrees (0-360)
-    a1=np.radians(a1)
-    ref=np.radians(ref)
-    err = np.angle(np.exp(1j*ref)/np.exp(1j*(a1) ), deg=True) 
-    err=round(err, 2)
-    return err
+# def err_deg(a1,ref):
+#     ### Calculate the error ref-a1 in an efficient way in the circular space
+#     ### it uses complex numbers!
+#     ### Input in degrees (0-360)
+#     a1=np.radians(a1)
+#     ref=np.radians(ref)
+#     err = np.angle(np.exp(1j*ref)/np.exp(1j*(a1) ), deg=True) 
+#     err=round(err, 2)
+#     return err
 
 
-def model_PV(X_train, X_test, y_train, y_test):
+def model_SVM(X_train, X_test, y_train, y_test):
     ##
     ######## Trainning #########
-    ## X matrix (intercept and spikes)
-    X = np.column_stack([np.ones(np.shape(X_train)[0]), X_train])
-    ## Y (sinus and cos)
-    sinus =np.sin([np.radians(np.array(y_train)[i]) for i in range(0, len(y_train))])
-    cosinus = np.cos([np.radians(np.array(y_train)[i]) for i in range(0, len(y_train))])
-    Y = np.column_stack([cosinus, sinus])
-    ### one OLS for sin and cos: output: beta of intercetp and bea of spikes (two B intercepts and 2 B for spikes )
-    Y = Y.astype(float) #to make it work in the cluster
-    X = X.astype(float)
-    model = sm.OLS(Y, X)
-    ##train the model
-    fit=model.fit()
-    ######### Testing the remaining one ###########
-    X_ = np.column_stack([np.ones(np.shape(X_test)[0]), X_test])
-    p = fit.predict(X_)
-    x = p[0][0] ## estan dentro de una list 
-    y = p[0][1]
-    #####
-    ##### Error --> take the resulting vector in sin/cos space
-    ### from sin and cos get the angle (-pi, pi)
-    pred_angle = np.degrees(np.arctan2(y, x)) 
-    if pred_angle<0:
-            pred_angle=360+pred_angle
+    clf = svm.NuSVC(gamma='auto')
+    clf.fit(X_train, y_train)
+    ######## Testing ##########
+    prediction = clf.predict(X_test)
+    ##### accuracy
+    accuracy_ = np.mean(y_test==prediction)
     ##
-    #print(pred_angle, y_test)
-    error_ = err_deg(pred_angle, y_test)
-    ##
-    return error_
+    return accuracy_
 
 
 
