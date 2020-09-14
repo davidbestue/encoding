@@ -44,7 +44,7 @@ def model_SVM(X_train, X_test, y_train, y_test):
 
 
 
-def SVM_leave_one_out(testing_data, testing_angles):
+def SVM_leave_one_out(testing_data, testing_quadrants):
     ## A esta función entrarán los datos de un TR. 
     ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
     ## Separar en train and test para leave on out procedure
@@ -54,15 +54,16 @@ def SVM_leave_one_out(testing_data, testing_angles):
     accuracies_=[]
     for train_index, test_index in loo.split(testing_data):
         X_train, X_test = testing_data[train_index], testing_data[test_index]
-        y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+        y_train, y_test = testing_quadrants[train_index], testing_quadrants[test_index]
         ##
         ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
         ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
         model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
+        #### aquí se guarda 1 o 0 (el que falta está bien o mal clasificado)
         accuracies_.append(model_trained_acc)
     ##
     l10_acc = np.mean(accuracies_) 
-    return accuracies_, l10_acc
+    return l10_acc
 
 
 
