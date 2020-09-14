@@ -100,7 +100,9 @@ def shuff_SVM_leave_one_out(testing_data, testing_angles, iterations):
     return accuracies_shuffle
 
 
-
+#####
+##### voy por aquí!!!
+#####
 
 
 def shuff_Pop_vect_leave_one_out2(testing_data, testing_angles, iterations):
