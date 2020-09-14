@@ -34,6 +34,12 @@ Y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0) * 1
 
 #a=[1,2,3,4]
 #Y=np.array([random.choice(a) for i in range(300)] )# elegir de a n veces
+
+
+#################################################################
+################################################################# Desde train and test
+#################################################################
+
 X_train = np.random.randn(300, 1)
 Y_train = Y = np.random.randint(0,3, 300) 
 
@@ -53,8 +59,13 @@ shuffl_dec = []
 for i in range(4):
     Y_shuffl = Y = np.random.randint(0,3, 300) 
     decoding = np.mean(Y_shuffl==prediction) 
+    shuffl_dec.append(decoding)
 
 
+
+######################################################################
+###################################################################### Desde leave one out
+###################################################################### 
 
 
 ### error in the fit???'' hoooow????
