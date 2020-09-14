@@ -44,26 +44,25 @@ def model_SVM(X_train, X_test, y_train, y_test):
 
 
 
-def Pop_vect_leave_one_out(testing_data, testing_angles):
+def SVM_leave_one_out(testing_data, testing_angles):
     ## A esta función entrarán los datos de un TR. 
     ## Como se ha de hacer el leave one out para estimar el error, no puedo paralelizar por trials
     ## Separar en train and test para leave on out procedure
     ## Hago esto para tener la mejor estimación posible del error (no hay training task)
     ## Si hubiese training task (aquí no la uso), no sería necesario el leave one out
     loo = LeaveOneOut()
-    errors_=[]
+    accuracies_=[]
     for train_index, test_index in loo.split(testing_data):
         X_train, X_test = testing_data[train_index], testing_data[test_index]
         y_train, y_test = testing_angles[train_index], testing_angles[test_index]
         ##
         ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
         ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-        model_trained_err = model_PV(X_train, X_test, y_train, y_test)
-        errors_.append(model_trained_err)
+        model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
+        accuracies_.append(model_trained_acc)
     ##
-    errors_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
-    error = np.mean(errors_abs) ##you need the absolute error to get an estimate of the decoding
-    return error
+    l10_acc = np.mean(accuracies_) 
+    return accuracies_, l10_acc
 
 
 
