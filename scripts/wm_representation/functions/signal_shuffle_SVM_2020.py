@@ -36,15 +36,26 @@ Y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0) * 1
 #Y=np.array([random.choice(a) for i in range(300)] )# elegir de a n veces
 X_train = np.random.randn(300, 1)
 Y_train = Y = np.random.randint(0,3, 300) 
+
 X_test = np.random.randn(300, 1)
 Y_test = Y = np.random.randint(0,3, 300) 
-
 
 # fit the model
 clf = svm.NuSVC(gamma='auto')
 clf.fit(X_train, Y_train)
 
-prediction = clf.
+prediction = clf.predict(X_test)
+decoding = np.mean(Y_test==prediction)  ### npercentage of correct classifications
+
+#
+shuffl_dec = []
+
+for i in range(4):
+    Y_shuffl = Y = np.random.randint(0,3, 300) 
+    decoding = np.mean(Y_shuffl==prediction) 
+
+
+
 
 ### error in the fit???'' hoooow????
 
