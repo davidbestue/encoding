@@ -34,7 +34,7 @@ def get_quadrant(angle):
 def model_SVM(X_train, X_test, y_train, y_test):
     ##
     ######## Trainning #########
-    clf = svm.NuSVC(gamma='auto')
+    clf = svm.NuSVC(gamma='auto', nu=0.4)
     clf.fit(X_train, y_train)
     ######## Testing ##########
     prediction = clf.predict(X_test)
@@ -214,7 +214,7 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     end_shuff = time.time()
     process_shuff = end_shuff - start_shuff
     print( 'Time shuff: ' +str(process_shuff))
-
+    #
     return Reconstruction, Reconstruction_sh
 
 
@@ -232,6 +232,9 @@ distance='close'
 decode_item='Target'
 method='together'
 heatmap=False
+
+leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+
 
 
 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
