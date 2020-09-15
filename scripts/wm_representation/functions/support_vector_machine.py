@@ -216,4 +216,13 @@ def get_quad_and_missing(angleT, angleNT1, angleNT2):
     q_t = get_quadrant(angleT)
     q_nt1 = get_quadrant(angleNT1)
     q_nt2 = get_quadrant(angleNT2)
+    quadrants__ = [q_t, q_nt1, q_nt2]
+    ##
+    quadrants=[1,2,3,4]
+    ##
+    target_quadrant = q_t
+    missing = list(set(quadrants) - set(quadrants__))[0]
+    ##
+    return target_quadrant, missing
+
 
