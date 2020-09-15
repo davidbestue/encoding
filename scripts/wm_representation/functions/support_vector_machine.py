@@ -176,10 +176,8 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     Reconstruction['region'] = Brain_Region
     Reconstruction['subject'] = Subject
     Reconstruction['condition'] = Condition
-    #Reconstruction = Reconstruction.transpose()
-    #Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
-    
-    ######
+    ###
+    ###
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
     print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
@@ -187,7 +185,7 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #### Compute the shuffleing (n_iterations defined on top)
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out)(testing_data=signal_s, testing_quadrants=quadr_s, iterations=itera) for signal_s, quadr_s, itera in zip(signal_paralel, quadrants_paralel, itera_paralel))
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out2)(testing_data=signal_s, testing_quadrants=quadr_s, iterations=itera) for signal_s, quadr_s, itera in zip(signal_paralel, quadrants_paralel, itera_paralel))
     #
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
