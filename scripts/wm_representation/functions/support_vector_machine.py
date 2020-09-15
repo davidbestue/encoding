@@ -110,17 +110,6 @@ def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
 
 #####
 #####
-testing_data=signal_paralel[0]
-accs_=[]
-for train_index, test_index in loo.split(testing_data):
-    X_train, X_test = testing_data[train_index], testing_data[test_index]
-    y_train, y_test = testing_quadrants_sh[train_index], testing_quadrants_sh[test_index]
-    ##
-    ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
-    ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-    model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
-    accs_.append(model_trained_acc) ## error de todos los train-test
-
 
 def shuff_SVM_leave_one_out2(testing_data, testing_quadrants, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
