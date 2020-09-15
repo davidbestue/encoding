@@ -68,7 +68,7 @@ def SVM_leave_one_out(testing_data, testing_quadrants):
 
 
 
-def shuff_SVM_leave_one_out(testing_data, testing_angles, iterations):
+def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -81,13 +81,13 @@ def shuff_SVM_leave_one_out(testing_data, testing_angles, iterations):
     ########
     for i in range(iterations):
         # aquí estoy haciendo un shuffle normal (mezclar A_t)
-        testing_angles_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_angles))])
+        testing_quadrants_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_quadrants))])
         # una alternativa sería poner el cuadrante en el que no haya nada...
         
         accs_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
-            y_train, y_test = testing_angles_sh[train_index], testing_angles_sh[test_index]
+            y_train, y_test = testing_quadrants_sh[train_index], testing_quadrants_sh[test_index]
             ##
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
@@ -121,11 +121,11 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     start_l1out = time.time()  
     testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
     quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
-    angles_paralel= [quadrant_angles_beh for i in range(nscans_wm)]
+    quadrants_paralel= [quadrant_angles_beh for i in range(nscans_wm)]
     ##
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     ### Error in each TR done with leave one out
-    acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
+    acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_leave_one_out)(testing_data = signal, testing_quadrants= quadr)  for signal, quadr in zip(signal_paralel, quadrants_paralel))    #### reconstruction standard (paralel)
     ### save in the right format for the plots
     Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
     Reconstruction['times']=[i * TR for i in range(nscans_wm)]
@@ -144,7 +144,7 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #### Compute the shuffleing (n_iterations defined on top)
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out)(testing_data=signal_s, testing_quadrants=quadr_s, iterations=itera) for signal_s, quadr_s, itera in zip(signal_paralel, quadrants_paralel, itera_paralel))
     #
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
