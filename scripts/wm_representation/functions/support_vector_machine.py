@@ -120,7 +120,9 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #
     start_l1out = time.time()  
     testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
+    quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
+    angles_paralel= [quadrant_angles_beh for i in range(nscans_wm)]
+    ##
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     ### Error in each TR done with leave one out
     error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
@@ -195,9 +197,6 @@ start_l1out = time.time()
 testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
 quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
 
-
-
-angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
 
 
 def get_quadrant(angle):
