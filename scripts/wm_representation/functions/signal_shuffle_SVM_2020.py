@@ -19,7 +19,7 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 10
+numcores = multiprocessing.cpu_count() - 5
 
 ##paths to save the 3 files 
 decoding_thing = 'Target' #'Distractor' #'Target'
@@ -39,7 +39,7 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
-            Reconstruction, shuff = leave_one_out_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
+            Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ##
             Reconstructions.append(Reconstruction)
@@ -51,8 +51,8 @@ for Subject in Subjects:
 ### Save signal from the reconstructions and shuffles
 Decoding_df = pd.concat(Reconstructions, axis=0) 
 Decoding_df['label']='signal'
-Decoding_df.to_excel( path_save_signal )
+#Decoding_df.to_excel( path_save_signal )
 
 Shuffle_df = pd.concat(Reconstructions_shuff, axis=0) 
 Shuffle_df['label']='shuffle'
-Shuffle_df.to_excel( path_save_shuffle )
+#Shuffle_df.to_excel( path_save_shuffle )
