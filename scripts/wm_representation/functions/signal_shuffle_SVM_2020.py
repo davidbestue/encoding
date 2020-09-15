@@ -32,7 +32,7 @@ Reconstructions=[]
 Reconstructions_shuff=[]
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
-Subjects=['b001', 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['b001', 'n001', 'd001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
 for Subject in Subjects:
