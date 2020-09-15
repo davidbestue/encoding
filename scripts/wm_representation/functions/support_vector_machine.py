@@ -193,8 +193,11 @@ else:
 #
 start_l1out = time.time()  
 testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
+quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
 
+
+
+angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
 
 
 def get_quadrant(angle):
@@ -212,17 +215,18 @@ def get_quadrant(angle):
 
 ########
 
-def get_quad_and_missing(angleT, angleNT1, angleNT2):
-    q_t = get_quadrant(angleT)
-    q_nt1 = get_quadrant(angleNT1)
-    q_nt2 = get_quadrant(angleNT2)
-    quadrants__ = [q_t, q_nt1, q_nt2]
-    ##
-    quadrants=[1,2,3,4]
-    ##
-    target_quadrant = q_t
-    missing = list(set(quadrants) - set(quadrants__))[0]
-    ##
-    return target_quadrant, missing
+# def get_quad_and_missing(angleT, angleNT1, angleNT2):
+#     q_t = get_quadrant(angleT)
+#     q_nt1 = get_quadrant(angleNT1)
+#     q_nt2 = get_quadrant(angleNT2)
+#     quadrants__ = [q_t, q_nt1, q_nt2]
+#     ##
+#     quadrants=[1,2,3,4]
+#     ##
+#     target_quadrant = q_t
+#     missing = list(set(quadrants) - set(quadrants__))[0]
+#     ##
+#     return target_quadrant, missing
 
 
+########
