@@ -15,7 +15,7 @@ from sklearn.model_selection import LeaveOneOut
 from sklearn import svm
 
 
-numcores = multiprocessing.cpu_count() - 10
+numcores = multiprocessing.cpu_count() - 5
 
 def get_quadrant(angle):
     if angle>0 and angle<90:
@@ -213,39 +213,16 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
 ##########################
 ###########################
 
-Subject='b001'
-Brain_Region='visual'
-Condition='1_7'
-iterations=4
-distance='close'
-decode_item='Target'
-method='together'
-heatmap=False
+# Subject='b001'
+# Brain_Region='visual'
+# Condition='1_7'
+# iterations=4
+# distance='close'
+# decode_item='Target'
+# method='together'
+# heatmap=False
 
-Reconstruction, Reconstruction_sh = leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False)
-
-
-
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
-##### Process testing data
-testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-if decode_item == 'Target':
-    dec_I = 'T'
-elif decode_item == 'Response':
-    dec_I = 'A_R'
-elif decode_item == 'Distractor':
-    dec_I = 'Dist'
-else:
-    'Error specifying the decode item'
-#
-#
-start_l1out = time.time()  
-testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
-
-
-
-
+# Reconstruction, Reconstruction_sh = leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False)
 
 ########
 
