@@ -41,10 +41,10 @@ Y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0) * 1
 #################################################################
 
 X_train = np.random.randn(300, 1)
-Y_train = Y = np.random.randint(0,3, 300) 
+y_train = Y = np.random.randint(0,3, 300) 
 
 X_test = np.random.randn(300, 1)
-Y_test = Y = np.random.randint(0,3, 300) 
+y_test = Y = np.random.randint(0,3, 300) 
 
 # fit the model
 clf = svm.NuSVC(gamma='auto')
