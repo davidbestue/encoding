@@ -125,9 +125,9 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     ##
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     ### Error in each TR done with leave one out
-    error_TR = Parallel(n_jobs = numcores)(delayed(Pop_vect_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
+    acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_leave_one_out)(testing_data = signal, testing_angles= angles)  for signal, angles in zip(signal_paralel, angles_paralel))    #### reconstruction standard (paralel)
     ### save in the right format for the plots
-    Reconstruction = pd.DataFrame(error_TR) #mean error en each TR (1 fila con n_scans columnas)
+    Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
     Reconstruction['times']=[i * TR for i in range(nscans_wm)]
     Reconstruction.columns=['decoding', 'time']  
     Reconstruction['region'] = Brain_Region
@@ -144,7 +144,7 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #### Compute the shuffleing (n_iterations defined on top)
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_Pop_vect_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out)(testing_data=signal_s, testing_angles=angles_s, iterations=itera) for signal_s, angles_s, itera in zip(signal_paralel, angles_paralel, itera_paralel))
     #
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
