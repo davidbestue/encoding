@@ -136,8 +136,8 @@ def shuff_SVM_leave_one_out2(testing_data, testing_quadrants, iterations):
             model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
             accs_.append(model_trained_acc) ## error de todos los train-test
         ##
-        error_shuff_abs = np.mean(accs_) 
-        accuracies_shuffle.append(error_shuff_abs)
+        acc_shuff_abs = np.mean(accs_) 
+        accuracies_shuffle.append(acc_shuff_abs)
         #
     return accuracies_shuffle
 
