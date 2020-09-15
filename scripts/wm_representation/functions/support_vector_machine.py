@@ -17,17 +17,19 @@ from sklearn import svm
 
 numcores = multiprocessing.cpu_count() - 10
 
+def get_quadrant(angle):
+    if angle>0 and angle<90:
+        q=1
+    elif angle>90 and angle<180:
+        q=2
+    elif angle>180 and angle<270:
+        q=3
+    elif angle>270 and angle<360:
+        q=4
+    ###
+    return q
 
-# def err_deg(a1,ref):
-#     ### Calculate the error ref-a1 in an efficient way in the circular space
-#     ### it uses complex numbers!
-#     ### Input in degrees (0-360)
-#     a1=np.radians(a1)
-#     ref=np.radians(ref)
-#     err = np.angle(np.exp(1j*ref)/np.exp(1j*(a1) ), deg=True) 
-#     err=round(err, 2)
-#     return err
-
+#
 
 def model_SVM(X_train, X_test, y_train, y_test):
     ##
@@ -108,6 +110,17 @@ def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
 
 #####
 #####
+testing_data=signal_paralel[0]
+accs_=[]
+for train_index, test_index in loo.split(testing_data):
+    X_train, X_test = testing_data[train_index], testing_data[test_index]
+    y_train, y_test = testing_quadrants_sh[train_index], testing_quadrants_sh[test_index]
+    ##
+    ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+    ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+    model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
+    accs_.append(model_trained_acc) ## error de todos los train-test
+
 
 def shuff_SVM_leave_one_out2(testing_data, testing_quadrants, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
@@ -240,17 +253,6 @@ quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in ran
 
 
 
-def get_quadrant(angle):
-    if angle>0 and angle<90:
-        q=1
-    elif angle>90 and angle<180:
-        q=2
-    elif angle>180 and angle<270:
-        q=3
-    elif angle>270 and angle<360:
-        q=4
-    ###
-    return q
 
 
 ########
