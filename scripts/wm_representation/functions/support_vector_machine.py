@@ -43,6 +43,8 @@ def model_SVM(X_train, X_test, y_train, y_test):
 
 
 
+#####
+#####
 
 def SVM_leave_one_out(testing_data, testing_quadrants):
     ## A esta función entrarán los datos de un TR. 
@@ -67,6 +69,8 @@ def SVM_leave_one_out(testing_data, testing_quadrants):
 
 
 
+#####
+#####
 
 def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
@@ -82,8 +86,9 @@ def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
     for i in range(iterations):
         # aquí estoy haciendo un shuffle normal (mezclar A_t)
         testing_quadrants_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_quadrants))])
-        # una alternativa sería poner el cuadrante en el que no haya nada...
-        
+        # aquí estoy haciendo un shuffle forzando que acabe en uno de los otros 3 quadrantes
+        #testing_quadrants_sh = np.array( [random.choice(list(set([1,2,3,4]) - set([testing_quadrants[i]]))) for i in range(len(testing_quadrants))])
+        ##
         accs_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
@@ -98,6 +103,44 @@ def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
         accuracies_shuffle.append(error_shuff_abs)
         #
     return accuracies_shuffle
+
+
+
+#####
+#####
+
+def shuff_SVM_leave_one_out2(testing_data, testing_quadrants, iterations):
+    ## A esta función entrarán los datos de un TR y haré el shuffleing. 
+    ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
+    ## de tantas iterations shuffled (contiene un loop for y un shuffle )
+    ## Alternativa: En vez de hacer n_iterations, hacer el shuffleing una vez y hacer una media de todos los errores
+    ## Pro alternativa: menos tiempo de computacion
+    ## Contra: mas variabilidad (barras de error menos robustas)
+    loo = LeaveOneOut()
+    accuracies_shuffle=[]
+    #########
+    ########
+    for i in range(iterations):
+        # aquí estoy haciendo un shuffle normal (mezclar A_t)
+        #testing_quadrants_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_quadrants))])
+        # aquí estoy haciendo un shuffle forzando que acabe en uno de los otros 3 quadrantes
+        testing_quadrants_sh = np.array( [random.choice(list(set([1,2,3,4]) - set([testing_quadrants[i]]))) for i in range(len(testing_quadrants))])
+        ##
+        accs_=[]
+        for train_index, test_index in loo.split(testing_data):
+            X_train, X_test = testing_data[train_index], testing_data[test_index]
+            y_train, y_test = testing_quadrants_sh[train_index], testing_quadrants_sh[test_index]
+            ##
+            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+            model_trained_acc = model_SVM(X_train, X_test, y_train, y_test)
+            accs_.append(model_trained_acc) ## error de todos los train-test
+        ##
+        error_shuff_abs = np.mean(accs_) 
+        accuracies_shuffle.append(error_shuff_abs)
+        #
+    return accuracies_shuffle
+
 
 
 #####
