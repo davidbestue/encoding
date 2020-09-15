@@ -194,3 +194,26 @@ else:
 start_l1out = time.time()  
 testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
 angles_paralel= [testing_angles_beh for i in range(nscans_wm)]
+
+
+
+def get_quadrant(angle):
+    if angle>0 and angle<90:
+        q=1
+    elif angle>90 and angle<180:
+        q=2
+    elif angle>180 and angle<270:
+        q=3
+    elif angle>270 and angle<360:
+        q=4
+    ###
+    return q
+
+
+########
+
+def get_quad_and_missing(angleT, angleNT1, angleNT2):
+    q_t = get_quadrant(angleT)
+    q_nt1 = get_quadrant(angleNT1)
+    q_nt2 = get_quadrant(angleNT2)
+
