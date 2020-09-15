@@ -25,14 +25,14 @@ numcores = multiprocessing.cpu_count() - 5
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/SVM/signal_b001_target_mix_SVM.xlsx'
-path_save_shuffle = '/home/david/Desktop/SVM/shuff_b001_target_mix_SVM.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/signal_all_target_mix_SVM.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_all_target_mix_SVM.xlsx'
 
 Reconstructions=[]
 Reconstructions_shuff=[]
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
-Subjects=['b001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
+Subjects=['b001', 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
 for Subject in Subjects:
@@ -51,8 +51,8 @@ for Subject in Subjects:
 ### Save signal from the reconstructions and shuffles
 Decoding_df = pd.concat(Reconstructions, axis=0) 
 Decoding_df['label']='signal'
-#Decoding_df.to_excel( path_save_signal )
+Decoding_df.to_excel( path_save_signal )
 
 Shuffle_df = pd.concat(Reconstructions_shuff, axis=0) 
 Shuffle_df['label']='shuffle'
-#Shuffle_df.to_excel( path_save_shuffle )
+Shuffle_df.to_excel( path_save_shuffle )
