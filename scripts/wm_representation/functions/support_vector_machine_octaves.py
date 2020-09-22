@@ -87,7 +87,7 @@ def SVM_leave_one_out(testing_data, testing_octaves):
 #####
 #####
 
-def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
+def shuff_SVM_leave_one_out(testing_data, testing_octaves, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -100,14 +100,14 @@ def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
     ########
     for i in range(iterations):
         # aquí estoy haciendo un shuffle normal (mezclar A_t)
-        testing_quadrants_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_quadrants))])
+        testing_octaves_sh = np.array([random.choice([1,2,3,4,5,6,7,8]) for i in range(len(testing_octaves))])
         # aquí estoy haciendo un shuffle forzando que acabe en uno de los otros 3 quadrantes
         #testing_quadrants_sh = np.array( [random.choice(list(set([1,2,3,4]) - set([testing_quadrants[i]]))) for i in range(len(testing_quadrants))])
         ##
         accs_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
-            y_train, y_test = testing_quadrants_sh[train_index], testing_quadrants_sh[test_index]
+            y_train, y_test = testing_octaves_sh[train_index], testing_octaves_sh[test_index]
             ##
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
@@ -124,7 +124,7 @@ def shuff_SVM_leave_one_out(testing_data, testing_quadrants, iterations):
 #####
 #####
 
-def shuff_SVM_leave_one_out2(testing_data, testing_quadrants, iterations):
+def shuff_SVM_leave_one_out2(testing_data, testing_octaves, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -139,12 +139,12 @@ def shuff_SVM_leave_one_out2(testing_data, testing_quadrants, iterations):
         # aquí estoy haciendo un shuffle normal (mezclar A_t)
         #testing_quadrants_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_quadrants))])
         # aquí estoy haciendo un shuffle forzando que acabe en uno de los otros 3 quadrantes
-        testing_quadrants_sh = np.array( [random.choice(list(set([1,2,3,4]) - set([testing_quadrants[i]]))) for i in range(len(testing_quadrants))])
+        testing_octaves_sh = np.array( [random.choice(list(set([1,2,3,4,5,6,7,8]) - set([testing_octaves[i]]))) for i in range(len(testing_octaves))])
         ##
         accs_=[]
         for train_index, test_index in loo.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
-            y_train, y_test = testing_quadrants_sh[train_index], testing_quadrants_sh[test_index]
+            y_train, y_test = testing_octaves_sh[train_index], testing_octaves_sh[test_index]
             ##
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
@@ -178,7 +178,7 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #
     start_l1out = time.time()  
     testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    quadrant_angles_beh = np.array([get_quadrant(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
+    quadrant_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
     quadrants_paralel= [quadrant_angles_beh for i in range(nscans_wm)]
     ##
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
