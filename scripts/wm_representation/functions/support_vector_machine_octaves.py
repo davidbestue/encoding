@@ -290,22 +290,3 @@ decode_item='Target'
 method='together'
 heatmap=False
 
-# Reconstruction, Reconstruction_sh = leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False)
-'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2'
-########
-
-# def get_quad_and_missing(angleT, angleNT1, angleNT2):
-#     q_t = get_quadrant(angleT)
-#     q_nt1 = get_quadrant(angleNT1)
-#     q_nt2 = get_quadrant(angleNT2)
-#     quadrants__ = [q_t, q_nt1, q_nt2]
-#     ##
-#     quadrants=[1,2,3,4]
-#     ##
-#     target_quadrant = q_t
-#     missing = list(set(quadrants) - set(quadrants__))[0]
-#     ##
-#     return target_quadrant, missing
-
-
-########
