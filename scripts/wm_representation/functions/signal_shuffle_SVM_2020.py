@@ -25,8 +25,8 @@ numcores = multiprocessing.cpu_count() - 5
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/signal_b001_target_mix_SVM_sig.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_b001_target_mix_SVM_sig.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/signal_b001_target_mix_SVM_pre.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_b001_target_mix_SVM_pre.xlsx'
 
 Reconstructions=[]
 Reconstructions_shuff=[]
