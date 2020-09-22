@@ -175,12 +175,7 @@ def get_octvs_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
 
 
 
-
-get_octvs_missing(testing_behaviour['T'].iloc[0], testing_behaviour['NT1'].iloc[0], testing_behaviour['NT2'].iloc[0], testing_behaviour['Dist'].iloc[0], testing_behaviour['Dist_NT1'].iloc[0], testing_behaviour['Dist_NT2'].iloc[0])
-
-
-
-def shuff_SVM_l1o3_octv(testing_data, testing_angles_beh, iterations):
+def shuff_SVM_l1o3_octv(testing_data, test_beh, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -192,10 +187,10 @@ def shuff_SVM_l1o3_octv(testing_data, testing_angles_beh, iterations):
     #########
     ########
     for i in range(iterations):
-        # aquí estoy haciendo un shuffle normal (mezclar A_t)
-        #testing_quadrants_sh = np.array([random.choice([1,2,3,4]) for i in range(len(testing_quadrants))])
-        # aquí estoy haciendo un shuffle forzando que acabe en uno de los otros 3 quadrantes
-        testing_octaves_sh = np.array( [random.choice(list(set([1,2,3,4,5,6,7,8]) - set([testing_octaves[i]]))) for i in range(len(testing_octaves))])
+        # aquí estoy haciendo un shuffle forzando que acabe en una octava en la que no haya nada
+        miss_octvs_trials = [get_octvs_missing(test_beh['T'].iloc[i], test_beh['NT1'].iloc[i], test_beh['NT2'].iloc[i], 
+            test_beh['Dist'].iloc[i], test_beh['Dist_NT1'].iloc[i], test_beh['Dist_NT2'].iloc[i]) for i in range(len(test_beh))]
+        testing_octaves_sh = np.array( [random.choice(miss_octvs_trials[i]) for i in range(len(test_beh))])
         ##
         accs_=[]
         for train_index, test_index in loo.split(testing_data):
@@ -254,10 +249,18 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
     ####### Shuff
     #### Compute the shuffleing (n_iterations defined on top)
     start_shuff = time.time()
-    ##### testing_angles_beh_paralel = [testing_angles_beh for i in range(nscans_wm)] ### in case you use shuff_SVM_l1o3_octv
     itera_paralel=[iterations for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
     #
+    # Aquí hay que diferenciar segun el shuffle que se usa
+    
+
+    ### shuff_SVM_l1o_octv and shuff_SVM_l1o2_octv
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
+    ### shuff_SVM_l1o3_octv
+    testing_angles_beh_paralel = [testing_angles_beh for i in range(nscans_wm)]
+
+
+
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
     Reconstruction_sh = Reconstruction_sh.transpose()
