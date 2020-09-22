@@ -30,28 +30,6 @@ def get_quadrant(angle):
     return q
 
 
-def get_octave(angle):
-    if angle>0 and angle<50:
-        o=1
-    elif angle>45 and angle<90:
-        o=2
-    elif angle>90 and angle<135:
-        o=3
-    elif angle>135 and angle<180:
-        o=4
-    elif angle>180 and angle<225:
-        o=5
-    elif angle>225 and angle<270:
-        o=6
-    elif angle>270 and angle<315:
-        o=7
-    elif angle>315 and angle<360:
-        o=8
-    ###
-    return o
-
-#
-
 ###‘linear’, ‘rbf’, ‘sigmoid’, ‘precomputed’
 
 def model_SVM(X_train, X_test, y_train, y_test):
