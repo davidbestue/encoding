@@ -18,7 +18,6 @@ from sklearn import svm
 numcores = multiprocessing.cpu_count() - 5
 
 
-
 def get_octave(angle):
     #
     if angle>=0 and angle<=45:
@@ -40,7 +39,6 @@ def get_octave(angle):
     ###
     return oc
 
-#
 
 ###‘linear’, ‘rbf’, ‘sigmoid’, ‘precomputed’
 
