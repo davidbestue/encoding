@@ -160,6 +160,21 @@ def shuff_SVM_l1o2_octv(testing_data, testing_octaves, iterations):
 #####
 ##### 
 
+def get_quad_and_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
+    q_t = get_quadrant(angleT)
+    q_nt1 = get_quadrant(angleNT1)
+    q_nt2 = get_quadrant(angleNT2)
+    quadrants__ = [q_t, q_nt1, q_nt2]
+    ##
+    quadrants=[1,2,3,4]
+    ##
+    target_quadrant = q_t
+    missing = list(set(quadrants) - set(quadrants__))[0]
+    ##
+    return target_quadrant, missing
+
+
+
 def shuff_SVM_l1o3_octv(testing_data, testing_angles_beh, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
