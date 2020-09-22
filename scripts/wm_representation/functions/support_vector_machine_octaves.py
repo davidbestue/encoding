@@ -178,12 +178,12 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #
     start_l1out = time.time()  
     testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    quadrant_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
-    quadrants_paralel= [quadrant_angles_beh for i in range(nscans_wm)]
+    octaves_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
+    octaves_paralel= [octaves_angles_beh for i in range(nscans_wm)]
     ##
     signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
     ### Error in each TR done with leave one out
-    acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_leave_one_out)(testing_data = signal, testing_quadrants= quadr)  for signal, quadr in zip(signal_paralel, quadrants_paralel))    #### reconstruction standard (paralel)
+    acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_leave_one_out)(testing_data = signal, testing_octaves= octv)  for signal, octv in zip(signal_paralel, octaves_paralel))    #### reconstruction standard (paralel)
     ### save in the right format for the plots
     Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
     Reconstruction['times']=[i * TR for i in range(nscans_wm)]
@@ -200,7 +200,7 @@ def leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance,
     #### Compute the shuffleing (n_iterations defined on top)
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out2)(testing_data=signal_s, testing_quadrants=quadr_s, iterations=itera) for signal_s, quadr_s, itera in zip(signal_paralel, quadrants_paralel, itera_paralel))
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_leave_one_out2)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
     #
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
