@@ -31,10 +31,13 @@ def get_quadrant(angle):
 
 #
 
+###‘linear’, ‘rbf’, ‘sigmoid’, ‘precomputed’
+
 def model_SVM(X_train, X_test, y_train, y_test):
     ##
     ######## Trainning #########
-    clf = svm.NuSVC(gamma='auto', nu=0.1)
+    ker = 'linear'
+    clf = svm.NuSVC(gamma='auto', kernel=ker,  nu=0.1)
     clf.fit(X_train, y_train)
     ######## Testing ##########
     prediction = clf.predict(X_test)
