@@ -20,24 +20,25 @@ numcores = multiprocessing.cpu_count() - 5
 
 
 def get_octave(angle):
-    if angle>0 and angle<50:
-        o=1
-    elif angle>45 and angle<90:
-        o=2
-    elif angle>90 and angle<135:
-        o=3
-    elif angle>135 and angle<180:
-        o=4
-    elif angle>180 and angle<225:
-        o=5
-    elif angle>225 and angle<270:
-        o=6
-    elif angle>270 and angle<315:
-        o=7
-    elif angle>315 and angle<360:
-        o=8
+    #
+    if angle>=0 and angle<=45:
+        oc=1
+    elif angle>45 and angle<=90:
+        oc=2
+    elif angle>90 and angle<=135:
+        oc=3
+    elif angle>135 and angle<=180:
+        oc=4
+    elif angle>180 and angle<=225:
+        oc=5
+    elif angle>225 and angle<=270:
+        oc=6
+    elif angle>270 and angle<=315:
+        oc=7
+    elif angle>315 and angle<=360:
+        oc=8
     ###
-    return o
+    return oc
 
 #
 
@@ -159,19 +160,25 @@ def shuff_SVM_l1o2_octv(testing_data, testing_octaves, iterations):
 
 #####
 ##### 
+def get_octvs_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
+    o_t = get_octave(angleT)
+    o_nt1 = get_octave(angleNT1)
+    o_nt2 = get_octave(angleNT2)
+    o_d = get_octave(angleD)
+    o_dnt1 = get_octave(angleDNT1)
+    o_dnt2 = get_octave(angleDNT2)
+    octaves__ = [o_t, o_nt1, o_nt2, o_d, o_dnt1, o_dnt2]
+    ##
+    octaves=[1,2,3,4,5,6,7,8]
+    ##
+    missing = list(set(octaves) - set(octaves__))
+    ##
+    return missing
 
-def get_quad_and_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
-    q_t = get_quadrant(angleT)
-    q_nt1 = get_quadrant(angleNT1)
-    q_nt2 = get_quadrant(angleNT2)
-    quadrants__ = [q_t, q_nt1, q_nt2]
-    ##
-    quadrants=[1,2,3,4]
-    ##
-    target_quadrant = q_t
-    missing = list(set(quadrants) - set(quadrants__))[0]
-    ##
-    return target_quadrant, missing
+
+
+
+get_octvs_missing(testing_behaviour['T'].iloc[0], testing_behaviour['NT1'].iloc[0], testing_behaviour['NT2'].iloc[0], testing_behaviour['Dist'].iloc[0], testing_behaviour['Dist_NT1'].iloc[0], testing_behaviour['Dist_NT2'].iloc[0])
 
 
 
@@ -277,17 +284,17 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
 ##########################
 ###########################
 
-# Subject='b001'
-# Brain_Region='visual'
-# Condition='1_7'
-# iterations=4
-# distance='close'
-# decode_item='Target'
-# method='together'
-# heatmap=False
+Subject='b001'
+Brain_Region='visual'
+Condition='1_7'
+iterations=4
+distance='close'
+decode_item='Target'
+method='together'
+heatmap=False
 
 # Reconstruction, Reconstruction_sh = leave1out_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False)
-
+'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2'
 ########
 
 # def get_quad_and_missing(angleT, angleNT1, angleNT2):
