@@ -36,7 +36,7 @@ def get_quadrant(angle):
 def model_SVM(X_train, X_test, y_train, y_test):
     ##
     ######## Trainning #########
-    ker = 'sigmoid'
+    ker = 'precomputed'
     clf = svm.NuSVC(gamma='auto', kernel=ker,  nu=0.1)
     clf.fit(X_train, y_train)
     ######## Testing ##########
