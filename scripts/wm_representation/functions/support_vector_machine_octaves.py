@@ -123,7 +123,6 @@ def shuff_SVM_leave_one_out(testing_data, testing_octaves, iterations):
 
 #####
 #####
-
 def shuff_SVM_leave_one_out2(testing_data, testing_octaves, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
