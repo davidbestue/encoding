@@ -251,16 +251,12 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
     #
-    # Aquí hay que diferenciar segun el shuffle que se usa
-    
-
+    # Aquí hay que diferenciar segun el shuffle que se usa un metodo de shuffle u otro, ya que el input no es el mismo (hay que tener uno comentado)
     ### shuff_SVM_l1o_octv and shuff_SVM_l1o2_octv
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
+    #shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
     ### shuff_SVM_l1o3_octv
     testing_angles_beh_paralel = [testing_angles_beh for i in range(nscans_wm)]
-
-
-
+    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, test_beh=beh_s, iterations=itera) for signal_s, beh_s, itera in zip(signal_paralel, testing_angles_beh_paralel, itera_paralel))
     ### Save in the right format for the plots
     Reconstruction_sh = pd.DataFrame(shuffled_rec) #
     Reconstruction_sh = Reconstruction_sh.transpose()
