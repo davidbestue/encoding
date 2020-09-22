@@ -281,12 +281,12 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
 ##########################
 ###########################
 
-Subject='b001'
-Brain_Region='visual'
-Condition='1_7'
-iterations=4
-distance='close'
-decode_item='Target'
-method='together'
-heatmap=False
+# Subject='b001'
+# Brain_Region='visual'
+# Condition='1_7'
+# iterations=4
+# distance='close'
+# decode_item='Target'
+# method='together'
+# heatmap=False
 
