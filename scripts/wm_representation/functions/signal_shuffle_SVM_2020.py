@@ -42,7 +42,7 @@ for Subject in Subjects:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
             ## octaves
-            Reconstruction, shuff = l1o_octv_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
+            Reconstruction, shuff = l1o_octv_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=10, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ## quadrants
             #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
