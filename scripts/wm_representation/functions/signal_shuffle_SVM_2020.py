@@ -13,7 +13,7 @@ from process_wm import *
 from data_to_use import *
 from bootstrap_functions import *
 #from leave_one_out import *
-from support_vector_machine import *
+#from support_vector_machine import *
 from support_vector_machine_octaves import *
 
 from joblib import Parallel, delayed
@@ -27,8 +27,8 @@ numcores = multiprocessing.cpu_count() - 5
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/signal_b001_target_mix_SVM_rbf.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_b001_target_mix_SVM_rbf.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/signal_b001_target_mix_SVM_oct.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_b001_target_mix_SVM_oct.xlsx'
 
 Reconstructions=[]
 Reconstructions_shuff=[]
@@ -41,8 +41,12 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
-            Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
+            ## octaves
+            Reconstruction, shuff = l1o_octv_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
                 distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
+            ## quadrants
+            #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
+            #    distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ##
             Reconstructions.append(Reconstruction)
             #Reconstructions_boots.append(boots)
