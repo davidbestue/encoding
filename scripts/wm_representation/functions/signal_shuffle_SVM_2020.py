@@ -23,6 +23,7 @@ import random
 #
 numcores = multiprocessing.cpu_count() - 5
 
+
 ##paths to save the 3 files 
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
