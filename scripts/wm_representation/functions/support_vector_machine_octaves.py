@@ -60,8 +60,8 @@ def get_octave(angle):
 def model_SVM(X_train, X_test, y_train, y_test):
     ##
     ######## Trainning #########
-    ker = 'linear'
-    clf = svm.SVC(kernel=ker)
+    ker = 'rbf'
+    clf = svm.SVC(kernel=ker, nu=0.1)
     clf.fit(X_train, y_train)
     ######## Testing ##########
     prediction = clf.predict(X_test)
