@@ -15,7 +15,7 @@ from sklearn.model_selection import LeaveOneOut
 from sklearn import svm
 
 
-numcores = multiprocessing.cpu_count() - 5
+numcores = multiprocessing.cpu_count() - 10
 
 
 
