@@ -15,7 +15,6 @@ from bootstrap_functions import *
 #from leave_one_out import *
 #from support_vector_machine import *
 from support_vector_machine_octaves import *
-
 from joblib import Parallel, delayed
 import multiprocessing
 import time
