@@ -30,7 +30,7 @@ Distance_to_use = 'mix'
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_target_mix_octave.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_target_mix_octave.xlsx'
 
-matrixs=[]
+matrixs={}
 matrixs_shuff=[]
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
@@ -48,12 +48,20 @@ for Subject in Subjects:
             #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
             #    distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ##
-            matrixs.append(signal_cross_temp)
+            #matrixs.append(signal_cross_temp)
+            matrixs[Subject + '_' + Brain_region + '_' + Condition]=signal_cross_temp
             #Reconstructions_boots.append(boots)
             matrixs_shuff.append(shuff_cross_temp)
 
 
 ###
+
+writer = pd.ExcelWriter(path_save_signal)
+for i in range(len(matrixs.keys())):
+    matrixs[matrixs.keys()[i]].to_excel(writer, sheet_name=matrixs.keys()[i]) #each dataframe in a excel sheet
+
+writer.save()   #save reconstructions (heatmaps)
+
 ### Save signal from the reconstructions and shuffles
 # Decoding_df = pd.concat(Reconstructions, axis=0) 
 # Decoding_df['label']='signal'
