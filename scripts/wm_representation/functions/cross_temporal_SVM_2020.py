@@ -14,14 +14,14 @@ from data_to_use import *
 from bootstrap_functions import *
 #from leave_one_out import *
 #from support_vector_machine import *
-from support_vector_machine_octaves import *
+#from support_vector_machine_octaves import *
+from cross_temporal_decoding import * 
 from joblib import Parallel, delayed
 import multiprocessing
 import time
 import random
 #
 numcores = multiprocessing.cpu_count() - 10
-
 
 ##paths to save the 3 files 
 decoding_thing = 'Target' #'Distractor' #'Target'
