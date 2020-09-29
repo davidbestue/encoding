@@ -191,7 +191,7 @@ def get_octvs_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
 
 
 
-def shuff_SVM_l1o3_octv(training_data, testing_data, test_beh, test_octaves, iterations):
+def shuff_cross_temporal3(training_data, testing_data, test_beh, test_octaves, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -199,7 +199,7 @@ def shuff_SVM_l1o3_octv(training_data, testing_data, test_beh, test_octaves, ite
     ## Pro alternativa: menos tiempo de computacion
     ## Contra: mas variabilidad (barras de error menos robustas)
     loo = LeaveOneOut()
-    accuracies_shuffle=[]
+    dfs_shuffle=[]
     #########
     ########
     for i in range(iterations):
@@ -211,15 +211,17 @@ def shuff_SVM_l1o3_octv(training_data, testing_data, test_beh, test_octaves, ite
         ## el testing és el correcto, solo cambias el training
         testing_octaves_p = [test_octaves for i in range(nscans_wm)]
         ##
+        accuracies_shuffle= []
         for n_training in range(nscans_wm): 
             signal_paralel_training =[ training_data for i in range(nscans_wm)]
             acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, testing_data, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, testing_octaves_p))    #### reconstruction standard (paralel)
-            accs_cross_temporal.append(acc_cross)
+            accuracies_shuffle.append(acc_cross)
             ##
-            acc_shuff_abs = np.mean(accs_) 
-            accuracies_shuffle.append(acc_shuff_abs)
         #
-    return accuracies_shuffle
+        df_cross_temporal_sh = pd.DataFrame(accuracies_shuffle)
+        dfs_shuffle.append(df_cross_temporal_sh)
+        ##
+    return dfs_shuffle
 
 
 
