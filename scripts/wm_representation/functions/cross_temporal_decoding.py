@@ -226,7 +226,7 @@ def shuff_SVM_l1o3_octv(testing_data, test_beh, iterations):
 
 
 
-
+AA = l1o_octv_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
 
 def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
