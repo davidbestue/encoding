@@ -247,8 +247,18 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
     octaves_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
     octaves_paralel= [octaves_angles_beh for i in range(nscans_wm)]
     ##
-    signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
+    accs_cross_temporal=[]
+    for n_training in range(nscans_wm):
+        signal_paralel_training =[ testing_activity[:, n_training, :] for i in range(nscans_wm)]
+        signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
+        acc_cross = Parallel(n_jobs = numcores)(delayed(SVM_l1o_octv)(testing_data = signal, testing_octaves= octv)  for signal, octv in zip(signal_paralel, octaves_paralel))    #### reconstruction standard (paralel)
+
+        accs_cross_temporal.append(acc_cross)
     ### Error in each TR done with leave one out
+    model_SVM(X_train, X_test, y_train, y_test)
+
+
+
     acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_l1o_octv)(testing_data = signal, testing_octaves= octv)  for signal, octv in zip(signal_paralel, octaves_paralel))    #### reconstruction standard (paralel)
     ### save in the right format for the plots
     Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
