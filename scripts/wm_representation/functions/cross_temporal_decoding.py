@@ -254,7 +254,8 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
         signal_paralel_training =[ testing_activity[:, n_training, :] for i in range(nscans_wm)]
         acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, octaves_paralel, octaves_paralel))    #### reconstruction standard (paralel)
         accs_cross_temporal.append(acc_cross)
-    ### Error in each TR done with leave one out
+    ### 
+    df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
     ### save in the right format for the plots
     # Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
     # Reconstruction['times']=[i * TR for i in range(nscans_wm)]
