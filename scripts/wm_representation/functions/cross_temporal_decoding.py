@@ -191,7 +191,7 @@ def get_octvs_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
 
 
 
-def shuff_cross_temporal3(training_data, testing_data, test_beh, test_octaves, iterations):
+def shuff_cross_temporal3(testing_activity, test_beh, test_octaves, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -202,6 +202,7 @@ def shuff_cross_temporal3(training_data, testing_data, test_beh, test_octaves, i
     dfs_shuffle=[]
     #########
     ########
+    octaves_paralel= [test_octaves for i in range(nscans_wm)] ##octaves_angles_beh
     for i in range(iterations):
         # aquí estoy haciendo un shuffle forzando que acabe en una octava en la que no haya nada
         miss_octvs_trials = [get_octvs_missing(test_beh['T'].iloc[i], test_beh['NT1'].iloc[i], test_beh['NT2'].iloc[i], 
@@ -209,26 +210,25 @@ def shuff_cross_temporal3(training_data, testing_data, test_beh, test_octaves, i
         testing_octaves_sh = np.array( [random.choice(miss_octvs_trials[i]) for i in range(len(test_beh))])
         training_octa_sh_p = [ testing_octaves_sh for i in range(nscans_wm)]
         ## el testing és el correcto, solo cambias el training
-        testing_octaves_p = [test_octaves for i in range(nscans_wm)]
         ##
-        accuracies_shuffle= []
-        for n_training in range(nscans_wm): 
-            signal_paralel_training =[ training_data for i in range(nscans_wm)]
-            acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, testing_data, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, testing_octaves_p))    #### reconstruction standard (paralel)
-            accuracies_shuffle.append(acc_cross)
-            ##
-        #
-        df_cross_temporal_sh = pd.DataFrame(accuracies_shuffle)
-        dfs_shuffle.append(df_cross_temporal_sh)
+        signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] 
+        accs_cross_temporal=[]
+        for n_training in range(nscans_wm): ##train in each TR and test in the rest
+            signal_paralel_training =[ testing_activity[:, n_training, :] for i in range(nscans_wm)]
+            acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, octaves_paralel))    #### reconstruction standard (paralel)
+            accs_cross_temporal.append(acc_cross)
+        ### 
+        df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
+        dfs_shuffle.append(df_cross_temporal)
         ##
     return dfs_shuffle
 
 
 
 
-AA = l1o_octv_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
+AA, AA_sh = cross_tempo_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False)
 
-def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+def cross_tempo_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
@@ -264,33 +264,10 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
     ##
-    # aquí estoy haciendo un shuffle forzando que acabe en una octava en la que no haya nada
-    f    miss_octvs_trials = [get_octvs_missing(test_beh['T'].iloc[i], test_beh['NT1'].iloc[i], test_beh['NT2'].iloc[i], 
-            test_beh['Dist'].iloc[i], test_beh['Dist_NT1'].iloc[i], test_beh['Dist_NT2'].iloc[i]) for i in range(len(test_beh))]
-        testing_octaves_sh = np.array( [random.choice(miss_octvs_trials[i]) for i in range(len(test_beh))])
-        ##
-
-
-
-
-
-    # Aquí hay que diferenciar segun el shuffle que se usa un metodo de shuffle u otro, ya que el input no es el mismo (hay que tener uno comentado)
-    ### shuff_SVM_l1o_octv and shuff_SVM_l1o2_octv
-    #shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
-    ### shuff_SVM_l1o3_octv
-    testing_angles_beh_paralel = [testing_behaviour for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o3_octv)(testing_data=signal_s, test_beh=beh_s, iterations=itera) for signal_s, beh_s, itera in zip(signal_paralel, testing_angles_beh_paralel, itera_paralel))
-    ### Save in the right format for the plots
-    Reconstruction_sh = pd.DataFrame(shuffled_rec) #
-    Reconstruction_sh = Reconstruction_sh.transpose()
-    Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
-    Reconstruction_sh=Reconstruction_sh.melt()
-    Reconstruction_sh.columns=['times', 'decoding'] 
-    Reconstruction_sh['times'] = Reconstruction_sh['times'].astype(float) 
-    Reconstruction_sh['region'] = Brain_Region
-    Reconstruction_sh['subject'] = Subject
-    Reconstruction_sh['condition'] = Condition
-    #
+    ##
+    dfs_shuffle = shuff_cross_temporal3(testing_activity=testing_activity, test_beh=testing_behaviour, test_octaves=octaves_angles_beh, iterations=iterations)
+    ##
+    ##
     end_shuff = time.time()
     process_shuff = end_shuff - start_shuff
     print( 'Time shuff: ' +str(process_shuff))
