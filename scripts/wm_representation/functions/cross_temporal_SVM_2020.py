@@ -55,7 +55,15 @@ for Subject in Subjects:
 
 
 ###
+# a=0
+# for i, Subject in enumerate(Subjects):
+#     for j, Brain_region in enumerate(brain_regions):
+#         for idx_c, Condition in enumerate(Conditions):
+#             matrixs[Subject + '_' + Brain_region + '_' + Condition]=matrixs[a]
+#             print(a)
+#             a+=1
 
+### Save signal from the reconstructions and shuffles
 writer = pd.ExcelWriter(path_save_signal)
 for i in range(len(matrixs.keys())):
     matrixs[matrixs.keys()[i]].to_excel(writer, sheet_name=matrixs.keys()[i]) #each dataframe in a excel sheet
