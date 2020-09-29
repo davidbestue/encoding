@@ -247,58 +247,53 @@ def l1o_octv_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, 
     octaves_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
     octaves_paralel= [octaves_angles_beh for i in range(nscans_wm)]
     ##
+    signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] 
+    ##
     accs_cross_temporal=[]
-    for n_training in range(nscans_wm):
+    for n_training in range(nscans_wm): ##train in each TR and test in the rest
         signal_paralel_training =[ testing_activity[:, n_training, :] for i in range(nscans_wm)]
-        signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] #separate for nscans (to run in parallel)
-        acc_cross = Parallel(n_jobs = numcores)(delayed(SVM_l1o_octv)(testing_data = signal, testing_octaves= octv)  for signal, octv in zip(signal_paralel, octaves_paralel))    #### reconstruction standard (paralel)
-
+        acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, octaves_paralel, octaves_paralel))    #### reconstruction standard (paralel)
         accs_cross_temporal.append(acc_cross)
     ### Error in each TR done with leave one out
-    model_SVM(X_train, X_test, y_train, y_test)
-
-
-
-    acc_TR = Parallel(n_jobs = numcores)(delayed(SVM_l1o_octv)(testing_data = signal, testing_octaves= octv)  for signal, octv in zip(signal_paralel, octaves_paralel))    #### reconstruction standard (paralel)
     ### save in the right format for the plots
-    Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
-    Reconstruction['times']=[i * TR for i in range(nscans_wm)]
-    Reconstruction.columns=['decoding', 'time']  
-    Reconstruction['region'] = Brain_Region
-    Reconstruction['subject'] = Subject
-    Reconstruction['condition'] = Condition
+    # Reconstruction = pd.DataFrame(acc_TR) #mean error en each TR (1 fila con n_scans columnas)
+    # Reconstruction['times']=[i * TR for i in range(nscans_wm)]
+    # Reconstruction.columns=['decoding', 'time']  
+    # Reconstruction['region'] = Brain_Region
+    # Reconstruction['subject'] = Subject
+    # Reconstruction['condition'] = Condition
+    # ###
     ###
-    ###
-    end_l1out = time.time()
-    process_l1out = end_l1out - start_l1out
-    print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
-    ####### Shuff
-    #### Compute the shuffleing (n_iterations defined on top)
-    start_shuff = time.time()
-    itera_paralel=[iterations for i in range(nscans_wm)]
+    # end_l1out = time.time()
+    # process_l1out = end_l1out - start_l1out
+    # print( 'Time process leave one out: ' +str(process_l1out)) #print time of the process
+    # ####### Shuff
+    # #### Compute the shuffleing (n_iterations defined on top)
+    # start_shuff = time.time()
+    # itera_paralel=[iterations for i in range(nscans_wm)]
+    # #
+    # # Aquí hay que diferenciar segun el shuffle que se usa un metodo de shuffle u otro, ya que el input no es el mismo (hay que tener uno comentado)
+    # ### shuff_SVM_l1o_octv and shuff_SVM_l1o2_octv
+    # #shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
+    # ### shuff_SVM_l1o3_octv
+    # testing_angles_beh_paralel = [testing_behaviour for i in range(nscans_wm)]
+    # shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o3_octv)(testing_data=signal_s, test_beh=beh_s, iterations=itera) for signal_s, beh_s, itera in zip(signal_paralel, testing_angles_beh_paralel, itera_paralel))
+    # ### Save in the right format for the plots
+    # Reconstruction_sh = pd.DataFrame(shuffled_rec) #
+    # Reconstruction_sh = Reconstruction_sh.transpose()
+    # Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
+    # Reconstruction_sh=Reconstruction_sh.melt()
+    # Reconstruction_sh.columns=['times', 'decoding'] 
+    # Reconstruction_sh['times'] = Reconstruction_sh['times'].astype(float) 
+    # Reconstruction_sh['region'] = Brain_Region
+    # Reconstruction_sh['subject'] = Subject
+    # Reconstruction_sh['condition'] = Condition
+    # #
+    # end_shuff = time.time()
+    # process_shuff = end_shuff - start_shuff
+    # print( 'Time shuff: ' +str(process_shuff))
     #
-    # Aquí hay que diferenciar segun el shuffle que se usa un metodo de shuffle u otro, ya que el input no es el mismo (hay que tener uno comentado)
-    ### shuff_SVM_l1o_octv and shuff_SVM_l1o2_octv
-    #shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o2_octv)(testing_data=signal_s, testing_octaves=octv_s, iterations=itera) for signal_s, octv_s, itera in zip(signal_paralel, octaves_paralel, itera_paralel))
-    ### shuff_SVM_l1o3_octv
-    testing_angles_beh_paralel = [testing_behaviour for i in range(nscans_wm)]
-    shuffled_rec = Parallel(n_jobs = numcores)(delayed(shuff_SVM_l1o3_octv)(testing_data=signal_s, test_beh=beh_s, iterations=itera) for signal_s, beh_s, itera in zip(signal_paralel, testing_angles_beh_paralel, itera_paralel))
-    ### Save in the right format for the plots
-    Reconstruction_sh = pd.DataFrame(shuffled_rec) #
-    Reconstruction_sh = Reconstruction_sh.transpose()
-    Reconstruction_sh.columns =  [str(i * TR) for i in range(nscans_wm)]  #mean error en each TR (n_iterations filas con n_scans columnas)
-    Reconstruction_sh=Reconstruction_sh.melt()
-    Reconstruction_sh.columns=['times', 'decoding'] 
-    Reconstruction_sh['times'] = Reconstruction_sh['times'].astype(float) 
-    Reconstruction_sh['region'] = Brain_Region
-    Reconstruction_sh['subject'] = Subject
-    Reconstruction_sh['condition'] = Condition
-    #
-    end_shuff = time.time()
-    process_shuff = end_shuff - start_shuff
-    print( 'Time shuff: ' +str(process_shuff))
-    #
-    return Reconstruction, Reconstruction_sh
+    return accs_cross_temporal
 
 
 
