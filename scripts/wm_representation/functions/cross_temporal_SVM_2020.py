@@ -37,13 +37,17 @@ Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
 Subjects=['b001'] #, 'n001', 'd001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
+
+sh_reps = 100
+
+
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
             ## octaves
-            signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
-                distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
+            signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
+                iterations=sh_reps, distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
             ## quadrants
             #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
             #    distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
@@ -55,14 +59,9 @@ for Subject in Subjects:
 
 
 ###
-# a=0
-# for i, Subject in enumerate(Subjects):
-#     for j, Brain_region in enumerate(brain_regions):
-#         for idx_c, Condition in enumerate(Conditions):
-#             matrixs[Subject + '_' + Brain_region + '_' + Condition]=matrixs[a]
-#             print(a)
-#             a+=1
 
+
+###
 ### Save signal from the reconstructions and shuffles
 writer = pd.ExcelWriter(path_save_signal)
 for i in range(len(matrixs.keys())):
@@ -70,11 +69,23 @@ for i in range(len(matrixs.keys())):
 
 writer.save()   #save reconstructions (heatmaps)
 
-### Save signal from the reconstructions and shuffles
-# Decoding_df = pd.concat(Reconstructions, axis=0) 
-# Decoding_df['label']='signal'
-# Decoding_df.to_excel( path_save_signal )
+### Save signal from the  shuffles
+matrixs_shuffle={}
+a=0
+for i, Subject in enumerate(Subjects):
+    for j, Brain_region in enumerate(brain_regions):
+        for idx_c, Condition in enumerate(Conditions):
+            matrixs_shuff_100 = matrixs_shuff[a]
+            for rep in range(sh_reps):
+                matrixs_shuffle[Subject + '_' + Brain_region + '_' + Condition + '_shuff_' + str(rep)]=matrixs_shuff_100[rep]
+            print(a)
+            a+=1
 
-# Shuffle_df = pd.concat(Reconstructions_shuff, axis=0) 
-# Shuffle_df['label']='shuffle'
-# Shuffle_df.to_excel( path_save_shuffle )
+
+sorted_keys = sorted(matrixs_shuffle.keys()) 
+
+writer_s = pd.ExcelWriter(path_save_shuffle)
+for i in range(len(sorted_keys)):
+    matrixs_shuffle[sorted_keys[i]].to_excel(writer_s, sheet_name=sorted_keys[i]) #each dataframe in a excel sheet
+
+writer_s.save()   #save reconstructions (heatmaps)

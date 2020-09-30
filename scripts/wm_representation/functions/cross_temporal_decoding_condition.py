@@ -84,8 +84,11 @@ for i, Subject in enumerate(Subjects):
             print(a)
             a+=1
 
+
+sorted_keys = sorted(matrixs_shuffle.keys()) 
+
 writer_s = pd.ExcelWriter(path_save_shuffle)
-for i in range(len(matrixs_shuffle.keys())):
-    matrixs_shuffle[matrixs_shuffle.keys()[i]].to_excel(writer_s, sheet_name=matrixs_shuffle.keys()[i]) #each dataframe in a excel sheet
+for i in range(len(sorted_keys)):
+    matrixs_shuffle[sorted_keys[i]].to_excel(writer_s, sheet_name=sorted_keys[i]) #each dataframe in a excel sheet
 
 writer_s.save()   #save reconstructions (heatmaps)
