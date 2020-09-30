@@ -176,10 +176,47 @@ def cross_tempo_SVM_shuff( Subject, Brain_Region, Condition, iterations, distanc
 
 
 
-
+########################
+######################## by condition
+########################
+########################
 
 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
 training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+
+
+
+def shuff_cross_temporal3_condition( activity, test_octaves, iterations, training_activity, training_behaviour):
+    ## A esta función entrarán los datos de un TR y haré el shuffleing. 
+    ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
+    ## de tantas iterations shuffled (contiene un loop for y un shuffle )
+    ## Alternativa: En vez de hacer n_iterations, hacer el shuffleing una vez y hacer una media de todos los errores
+    ## Pro alternativa: menos tiempo de computacion
+    ## Contra: mas variabilidad (barras de error menos robustas)
+    loo = LeaveOneOut()
+    dfs_shuffle=[]
+    #########
+    ########
+    octaves_paralel= [test_octaves for i in range(nscans_wm)] ##octaves_angles_beh
+    for i in range(iterations):
+        # aquí estoy haciendo un shuffle forzando que acabe en una octava en la que no haya nada
+        miss_octvs_trials = [get_octvs_missing(training_behaviour['T'].iloc[i], training_behaviour['NT1'].iloc[i], training_behaviour['NT2'].iloc[i], 
+            training_behaviour['Dist'].iloc[i], training_behaviour['Dist_NT1'].iloc[i], training_behaviour['Dist_NT2'].iloc[i]) for i in range(len(training_behaviour))]
+        training_octaves_sh = np.array( [random.choice(miss_octvs_trials[i]) for i in range(len(training_behaviour))])
+        training_octa_sh_p = [ training_octaves_sh for i in range(nscans_wm)]
+        ## el testing és el correcto, solo cambias el training
+        ##
+        signal_paralel_testing =[ activity[:, i, :] for i in range(nscans_wm)] 
+        accs_cross_temporal=[]
+        for n_training in range(nscans_wm): ##train in each TR and test in the rest
+            signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)]
+            acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, octaves_paralel))    #### reconstruction standard (paralel)
+            accs_cross_temporal.append(acc_cross)
+        ### 
+        df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
+        dfs_shuffle.append(df_cross_temporal)
+        ##
+    return dfs_shuffle
 
 
 
@@ -206,7 +243,7 @@ def cross_tempo_SVM_shuff_train_condition( Subject, Brain_Region, Condition, ite
     ##
     accs_cross_temporal=[]
     for n_training in range(nscans_wm): ##train in each TR and test in the rest
-        signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)]
+        signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)] ##
         acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, octaves_paralel, octaves_paralel))    #### reconstruction standard (paralel)
         accs_cross_temporal.append(acc_cross)
     ### 
@@ -220,7 +257,7 @@ def cross_tempo_SVM_shuff_train_condition( Subject, Brain_Region, Condition, ite
     itera_paralel=[iterations for i in range(nscans_wm)]
     ##
     ##
-    dfs_shuffle = shuff_cross_temporal3(testing_activity=testing_activity, test_beh=testing_behaviour, test_octaves=octaves_angles_beh, iterations=iterations)
+    dfs_shuffle =shuff_cross_temporal3_condition( activity=testing_activity, test_octaves=octaves_angles_beh, iterations=iterations, training_activity=training_activity, training_behaviour=training_behaviour)
     ##
     ##
     end_shuff = time.time()
@@ -228,6 +265,8 @@ def cross_tempo_SVM_shuff_train_condition( Subject, Brain_Region, Condition, ite
     print( 'Time shuff: ' +str(process_shuff))
     
     return df_cross_temporal, dfs_shuffle
+
+
 
 
 ##########################
