@@ -35,7 +35,7 @@ matrixs_shuff=[]
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
 Subjects=['b001'] #, 'n001', 'd001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+brain_regions = ['visual']#, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
@@ -43,7 +43,8 @@ for Subject in Subjects:
             print(Subject + ', ' + Brain_region +', ' + Condition)
             ## octaves, get the specific trianing before!
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
-            training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+            training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', 
+                distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             training_activity_paralel = signal_paralel_testing =[ training_activity[:, 8, :] for i in range(nscans_wm)] 
             ##
             signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
