@@ -92,7 +92,7 @@ def get_octvs_missing(angleT, angleNT1, angleNT2, angleD, angleDNT1, angleDNT2):
 
 
 
-def shuff_cross_temporal3(testing_activity, test_beh, test_octaves, iterations):
+def shuff_cross_temporal3( activity, test_beh, test_octaves, iterations):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
     ## de tantas iterations shuffled (contiene un loop for y un shuffle )
@@ -112,10 +112,10 @@ def shuff_cross_temporal3(testing_activity, test_beh, test_octaves, iterations):
         training_octa_sh_p = [ testing_octaves_sh for i in range(nscans_wm)]
         ## el testing és el correcto, solo cambias el training
         ##
-        signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] 
+        signal_paralel_testing =[ activity[:, i, :] for i in range(nscans_wm)] 
         accs_cross_temporal=[]
         for n_training in range(nscans_wm): ##train in each TR and test in the rest
-            signal_paralel_training =[ testing_activity[:, n_training, :] for i in range(nscans_wm)]
+            signal_paralel_training =[ activity[:, n_training, :] for i in range(nscans_wm)]
             acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, octaves_paralel))    #### reconstruction standard (paralel)
             accs_cross_temporal.append(acc_cross)
         ### 
@@ -128,6 +128,62 @@ def shuff_cross_temporal3(testing_activity, test_beh, test_octaves, iterations):
 
 
 def cross_tempo_SVM_shuff( Subject, Brain_Region, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+    enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+    ##### Process testing data
+    activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+    if decode_item == 'Target':
+        dec_I = 'T'
+    elif decode_item == 'Response':
+        dec_I = 'A_R'
+    elif decode_item == 'Distractor':
+        dec_I = 'Dist'
+    else:
+        'Error specifying the decode item'
+    #
+    #
+    start_l1out = time.time()  
+    testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    octaves_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
+    octaves_paralel= [octaves_angles_beh for i in range(nscans_wm)]
+    ##
+    signal_paralel_testing =[ activity[:, i, :] for i in range(nscans_wm)] 
+    ##
+    accs_cross_temporal=[]
+    for n_training in range(nscans_wm): ##train in each TR and test in the rest
+        signal_paralel_training =[ activity[:, n_training, :] for i in range(nscans_wm)]
+        acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, octaves_paralel, octaves_paralel))    #### reconstruction standard (paralel)
+        accs_cross_temporal.append(acc_cross)
+    ### 
+    df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
+    ###
+    end_l1out = time.time()
+    process_l1out = end_l1out - start_l1out
+    print( 'Cross-decoging signal: ' +str(process_l1out)) #print time of the process
+    ####### Shuff
+    start_shuff = time.time()
+    itera_paralel=[iterations for i in range(nscans_wm)]
+    ##
+    ##
+    dfs_shuffle = shuff_cross_temporal3(activity= activity, test_beh=testing_behaviour, test_octaves=octaves_angles_beh, iterations=iterations)
+    ##
+    ##
+    end_shuff = time.time()
+    process_shuff = end_shuff - start_shuff
+    print( 'Time shuff: ' +str(process_shuff))
+    
+    return df_cross_temporal, dfs_shuffle
+
+
+
+
+
+
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+
+
+
+def cross_tempo_SVM_shuff_train_condition( Subject, Brain_Region, Condition, iterations, distance, decode_item, training_activity, training_behaviour, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
@@ -150,7 +206,7 @@ def cross_tempo_SVM_shuff( Subject, Brain_Region, Condition, iterations, distanc
     ##
     accs_cross_temporal=[]
     for n_training in range(nscans_wm): ##train in each TR and test in the rest
-        signal_paralel_training =[ testing_activity[:, n_training, :] for i in range(nscans_wm)]
+        signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)]
         acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, octaves_paralel, octaves_paralel))    #### reconstruction standard (paralel)
         accs_cross_temporal.append(acc_cross)
     ### 
@@ -172,8 +228,6 @@ def cross_tempo_SVM_shuff( Subject, Brain_Region, Condition, iterations, distanc
     print( 'Time shuff: ' +str(process_shuff))
     
     return df_cross_temporal, dfs_shuffle
-
-
 
 
 ##########################
