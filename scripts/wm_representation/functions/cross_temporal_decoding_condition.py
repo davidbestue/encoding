@@ -41,12 +41,13 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
-            ## octaves
+            ## octaves, get the specific trianing before!
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
             training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+            training_activity_paralel = signal_paralel_testing =[ training_activity[:, 8, :] for i in range(nscans_wm)] 
             ##
             signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
-                iterations=100, distance=Distance_to_use, decode_item=decoding_thing, training_activity=training_activity, 
+                iterations=100, distance=Distance_to_use, decode_item=decoding_thing, signal_paralel_training=training_activity_paralel, 
                 training_behaviour=training_behaviour, method='together', heatmap=False) #100
             ## quadrants
             #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
