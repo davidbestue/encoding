@@ -181,11 +181,6 @@ def cross_tempo_SVM_shuff( Subject, Brain_Region, Condition, iterations, distanc
 ########################
 ########################
 
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
-training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-
-
-
 def shuff_cross_temporal3_condition( activity, test_octaves, iterations, training_activity, training_behaviour):
     ## A esta función entrarán los datos de un TR y haré el shuffleing. 
     ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
@@ -220,7 +215,7 @@ def shuff_cross_temporal3_condition( activity, test_octaves, iterations, trainin
 
 
 
-def cross_tempo_SVM_shuff_train_condition( Subject, Brain_Region, Condition, iterations, distance, decode_item, training_activity, training_behaviour, method='together', heatmap=False):
+def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iterations, distance, decode_item, training_activity, training_behaviour, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
