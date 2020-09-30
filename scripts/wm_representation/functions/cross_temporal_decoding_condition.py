@@ -27,8 +27,8 @@ numcores = multiprocessing.cpu_count() - 10
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_target_mix_octave.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_target_mix_octave.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_target_mix_octave_1_7.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_target_mix_octave_1_7.xlsx'
 
 matrixs={}
 matrixs_shuff=[]
@@ -45,8 +45,9 @@ for Subject in Subjects:
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
             training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             ##
-            signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
-                distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
+            signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
+                iterations=100, distance=Distance_to_use, decode_item=decoding_thing, training_activity=training_activity, 
+                training_behaviour=training_behaviour, method='together', heatmap=False) #100
             ## quadrants
             #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
             #    distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
