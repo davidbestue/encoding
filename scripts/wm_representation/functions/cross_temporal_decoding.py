@@ -240,7 +240,6 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
     octaves_angles_beh_trian = np.array([get_octave(training_angles_beh[i]) for i in range(len(training_angles_beh))] )
     training_behaviour_paralel =[octaves_angles_beh_trian for i in range(nscans_wm)]
     ##
-
     accs_cross_temporal=[]
     for n_training in range(nscans_wm): ##train in each TR and test in the rest
         #signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)] ##
