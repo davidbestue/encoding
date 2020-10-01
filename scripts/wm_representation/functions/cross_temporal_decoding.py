@@ -202,13 +202,10 @@ def shuff_cross_temporal3_condition( activity, test_octaves, iterations, signal_
         ## el testing és el correcto, solo cambias el training
         ##
         signal_paralel_testing =[ activity[:, i, :] for i in range(nscans_wm)] 
-        accs_cross_temporal=[]
-        for n_training in range(nscans_wm): ##train in each TR and test in the rest
-            #signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)]
-            acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, octaves_paralel))    #### reconstruction standard (paralel)
-            accs_cross_temporal.append(acc_cross)
+        #
+        acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, octaves_paralel))    #### reconstruction standard (paralel)
         ### 
-        df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
+        df_cross_temporal = pd.DataFrame(acc_cross) #each row is training, column is testing!
         dfs_shuffle.append(df_cross_temporal)
         ##
     return dfs_shuffle
@@ -240,13 +237,9 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
     octaves_angles_beh_trian = np.array([get_octave(training_angles_beh[i]) for i in range(len(training_angles_beh))] )
     training_behaviour_paralel =[octaves_angles_beh_trian for i in range(nscans_wm)]
     ##
-    accs_cross_temporal=[]
-    for n_training in range(nscans_wm): ##train in each TR and test in the rest
-        #signal_paralel_training =[ training_activity[:, n_training, :] for i in range(nscans_wm)] ##
-        acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_behaviour_paralel, octaves_paralel))    #### reconstruction standard (paralel)
-        accs_cross_temporal.append(acc_cross)
+    acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_behaviour_paralel, octaves_paralel))    #### reconstruction standard (paralel)
     ### 
-    df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
+    df_cross_temporal = pd.DataFrame(acc_cross) #each row is training, column is testing!
     ###
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
