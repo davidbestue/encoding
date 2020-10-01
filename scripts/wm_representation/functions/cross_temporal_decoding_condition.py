@@ -46,7 +46,7 @@ for Subject in Subjects:
             ## octaves, get the specific trianing before!
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject_analysis=Subject, Method_analysis='together', brain_region=Brain_region)
             training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', 
-                distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+                distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             training_activity_paralel = signal_paralel_testing =[ training_activity[:, 8, :] for i in range(nscans_wm)] 
             ##
             signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
