@@ -44,7 +44,7 @@ for Subject in Subjects:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
             ## octaves, get the specific trianing before!
-            enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+            enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method='together', Brain_Region)
             training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', 
                 distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             training_activity_paralel = signal_paralel_testing =[ training_activity[:, 8, :] for i in range(nscans_wm)] 
