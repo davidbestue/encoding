@@ -77,7 +77,7 @@ for i, Subject in enumerate(Subjects):
             matrixs_shuff_100 = matrixs_shuff[a]
             for rep in range(sh_reps):
                 matrixs_shuffle[Subject + '_' + Brain_region + '_' + Condition + '_shuff_' + str(rep)]=matrixs_shuff_100[rep]
-            print(a)
+            #print(a)
             a+=1
 
 
