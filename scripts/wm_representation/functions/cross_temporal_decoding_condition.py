@@ -37,7 +37,7 @@ Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
 Subjects=['b001'] #, 'n001', 'd001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
 brain_regions = ['visual']#, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
-sh_reps = 100
+sh_reps = 10
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
