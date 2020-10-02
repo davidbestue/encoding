@@ -264,6 +264,13 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
 ##########################
 ###########################
 
+
+########################
+######################## by quadrant
+########################
+########################
+
+
 # Subject='b001'
 # Brain_Region='visual'
 # Condition='1_7'
