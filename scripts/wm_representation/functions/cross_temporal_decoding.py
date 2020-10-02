@@ -284,8 +284,6 @@ def get_quadrant(angle):
     return q
 
 
-####
-
 
 def get_dec_I(decode_item):
     if decode_item == 'Target':
