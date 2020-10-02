@@ -301,37 +301,23 @@ def get_dec_I(decode_item):
 
 ####
 
-def shuff_cross_temporal_quadrant( activity, behaviour, iterations):
-    ## A esta función entrarán los datos de un TR y haré el shuffleing. 
-    ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
-    ## de tantas iterations shuffled (contiene un loop for y un shuffle )
-    ## Alternativa: En vez de hacer n_iterations, hacer el shuffleing una vez y hacer una media de todos los errores
-    ## Pro alternativa: menos tiempo de computacion
-    ## Contra: mas variabilidad (barras de error menos robustas)
-    loo = LeaveOneOut()
-    dfs_shuffle=[]
-    #########
+def cross_temporal_quadrant( activity, behaviour, dec_I):
+    ## A esta función entrarán los datos de un TR  
+    ## Coger Octaves (al ser de un quadrante, sera 1 o 2) --> no haré shuffle
+    octaves_ = np.array([get_octave(behaviour[dec_I].iloc[i]) for i in range(len(behaviour))])  
     ########
-    octaves_paralel= [test_octaves for i in range(nscans_wm)] ##octaves_angles_beh
-    for i in range(iterations):
-        # aquí estoy haciendo un shuffle forzando que acabe en una octava en la que no haya nada
-        miss_octvs_trials = [get_octvs_missing(test_beh['T'].iloc[i], test_beh['NT1'].iloc[i], test_beh['NT2'].iloc[i], 
-            test_beh['Dist'].iloc[i], test_beh['Dist_NT1'].iloc[i], test_beh['Dist_NT2'].iloc[i]) for i in range(len(test_beh))]
-        testing_octaves_sh = np.array( [random.choice(miss_octvs_trials[i]) for i in range(len(test_beh))])
-        training_octa_sh_p = [ testing_octaves_sh for i in range(nscans_wm)]
-        ## el testing és el correcto, solo cambias el training
-        ##
-        signal_paralel_testing =[ activity[:, i, :] for i in range(nscans_wm)] 
-        accs_cross_temporal=[]
-        for n_training in range(nscans_wm): ##train in each TR and test in the rest
-            signal_paralel_training =[ activity[:, n_training, :] for i in range(nscans_wm)]
-            acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_octa_sh_p, octaves_paralel))    #### reconstruction standard (paralel)
-            accs_cross_temporal.append(acc_cross)
-        ### 
-        df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
-        dfs_shuffle.append(df_cross_temporal)
-        ##
-    return dfs_shuffle
+    octaves_paralel= [octaves_ for i in range(nscans_wm)] ##octaves_angles_beh
+    signal_paralel_testing =[ activity[:, i, :] for i in range(nscans_wm)] 
+    ########
+    accs_cross_temporal=[]
+    for n_training in range(nscans_wm): ##train in each TR and test in the rest
+        signal_paralel_training =[ activity[:, n_training, :] for i in range(nscans_wm)]
+        acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, octaves_paralel, octaves_paralel))    #### reconstruction standard (paralel)
+        accs_cross_temporal.append(acc_cross)
+        #
+    #
+    df_cross_temporal = pd.DataFrame(accs_cross_temporal) #each row is training, column is testing!
+    return df_cross_temporal
 
 
 # Subject='b001'
