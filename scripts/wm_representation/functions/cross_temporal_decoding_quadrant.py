@@ -43,15 +43,21 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject + ', ' + Brain_region +', ' + Condition)
-            ## octaves, get the specific trianing before!
+            ## data to use
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject_analysis=Subject, Method_analysis='together', brain_region=Brain_region)
-            ### por si luego quieres especificar cosas distintas
-            # training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, 
-            #     distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+            ### por si luego quieres especificar cosas distintas, añades otra de activity, behaviour =
             activity, behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=Distance_to_use, 
                 sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+
+            dec_I = get_dec_I(decoding_thing)
+            quadrants_beh = [get_quadrant(behaviour[dec_I].iloc[i]) for i in range(len(behaviour))] 
             for Quadrant in [1,2,3,4]:
-                
+                    dec_I = get_dec_I(decoding_thing)
+                    quadrants_beh = [get_quadrant(behaviour[dec_I].iloc[i]) for i in range(len(behaviour))] 
+
+                    ##
+
+
 
 
 

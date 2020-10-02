@@ -285,6 +285,19 @@ def get_quadrant(angle):
 
 
 
+def get_dec_I(decode_item):
+    if decode_item == 'Target':
+        dec_I = 'T'
+    elif decode_item == 'Response':
+        dec_I = 'A_R'
+    elif decode_item == 'Distractor':
+        dec_I = 'Dist'
+    #
+    return dec_I
+
+
+
+
 # Subject='b001'
 # Brain_Region='visual'
 # Condition='1_7'
