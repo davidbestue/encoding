@@ -297,8 +297,6 @@ def get_dec_I(decode_item):
 
 
 
-####
-
 def cross_temporal_quadrant( activity, behaviour, dec_I):
     ## A esta función entrarán los datos de un TR  
     ## Coger Octaves (al ser de un quadrante, sera 1 o 2) --> no haré shuffle
