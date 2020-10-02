@@ -270,6 +270,20 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
 ########################
 ########################
 
+def get_quadrant(angle):
+    #
+    if angle>=0 and angle<=90:
+        q=1
+    elif angle>90 and angle<=180:
+        q=2
+    elif angle>180 and angle<=270:
+        q=3
+    elif angle>270 and angle<=360:
+        q=4
+    ###
+    return q
+
+
 
 # Subject='b001'
 # Brain_Region='visual'
