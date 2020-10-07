@@ -29,7 +29,7 @@ numcores = multiprocessing.cpu_count() - 10
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_target_mix_quadrant.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_pfc_target_mix_quadrant.xlsx'
 #path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_target_mix_octave_quadrant.xlsx'
 
 matrixs={}
@@ -37,7 +37,7 @@ matrixs={}
 
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
 Subjects=['b001'] #, 'n001', 'd001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual']#, 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+brain_regions = ['pfc']# 'frontinf'] #, 'visual', 'ips', 'pfc', ips', 'frontsup', 'frontmid', 'frontinf'
 
 #sh_reps = 10
 
