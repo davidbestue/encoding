@@ -27,8 +27,8 @@ numcores = multiprocessing.cpu_count() - 10
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix'
 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_target_mix_octave_1_7_3.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_target_mix_octave_1_7_3.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_target_mix_octave_1_7_4.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_target_mix_octave_1_7_4.xlsx'
 
 
 matrixs={}
@@ -49,7 +49,7 @@ for Subject in Subjects:
             training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', 
                 distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             #
-            delay_TR_cond = np.mean(training_activity[:, 7:10, :], axis=1) ## training_activity[:, 8, :]
+            delay_TR_cond = np.mean(training_activity[:, 3:5, :], axis=1) ## training_activity[:, 8, :]
             training_activity_paralel = signal_paralel_testing =[ delay_TR_cond for i in range(nscans_wm)] 
             ##
             signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
