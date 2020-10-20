@@ -31,7 +31,6 @@ Distance_to_use = 'far'
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_b001_dist_mix_octave_1_7_far.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_b001_dist_mix_octave_1_7_far.xlsx'
 
-
 matrixs={}
 matrixs_shuff=[]
 
