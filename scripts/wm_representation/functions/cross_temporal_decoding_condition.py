@@ -45,7 +45,7 @@ for Subject in Subjects:
             print(Subject + ', ' + Brain_region +', ' + Condition)
             ## octaves, get the specific trianing before!
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject_analysis=Subject, Method_analysis='together', brain_region=Brain_region)
-            training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='1_7', 
+            training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', 
                 distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             #
             delay_TR_cond = np.mean(training_activity[:, 3:5, :], axis=1) ## training_activity[:, 8, :]
