@@ -48,7 +48,8 @@ for Subject in Subjects:
             training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', 
                 distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             #
-            delay_TR_cond = np.mean(training_activity[:, 2, :], axis=1) ## training_activity[:, 8, :]
+            #delay_TR_cond = np.mean(training_activity[:, 2, :], axis=1) ## training_activity[:, 8, :]
+            delay_TR_cond = training_activity[:, 2, :] ## training_activity[:, 8, :]
             training_activity_paralel = signal_paralel_testing =[ delay_TR_cond for i in range(nscans_wm)] 
             ##
             signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
