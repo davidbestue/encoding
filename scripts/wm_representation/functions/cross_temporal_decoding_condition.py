@@ -74,7 +74,7 @@ for Subject in Subjects:
             training_activity_paralel = signal_paralel_testing =[ delay_TR_cond for i in range(nscans_wm)] 
             #
             #testing activity
-            signal_cross_temp, shuff_cross_temp = SVM_l10_condition( ubject=Subject, Brain_Region=Brain_region, Condition=Condition, Condition_train=cond_t,
+            signal_cross_temp, shuff_cross_temp = SVM_l10_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, Condition_train=cond_t,
                 iterations=sh_reps, distance=Distance_to_use, decode_item=decoding_thing, signal_paralel_training=training_activity_paralel, 
                 training_behaviour=training_behaviour, method='together', heatmap=False) 
             ##
