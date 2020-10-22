@@ -300,6 +300,36 @@ def SVM_condition( Subject, Brain_Region, Condition, Condition_train, iterations
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
     print( 'Cross-decoging signal: ' +str(process_l1out)) #print time of the process
+
+    ####
+    loo = LeaveOneOut()
+    shared_signal_trtst = signal_paralel_training
+    shared_behavioir_trtst = training_behaviour_paralel
+    ctd_=[]
+    for train_index, test_index in loo.split(signal_paralel_testing):
+        X_tr, X_tst = shared_signal_trtst[train_index], shared_signal_trtst[test_index]
+        y_tr, y_tst = shared_behavioir_trtst[train_index], shared_behavioir_trtst[test_index]
+        ##
+        ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+        ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+        model_trained_err = model_SVM(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)
+        ctd_.append(model_trained_err) ## error de todos los train-test
+        ##
+    ##
+    acc_cross = np.mean(ctd_) 
+    df_cross_temporal = pd.DataFrame(acc_cross)
+
+
+
+
+
+
+
+
+
+
+
+
     ####### Shuff
     start_shuff = time.time()
     itera_paralel=[iterations for i in range(nscans_wm)]
