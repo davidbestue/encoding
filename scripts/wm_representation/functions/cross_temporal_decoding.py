@@ -262,6 +262,23 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
 
 ##########################
 
+def SVM_l10(signal_, behaviour_):
+        loo = LeaveOneOut()
+        ctd_=[]
+        for train_index, test_index in loo.split(signal_):
+            X_tr, X_tst = signal_[train_index], signal_[test_index]
+            y_tr, y_tst = behaviour_[train_index], behaviour_[test_index]
+            ##
+            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+            model_trained_err = model_SVM(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)
+            ctd_.append(model_trained_err) ## error de todos los train-test
+            ##
+        ##
+        acc_cross = np.mean(ctd_) 
+        
+
+
 
 def SVM_l10_condition( Subject, Brain_Region, Condition, Condition_train, iterations, distance, decode_item, signal_paralel_training, training_behaviour, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
@@ -283,30 +300,17 @@ def SVM_l10_condition( Subject, Brain_Region, Condition, Condition_train, iterat
     octaves_paralel= [octaves_angles_beh for i in range(nscans_wm)]
     signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] 
     ##
-    ## Prep training (just beh needs to be traines)
-    training_angles_beh = np.array(training_behaviour[dec_I]) 
-    octaves_angles_beh_trian = np.array([get_octave(training_angles_beh[i]) for i in range(len(training_angles_beh))] )
-    training_behaviour_paralel =[octaves_angles_beh_trian for i in range(nscans_wm)]
     ##
     if Condition_train==Condition:
         #### In this case, leave one out procedure
-        loo = LeaveOneOut()
-        shared_signal_trtst = signal_paralel_training
-        shared_behavioir_trtst = training_behaviour_paralel
-        ctd_=[]
-        for train_index, test_index in loo.split(signal_paralel_testing):
-            X_tr, X_tst = shared_signal_trtst[train_index], shared_signal_trtst[test_index]
-            y_tr, y_tst = shared_behavioir_trtst[train_index], shared_behavioir_trtst[test_index]
-            ##
-            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
-            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-            model_trained_err = model_SVM(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)
-            ctd_.append(model_trained_err) ## error de todos los train-test
-            ##
-        ##
-        acc_cross = np.mean(ctd_) 
+        acc_cross = Parallel(n_jobs = numcores)(delayed(SVM_l10)(signal_=s_t, behaviour_=b_h)  for s_t, b_h in zip(signal_paralel_testing, octaves_paralel))  
         df_cross_temporal = pd.DataFrame(acc_cross)
     else:
+        ## Prep training (just beh needs to be traines)
+        training_angles_beh = np.array(training_behaviour[dec_I]) 
+        octaves_angles_beh_trian = np.array([get_octave(training_angles_beh[i]) for i in range(len(training_angles_beh))] )
+        training_behaviour_paralel =[octaves_angles_beh_trian for i in range(nscans_wm)]
+        ## standard train and test
         acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_behaviour_paralel, octaves_paralel))    #### reconstruction standard (paralel)
         df_cross_temporal = pd.DataFrame(acc_cross) #each row is training, column is testing!
     
