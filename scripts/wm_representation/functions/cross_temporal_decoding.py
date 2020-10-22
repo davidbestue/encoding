@@ -261,9 +261,6 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
 
 
 ##########################
-##########################
-###########################
-
 
 
 def SVM_l10_condition( Subject, Brain_Region, Condition, Condition_train, iterations, distance, decode_item, signal_paralel_training, training_behaviour, method='together', heatmap=False):
