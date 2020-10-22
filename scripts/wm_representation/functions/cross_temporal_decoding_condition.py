@@ -21,7 +21,7 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 10
+numcores = multiprocessing.cpu_count() - 5
 
 ##paths to save the 3 files 
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
