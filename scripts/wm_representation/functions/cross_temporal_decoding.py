@@ -265,6 +265,68 @@ def cross_tempo_SVM_shuff_condition( Subject, Brain_Region, Condition, iteration
 ###########################
 
 
+
+
+
+def SVM_condition( Subject, Brain_Region, Condition, Condition_train, iterations, distance, decode_item, signal_paralel_training, training_behaviour, method='together', heatmap=False):
+    enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+    ##### Process testing data
+    testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+    if decode_item == 'Target':
+        dec_I = 'T'
+    elif decode_item == 'Response':
+        dec_I = 'A_R'
+    elif decode_item == 'Distractor':
+        dec_I = 'Dist'
+    else:
+        'Error specifying the decode item'
+    #
+    #
+    start_l1out = time.time()  
+    testing_angles_beh = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    octaves_angles_beh = np.array([get_octave(testing_angles_beh[i]) for i in range(len(testing_angles_beh))] )
+    octaves_paralel= [octaves_angles_beh for i in range(nscans_wm)]
+    ##
+    signal_paralel_testing =[ testing_activity[:, i, :] for i in range(nscans_wm)] 
+    ##
+    training_angles_beh = np.array(training_behaviour[dec_I]) 
+    octaves_angles_beh_trian = np.array([get_octave(training_angles_beh[i]) for i in range(len(training_angles_beh))] )
+    training_behaviour_paralel =[octaves_angles_beh_trian for i in range(nscans_wm)]
+    ##
+    acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_behaviour_paralel, octaves_paralel))    #### reconstruction standard (paralel)
+    ### 
+    df_cross_temporal = pd.DataFrame(acc_cross) #each row is training, column is testing!
+    ###
+    end_l1out = time.time()
+    process_l1out = end_l1out - start_l1out
+    print( 'Cross-decoging signal: ' +str(process_l1out)) #print time of the process
+    ####### Shuff
+    start_shuff = time.time()
+    itera_paralel=[iterations for i in range(nscans_wm)]
+    ##
+    ##
+    dfs_shuffle =shuff_cross_temporal3_condition( activity=testing_activity, test_octaves=octaves_angles_beh, iterations=iterations, signal_paralel_training=signal_paralel_training, training_behaviour=training_behaviour)
+    ##
+    ##
+    end_shuff = time.time()
+    process_shuff = end_shuff - start_shuff
+    print( 'Time shuff: ' +str(process_shuff))
+    
+    return df_cross_temporal, dfs_shuffle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ########################
 ######################## by quadrant
 ########################
