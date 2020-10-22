@@ -334,16 +334,6 @@ def SVM_l10_condition( Subject, Brain_Region, Condition, Condition_train, iterat
 
 
 
-
-
-
-
-
-
-
-
-
-
 ########################
 ######################## by quadrant
 ########################
