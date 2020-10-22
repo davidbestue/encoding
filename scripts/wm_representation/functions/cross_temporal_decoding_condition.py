@@ -21,11 +21,11 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 5
+numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_dist_far_delay.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_dist_far_delay.xlsx'
 
 decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'far'
@@ -50,9 +50,9 @@ elif training_time=='delay':
 matrixs={}
 matrixs_shuff=[]
 
-Conditions=['1_0.2', '2_7'] #
-Subjects=['b001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
+Subjects=['b001', 'r001', 'd001', 'b001', 's001', 'l001'
+brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
 
 sh_reps = 2
 
