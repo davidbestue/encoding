@@ -24,11 +24,16 @@ import random
 numcores = multiprocessing.cpu_count() - 10
 
 ##paths to save the 3 files 
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx'
+
 decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'far'
 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/b001_ex_dist_far_delay_2_7.xlsx'
+if decoding_thing=='Distractor':
+    cond_t = '2_7'
+elif decoding_thing=='Target':
+    cond_t = '1_7'
 
 matrixs={}
 matrixs_shuff=[]
@@ -45,18 +50,16 @@ for Subject in Subjects:
             print(Subject + ', ' + Brain_region +', ' + Condition)
             ## octaves, get the specific trianing before!
             enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject_analysis=Subject, Method_analysis='together', brain_region=Brain_region)
-            training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition='2_7', 
+            training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
                 distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
             #
             delay_TR_cond = np.mean(training_activity[:, 3:5, :], axis=1) ## training_activity[:, 8, :]
             training_activity_paralel = signal_paralel_testing =[ delay_TR_cond for i in range(nscans_wm)] 
             ##
-            signal_cross_temp, shuff_cross_temp = cross_tempo_SVM_shuff_condition( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, 
+
+            signal_cross_temp, shuff_cross_temp = SVM_l10_condition( ubject=Subject, Brain_Region=Brain_region, Condition=Condition, Condition_train=cond_t,
                 iterations=sh_reps, distance=Distance_to_use, decode_item=decoding_thing, signal_paralel_training=training_activity_paralel, 
-                training_behaviour=training_behaviour, method='together', heatmap=False) #100
-            ## quadrants
-            #Reconstruction, shuff = leave1out_SVM_shuff( Subject=Subject, Brain_Region=Brain_region, Condition=Condition, iterations=100, 
-            #    distance=Distance_to_use, decode_item=decoding_thing, method='together', heatmap=False) #100
+                training_behaviour=training_behaviour, method='together', heatmap=False) 
             ##
             #matrixs.append(signal_cross_temp)
             matrixs[Subject + '_' + Brain_region + '_' + Condition]=signal_cross_temp
