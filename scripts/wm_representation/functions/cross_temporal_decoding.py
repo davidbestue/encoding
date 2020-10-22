@@ -313,7 +313,7 @@ def SVM_l10_condition( Subject, Brain_Region, Condition, Condition_train, iterat
         ## standard train and test
         acc_cross = Parallel(n_jobs = numcores)(delayed(model_SVM)(X_train=X_tr, X_test=X_tst, y_train=y_tr, y_test=y_tst)  for X_tr, X_tst, y_tr, y_tst in zip(signal_paralel_training, signal_paralel_testing, training_behaviour_paralel, octaves_paralel))    #### reconstruction standard (paralel)
         df_cross_temporal = pd.DataFrame(acc_cross) #each row is training, column is testing!
-    
+    ##
     ## time
     end_l1out = time.time()
     process_l1out = end_l1out - start_l1out
