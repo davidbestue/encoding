@@ -4,8 +4,12 @@ Created on Mon Jul  1 18:24:32 2019
 
 @author: David Bestue
 """
+import sys
+import os
+previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, previous_path)
+
 from model_functions import *
-from fake_data_generator import *
 from Weights_matrixs import *
 from Representation import *
 from process_encoding import *
@@ -21,7 +25,7 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 10
+numcores = multiprocessing.cpu_count() - 3
 
 ##paths to save the 3 files 
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_target_close_stim.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
