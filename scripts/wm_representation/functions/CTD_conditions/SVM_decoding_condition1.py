@@ -4,8 +4,14 @@ Created on Mon Jul  1 18:24:32 2019
 
 @author: David Bestue
 """
+import sys
+import os
+previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, previous_path)
+
+
 from model_functions import *
-from fake_data_generator import *
+##from fake_data_generator import *
 from Weights_matrixs import *
 from Representation import *
 from process_encoding import *
@@ -40,7 +46,6 @@ elif decoding_thing=='Target':
 #
 if training_time=='stim_p':
     tr_st = 2
-    tr_end= 3
     
 elif training_time=='delay':
     tr_st = 3
@@ -67,7 +72,7 @@ for Subject in Subjects:
             #
             #training activity
             if training_time=='stim_p':
-                delay_TR_cond = training_activity[:, tr_st:tr_end, :]
+                delay_TR_cond = training_activity[:, tr_st, :]
             if training_time=='delay':
                 delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## training_activity[:, 8, :]
             
