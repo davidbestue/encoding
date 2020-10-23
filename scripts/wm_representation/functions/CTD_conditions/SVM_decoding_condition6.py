@@ -45,7 +45,6 @@ elif decoding_thing=='Target':
 #
 if training_time=='stim_p':
     tr_st = 2
-    tr_end= 3
     
 elif training_time=='delay':
     tr_st = 3
@@ -72,7 +71,7 @@ for Subject in Subjects:
             #
             #training activity
             if training_time=='stim_p':
-                delay_TR_cond = training_activity[:, tr_st:tr_end, :]
+                delay_TR_cond = training_activity[:, tr_st, :]
             if training_time=='delay':
                 delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## training_activity[:, 8, :]
             
