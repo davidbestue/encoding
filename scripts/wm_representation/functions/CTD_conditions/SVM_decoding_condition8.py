@@ -4,6 +4,11 @@ Created on Mon Jul  1 18:24:32 2019
 
 @author: David Bestue
 """
+import sys
+import os
+previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, previous_path)
+
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
