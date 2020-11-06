@@ -36,7 +36,6 @@ decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'close'
 training_time= 'stim_p'
 
-
 ##
 if decoding_thing=='Distractor':
     cond_t = '2_7'
