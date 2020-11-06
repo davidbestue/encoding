@@ -276,6 +276,7 @@ def SVM_l10(signal_, behaviour_):
             ##
         ##
         acc_cross = np.mean(ctd_) 
+        return acc_cross
         
 
 
