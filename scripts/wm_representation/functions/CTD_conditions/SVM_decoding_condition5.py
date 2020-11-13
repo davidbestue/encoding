@@ -33,8 +33,8 @@ numcores = multiprocessing.cpu_count() - 2
 
 
 ##paths to save the 3 files 
-path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_dist_far_stim.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_dist_far_stim.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_dist_far_stim3.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_dist_far_stim3.xlsx'
 
 decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'far'
@@ -48,11 +48,11 @@ elif decoding_thing=='Target':
     cond_t = '1_7'
 #
 if training_time=='stim_p':
-    tr_st = 2
+    tr_st = 3
     
 elif training_time=='delay':
-    tr_st = 3
-    tr_end= 5
+    tr_st = 4
+    tr_end= 6
 
 #
 matrixs={}
