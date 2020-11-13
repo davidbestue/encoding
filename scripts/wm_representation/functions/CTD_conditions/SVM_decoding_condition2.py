@@ -31,7 +31,7 @@ numcores = multiprocessing.cpu_count() - 2
 
 ##paths to save the 3 files 
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_dist_close_delay3.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_dist_close_delay.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_dist_close_delay3.xlsx'
 
 decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'close'
