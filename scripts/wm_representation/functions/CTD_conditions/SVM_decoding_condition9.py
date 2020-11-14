@@ -45,11 +45,10 @@ elif decoding_thing=='Target':
 #
 if training_time=='stim_p':
     tr_st = 3
-    
 elif training_time=='delay':
     tr_st = 4
     tr_end= 6
-if training_time=='respo':
+elif training_time=='respo':
     tr_st = 8
     
 #
@@ -76,6 +75,8 @@ for Subject in Subjects:
                 delay_TR_cond = training_activity[:, tr_st, :]
             if training_time=='delay':
                 delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## training_activity[:, 8, :]
+            if training_time=='respo':
+                delay_TR_cond = training_activity[:, tr_st, :]
             
             training_activity_paralel = signal_paralel_testing =[ delay_TR_cond for i in range(nscans_wm)] 
             #
