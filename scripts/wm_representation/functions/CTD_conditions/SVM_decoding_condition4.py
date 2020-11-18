@@ -26,8 +26,12 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 10
-
+numcores = multiprocessing.cpu_count() 
+if numcores>20:
+    numcores=numcores-10
+if numcores<10:
+    numcores=numcores-3
+    
 ##paths to save the 3 files 
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_target_far_delay3.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_target_far_delay3.xlsx'

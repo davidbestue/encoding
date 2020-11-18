@@ -26,7 +26,11 @@ import multiprocessing
 import time
 import random
 #
-numcores = multiprocessing.cpu_count() - 2
+numcores = multiprocessing.cpu_count() 
+if numcores>20:
+    numcores=numcores-10
+if numcores<10:
+    numcores=numcores-3
 
 
 ##paths to save the 3 files 
