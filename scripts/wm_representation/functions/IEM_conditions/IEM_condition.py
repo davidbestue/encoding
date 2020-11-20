@@ -5,6 +5,7 @@ Created on Mon Jul  1 18:24:32 2019
 @author: David Bestue
 """
 
+## Import functions prom the previous path
 import sys
 import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
@@ -65,7 +66,7 @@ elif training_time=='respo':
 ## file where I put the shuffle
 Reconstructions_shuff=[]
 
-## loop elements
+## loop for the elements
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
 Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
