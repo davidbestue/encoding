@@ -41,14 +41,15 @@ decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'far'  #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
-##
+
+
+## depending on the options, I will use one condition or the other
 if decoding_thing=='Distractor':
     cond_t = '2_7'
 elif decoding_thing=='Target':
     cond_t = '1_7'
 
-
-#
+# depending on the options, the TRs used for the training will be different
 if training_time=='stim_p':
     tr_st = 3
 elif training_time=='delay':
