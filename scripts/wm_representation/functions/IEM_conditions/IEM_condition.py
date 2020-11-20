@@ -10,7 +10,6 @@ import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 sys.path.insert(1, previous_path)
 
-
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
@@ -23,22 +22,41 @@ from joblib import Parallel, delayed
 import multiprocessing
 import time
 import random
-# I'm back
 
+###
 numcores = multiprocessing.cpu_count() 
 if numcores>20:
     numcores=numcores-10
 if numcores<10:
     numcores=numcores-3
 
+
 ##paths to save the 3 files 
-decoding_thing = 'Distractor' #'Distractor' #'Target'
-Distance_to_use = 'mix'
-path_save_reconstructions = '/home/david/Desktop/all_distractor_mix.xlsx' 
-Reconstructions={}
-path_save_signal ='/home/david/Desktop/target_close/signal_all_distractor_mix.xlsx'
-path_save_shuff = '/home/david/Desktop/target_close/shuff_all_distractor_mix.xlsx'
-#path_save_boots = '/home/david/Desktop/boots_LM_response_boot_hid.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_far_delay.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_far_delay.xlsx'
+
+decoding_thing = 'Target' #'Distractor' #'Target'
+Distance_to_use = 'far'
+training_time= 'delay'
+
+
+##
+if decoding_thing=='Distractor':
+    cond_t = '2_7'
+elif decoding_thing=='Target':
+    cond_t = '1_7'
+#
+if training_time=='stim_p':
+    tr_st = 3
+elif training_time=='delay':
+    tr_st = 4
+    tr_end= 6
+elif training_time=='respo':
+    if decoding_thing=='Target':
+        tr_st=8
+    elif decoding_thing=='Distractor':
+        tr_st=11
+#
 
 Reconstructions_shuff=[]
 #Reconstructions_boots=[]
