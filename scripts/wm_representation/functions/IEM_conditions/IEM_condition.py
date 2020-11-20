@@ -48,7 +48,7 @@ training_time= 'delay' #'stim_p'  'delay' 'respo'
 ## depending on the options, I will use one condition or the other
 if decoding_thing=='Distractor':
     cond_t = '2_7'
-elif decoding_thing=='Target':
+elif decoding_thing=='Target': ##at some point we can go for the response, though it should be similar
     cond_t = '1_7'
 
 # depending on the options, the TRs used for the training will be different
@@ -80,10 +80,29 @@ for Subject in Subjects:
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         ##### Process training data
-        training_dataset, training_targets = process_wm_condition()   
+        training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
+            distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+        #
+        #training activity
+        if training_time=='stim_p':
+            delay_TR_cond = training_activity[:, tr_st, :]
+        if training_time=='delay':
+            delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## training_activity[:, 8, :]
+        if training_time=='respo':
+            delay_TR_cond = training_activity[:, tr_st, :]
+        #
+        if decoding_thing=='Distractor':
+            training_targets = 
+        elif decoding_thing=='Target':
+            training_targets = 
+
+
+        training_targets = 
         ##### Train your weigths
-        WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
+        WM, Inter = Weights_matrix_LM( delay_TR_cond, training_targets )
         WM_t = WM.transpose()
+
+
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
             Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
