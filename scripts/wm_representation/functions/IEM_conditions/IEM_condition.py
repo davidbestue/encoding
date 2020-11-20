@@ -4,6 +4,13 @@ Created on Mon Jul  1 18:24:32 2019
 
 @author: David Bestue
 """
+
+import sys
+import os
+previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, previous_path)
+
+
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
@@ -44,7 +51,7 @@ for Subject in Subjects:
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         ##### Process training data
-        training_dataset, training_targets = process_wm_condition(enc_fmri_paths, masks, enc_beh_paths, sys_use='unix', hd=6, TR=2.335) #4
+        training_dataset, training_targets = process_wm_condition()   
         ##### Train your weigths
         WM, Inter = Weights_matrix_LM( training_dataset, training_targets )
         WM_t = WM.transpose()
