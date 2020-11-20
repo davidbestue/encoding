@@ -118,12 +118,7 @@ for Subject in Subjects:
         
         
 
-### Save Recosntructions
-writer = pd.ExcelWriter(path_save_reconstructions)
-for i in range(len(Reconstructions.keys())):
-    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
 
-writer.save()   #save reconstructions (heatmaps)
 
 
 ### Save signal from the reconstyructions
@@ -141,22 +136,21 @@ for dataframes in Reconstructions.keys():
     a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
     Decoding_df.append(a)
 
-
-
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
 
 
-### Save bootstraps
-# Df_boots = pd.concat(Reconstructions_boots)
-# Df_boots['label'] = 'boots' ## add the label of shuffle
-# Df_boots.to_excel(path_save_boots)  #save shuffle
-
 ### Save Shuffle
 Df_boots = pd.concat(Reconstructions_shuff)
 Df_boots['label'] = 'shuffle' ## add the label of shuffle
-Df_boots.to_excel(path_save_shuff)  #save shuffle
+Df_boots.to_excel(path_save_shuffle)  #save shuffle
 
 
+### Save Recosntructions
+# path_save_reconstructions = #
+# writer = pd.ExcelWriter(path_save_reconstructions)
+# for i in range(len(Reconstructions.keys())):
+#     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
 
+# writer.save()   #save reconstructions (heatmaps)
