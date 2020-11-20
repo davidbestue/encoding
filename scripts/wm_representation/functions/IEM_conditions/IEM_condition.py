@@ -64,7 +64,8 @@ elif training_time=='respo':
         tr_st=11
 
 
-## file where I put the shuffle
+## dictionary and list to save the files
+Reconstructions={}
 Reconstructions_shuff=[]
 
 ## loop for the elements
@@ -110,18 +111,8 @@ for Subject in Subjects:
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             #Reconstructions_boots.append(boots)
             Reconstructions_shuff.append(shuff)
-            ## Plot the 4 heatmaps
-            #plt.title(Condition)
-            #ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
-            #ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
-            #plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
-            #plt.ylabel('Angle')
-            #plt.xlabel('time (s)')
-            
-            
-        #plt.suptitle( Subject + ' ' + Brain_region , fontsize=12)
-        #plt.tight_layout()
-        #plt.show(block=False)
+
+
         
         
         
