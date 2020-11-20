@@ -56,7 +56,7 @@ elif training_time=='respo':
         tr_st=8
     elif decoding_thing=='Distractor':
         tr_st=11
-        
+
 #
 matrixs={}
 matrixs_shuff=[]
@@ -81,7 +81,9 @@ for Subject in Subjects:
                 delay_TR_cond = training_activity[:, tr_st, :]
             if training_time=='delay':
                 delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## training_activity[:, 8, :]
-            
+            if training_time=='respo':
+                delay_TR_cond = training_activity[:, tr_st, :]
+            #            
             training_activity_paralel = signal_paralel_testing =[ delay_TR_cond for i in range(nscans_wm)] 
             #
             #testing activity
