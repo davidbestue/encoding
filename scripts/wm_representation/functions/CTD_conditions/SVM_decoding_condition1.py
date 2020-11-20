@@ -51,11 +51,14 @@ elif decoding_thing=='Target':
 #
 if training_time=='stim_p':
     tr_st = 3
-    
 elif training_time=='delay':
     tr_st = 4
     tr_end= 6
-
+elif training_time=='respo':
+    if decoding_thing=='Target':
+        tr_st=8
+    elif decoding_thing=='Distractor':
+        tr_st=11
 #
 matrixs={}
 matrixs_shuff=[]
