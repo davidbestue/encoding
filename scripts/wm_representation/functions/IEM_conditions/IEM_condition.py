@@ -92,14 +92,13 @@ for Subject in Subjects:
             delay_TR_cond = training_activity[:, tr_st, :]
         #
         if decoding_thing=='Distractor':
-            training_targets = 
+            training_thing = training_behaviour['Dist']
         elif decoding_thing=='Target':
-            training_targets = 
+            training_thing = training_behaviour['T']
 
 
-        training_targets = 
         ##### Train your weigths
-        WM, Inter = Weights_matrix_LM( delay_TR_cond, training_targets )
+        WM, Inter = Weights_matrix_LM( delay_TR_cond, training_thing )
         WM_t = WM.transpose()
 
 
