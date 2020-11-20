@@ -60,14 +60,15 @@ elif training_time=='respo':
         tr_st=8
     elif decoding_thing=='Distractor':
         tr_st=11
-#
 
+
+## file where I put the shuffle
 Reconstructions_shuff=[]
-#Reconstructions_boots=[]
 
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] #
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #, 'r001', 'd001', 'b001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'pfc']# 'frontinf'] #, 'ips', 'frontsup', 'frontmid', 'frontinf'
+## loop elements
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
+brain_regions = ['visual', 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
 ref_angle=180
 
 
