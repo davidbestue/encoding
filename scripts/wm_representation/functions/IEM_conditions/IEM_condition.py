@@ -19,7 +19,6 @@ from process_encoding import *
 from process_wm import *
 from data_to_use import *
 from bootstrap_functions import *
-from process_wm_training import *
 from joblib import Parallel, delayed
 import multiprocessing
 import time
@@ -115,13 +114,19 @@ for Subject in Subjects:
 
         
         
-        
-        
+### Save signal         
+### Get signal from the reconstructions (get the signal before; not done in the function in case you want to save the whole)
+### If you want to save the whole recosntruction, uncomment the following lines
 
+### Save Recosntructions
+# path_save_reconstructions = #
+# writer = pd.ExcelWriter(path_save_reconstructions)
+# for i in range(len(Reconstructions.keys())):
+#     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
 
+# writer.save()   #save reconstructions (heatmaps)
 
-
-### Save signal from the reconstyructions
+#Save just the signal (around the decoding thing)
 Decoding_df =[]
 
 for dataframes in Reconstructions.keys():
@@ -141,16 +146,9 @@ Df['label'] = 'signal' #ad the label of signal (you will concatenate this df wit
 Df.to_excel( path_save_signal ) #save signal
 
 
-### Save Shuffle
+### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function)
 Df_boots = pd.concat(Reconstructions_shuff)
 Df_boots['label'] = 'shuffle' ## add the label of shuffle
 Df_boots.to_excel(path_save_shuffle)  #save shuffle
 
 
-### Save Recosntructions
-# path_save_reconstructions = #
-# writer = pd.ExcelWriter(path_save_reconstructions)
-# for i in range(len(Reconstructions.keys())):
-#     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
-
-# writer.save()   #save reconstructions (heatmaps)
