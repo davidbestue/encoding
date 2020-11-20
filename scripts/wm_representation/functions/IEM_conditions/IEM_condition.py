@@ -67,11 +67,13 @@ elif training_time=='respo':
 Reconstructions={}
 Reconstructions_shuff=[]
 
-## loop for the elements
+## elements for the loop
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
 Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
 brain_regions = ['visual', 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
 ref_angle=180
+
+num_shuffles = 100
 
 
 for Subject in Subjects:
@@ -105,7 +107,8 @@ for Subject in Subjects:
         for idx_c, Condition in enumerate(Conditions):
             #plt.subplot(2,2,idx_c+1)
             Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
-            distance=Distance_to_use, decode_item= decoding_thing, iterations=100, Inter=Inter, Condition=Condition, method='together',  heatmap=False) #100
+            distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
+            method='together',  heatmap=False) #100
 
             Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
             #Reconstructions_boots.append(boots)
