@@ -31,7 +31,7 @@ if numcores>20:
     numcores=numcores-10
 if numcores<10:
     numcores=numcores-3
-    
+
 ##paths to save the 3 files 
 path_save_signal ='/home/david/Desktop/Reconstructions/SVM/cross_target_far_delay3.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/SVM/shuff_cross_target_far_delay3.xlsx'
@@ -49,11 +49,14 @@ elif decoding_thing=='Target':
 #
 if training_time=='stim_p':
     tr_st = 3
-    
 elif training_time=='delay':
     tr_st = 4
     tr_end= 6
-
+elif training_time=='respo':
+    if decoding_thing=='Target':
+        tr_st=8
+    elif decoding_thing=='Distractor':
+        tr_st=11
 #
 matrixs={}
 matrixs_shuff=[]
