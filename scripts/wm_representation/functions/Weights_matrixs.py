@@ -15,7 +15,6 @@ from scipy.stats import zscore
 
 
 ### LM
-
 def Weights_matrix_LM( training_data, training_angles ):
     # no intercept
     # no regressors scaling
