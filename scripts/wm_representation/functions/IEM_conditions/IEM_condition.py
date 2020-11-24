@@ -69,7 +69,7 @@ Reconstructions_shuff=[]
 ## elements for the loop
 Conditions=['1_0.2'] #, '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
 Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
-brain_regions = ['visual']# , 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
+brain_regions = ['visual'] # , 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
 ref_angle=180
 
 num_shuffles = 1 #00
@@ -113,7 +113,6 @@ for Subject in Subjects:
             Reconstructions_shuff.append(shuff)
 
 
-        
         
 ### Save signal         
 ### Get signal from the reconstructions (get the signal before; not done in the function in case you want to save the whole)
