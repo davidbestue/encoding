@@ -24,6 +24,7 @@ import multiprocessing
 import time
 import random
 
+
 ### use the cores so we do not run out of memory
 numcores = multiprocessing.cpu_count() 
 if numcores>20:
@@ -32,9 +33,11 @@ if numcores<10:
     numcores=numcores-3
 
 
+
 ##paths to save the files 
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_far_delay.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_far_delay.xlsx'
+
 
 
 ## options (chek the filename too!)
@@ -63,9 +66,11 @@ elif training_time=='respo':
         tr_st=11
 
 
+
 ## dictionary and list to save the files
 Reconstructions={}
 Reconstructions_shuff=[]
+
 
 ## elements for the loop
 Conditions=['1_0.2'] #, '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
