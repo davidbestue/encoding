@@ -43,7 +43,6 @@ Distance_to_use = 'far'  #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
 
-
 ## depending on the options, I will use one condition or the other
 if decoding_thing=='Distractor':
     cond_t = '2_7'
@@ -68,13 +67,12 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ## elements for the loop
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
-brain_regions = ['visual', 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
+Conditions=['1_0.2'] #, '1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
+brain_regions = ['visual']# , 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
 ref_angle=180
 
-num_shuffles = 100
-
+num_shuffles = 1 #00
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
@@ -147,7 +145,6 @@ for dataframes in Reconstructions.keys():
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
-
 
 ### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function)
 Df_boots = pd.concat(Reconstructions_shuff)
