@@ -132,6 +132,7 @@ for Subject in Subjects:
 
 # writer.save()   #save reconstructions (heatmaps)
 
+
 #Save just the signal (around the decoding thing)
 Decoding_df =[]
 
@@ -146,6 +147,7 @@ for dataframes in Reconstructions.keys():
     a['subject'] = dataframes.split('_')[0]
     a['condition'] = dataframes.split('_')[-2] + '_' + dataframes.split('_')[-1] 
     Decoding_df.append(a)
+
 
 Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
