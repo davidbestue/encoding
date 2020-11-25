@@ -81,9 +81,9 @@ Reconstructions_shuff=[]
 
 
 ## elements for the loop
-Conditions=['1_7'] #, '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
-brain_regions = ['visual']#, 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
+Conditions=['1_0.2','1_7', '2_0.2', '2_7'] # '1_0.2', '1_7', '2_0.2', '2_7'
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
+brain_regions = ['visual', 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
 ref_angle=180
 
 num_shuffles = 2 #00
