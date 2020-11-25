@@ -195,13 +195,28 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 
+
+from sklearn.model_selection import KFold
+
+kf = KFold(n_splits=10)
+kf.get_n_splits(X)
+
+
+for train_index, test_index in kf.split(X):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+
+
+
 training_activity, training_behaviour = delay_TR_cond, training_thing
 
 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
 testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 
 
-def all_process_condition_shuff_l1o(WM, WM_t, testing_activity, testing_behaviour, decode_item):
+def all_process_condition_shuff_l1o(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
         if decode_item == 'Target':
             dec_I = 'T'
         elif decode_item == 'Response':
@@ -226,13 +241,22 @@ def all_process_condition_shuff_l1o(WM, WM_t, testing_activity, testing_behaviou
         Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
         ####
         #### Run the ones with shared information: leave one out
+        Recons_dfs_shared=[]
         for shared_TR in trs_shared:
-            loo = LeaveOneOut()
-            testing_data= testing_activity[:, shared_TR, :]
-            
-            for train_index, test_index in loo.split(testing_data):
-            X_train, X_test = testing_data[train_index], testing_data[test_index]
-            y_train, y_test = testing_angles_sh[train_index], testing_angles_sh[test_index]
+            reconstrction_sh=[]
+            kf = KFold(n_splits=n_slpits)
+            kf.get_n_splits(X)
+            testing_data= testing_activity[:, shared_TR, :]            
+            for train_index, test_index in kf.split(testing_data):
+                X_train, X_test = testing_data[train_index], testing_data[test_index]
+                y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+                ## train
+                WM, Inter = Weights_matrix_LM(X_train, y_train)
+                WM_t = WM.transpose()
+                ## test
+
+
+
             ##
             ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
             ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
