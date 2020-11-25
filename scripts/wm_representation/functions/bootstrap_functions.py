@@ -195,7 +195,7 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 
-def all_process_condition_l1o(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
+def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
     ####
     ####
     #### IEM usando data de WM test
