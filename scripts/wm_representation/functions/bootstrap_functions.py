@@ -251,9 +251,11 @@ def all_process_condition_shuff_l1o(testing_activity, testing_behaviour, decode_
                 X_train, X_test = testing_data[train_index], testing_data[test_index]
                 y_train, y_test = testing_angles[train_index], testing_angles[test_index]
                 ## train
-                WM, Inter = Weights_matrix_LM(X_train, y_train)
-                WM_t = WM.transpose()
+                WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+                WM_t2 = WM2.transpose()
                 ## test
+                rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+                rep_x.columns =  [str(i * TR) for i in list_wm_scans2 ] 
 
 
 
