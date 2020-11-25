@@ -121,7 +121,7 @@ for Subject in Subjects:
                 testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
                 Reconstruction = IEM_cross_condition_kfold(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
-                    decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, n_slpits=10)
+                    decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ###Reconstructions_shuff.append(shuff)
             else:

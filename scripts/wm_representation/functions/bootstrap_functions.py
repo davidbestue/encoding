@@ -195,7 +195,8 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 
-def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
+def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, 
+    tr_st, tr_end, n_slpits=10):
     ####
     ####
     #### IEM usando data de WM test
@@ -262,7 +263,7 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
 
 
 def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, condition, subject,
-    iterations, n_slpits=10):
+    iterations, tr_st, tr_end, n_slpits=10):
     ####
     ####
     #### IEM usando data de WM test
@@ -287,10 +288,19 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
     ####
     #### Run the ones without shared information the same way
     testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    Reconstructions_shuffled=[]
+    for It in range(iterations):
+         testing_angles_suhff = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))])
+
+
+
+
     ### Respresentation
     signal_paralel =[ testing_activity[:, i, :] for i in list_wm_scans2 ]
-    df_shuffled_indep = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180)
-    ####
+    Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+    Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+    Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
+
     #### Run the ones with shared information: k fold
     Recons_dfs_shared=[]
     for shared_TR in trs_shared:
@@ -304,8 +314,6 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
             ## train
             WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
             WM_t2 = WM2.transpose()
-            ### shuffle the y_test before the recosntructions (con esto es suficiente supongo)
-            y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
             ## test
             rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
             rep_x.columns =  str(shared_TR) 
