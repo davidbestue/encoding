@@ -116,11 +116,14 @@ for Subject in Subjects:
 
         for idx_c, Condition in enumerate(Conditions):
             if Condition == cond_t:
-                Reconstruction, shuff = all_process_condition_shuff_l1o( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
-                distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
-                method='together',  heatmap=False) #100
+                training_activity, training_behaviour = delay_TR_cond, training_thing
+                enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+                testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+                #
+                Reconstruction = all_process_condition_shuff_l1o(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
+                    decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-                Reconstructions_shuff.append(shuff)
+                ###Reconstructions_shuff.append(shuff)
             else:
                 Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
                 distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 

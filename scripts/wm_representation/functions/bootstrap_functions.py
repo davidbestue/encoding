@@ -10,6 +10,8 @@ from joblib import Parallel, delayed
 import multiprocessing
 import time
 import random
+from sklearn.model_selection import KFold
+
 
 numcores = multiprocessing.cpu_count() 
 
@@ -193,95 +195,7 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 
-
-
-
-from sklearn.model_selection import KFold
-
-kf = KFold(n_splits=10)
-kf.get_n_splits(X)
-
-
-for train_index, test_index in kf.split(X):
-    print("TRAIN:", train_index, "TEST:", test_index)
-    X_train, X_test = X[train_index], X[test_index]
-    y_train, y_test = y[train_index], y[test_index]
-
-
-
-
-training_activity, training_behaviour = delay_TR_cond, training_thing
-
-enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
-testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-
-
-def all_process_condition_shuff_l1o(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
-        if decode_item == 'Target':
-            dec_I = 'T'
-        elif decode_item == 'Response':
-            dec_I = 'A_R'
-        elif decode_item == 'Distractor':
-            dec_I = 'Dist'
-        else:
-            'Error specifying the decode item'
-        ####
-        #### Get the Trs with shared information and the TRs without shared information
-        list_wm_scans= range(nscans_wm)  
-        trs_shared = range(tr_st, tr_end)
-        nope=[list_wm_scans.remove(tr_s) for tr_s in trs_shared]
-        list_wm_scans2 = list_wm_scans
-        ####
-        #### Run the ones without shared information the same way
-        testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-        ### Respresentation
-        signal_paralel =[ testing_activity[:, i, :] for i in list_wm_scans2 ]
-        Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-        Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
-        Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
-        ####
-        #### Run the ones with shared information: leave one out
-        Recons_dfs_shared=[]
-        for shared_TR in trs_shared:
-            reconstrction_sh=[]
-            kf = KFold(n_splits=n_slpits)
-            kf.get_n_splits(X)
-            testing_data= testing_activity[:, shared_TR, :]            
-            for train_index, test_index in kf.split(testing_data):
-                X_train, X_test = testing_data[train_index], testing_data[test_index]
-                y_train, y_test = testing_angles[train_index], testing_angles[test_index]
-                ## train
-                WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
-                WM_t2 = WM2.transpose()
-                ## test
-                rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
-                rep_x.columns =  str(shared_TR) 
-                reconstrction_sh.append(rep_x)
-            ###
-            reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
-            reconstrction_sh = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
-
-
-
-
-
-
-            ##
-            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
-            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-            model_trained_err = model_PV(X_train, X_test, y_train, y_test)
-
-            WM, Inter = Weights_matrix_LM( delay_TR_cond, training_thing )
-        WM_t = WM.transpose()
-
-
-
-
-
-
-
-
-def all_process_condition_shuff_l1o( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+def all_process_condition_l1o(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
     if decode_item == 'Target':
         dec_I = 'T'
     elif decode_item == 'Response':
@@ -290,59 +204,52 @@ def all_process_condition_shuff_l1o( Subject, Brain_Region, WM, WM_t, Inter, Con
         dec_I = 'Dist'
     else:
         'Error specifying the decode item'
-
-    #
+    ####
+    #### Get the Trs with shared information and the TRs without shared information
+    list_wm_scans= range(nscans_wm)  
+    trs_shared = range(tr_st, tr_end)
+    nope=[list_wm_scans.remove(tr_s) for tr_s in trs_shared]
+    list_wm_scans2 = list_wm_scans
+    ####
+    #### Run the ones without shared information the same way
     testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    # TR separartion
-    signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+    ### Respresentation
+    signal_paralel =[ testing_activity[:, i, :] for i in list_wm_scans2 ]
     Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-    Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
-    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
-
-    ####### Shuff
-    #### Compute the shuffleing
-    #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
-    
-    return Reconstruction, shuffled_rec
-
-
-
-def shuff_Pop_vect_leave_one_out2(testing_data, testing_angles, iterations):
-    ## A esta función entrarán los datos de un TR y haré el shuffleing. 
-    ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
-    ## de tantas iterations shuffled (contiene un loop for y un shuffle )
-    ## Alternativa: En vez de hacer n_iterations, hacer el shuffleing una vez y hacer una media de todos los errores
-    ## Por eso es 2, en esta es shuffleing normal
-    ## Pro alternativa: menos tiempo de computacion
-    ## Contra: mas variabilidad (barras de error menos robustas)
-    loo = LeaveOneOut()
-    errors_shuffle=[]
-    #########
-    ########
-    for i in range(iterations):
-        # aquí estoy haciendo un shuffle normal (mezclar A_t)
-        testing_angles_sh = np.array(random.sample(testing_angles, len(testing_angles)) )
-        # una alternativa para que sea igual, sería asignar random 0, 90, 180 y 270
-        #testing_angles_sh = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))])
-        errors_=[]
-        for train_index, test_index in loo.split(testing_data):
+    Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+    Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
+    ####
+    #### Run the ones with shared information: leave one out
+    Reconstruction_shared=[]
+    for shared_TR in trs_shared:
+        reconstrction_sh=[]
+        kf = KFold(n_splits=n_slpits)
+        kf.get_n_splits(X)
+        testing_data= testing_activity[:, shared_TR, :]            
+        for train_index, test_index in kf.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
-            y_train, y_test = testing_angles_sh[train_index], testing_angles_sh[test_index]
-            ##
-            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
-            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
-            model_trained_err = model_PV(X_train, X_test, y_train, y_test)
-            errors_.append(model_trained_err) ## error de todos los train-test
-        ##
-        error_shuff_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
-        errors_shuffle.append(error_shuff_abs)
-        #
-    return errors_shuffle
+            y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+            ## train
+            WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+            WM_t2 = WM2.transpose()
+            ## test
+            rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+            rep_x.columns =  str(shared_TR) 
+            reconstrction_sh.append(rep_x)
+        ###
+        reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
+        reconstrction_sh_mean = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
+        Recons_dfs_shared.append(reconstrction_sh_mean)
+    ####
+    Reconstruction_shared = pd.concat(Recons_dfs_shared, axis=1)
+    #### 
+    #### Merge both recosntructions dfs to get a single one
+    Reconstruction = pd.concat([Reconstruction_indep, Reconstruction_shared], axis=1)
+
+    return Reconstruction
 
 
-
-
-
+        
 #############################
 #############################
 #############################
