@@ -269,7 +269,7 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
     #### IEM usando data de WM test
     #### IEM de aquellos TRs donde se use tambien training data (condiciones 1_7 y 2_7)
     #### En vez de hacer leave one out, que tarda mucho, o usar el mismo data (overfitting), hago k_fold, con 10 splits. 
-    #### Añado el shuffle al principio según el numero de iterations
+    #### Pongo el shuffle al principio segun el numero de iterations
     ####
     ####
     if decode_item == 'Target':
