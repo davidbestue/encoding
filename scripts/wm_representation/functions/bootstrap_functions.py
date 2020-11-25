@@ -196,6 +196,13 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 def all_process_condition_l1o(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, n_slpits=10):
+    ####
+    ####
+    #### IEM usando data de WM test
+    #### IEM de aquellos TRs donde se use también training data (condiciones 1_7 y 2_7)
+    #### En vez de hacer leave one out, que tarda mucho, o usar el mismo data (overfitting), hago k_fold, con 10 splits. 
+    ####
+    ####
     if decode_item == 'Target':
         dec_I = 'T'
     elif decode_item == 'Response':
