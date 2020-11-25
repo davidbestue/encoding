@@ -209,6 +209,26 @@ def all_process_condition_shuff_l1o(training_activity, training_behaviour, testi
             dec_I = 'Dist'
         else:
             'Error specifying the decode item'
+        ####
+        #### Get the Trs with shared information and the TRs without shared information
+        list_wm_scans= range(nscans_wm)  
+        trs_shared = range(tr_st, tr_end)
+        nope=[list_wm_scans.remove(tr_s) for tr_s in trs_shared]
+        list_wm_scans2 = list_wm_scans
+        ####
+        #### Run the ones without shared information the same way
+        testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+        ### Respresentation
+        signal_paralel =[ testing_activity[:, i, :] for i in list_wm_scans2 ]
+        Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+        Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+        Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
+        ####
+        #### Run the ones with shared information: leave one out
+        for shared_TR in trs_shared:
+            
+
+
 
 
 

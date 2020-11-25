@@ -58,15 +58,18 @@ elif decoding_thing=='Target': ##at some point we can go for the response, thoug
 
 # depending on the options, the TRs used for the training will be different
 if training_time=='stim_p':
-    tr_st = 3
+    tr_st=3
+    tr_end=4
 elif training_time=='delay':
-    tr_st = 4
-    tr_end= 6
+    tr_st=4
+    tr_end=6
 elif training_time=='respo':
     if decoding_thing=='Target':
         tr_st=8
+        tr_end=9
     elif decoding_thing=='Distractor':
         tr_st=11
+        tr_end=12
 
 
 
