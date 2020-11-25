@@ -226,8 +226,8 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
     Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
     Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
     ####
-    #### Run the ones with shared information: leave one out
-    Reconstruction_shared=[]
+    #### Run the ones with shared information: k fold
+    Recons_dfs_shared=[]
     for shared_TR in trs_shared:
         reconstrction_sh=[]
         kf = KFold(n_splits=n_slpits)
@@ -254,6 +254,128 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
     Reconstruction = pd.concat([Reconstruction_indep, Reconstruction_shared], axis=1)
 
     return Reconstruction
+
+
+
+
+
+
+
+def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, condition, subject,
+    iterations, n_slpits=10):
+    ####
+    ####
+    #### IEM usando data de WM test
+    #### IEM de aquellos TRs donde se use también training data (condiciones 1_7 y 2_7)
+    #### En vez de hacer leave one out, que tarda mucho, o usar el mismo data (overfitting), hago k_fold, con 10 splits. 
+    ####
+    ####
+    if decode_item == 'Target':
+        dec_I = 'T'
+    elif decode_item == 'Response':
+        dec_I = 'A_R'
+    elif decode_item == 'Distractor':
+        dec_I = 'Dist'
+    else:
+        'Error specifying the decode item'
+    ####
+    #### Get the Trs with shared information and the TRs without shared information
+    list_wm_scans= range(nscans_wm)  
+    trs_shared = range(tr_st, tr_end)
+    nope=[list_wm_scans.remove(tr_s) for tr_s in trs_shared]
+    list_wm_scans2 = list_wm_scans
+    ####
+    #### Run the ones without shared information the same way
+    testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    ### Respresentation
+    signal_paralel =[ testing_activity[:, i, :] for i in list_wm_scans2 ]
+    df_shuffled_indep = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180)
+    ####
+    #### Run the ones with shared information: k fold
+    Recons_dfs_shared=[]
+    for shared_TR in trs_shared:
+        reconstrction_sh=[]
+        kf = KFold(n_splits=n_slpits)
+        kf.get_n_splits(X)
+        testing_data= testing_activity[:, shared_TR, :]            
+        for train_index, test_index in kf.split(testing_data):
+            X_train, X_test = testing_data[train_index], testing_data[test_index]
+            y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+            ## train
+            WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+            WM_t2 = WM2.transpose()
+            ### shuffle the y_test before the recosntructions (con esto es suficiente supongo)
+            y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
+            ## test
+            rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+            rep_x.columns =  str(shared_TR) 
+            reconstrction_sh.append(rep_x)
+        ###
+        reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
+        reconstrction_sh_mean = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
+        Recons_dfs_shared.append(reconstrction_sh_mean)
+    ###
+    Reconstruction_shared_shuff = pd.concat(Recons_dfs_shared, axis=1)
+    #### 
+    df_shuffled_shared=[]
+    for i in range(len(Reconstruction_shared_shuff)):
+        n = Reconstruction_shared_shuf[i].iloc[ref_angle*2, :] #around the ref_angle (x2 beacuse now we have 720 instead of 360)
+        n = n.reset_index()
+        n.columns = ['times', 'decoding']
+        n['decoding'] = [sum(Reconstruction_shared_shuf[i].iloc[:, ts] * f2(ref_angle)) for ts in range(len(n))] #population vector method (scalar product)
+        n['times']=n['times'].astype(float)
+        n['region'] = region
+        n['subject'] = subject
+        n['condition'] = condition
+        df_shuffled_shared.append(n) #save thhis
+    
+    ##
+    df_shuffle = pd.concat([df_shuffled_indep,  df_shuffled_shared], axis=0)    #same shape as the decosing of the signal
+    return df_shuffle
+
+   
+
+    return Reconstruction
+
+
+
+
+def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180):
+    ### shuffle the targets
+    testing_angles_sh=[] #new targets shuffled
+    for n_rep in range(iterations):
+        #new_targets = random.sample(targets, len(targets)) #shuffle the labels of the target
+        #testing_angles_sh.append(new_targets)
+        testing_angles_sh.append( np.array([random.choice([0, 90, 180, 270]) for i in range(len(targets))])) ## instead of shuffle, take a region where there is no activity!
+    
+    ### make the reconstryctions and append them
+    Reconstructions_sh=[]
+    for n_rep in range(iterations):
+        time_rec_shuff_start = time.time() #time it takes
+        Reconstructions_i = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_sh[n_rep], WM, WM_t, intercept=Inter, ref_angle=180, plot=False)  for signal in signal_paralel) 
+        Reconstruction_i = pd.concat(Reconstructions_i, axis=1) #mean of all the trials
+        Reconstruction_i.columns =  [str(i * TR) for i in range(nscans_wm)] #column names
+        Reconstructions_sh.append(Reconstruction_i) #append the reconstruction (of the current iteration)
+        time_rec_shuff_end = time.time() #time
+        time_rec_shuff = time_rec_shuff_end - time_rec_shuff_start
+        print('shuff_' + str(n_rep) + ': ' +str(time_rec_shuff) ) #print time of the reconstruction shuffled
+    
+    ### Get just the supposed target location
+    df_shuffle=[]
+    for i in range(len(Reconstructions_sh)):
+        n = Reconstructions_sh[i].iloc[ref_angle*2, :] #around the ref_angle (x2 beacuse now we have 720 instead of 360)
+        n = n.reset_index()
+        n.columns = ['times', 'decoding']
+        n['decoding'] = [sum(Reconstructions_sh[i].iloc[:, ts] * f2(ref_angle)) for ts in range(len(n))] #population vector method (scalar product)
+        n['times']=n['times'].astype(float)
+        n['region'] = region
+        n['subject'] = subject
+        n['condition'] = condition
+        df_shuffle.append(n) #save thhis
+    
+    ##
+    df_shuffle = pd.concat(df_shuffle)    #same shape as the decosing of the signal
+    return df_shuffle
 
 
         
