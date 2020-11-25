@@ -230,10 +230,10 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
     #### Run the ones with shared information: k fold
     Recons_dfs_shared=[]
     for shared_TR in trs_shared:
+        testing_data= testing_activity[:, shared_TR, :]            
         reconstrction_sh=[]
         kf = KFold(n_splits=n_slpits)
-        kf.get_n_splits(X)
-        testing_data= testing_activity[:, shared_TR, :]            
+        kf.get_n_splits(testing_data)
         for train_index, test_index in kf.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
             y_train, y_test = testing_angles[train_index], testing_angles[test_index]
@@ -300,10 +300,10 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
         #### Run the ones with shared information: k fold
         Recons_dfs_shared=[]
         for shared_TR in trs_shared:
+            testing_data= testing_activity[:, shared_TR, :] 
             reconstrction_sh=[]
             kf = KFold(n_splits=n_slpits)
-            kf.get_n_splits(X)
-            testing_data= testing_activity[:, shared_TR, :]            
+            kf.get_n_splits(testing_data)
             for train_index, test_index in kf.split(testing_data):
                 X_train, X_test = testing_data[train_index], testing_data[test_index]
                 y_train, y_test = testing_angles[train_index], testing_angles[test_index] ##aqui no mezclas, ya que antes WM t WM_t no estanba trained en shuffled data
