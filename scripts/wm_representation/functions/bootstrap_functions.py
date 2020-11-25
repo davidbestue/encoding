@@ -255,7 +255,14 @@ def all_process_condition_shuff_l1o(testing_activity, testing_behaviour, decode_
                 WM_t2 = WM2.transpose()
                 ## test
                 rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
-                rep_x.columns =  [str(i * TR) for i in list_wm_scans2 ] 
+                rep_x.columns =  str(shared_TR) 
+                reconstrction_sh.append(rep_x)
+            ###
+            reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
+            reconstrction_sh = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
+
+
+
 
 
 
