@@ -196,11 +196,12 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 training_activity, training_behaviour = delay_TR_cond, training_thing
+
 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
 testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 
 
-def all_process_condition_shuff_l1o(training_activity, training_behaviour, testing_activity, testing_behaviour, decode_item):
+def all_process_condition_shuff_l1o(WM, WM_t, testing_activity, testing_behaviour, decode_item):
         if decode_item == 'Target':
             dec_I = 'T'
         elif decode_item == 'Response':
@@ -226,7 +227,20 @@ def all_process_condition_shuff_l1o(training_activity, training_behaviour, testi
         ####
         #### Run the ones with shared information: leave one out
         for shared_TR in trs_shared:
+            loo = LeaveOneOut()
+            testing_data= testing_activity[:, shared_TR, :]
             
+            for train_index, test_index in loo.split(testing_data):
+            X_train, X_test = testing_data[train_index], testing_data[test_index]
+            y_train, y_test = testing_angles_sh[train_index], testing_angles_sh[test_index]
+            ##
+            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+            model_trained_err = model_PV(X_train, X_test, y_train, y_test)
+
+            WM, Inter = Weights_matrix_LM( delay_TR_cond, training_thing )
+        WM_t = WM.transpose()
+
 
 
 
