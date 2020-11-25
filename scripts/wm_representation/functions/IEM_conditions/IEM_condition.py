@@ -113,15 +113,16 @@ for Subject in Subjects:
 
         for idx_c, Condition in enumerate(Conditions):
             if Condition == cond_t:
-
-
+                Reconstruction, shuff = all_process_condition_shuff_l1o( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
+                distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
+                method='together',  heatmap=False) #100
+                Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+                Reconstructions_shuff.append(shuff)
             else:
                 Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
                 distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
                 method='together',  heatmap=False) #100
-
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-                #Reconstructions_boots.append(boots)
                 Reconstructions_shuff.append(shuff)
 
 
