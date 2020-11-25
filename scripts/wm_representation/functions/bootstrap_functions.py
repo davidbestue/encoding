@@ -195,6 +195,82 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 
+training_activity, training_behaviour = delay_TR_cond, training_thing
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+
+
+def all_process_condition_shuff_l1o(training_activity, training_behaviour, testing_activity, testing_behaviour, decode_item):
+        if decode_item == 'Target':
+            dec_I = 'T'
+        elif decode_item == 'Response':
+            dec_I = 'A_R'
+        elif decode_item == 'Distractor':
+            dec_I = 'Dist'
+        else:
+            'Error specifying the decode item'
+
+
+
+
+
+def all_process_condition_shuff_l1o( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+    if decode_item == 'Target':
+        dec_I = 'T'
+    elif decode_item == 'Response':
+        dec_I = 'A_R'
+    elif decode_item == 'Distractor':
+        dec_I = 'Dist'
+    else:
+        'Error specifying the decode item'
+
+    #
+    testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    # TR separartion
+    signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+    Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+    Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
+
+    ####### Shuff
+    #### Compute the shuffleing
+    #shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
+    
+    return Reconstruction, shuffled_rec
+
+
+
+def shuff_Pop_vect_leave_one_out2(testing_data, testing_angles, iterations):
+    ## A esta función entrarán los datos de un TR y haré el shuffleing. 
+    ## Es como Pop_vect_leave_one_out pero en vez de dar un solo error para un scan, 
+    ## de tantas iterations shuffled (contiene un loop for y un shuffle )
+    ## Alternativa: En vez de hacer n_iterations, hacer el shuffleing una vez y hacer una media de todos los errores
+    ## Por eso es 2, en esta es shuffleing normal
+    ## Pro alternativa: menos tiempo de computacion
+    ## Contra: mas variabilidad (barras de error menos robustas)
+    loo = LeaveOneOut()
+    errors_shuffle=[]
+    #########
+    ########
+    for i in range(iterations):
+        # aquí estoy haciendo un shuffle normal (mezclar A_t)
+        testing_angles_sh = np.array(random.sample(testing_angles, len(testing_angles)) )
+        # una alternativa para que sea igual, sería asignar random 0, 90, 180 y 270
+        #testing_angles_sh = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))])
+        errors_=[]
+        for train_index, test_index in loo.split(testing_data):
+            X_train, X_test = testing_data[train_index], testing_data[test_index]
+            y_train, y_test = testing_angles_sh[train_index], testing_angles_sh[test_index]
+            ##
+            ## correr el modelo en cada uno de los sets y guardar el error en cada uno de los trials
+            ## la std no la hare con estos errores, sinó con el shuffle. No necesito guardar el error en cada repetición.
+            model_trained_err = model_PV(X_train, X_test, y_train, y_test)
+            errors_.append(model_trained_err) ## error de todos los train-test
+        ##
+        error_shuff_abs = np.mean([abs(errors_[i]) for i in range(0, len(errors_))]) 
+        errors_shuffle.append(error_shuff_abs)
+        #
+    return errors_shuffle
 
 
 
