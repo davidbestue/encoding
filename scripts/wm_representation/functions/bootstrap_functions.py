@@ -296,7 +296,7 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
         Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_suhff, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
         Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
         Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
-        ####
+        ###
         #### Run the ones with shared information: k fold
         Recons_dfs_shared=[]
         for shared_TR in trs_shared:
