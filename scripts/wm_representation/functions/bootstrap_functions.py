@@ -308,8 +308,8 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
                 X_train, X_test = testing_data[train_index], testing_data[test_index]
                 y_train, y_test = testing_angles[train_index], testing_angles[test_index] ##aqui no mezclas, ya que antes WM t WM_t no estanba trained en shuffled data
                 ## train
-                WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
-                WM_t2 = WM2.transpose()
+                WM2, Inter2 = Weights_matrix_LM(X_train, y_train);
+                WM_t2 = WM2.transpose();
                 ## do the suffle here!
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))]) 
                 ## test
