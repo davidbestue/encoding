@@ -123,6 +123,11 @@ for Subject in Subjects:
                 Reconstruction = IEM_cross_condition_kfold(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+
+                shuff = IEM_cross_condition_kfold_shuff(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
+                    decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
+                    iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=10)
+                Reconstructions_shuff.append(shuff)
                 ###Reconstructions_shuff.append(shuff)
             else:
                 Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
@@ -167,8 +172,8 @@ Df['label'] = 'signal' #ad the label of signal (you will concatenate this df wit
 Df.to_excel( path_save_signal ) #save signal
 
 ### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function)
-Df_boots = pd.concat(Reconstructions_shuff)
-Df_boots['label'] = 'shuffle' ## add the label of shuffle
-Df_boots.to_excel(path_save_shuffle)  #save shuffle
+Df_shuffs = pd.concat(Reconstructions_shuff)
+Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
+Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
 
 
