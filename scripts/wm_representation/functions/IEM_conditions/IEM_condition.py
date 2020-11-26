@@ -38,18 +38,15 @@ if numcores<10:
     numcores=numcores-3
 
 
-
 ##paths to save the files 
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_far_delay.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_far_delay.xlsx'
-
 
 
 ## options (chek the filename too!)
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'far'  #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
-
 
 
 ## depending on the options, I will use one condition or the other
