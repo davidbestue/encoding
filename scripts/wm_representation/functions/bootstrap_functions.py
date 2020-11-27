@@ -314,7 +314,6 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))]) 
                 ## test
                 rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
-                rep_x.columns =  [str(shared_TR) ]
                 reconstrction_sh.append(rep_x)
             ###
             reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
@@ -322,6 +321,7 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
             Recons_dfs_shared.append(reconstrction_sh_mean)
         ####
         Reconstruction_shared = pd.concat(Recons_dfs_shared, axis=1)
+        Reconstruction_shared.columns =  [str(i * TR) for i in trs_shared ]   
         #### 
         #### Merge both recosntructions dfs to get a single one
         Reconstruction = pd.concat([Reconstruction_indep, Reconstruction_shared], axis=1)
