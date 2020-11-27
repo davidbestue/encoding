@@ -232,8 +232,8 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
     for shared_TR in trs_shared:
         testing_data= testing_activity[:, shared_TR, :]            
         reconstrction_sh=[]
-        kf = KFold(n_splits=n_slpits)
-        kf.get_n_splits(testing_data)
+        kf = KFold(n_splits=n_slpits);
+        kf.get_n_splits(testing_data);
         for train_index, test_index in kf.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
             y_train, y_test = testing_angles[train_index], testing_angles[test_index]
@@ -242,7 +242,6 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
             WM_t2 = WM2.transpose()
             ## test
             rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
-            rep_x.columns =  [str(shared_TR * TR) ]
             reconstrction_sh.append(rep_x)
         ###
         reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
@@ -250,9 +249,14 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
         Recons_dfs_shared.append(reconstrction_sh_mean)
     ####
     Reconstruction_shared = pd.concat(Recons_dfs_shared, axis=1)
+    Reconstruction_shared.columns =  [str(i * TR) for i in trs_shared ]  
     #### 
     #### Merge both recosntructions dfs to get a single one
     Reconstruction = pd.concat([Reconstruction_indep, Reconstruction_shared], axis=1)
+    ### sort the columns so the indep does not get at the end
+    sorted_col = np.sort([float(Reconstruction.columns[i]) for i in range(len(Reconstruction.columns))])           
+    sorted_col = [str(sorted_col[i]) for i in range(len(sorted_col))]
+    Reconstruction = Reconstruction.reindex( sorted_col, axis=1)  
     #
     return Reconstruction
 
