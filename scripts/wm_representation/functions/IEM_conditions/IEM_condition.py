@@ -70,7 +70,6 @@ elif training_time=='respo':
         tr_end=12
 
 
-
 ## dictionary and list to save the files
 Reconstructions={}
 Reconstructions_shuff=[]
