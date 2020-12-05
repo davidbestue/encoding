@@ -98,7 +98,6 @@ for Subject in Subjects:
 
 
 
-
 ###
 ### Save signal from the reconstructions and shuffles
 writer = pd.ExcelWriter(path_save_signal)
