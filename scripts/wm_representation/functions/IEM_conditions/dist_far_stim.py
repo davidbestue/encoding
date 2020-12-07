@@ -26,8 +26,8 @@ import random
 from sklearn.model_selection import KFold
 
 
-import multiprocessing
-multiprocessing.cpu_count() 
+# import multiprocessing
+# multiprocessing.cpu_count() 
 
 ### use the cores so we do not run out of memory
 numcores = multiprocessing.cpu_count() 
