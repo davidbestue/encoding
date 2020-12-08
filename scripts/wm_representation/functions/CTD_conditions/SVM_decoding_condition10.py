@@ -62,7 +62,6 @@ elif training_time=='respo':
 
     
 #
-
 matrixs={}
 matrixs_shuff=[]
 
