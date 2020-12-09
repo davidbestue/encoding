@@ -9,7 +9,6 @@ import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 sys.path.insert(1, previous_path)
 
-
 from model_functions import *
 ##from fake_data_generator import *
 from Weights_matrixs import *
