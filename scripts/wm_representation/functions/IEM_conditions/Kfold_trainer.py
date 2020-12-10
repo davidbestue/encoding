@@ -38,8 +38,8 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_close_delay_kfold.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_close_delay_kfold.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_close_delay_kfold_50.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_close_delay_kfold_50.xlsx'
 
 
 ## options (chek the filename too!)
@@ -82,7 +82,7 @@ brain_regions = ['visual'] # 'visual', 'ips', 'pfc'
 ref_angle=180
 
 num_shuffles = 10 #00
-k_fold_splits = 30 #10
+k_fold_splits = 50 #30 #10
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
