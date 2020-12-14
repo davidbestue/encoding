@@ -306,7 +306,7 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
         for shared_TR in trs_shared:
             testing_data= testing_activity[:, shared_TR, :] 
             reconstrction_sh=[]
-            kf = KFold(n_splits=n_slpits)
+            kf = KFold(n_splits=n_slpits, shuffle=True)
             kf.get_n_splits(testing_data)
             for train_index, test_index in kf.split(testing_data):
                 X_train, X_test = testing_data[train_index], testing_data[test_index]
