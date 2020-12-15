@@ -119,12 +119,12 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
                 Reconstruction = IEM_cross_condition_l1out(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
-                    decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, n_slpits=k_fold_splits)  #### IEM_cross_condition_kfold
+                    decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end)  #### IEM_cross_condition_kfold , n_slpits=k_fold_splits
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
 
                 shuff = IEM_cross_condition_l1out_shuff(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
-                    iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=k_fold_splits)     #### IEM_cross_condition_kfold_shuff
+                    iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180)     #### IEM_cross_condition_kfold_shuff  , n_slpits=k_fold_splits
                 Reconstructions_shuff.append(shuff)   
                 
             else:
