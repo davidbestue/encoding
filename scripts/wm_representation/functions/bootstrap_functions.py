@@ -195,6 +195,17 @@ def all_process_condition_shuff( Subject, Brain_Region, WM, WM_t, Inter, Conditi
 
 
 
+#######################
+#######################
+#######################
+#######################
+#######################
+#######################
+#######################
+#######################
+
+
+
 def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, 
     tr_st, tr_end, n_slpits=10):
     ####
@@ -259,9 +270,6 @@ def IEM_cross_condition_kfold(testing_activity, testing_behaviour, decode_item, 
     Reconstruction = Reconstruction.reindex( sorted_col, axis=1)  
     #
     return Reconstruction
-
-
-
 
 
 
@@ -359,6 +367,10 @@ def IEM_cross_condition_kfold_shuff(testing_activity, testing_behaviour, decode_
 
 
 
+################
+################
+################
+################
 ################
 ################
 
