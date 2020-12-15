@@ -12,8 +12,8 @@ import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 sys.path.insert(1, previous_path)
 
-2_back = os.path.abspath(os.path.join(previous_path, os.pardir)) 
-sys.path.insert(1, 2_back)
+previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
+sys.path.insert(1, previous_2_path)
 
 
 from model_functions import *
