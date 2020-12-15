@@ -44,13 +44,13 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_distractor_far_delay_low_10.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_distractor_far_delay_low_10.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_dist_close_delay_low_10.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_dist_close_delay_low_10.xlsx'
 
 
 ## options (chek the filename too!)
 decoding_thing = 'Distractor' #'Distractor' #'Target'
-Distance_to_use = 'far'  #'close' 'far'
+Distance_to_use = 'close'  #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 Errors_mean_split = 'low'
 
