@@ -122,9 +122,9 @@ def IEM_specific_split_performance( Subject, Brain_Region, WM, WM_t, Inter, Cond
     #
     #
     if ERROR == 'high':
-        abs_err_bool = abs(testing_behaviour.A_err) > abs_err.mean() ## mean split high error
+        abs_err_bool = abs(testing_behaviour.A_err) > abs(testing_behaviour.A_err).mean() ## mean split high error
     elif ERROR == 'low':
-        abs_err_bool = abs(testing_behaviour.A_err) < abs_err.mean() ## mean split low error
+        abs_err_bool = abs(testing_behaviour.A_err) < abs(testing_behaviour.A_err).mean() ## mean split low error
     ##
     testing_behaviour = testing_behaviour[abs_err_bool]
     testing_activity = testing_activity[abs_err_bool]
