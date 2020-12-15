@@ -44,8 +44,8 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_far_delay_high_10.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_far_delay_high_10.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_far_delay_low_10.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_far_delay_low_10.xlsx'
 
 
 ## options (chek the filename too!)
@@ -136,7 +136,7 @@ for Subject in Subjects:
                 # ##
             else:
                 Reconstruction, shuff = IEM_specific_split_performance( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
-                distance=Distance_to_use, decode_item= decoding_thing, ERROR='high', iterations=num_shuffles, Inter=Inter, Condition=Condition, 
+                distance=Distance_to_use, decode_item= decoding_thing, ERROR='low', iterations=num_shuffles, Inter=Inter, Condition=Condition, 
                 method='together',  heatmap=False) #100
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 Reconstructions_shuff.append(shuff)
