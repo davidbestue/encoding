@@ -112,8 +112,8 @@ for Subject in Subjects:
 
 
         for idx_c, Condition in enumerate(Conditions):
-            print('Error')
-            # if Condition == cond_t_changed:
+            if Condition == cond_t_changed:
+                print('Error')
             #     training_activity, training_behaviour = delay_TR_cond, training_thing_ch
             #     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
             #     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, 
