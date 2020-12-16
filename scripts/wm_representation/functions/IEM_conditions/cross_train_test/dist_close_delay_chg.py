@@ -11,6 +11,9 @@ import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 sys.path.insert(1, previous_path)
 
+previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
+sys.path.insert(1, previous_2_path)
+
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
@@ -112,8 +115,8 @@ for Subject in Subjects:
 
 
         for idx_c, Condition in enumerate(Conditions):
-            print('Error')
-            # if Condition == cond_t_changed:
+            if Condition == cond_t_changed:
+                print('Error')
             #     training_activity, training_behaviour = delay_TR_cond, training_thing_ch
             #     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
             #     testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, 
