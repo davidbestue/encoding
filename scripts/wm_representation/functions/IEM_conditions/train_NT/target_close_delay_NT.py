@@ -43,7 +43,7 @@ path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_cl
 
 
 ## options (chek the filename too!)
-decoding_thing = 'Distractor' #'Distractor' #'Target'
+decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'close'  #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
