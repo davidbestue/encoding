@@ -79,7 +79,6 @@ Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001'] #'d001', 'n001', 'b001
 brain_regions = ['visual', 'ips', 'pfc'] # 'visual', 'ips', 'pfc'
 ref_angle=180
 
-
 num_shuffles = 100 #00
 
 for Subject in Subjects:
