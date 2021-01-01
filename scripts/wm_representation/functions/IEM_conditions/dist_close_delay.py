@@ -41,6 +41,7 @@ path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_dist_close_delay_
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_dist_close_delay_100.xlsx'
 
 
+
 ## options (chek the filename too!)
 decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'close'  #'close' 'far'
