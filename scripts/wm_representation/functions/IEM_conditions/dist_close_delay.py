@@ -47,6 +47,7 @@ decoding_thing = 'Distractor' #'Distractor' #'Target'
 Distance_to_use = 'close'  #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
+
 ## depending on the options, I will use one condition or the other
 if decoding_thing=='Distractor':
     cond_t = '2_7'
