@@ -5,11 +5,15 @@ Created on Mon Jul  1 18:24:32 2019
 @author: David Bestue
 """
 
+
 ## Import functions prom the previous path
 import sys
 import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 sys.path.insert(1, previous_path)
+
+previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
+sys.path.insert(1, previous_2_path)
 
 from model_functions import *
 from fake_data_generator import *
@@ -25,9 +29,9 @@ import time
 import random
 from sklearn.model_selection import KFold
 
+
 import multiprocessing
 multiprocessing.cpu_count() 
-
 
 ### use the cores so we do not run out of memory
 numcores = multiprocessing.cpu_count() 
