@@ -84,6 +84,7 @@ ref_angle=180
 num_shuffles = 2 #00
 
 for Subject in Subjects:
+    print(Subject)
     for Brain_region in brain_regions:
         #plt.figure()
         ### Data to use
