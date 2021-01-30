@@ -45,7 +45,6 @@ if numcores<10:
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_far_delay_coexist.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_far_delay_coexist.xlsx'
 
-
 ## options (chek the filename too!)
 decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'far'  #'close' 'far'
