@@ -62,7 +62,6 @@ Errors_mean_split = 'high'
 
 cond_t = '1_7'
 
-
 # depending on the options, the TRs used for the training will be different
 if training_time=='stim_p':
     tr_st=3
