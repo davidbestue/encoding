@@ -24,7 +24,7 @@ from process_encoding import *
 from process_wm import *
 from data_to_use import *
 from bootstrap_functions import *
-from behaviour_split import *
+#from behaviour_split import *
 from joblib import Parallel, delayed
 import multiprocessing
 import time
