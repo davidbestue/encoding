@@ -111,31 +111,14 @@ for Subject in Subjects:
         ##### Train your weigths
         WM, Inter = Weights_matrix_LM( delay_TR_cond, training_thing )
         WM_t = WM.transpose()
-
-
+        #
         for idx_c, Condition in enumerate(Conditions):
-            if Condition == cond_t:
-                print('Error')
-                # training_activity, training_behaviour = delay_TR_cond, training_thing
-                # enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-                # testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, 
-                #     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-                # #
-                # Reconstruction = IEM_cross_condition_kfold(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
-                #     decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
-                # Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-
-                # shuff = IEM_cross_condition_kfold_shuff(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
-                #     decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
-                #     iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=10)
-                # Reconstructions_shuff.append(shuff)
-                # ##
-            else:
-                Reconstruction, shuff = IEM_specific_split_performance( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
-                distance=Distance_to_use, decode_item= decoding_thing, ERROR=Errors_mean_split, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
+            Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
+                distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
                 method='together',  heatmap=False) #100
-                Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-                Reconstructions_shuff.append(shuff)
+            Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+            Reconstructions_shuff.append(shuff)
+
 
 
         
