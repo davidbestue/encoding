@@ -118,7 +118,7 @@ for Subject in Subjects:
 
 
         for idx_c, Condition in enumerate(Conditions):
-            if (Condition == cond_t) & (decoding_thing=='Target'):  ###cross validation
+            if (Condition == cond_t) & (decoding_thing=='Distractor'):  ###cross validation
                 training_activity, training_behaviour = delay_TR_cond, training_thing
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, 
