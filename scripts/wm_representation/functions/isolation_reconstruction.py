@@ -19,11 +19,16 @@ numcores = multiprocessing.cpu_count()
 
 df = pd.read_excel('C:\\Users\\David\Desktop\\KI_Desktop\\data_reconstructions\\IEM\\example_beh.xlsx') 
 
+targets_distractors = df[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
+
+
+
+
 
 def isolated_one
 
 
-
+ targets_distractors = df[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
 
 
 
