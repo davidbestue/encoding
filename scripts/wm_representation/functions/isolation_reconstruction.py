@@ -17,6 +17,9 @@ numcores = multiprocessing.cpu_count()
 
 
 
+df = pd.read_excel('C:\\Users\\David\Desktop\\KI_Desktop\\data_reconstructions\\IEM\\example_beh.xlsx') 
+
+
 def isolated_one
 
 
