@@ -15,11 +15,53 @@ from sklearn.model_selection import LeaveOneOut
 
 numcores = multiprocessing.cpu_count() 
 
+######## objetivo final: dos columnas más en el behaviour! que son: target alone y distractor alone
 
+df = pd.read_excel('C:\\Users\\David\Desktop\\KI_Desktop\\data_reconstructions\\IEM\\example2_beh.xlsx') 
 
-df = pd.read_excel('C:\\Users\\David\Desktop\\KI_Desktop\\data_reconstructions\\IEM\\example_beh.xlsx') 
 
 targets_distractors = df[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
+
+
+targets_distractors['q_t1'] = [get_quad(targets_distractors.iloc[i]['T']) for i in range(len(targets_distractors))]
+targets_distractors['q_nt1'] = [get_quad(targets_distractors.iloc[i]['NT1']) for i in range(len(targets_distractors))]
+targets_distractors['q_nt2'] = [get_quad(targets_distractors.iloc[i]['NT2']) for i in range(len(targets_distractors))]
+
+targets_distractors['q_dist'] = [get_quad(targets_distractors.iloc[i]['Dist']) for i in range(len(targets_distractors))]
+targets_distractors['q_dist1'] = [get_quad(targets_distractors.iloc[i]['Dist_NT1']) for i in range(len(targets_distractors))]
+targets_distractors['q_dist2'] = [get_quad(targets_distractors.iloc[i]['Dist_NT2']) for i in range(len(targets_distractors))]
+
+
+
+targets_alone_quadrant=[]
+
+for i in range(len(targets_distractors)):
+    targets_quadrants = [targets_distractors['q_t1'].iloc[i], targets_distractors['q_nt1'].iloc[i], targets_distractors['q_nt2'].iloc[i]]                                                                                 
+    distractors_quadrants = [targets_distractors['q_dist'].iloc[i], targets_distractors['q_dist1'].iloc[i], targets_distractors['q_dist2'].iloc[i]] 
+    ##################
+    ################## get target alone
+    ##################
+    if tragets_quadrants[0] not in distractors_quadrants:
+        targets_alone_quadrant.append
+
+
+
+
+
+def get_quad(degree):
+    if degree <= 90:
+        angle = 1
+    else:
+        if degree <= 180:
+            angle = 2
+        else:
+            if degree <= 270:
+                angle = 3
+            else:
+                if degree < 360:
+                    angle = 4
+    ###
+    return angle
 
 
 
@@ -28,7 +70,7 @@ targets_distractors = df[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
 def isolated_one
 
 
- targets_distractors = df[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
+
 
 
 
