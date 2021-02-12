@@ -48,7 +48,7 @@ path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_dist_clos
 
 ## options (chek the filename too!)
 decoding_thing = 'Distractor' #'Distractor' #'Target'
-Distance_to_use = 'close'  #'close' 'far'
+Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
 
@@ -96,7 +96,7 @@ for Subject in Subjects:
         ### Data to use
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         ##### Process training data
-        training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
+        training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
             distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
         #
         #training activity
@@ -108,9 +108,9 @@ for Subject in Subjects:
             delay_TR_cond = training_activity[:, tr_st, :]
         #
         if decoding_thing=='Distractor':
-            training_thing = training_behaviour['T']
+            training_thing = training_behaviour['T_alone']
         elif decoding_thing=='Target':
-            training_thing = training_behaviour['T']
+            training_thing = training_behaviour['T_alone']
 
 
         ##### Train your weigths
@@ -122,7 +122,7 @@ for Subject in Subjects:
             if (Condition == cond_t) & (decoding_thing=='Target'):  ###cross validation
                 training_activity, training_behaviour = delay_TR_cond, training_thing
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-                testing_activity, testing_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, 
+                testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
                 Reconstruction = IEM_cross_condition_kfold(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
@@ -135,7 +135,7 @@ for Subject in Subjects:
                 Reconstructions_shuff.append(shuff)
                 ###Reconstructions_shuff.append(shuff)
             else:
-                Reconstruction, shuff = all_process_condition_shuff( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
+                Reconstruction, shuff = all_process_condition_shuff_alone( Subject=Subject, Brain_Region=Brain_region, WM=WM, WM_t=WM_t, 
                 distance=Distance_to_use, decode_item= decoding_thing, iterations=num_shuffles, Inter=Inter, Condition=Condition, 
                 method='together',  heatmap=False) #100
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
