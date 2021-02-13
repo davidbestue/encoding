@@ -1,3 +1,11 @@
+
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jul  1 18:24:32 2019
+
+@author: David Bestue
+"""
+
 from model_functions import *
 from fake_data_generator import *
 from Weights_matrixs import *
