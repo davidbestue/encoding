@@ -42,21 +42,14 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_dist_trtarg_isol_example.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_dist_trtarg_isol_example.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_trtarg_isol_example.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_trtarg_isol_example.xlsx'
 
 
 ## options (chek the filename too!)
-decoding_thing = 'Distractor' #'Distractor' #'Target'
+decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
-
-
-## depending on the options, I will use one condition or the other
-# if decoding_thing=='Distractor':
-#     cond_t = '2_7'
-# elif decoding_thing=='Target': ##at some point we can go for the response, though it should be similar
-#     cond_t = '1_7'
 
 
 cond_t = '1_7'
@@ -82,9 +75,9 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ## elements for the loop
-Conditions=['1_0.2'] # '1_0.2', '1_7', '2_0.2', '2_7'
-Subjects=['d001'] #'d001', 'n001', 'b001', 'r001', 's001', 'l001'
-brain_regions = ['visual'] # 'visual', 'ips', 'pfc'
+Conditions=[ '1_0.2', '1_7'] #, '2_0.2', '2_7']
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
 num_shuffles = 2
