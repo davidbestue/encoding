@@ -51,6 +51,7 @@ decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
+
 cond_t = '2_7'
 
 # depending on the options, the TRs used for the training will be different
