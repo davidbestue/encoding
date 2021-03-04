@@ -138,17 +138,8 @@ def close_one(behaviour):
 
 
 #############################################################################################
+############################################################################################# alone
 #############################################################################################
-
-
-
-
-
-
-
-
-
-
 
 
 def all_process_condition_shuff_alone( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
@@ -272,3 +263,137 @@ def preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition, dis
     return testing_activity, testing_behaviour
 
 ###
+
+
+
+
+#############################################################################################
+############################################################################################# close
+#############################################################################################
+
+
+
+
+def all_process_condition_shuff_close( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
+    enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
+    ##### Process testing data
+    testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+
+    if decode_item == 'Target':
+        dec_I = 'T_close'
+    elif decode_item == 'Response':
+        dec_I = 'A_R'
+    elif decode_item == 'Distractor':
+        dec_I = 'dist_close'
+    else:
+        'Error specifying the decode item'
+
+    #
+    testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    ### Respresentation
+    start_repres = time.time()    
+    # TR separartion
+    signal_paralel =[ testing_activity[:, i, :] for i in range(nscans_wm)]
+    Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
+    Reconstruction = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
+    Reconstruction.columns =  [str(i * TR) for i in range(nscans_wm)]    ##column names
+    #Plot heatmap
+    if heatmap==True:
+        plt.figure()
+        plt.title(Condition)
+        ax = sns.heatmap(Reconstruction, yticklabels=list(Reconstruction.index), cmap="coolwarm") # cmap= viridis "jet",  "coolwarm" RdBu_r, gnuplot, YlOrRd, CMRmap  , center = midpoint
+        ax.plot([0.25, np.shape(Reconstruction)[1]-0.25], [posch1_to_posch2(18),posch1_to_posch2(18)], 'k--')
+        plt.yticks([posch1_to_posch2(4), posch1_to_posch2(13), posch1_to_posch2(22), posch1_to_posch2(31)] ,['45','135','225', '315'])
+        plt.ylabel('Angle')
+        plt.xlabel('time (s)')
+        plt.tight_layout()
+        plt.show(block=False)
+    
+    ######
+    ######
+    ######
+    end_repres = time.time()
+    process_recons = end_repres - start_repres
+    print( 'Time process reconstruction: ' +str(process_recons)) #print time of the process
+    
+    #df_boots = bootstrap_reconstruction(testing_activity, testing_angles, iterations, WM, WM_t, Inter, Brain_Region, Condition, Subject, ref_angle=180)    
+    ####### Shuff
+    #### Compute the shuffleing
+    shuffled_rec = shuffled_reconstruction(signal_paralel, testing_angles, iterations, WM, WM_t, Inter=Inter, region=Brain_Region, condition=Condition, subject=Subject, ref_angle=180)
+    
+    return Reconstruction, shuffled_rec
+
+
+
+
+
+
+def wm_condition3(masked_data, beh_path, n_scans, condition,  distance, sys_use='unix', TR=2.335, nscans_wm=16):
+    # Behaviour 
+    beh_path = ub_wind_path(beh_path, system=sys_use) #change depending on windoxs/unix
+    behaviour=np.genfromtxt(beh_path, skip_header=1) #open the file
+    Beh = pd.DataFrame(behaviour)  #convert it to dataframe
+    headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
+                'orient', 'horiz_vertical', 'A_R', 'A_err', 'Abs_angle_error', 'Error_interference', 'A_DC', 'A_DC_dist', 'Q_DC', 
+                'A_DF', 'A_DF_dist', 'Q_DF', 'A_DVF', 'Q_DVF', 'A_DVF_dist', 'Q_DVF_dist', 'presentation_att_cue_time', 'presentation_target_time',
+                'presentation_dist_time', 'presentation_probe_time', 'R_T', 'trial_time', 'disp_time']
+    Beh.columns=headers_col #add columns
+    #take off the reference    
+    ref_time = Beh.iloc[-1, 1] # get the reference(diff between tsat¡rt the display and start de recording)
+    start_trial=Beh['presentation_att_cue_time'].iloc[0:-1]  - ref_time #take off the reference  
+    Beh = Beh.iloc[0:-1, :] # behaviour is the same except the last line (reference time) 
+    start_trial_hdf_scans = start_trial/TR#transform seconds to scans 
+    timestamps = [  int(round(  start_trial_hdf_scans[n] ) ) for n in range(0, len(start_trial_hdf_scans) )]
+    
+    #adjust according to the number of scans you want (avoid having an incomplete trial)
+    while timestamps[-1]> (n_scans-nscans_wm):
+        timestamps=timestamps[:-1] #take off one trial form activity
+        Beh = Beh.iloc[0:-1, :] #take off one trial from behaviour
+    ###################
+    ################### Add the columns of isolated target and distractor
+    Beh = close_one(Beh)
+    ########################################################################    
+    #append the timestands you want from this session
+    n_trials = len(timestamps)
+    n_voxels_wm = np.shape(masked_data)[1]
+    ### Take the important TRs (from cue, the next 14 TRs)
+    run_activity=np.zeros(( n_trials, nscans_wm,  n_voxels_wm   )) ## np.zeros matrix with the correct dimensions of the session
+    for idx, t in enumerate(timestamps): #beginning of the trial
+        for sc in range(0, nscans_wm): #each of the 14 TRs
+            trial_activity = masked_data[t+sc, :]   
+            run_activity[idx, sc, :] =trial_activity                    
+    
+    ### 
+    
+    Subset, beh_Subset = condition_wm( run_activity, Beh, condition, distance=distance, zscore_=False)
+    
+    return Subset, beh_Subset
+
+
+
+
+def preprocess_wm_files_close(wm_fmri_paths, masks, wm_beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
+    ### Mask and process the fmri data
+    start_process_wm = time.time()
+    numcores = multiprocessing.cpu_count()
+    wm_masked= Parallel(n_jobs = numcores)(delayed(mask_fmri_process)(fmri_path, masks, sys_use='unix')  for fmri_path in wm_fmri_paths)    ####
+    scans_wm_runs = [len(wm_masked[r]) for r in range(len(wm_masked)) ]
+    
+    ### TRs of interest
+    activity_beh  = Parallel(n_jobs = numcores)(delayed(wm_condition3)(masked_data, beh_path, n_scans, condition, distance=distance, sys_use='unix', TR=TR, nscans_wm=nscans_wm) for masked_data, beh_path, n_scans in zip( wm_masked, wm_beh_paths, scans_wm_runs))    ####
+    runs_signal = [activity_beh[i][0] for i in range(len(activity_beh))]
+    runs_beh = [activity_beh[i][1] for i in range(len(activity_beh))]
+    
+    ## concatenate the runs
+    testing_activity = np.vstack(runs_signal)
+    testing_behaviour = pd.concat(runs_beh)
+    ##
+    end_process_wm = time.time()
+    process_wm = end_process_wm - start_process_wm
+    print( 'Time process wm: ' +str(process_wm))
+    return testing_activity, testing_behaviour
+
+###
+
+
+
