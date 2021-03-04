@@ -121,7 +121,7 @@ def close_one(behaviour):
         options_d = ['Dist', 'Dist_NT1', 'Dist_NT2']
         #
         erros_dist = [err1, err2, err3]
-        pos_min_err = np.where(erros_dist==min(erros_dist))[0][0]
+        pos_min_err = np.where( np.array(erros_dist)==min(erros_dist))[0][0]
         #
         target_close_one.append( targets_distractors[options_t[pos_min_err]].iloc[i] )
         distractor_close_one.append( targets_distractors[options_d[pos_min_err]].iloc[i] )
@@ -396,4 +396,58 @@ def preprocess_wm_files_close(wm_fmri_paths, masks, wm_beh_paths, condition, dis
 ###
 
 
+
+
+
+
+
+
+
+
+
+
+
+# targets_distractors = behaviour[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
+# ###
+# target_close_one=[]
+# distractor_close_one=[]
+#     ###
+# for i in range(len(targets_distractors)):
+#     err1 = abs(err_deg(targets_distractors['T'].iloc[i], targets_distractors['Dist'].iloc[i]))
+#     err2 =abs(err_deg(targets_distractors['NT1'].iloc[i], targets_distractors['Dist_NT1'].iloc[i]))
+#     err3 =abs(err_deg(targets_distractors['NT2'].iloc[i], targets_distractors['Dist_NT2'].iloc[i]))
+#     ############
+#     options_t = ['T', 'NT1', 'NT2']
+#     options_d = ['Dist', 'Dist_NT1', 'Dist_NT2']
+#     #
+#     erros_dist = [err1, err2, err3]
+#     pos_min_err = np.where(np.array(erros_dist)==min(erros_dist))[0][0]
+#     #
+#     target_close_one.append( targets_distractors[options_t[pos_min_err]].iloc[i] )
+#     distractor_close_one.append( targets_distractors[options_d[pos_min_err]].iloc[i] )
+#     ###
+
+# ###
+# behaviour['T_close'] = target_close_one
+# behaviour['dist_close'] = distractor_close_one
+# #
+# return behaviour
+
+
+
+
+
+# behaviour=np.genfromtxt(beh_path, skip_header=1) #open the file
+# Beh = pd.DataFrame(behaviour)  #convert it to dataframe
+# headers_col = ['type', 'delay1', 'delay2', 'T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2', 'distance_T_dist', 'cue', 'order',
+#             'orient', 'horiz_vertical', 'A_R', 'A_err', 'Abs_angle_error', 'Error_interference', 'A_DC', 'A_DC_dist', 'Q_DC', 
+#             'A_DF', 'A_DF_dist', 'Q_DF', 'A_DVF', 'Q_DVF', 'A_DVF_dist', 'Q_DVF_dist', 'presentation_att_cue_time', 'presentation_target_time',
+#             'presentation_dist_time', 'presentation_probe_time', 'R_T', 'trial_time', 'disp_time']
+# Beh.columns=headers_col #add columns
+# #take off the reference    
+# ref_time = Beh.iloc[-1, 1] # get the reference(diff between tsat¡rt the display and start de recording)
+# start_trial=Beh['presentation_att_cue_time'].iloc[0:-1]  - ref_time #take off the reference  
+# Beh = Beh.iloc[0:-1, :] # behaviour is the same except the last line (reference time) 
+# start_trial_hdf_scans = start_trial/TR#transform seconds to scans 
+# timestamps = [  int(round(  start_trial_hdf_scans[n] ) ) for n in range(0, len(start_trial_hdf_scans) )]
 
