@@ -277,7 +277,7 @@ def preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition, dis
 def all_process_condition_shuff_close( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
     ##### Process testing data
-    testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+    testing_activity, testing_behaviour = preprocess_wm_files_close(wm_fmri_paths, masks, wm_beh_paths, condition=Condition, distance=distance, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 
     if decode_item == 'Target':
         dec_I = 'T_close'
