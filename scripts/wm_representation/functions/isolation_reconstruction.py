@@ -94,6 +94,56 @@ def isolated_one(behaviour):
 ##df2 = isolated_one(df)
 
 
+def err_deg(a1,ref):
+    ### Calculate the error ref-a1 in an efficient way in the circular space
+    ### it uses complex numbers!
+    ### Input in degrees (0-360)
+    a1=np.radians(a1)
+    ref=np.radians(ref)
+    err = np.angle(np.exp(1j*ref)/np.exp(1j*(a1) ), deg=True) 
+    err=round(err, 2)
+    return err
+
+
+
+def close_one(behaviour):
+    targets_distractors = behaviour[['T', 'NT1', 'NT2', 'Dist', 'Dist_NT1', 'Dist_NT2']]
+    ###
+    target_close_one=[]
+    distractor_close_one=[]
+    ###
+    for i in range(len(targets_distractors)):
+        err1 = abs(err_deg(targets_distractors['T'].iloc[i], targets_distractors['Dist'].iloc[i]))
+        err2 =abs(err_deg(targets_distractors['NT1'].iloc[i], targets_distractors['Dist_NT1'].iloc[i]))
+        err3 =abs(err_deg(targets_distractors['NT2'].iloc[i], targets_distractors['Dist_NT2'].iloc[i]))
+        ############
+        options_t = ['T', 'NT1', 'NT2']
+        options_d = ['Dist', 'Dist_NT1', 'Dist_NT2']
+        #
+        erros_dist = [err1, err2, err3]
+        pos_min_err = np.where(erros_dist==min(erros_dist))[0][0]
+        #
+        target_close_one.append( targets_distractors[options_t[pos_min_err]].iloc[i] )
+        distractor_close_one.append( targets_distractors[options_d[pos_min_err]].iloc[i] )
+        ###
+    ###
+    behaviour['T_close'] = target_close_one
+    behaviour['dist_close'] = distractor_close_one
+    #
+    return behaviour
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def all_process_condition_shuff_alone( Subject, Brain_Region, WM, WM_t, Inter, Condition, iterations, distance, decode_item, method='together', heatmap=False):
     enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, method, Brain_Region)
