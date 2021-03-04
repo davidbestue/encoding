@@ -42,12 +42,12 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_train_target_isol_test_dist_close.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_train_target_isol_test_dist_close.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_train_target_isol_test_target_close.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_train_target_isol_test_target_close.xlsx'
 
 
 ## options (chek the filename too!)
-decoding_thing = 'Distractor' #'Distractor' #'Target'
+decoding_thing = 'Target' #'Distractor' #'Target'
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
 
