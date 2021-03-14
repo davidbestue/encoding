@@ -406,7 +406,7 @@ def IEM_cross_condition_kfold_allTRs(testing_activity, testing_behaviour, decode
     #####
     Recons_dfs_not_shared=[]
     for not_shared in list_wm_scans2:
-        training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+        training_data =   np.mean(testing_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
         testing_data= testing_activity[:, not_shared, :]   
         reconstrction_sh=[]
         kf = KFold(n_splits=n_slpits);
@@ -500,7 +500,7 @@ def IEM_cross_condition_kfold_shuff_allTRs(testing_activity, testing_behaviour, 
         testing_angles_suhff = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))]) 
         Recons_dfs_not_shared=[]
         for not_shared in list_wm_scans2:
-            training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+            training_data =   np.mean(testing_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
             testing_data= testing_activity[:, not_shared, :]   
             reconstrction_sh=[]
             kf = KFold(n_splits=n_slpits);
