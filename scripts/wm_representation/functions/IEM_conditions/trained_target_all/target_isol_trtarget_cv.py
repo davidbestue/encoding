@@ -42,8 +42,8 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_trtarg_isol.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_trtarg_isol.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_target_trtarg_isol_1_7.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_target_trtarg_isol_1_7.xlsx'
 
 
 ## options (chek the filename too!)
@@ -75,12 +75,12 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ## elements for the loop
-Conditions=[ '1_0.2', '1_7', '2_0.2', '2_7']
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+Conditions=[ '1_7']
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 100
+num_shuffles = 2
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
@@ -117,11 +117,11 @@ for Subject in Subjects:
                 testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
-                Reconstruction = IEM_cross_condition_kfold(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
+                Reconstruction = IEM_cross_condition_kfold_allTRs(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
 
-                shuff = IEM_cross_condition_kfold_shuff(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
+                shuff = IEM_cross_condition_kfold_shuff_allTRs(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
                     iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=10)
                 Reconstructions_shuff.append(shuff)
