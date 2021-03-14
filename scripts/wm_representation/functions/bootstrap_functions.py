@@ -498,10 +498,31 @@ def IEM_cross_condition_kfold_shuff_allTRs(testing_activity, testing_behaviour, 
     Reconstructions_shuffled=[]
     for It in range(iterations):
         testing_angles_suhff = np.array([random.choice([0, 90, 180, 270]) for i in range(len(testing_angles))]) 
-        signal_paralel =[ testing_activity[:, i, :] for i in list_wm_scans2 ]
-        Reconstructions = Parallel(n_jobs = numcores)(delayed(Representation)(signal, testing_angles_suhff, WM, WM_t, ref_angle=180, plot=False, intercept=Inter)  for signal in signal_paralel)    #### reconstruction standard (paralel)
-        Reconstruction_indep = pd.concat(Reconstructions, axis=1) #mean of the reconstructions (all trials)
-        Reconstruction_indep.columns =  [str(i * TR) for i in list_wm_scans2 ]    ##column names
+        Recons_dfs_not_shared=[]
+        for not_shared in list_wm_scans2:
+            training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+            testing_data= testing_activity[:, not_shared, :]   
+            reconstrction_sh=[]
+            kf = KFold(n_splits=n_slpits);
+            kf.get_n_splits(testing_data);
+            for train_index, test_index in kf.split(testing_data):
+                X_train, X_test = training_data[train_index], testing_data[test_index]
+                y_train, y_test = testing_angles[train_index], testing_angles[test_index]
+                ## train
+                WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+                WM_t2 = WM2.transpose()
+                ## test
+                ## do the suffle here!
+                y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))]) 
+                rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+                reconstrction_sh.append(rep_x)
+            ###
+            reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
+            reconstrction_sh_mean = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
+            Recons_dfs_not_shared.append(reconstrction_sh_mean)
+        ####
+        Reconstruction_not_shared = pd.concat(Recons_dfs_not_shared, axis=1)
+        Reconstruction_not_shared.columns =  [str(i * TR) for i in list_wm_scans2 ] 
         ###
         #### Run the ones with shared information: k fold
         Recons_dfs_shared=[]
@@ -530,7 +551,7 @@ def IEM_cross_condition_kfold_shuff_allTRs(testing_activity, testing_behaviour, 
         Reconstruction_shared.columns =  [str(i * TR) for i in trs_shared ]   
         #### 
         #### Merge both recosntructions dfs to get a single one
-        Reconstruction = pd.concat([Reconstruction_indep, Reconstruction_shared], axis=1)
+        Reconstruction = pd.concat([Reconstruction_not_shared, Reconstruction_shared], axis=1)
         ### sort the columns so the indep does not get at the end
         sorted_col = np.sort([float(Reconstruction.columns[i]) for i in range(len(Reconstruction.columns))])           
         sorted_col = [str(sorted_col[i]) for i in range(len(sorted_col))]
