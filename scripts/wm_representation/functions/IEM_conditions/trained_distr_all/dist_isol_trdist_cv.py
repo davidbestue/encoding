@@ -43,8 +43,8 @@ if numcores<10:
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_dist_trdist_isol_2_7_10.xlsx' #cross_b001_target_mix_octave_1_7_far.xlsx'
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_dist_trdist_isol_2_7_10.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_dist_trdist_isol_2_7.xlsx' #IEM_dist_trdist_isol_2_7_10.xlsx
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_dist_trdist_isol_2_7.xlsx'
 
 
 ## options (chek the filename too!)
@@ -81,7 +81,7 @@ Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
 brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 10
+num_shuffles = 100 #10
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
