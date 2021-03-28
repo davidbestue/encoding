@@ -74,7 +74,6 @@ elif training_time=='respo':
 Reconstructions={}
 Reconstructions_shuff=[]
 
-
 ## elements for the loop
 Conditions=[ '1_0.2']
 Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
