@@ -151,7 +151,6 @@ for Subject in Subjects:
 # writer.save()   #save reconstructions (heatmaps)
 
 
-
 #Save just the signal (around the decoding thing)
 Decoding_df =[]
 
