@@ -26,7 +26,10 @@ from scipy.stats import zscore
 import matplotlib.pyplot as plt
 
 
+numcores = multiprocessing.cpu_count() 
 
+
+TR=2.335
 nscans_wm=16
 
 ###Model_functions
@@ -55,6 +58,9 @@ from ch2vrep3 import *
 from ch2vrep3_int import *
 from posch1_to_posch2 import *
 
+###### data to use
+from data_to_use import *
+
 
 ###### Weights_matrix
 from Weights_matrix_LM import *
@@ -72,7 +78,9 @@ from condition_wm import *
 from wm_condition import *
 from preprocess_wm_files import *
 
-
+###### bootsrtap functions
+from shuffled_reconstruction import *
+from bootstrap_reconstruction import *
 
 
 ###### Isolated stimulus
