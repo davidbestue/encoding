@@ -5,12 +5,10 @@ Created on Mon Jul  1 18:24:32 2019
 @author: David Bestue
 """
 
-# Import functions prom the previous path
+# Add to sys path the path where the tools folder ir (in this case, I need to go one back)
 import sys
 import os
-
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
-#tool_path = os.path.abspath(os.path.join(previous_path, 'tools')) 
 sys.path.insert(1, previous_path)
 
 from tools import *
