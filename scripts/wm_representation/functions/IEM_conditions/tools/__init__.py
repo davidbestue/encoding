@@ -40,9 +40,17 @@ pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))
 next_path = os.path.abspath(os.path.join(os.getcwd(), 'tools')) 
 sys.path.insert(1, next_path)
 
+###### process wm files
+from ub_wind_path import *
+from mask_fmri_process import *
+from condition_wm import *
+from wm_condition import *
+from preprocess_wm_files import *
+
+
+
 
 ###### Isolated stimulus
-
 from get_quad import *
 from isolated_ones import *
 from err_deg import *
