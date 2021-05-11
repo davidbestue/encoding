@@ -9,7 +9,7 @@ Created on Mon Apr 29 13:05:33 2019
 def preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition, 
     distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
     #
-    nonlocal time
+    global time
     print('nonlocal')
     ### Mask and process the fmri data
     start_process_wm = time.time()
