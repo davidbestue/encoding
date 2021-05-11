@@ -45,6 +45,10 @@ sys.path.insert(1, next_path)
 
 from get_quad import *
 from isolated_ones import *
+from err_deg import *
+from close_one import *
+
+
 
 
 
