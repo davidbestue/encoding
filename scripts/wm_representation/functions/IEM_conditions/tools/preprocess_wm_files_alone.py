@@ -5,6 +5,12 @@ Created on Mon Apr 29 13:05:33 2019
 @author: David
 """
 
+import sys
+import os
+previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, previous_path)
+from tools import *
+
 
 def preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition, 
     distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
