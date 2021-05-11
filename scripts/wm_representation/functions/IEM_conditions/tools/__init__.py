@@ -19,6 +19,12 @@ import multiprocessing
 import random
 from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
+from sklearn.linear_model import Lasso
+from model_functions import f, pos_channels
+import statsmodels.api as sm
+from scipy.stats import zscore
+import matplotlib.pyplot as plt
+
 
 
 nscans_wm=16
@@ -50,7 +56,14 @@ from ch2vrep3_int import *
 from posch1_to_posch2 import *
 
 
+###### Weights_matrix
+from Weights_matrix_LM import *
 
+
+##### Representation
+from trial_rep import *
+from trial_rep_decode_trial_by_trial import *
+from Representation import *
 
 ###### process wm files
 from ub_wind_path import *
