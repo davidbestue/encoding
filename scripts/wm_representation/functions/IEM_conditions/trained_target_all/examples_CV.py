@@ -62,8 +62,7 @@ for Subject in Subjects:
 
 
 training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
-    distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335, time=time, multiprocessing=multiprocessing,
-    Parallel=Parallel)
+    distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
 
 
 
