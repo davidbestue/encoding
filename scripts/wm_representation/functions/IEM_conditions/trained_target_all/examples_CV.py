@@ -12,7 +12,6 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-
 ##paths to save the files 
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example3.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example3.xlsx'
@@ -40,28 +39,11 @@ Reconstructions_shuff=[]
 
 ## elements for the loop
 Conditions=[ '1_7']
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual'] #, 'ips', 'pfc']
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 2 #100 #10
-
-
-
-
-for Subject in Subjects:
-    for Brain_region in brain_regions:
-        print(Subject)
-        print(Brain_region)
-        #plt.figure()
-        ### Data to use
-        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-
-
-
-training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
-    distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-
+num_shuffles = 5 #100 #10
 
 
 for Subject in Subjects:
