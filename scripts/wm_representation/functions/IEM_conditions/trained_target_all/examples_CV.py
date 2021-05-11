@@ -11,6 +11,29 @@ import os
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 sys.path.insert(1, previous_path)
 
+
+
+import sys
+import os
+import numpy as np
+import pandas as pd
+from nilearn.masking import apply_mask
+from nitime.timeseries import TimeSeries
+from nitime.analysis import FilterAnalyzer
+from scipy import stats
+import time
+from joblib import Parallel, delayed
+import multiprocessing
+import random
+from sklearn.model_selection import KFold
+from sklearn.model_selection import LeaveOneOut
+from sklearn.linear_model import Lasso
+import statsmodels.api as sm
+from scipy.stats import zscore
+import matplotlib.pyplot as plt
+
+
+
 from tools import *
 
 
