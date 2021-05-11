@@ -10,8 +10,8 @@ import sys
 import os
 
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
-tool_path = os.path.abspath(os.path.join(previous_path, 'tools')) 
-sys.path.insert(1, tool_path)
+#tool_path = os.path.abspath(os.path.join(previous_path, 'tools')) 
+sys.path.insert(1, previous_path)
 
 from tools import *
 

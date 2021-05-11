@@ -94,7 +94,7 @@ from IEM_cross_condition_l1out_shuff import *
 
 ###### Isolated stimulus
 from get_quad import *
-from isolated_ones import *
+from isolated_one import *
 from err_deg import *
 from close_one import *
 from all_process_condition_shuff_alone import *
