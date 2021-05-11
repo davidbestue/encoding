@@ -27,6 +27,10 @@ import matplotlib.pyplot as plt
 
 
 numcores = multiprocessing.cpu_count() 
+if numcores>20:
+    numcores=numcores-10
+if numcores<10:
+    numcores=numcores-3
 
 
 TR=2.335
@@ -42,8 +46,6 @@ pos_channels = [round(pos_channels[i],3) for i in range(0, len(pos_channels))]
 
 pos_channels2 = np.arange(0,360,0.5)
 pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))]
-
-
 
 
 next_path = os.path.abspath(os.path.join(os.getcwd(), 'tools')) 
@@ -89,8 +91,6 @@ from IEM_cross_condition_kfold_allTRs import *
 from IEM_cross_condition_kfold_shuff_allTRs import *
 from IEM_cross_condition_l1out import *
 from IEM_cross_condition_l1out_shuff import *
-
-
 
 
 ###### Isolated stimulus

@@ -5,45 +5,49 @@ Created on Mon Jul  1 18:24:32 2019
 @author: David Bestue
 """
 
-## Import functions prom the previous path
+# Import functions prom the previous path
 import sys
 import os
+
 previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
-sys.path.insert(1, previous_path)
+tool_path = os.path.abspath(os.path.join(previous_path, 'tools')) 
+sys.path.insert(1, tool_path)
 
-previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
-sys.path.insert(1, previous_2_path)
+from tools import *
 
-from model_functions import *
-from fake_data_generator import *
-from Weights_matrixs import *
-from Representation import *
-from process_encoding import *
-from process_wm import *
-from data_to_use import *
-from bootstrap_functions import *
-from isolation_reconstruction import *
-from joblib import Parallel, delayed
-import multiprocessing
-import time
-import random
-from sklearn.model_selection import KFold
+# previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
+# sys.path.insert(1, previous_2_path)
+
+# from model_functions import *
+# from fake_data_generator import *
+# from Weights_matrixs import *
+# from Representation import *
+# from process_encoding import *
+# from process_wm import *
+# from data_to_use import *
+# from bootstrap_functions import *
+# from isolation_reconstruction import *
+# from joblib import Parallel, delayed
+# import multiprocessing
+# import time
+# import random
+# from sklearn.model_selection import KFold
 
 
-import multiprocessing
-multiprocessing.cpu_count() 
+# import multiprocessing
+# multiprocessing.cpu_count() 
 
-### use the cores so we do not run out of memory
-numcores = multiprocessing.cpu_count() 
-if numcores>20:
-    numcores=numcores-10
-if numcores<10:
-    numcores=numcores-3
+# ### use the cores so we do not run out of memory
+# numcores = multiprocessing.cpu_count() 
+# if numcores>20:
+#     numcores=numcores-10
+# if numcores<10:
+#     numcores=numcores-3
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example2.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example2.xlsx'
 
 
 ## options (chek the filename too!)
