@@ -44,6 +44,10 @@ sys.path.insert(1, next_path)
 ###### model functions
 from circ_dist import *
 from f import *
+from f2 import *
+from ch2vrep3 import *
+from ch2vrep3_int import *
+from posch1_to_posch2 import *
 
 
 
