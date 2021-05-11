@@ -47,7 +47,10 @@ from get_quad import *
 from isolated_ones import *
 from err_deg import *
 from close_one import *
-
+from all_process_condition_shuff_alone import *
+from wm_condition2 import *
+from preprocess_wm_files_alone import *
+from all_process_condition_shuff_close import *
 
 
 
