@@ -13,34 +13,6 @@ sys.path.insert(1, previous_path)
 
 from tools import *
 
-# previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
-# sys.path.insert(1, previous_2_path)
-
-# from model_functions import *
-# from fake_data_generator import *
-# from Weights_matrixs import *
-# from Representation import *
-# from process_encoding import *
-# from process_wm import *
-# from data_to_use import *
-# from bootstrap_functions import *
-# from isolation_reconstruction import *
-# from joblib import Parallel, delayed
-# import multiprocessing
-# import time
-# import random
-# from sklearn.model_selection import KFold
-
-
-# import multiprocessing
-# multiprocessing.cpu_count() 
-
-# ### use the cores so we do not run out of memory
-# numcores = multiprocessing.cpu_count() 
-# if numcores>20:
-#     numcores=numcores-10
-# if numcores<10:
-#     numcores=numcores-3
 
 
 ##paths to save the files 
@@ -75,6 +47,25 @@ brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
 num_shuffles = 2 #100 #10
+
+
+
+
+for Subject in Subjects:
+    for Brain_region in brain_regions:
+        print(Subject)
+        print(Brain_region)
+        #plt.figure()
+        ### Data to use
+        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+
+
+
+training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
+    distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335, time=time, multiprocessing=multiprocessing,
+    Parallel=Parallel)
+
+
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
@@ -156,3 +147,33 @@ Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
 Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
 
 
+
+
+# previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
+# sys.path.insert(1, previous_2_path)
+
+# from model_functions import *
+# from fake_data_generator import *
+# from Weights_matrixs import *
+# from Representation import *
+# from process_encoding import *
+# from process_wm import *
+# from data_to_use import *
+# from bootstrap_functions import *
+# from isolation_reconstruction import *
+# from joblib import Parallel, delayed
+# import multiprocessing
+# import time
+# import random
+# from sklearn.model_selection import KFold
+
+
+# import multiprocessing
+# multiprocessing.cpu_count() 
+
+# ### use the cores so we do not run out of memory
+# numcores = multiprocessing.cpu_count() 
+# if numcores>20:
+#     numcores=numcores-10
+# if numcores<10:
+#     numcores=numcores-3
