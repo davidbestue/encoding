@@ -6,34 +6,9 @@ Created on Mon Jul  1 18:24:32 2019
 """
 
 # Add to sys path the path where the tools folder ir (in this case, I need to go one back)
-import sys
-import os
-previous_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
-sys.path.insert(1, previous_path)
-
-
-
-import sys
-import os
-import numpy as np
-import pandas as pd
-from nilearn.masking import apply_mask
-from nitime.timeseries import TimeSeries
-from nitime.analysis import FilterAnalyzer
-from scipy import stats
-import time
-from joblib import Parallel, delayed
-import multiprocessing
-import random
-from sklearn.model_selection import KFold
-from sklearn.model_selection import LeaveOneOut
-from sklearn.linear_model import Lasso
-import statsmodels.api as sm
-from scipy.stats import zscore
-import matplotlib.pyplot as plt
-
-
-
+import sys, os
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, path_tools)
 from tools import *
 
 
