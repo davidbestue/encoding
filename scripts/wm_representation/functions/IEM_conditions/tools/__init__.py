@@ -81,6 +81,12 @@ from preprocess_wm_files import *
 ###### bootsrtap functions
 from shuffled_reconstruction import *
 from bootstrap_reconstruction import *
+from all_process_condition_shuff_boot import *
+from all_process_condition_shuff import *
+from IEM_cross_condition_kfold import *
+from IEM_cross_condition_kfold_shuff import *
+from IEM_cross_condition_kfold_allTRs import *
+
 
 
 ###### Isolated stimulus
