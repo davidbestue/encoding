@@ -77,7 +77,7 @@ from ub_wind_path import *
 from mask_fmri_process import *
 from condition_wm import *
 from wm_condition import *
-import preprocess_wm_files 
+from preprocess_wm_files import preprocess_wm_files 
 
 ###### bootsrtap functions
 from shuffled_reconstruction import *
