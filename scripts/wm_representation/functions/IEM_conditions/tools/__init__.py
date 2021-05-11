@@ -105,26 +105,3 @@ from preprocess_wm_files_close import *
 from IEM_cross_condition_kfold_allTRs_alone import *
 from IEM_cross_condition_kfold_shuff_allTRs_alone import *
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-next_path = os.path.abspath(os.path.join(os.getcwd(), 'funciones')) 
-sys.path.insert(1, next_path)
-
-
-from a import *
-from b import *
-from c import *
-
