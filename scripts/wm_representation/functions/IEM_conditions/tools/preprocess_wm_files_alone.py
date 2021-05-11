@@ -8,7 +8,7 @@ Created on Mon Apr 29 13:05:33 2019
 #import time
 
 def preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition, 
-    time, multiprocessing,
+    time, multiprocessing, Parallel,
     distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
     ### Mask and process the fmri data
     start_process_wm = time.time()
