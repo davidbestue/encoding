@@ -51,6 +51,15 @@ from all_process_condition_shuff_alone import *
 from wm_condition2 import *
 from preprocess_wm_files_alone import *
 from all_process_condition_shuff_close import *
+from preprocess_wm_files_close import *
+from IEM_cross_condition_kfold_allTRs_alone import *
+from IEM_cross_condition_kfold_shuff_allTRs_alone import *
+
+
+
+
+
+
 
 
 
