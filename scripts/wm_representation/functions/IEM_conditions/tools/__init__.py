@@ -20,7 +20,6 @@ import random
 from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
 from sklearn.linear_model import Lasso
-from model_functions import f, pos_channels
 import statsmodels.api as sm
 from scipy.stats import zscore
 import matplotlib.pyplot as plt
