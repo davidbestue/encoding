@@ -10,6 +10,8 @@ import os
 import numpy as np
 import pandas as pd
 from nilearn.masking import apply_mask
+from nitime.timeseries import TimeSeries
+from nitime.analysis import FilterAnalyzer
 from scipy import stats
 import time
 from joblib import Parallel, delayed
@@ -19,9 +21,7 @@ from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
 
 
-
 nscans_wm=16
-
 
 ###Model_functions
 #Generate the positions of the channels (there will be 14)
@@ -39,6 +39,14 @@ pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))
 
 next_path = os.path.abspath(os.path.join(os.getcwd(), 'tools')) 
 sys.path.insert(1, next_path)
+
+
+###### model functions
+from circ_dist import *
+from f import *
+
+
+
 
 ###### process wm files
 from ub_wind_path import *
