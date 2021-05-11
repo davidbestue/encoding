@@ -44,8 +44,8 @@ from tools import *
 
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example2.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example2.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example3.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example3.xlsx'
 
 
 ## options (chek the filename too!)
