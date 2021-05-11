@@ -1,12 +1,9 @@
-
-
 # -*- coding: utf-8 -*-
 """
 Created on Mon Apr 29 13:05:33 2019
 
 @author: David
 """
-
 
 def wm_condition2(masked_data, beh_path, n_scans, condition,  distance, sys_use='unix', TR=2.335, nscans_wm=16):
     # Behaviour 
