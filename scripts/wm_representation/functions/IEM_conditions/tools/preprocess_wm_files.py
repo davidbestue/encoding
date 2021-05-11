@@ -5,6 +5,11 @@ Created on Mon Apr 29 13:05:33 2019
 @author: David
 """
 
+import sys, os
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, path_tools)
+from tools import *
+
 
 def preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition, distance='mix', sys_use='unix', nscans_wm=16, TR=2.335):
     ### Mask and process the fmri data

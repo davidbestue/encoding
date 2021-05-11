@@ -5,6 +5,11 @@ Created on Mon Apr 29 17:01:27 2019
 @author: David Bestue
 """
 
+import sys, os
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, path_tools)
+from tools import *
+
 
 def data_to_use( Subject_analysis, Method_analysis, brain_region):
     root='/home/david/Desktop/IEM_data/'    

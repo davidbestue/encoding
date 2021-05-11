@@ -5,6 +5,12 @@ Created on Mon Apr 29 13:05:33 2019
 @author: David
 """
 
+import sys, os
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, path_tools)
+from tools import *
+
+
 def shuffled_reconstruction(signal_paralel, targets, iterations, WM, WM_t, Inter, region, condition, subject, ref_angle=180):
     ### shuffle the targets
     testing_angles_sh=[] #new targets shuffled

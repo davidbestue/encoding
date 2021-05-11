@@ -6,6 +6,12 @@ Created on Mon Apr 29 13:05:33 2019
 @author: David
 """
 
+import sys, os
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, path_tools)
+from tools import *
+
+
 def mask_fmri_process(fmri_path, masks, sys_use='unix'):
     ### 1. Load and mask the data
     fmri_path = ub_wind_path(fmri_path, system=sys_use) #change the path format wind-unix

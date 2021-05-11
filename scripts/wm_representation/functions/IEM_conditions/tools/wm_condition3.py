@@ -6,6 +6,12 @@ Created on Mon Apr 29 13:05:33 2019
 @author: David
 """
 
+import sys, os
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+sys.path.insert(1, path_tools)
+from tools import *
+
+
 def wm_condition3(masked_data, beh_path, n_scans, condition,  distance, sys_use='unix', TR=2.335, nscans_wm=16):
     # Behaviour 
     beh_path = ub_wind_path(beh_path, system=sys_use) #change depending on windoxs/unix
