@@ -20,6 +20,9 @@ from sklearn.model_selection import LeaveOneOut
 
 
 
+nscans_wm=16
+
+
 ###Model_functions
 #Generate the positions of the channels (there will be 14)
 sep_channels=10
@@ -34,10 +37,20 @@ pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))
 
 
 
+next_path = os.path.abspath(os.path.join(os.getcwd(), 'tools')) 
+sys.path.insert(1, next_path)
+
+
+###### Isolated stimulus
+
+from get_quad import *
+from isolated_ones import *
 
 
 
-nscans_wm=16
+
+
+
 
 
 
