@@ -44,7 +44,6 @@ ref_angle=180
 
 num_shuffles = 5 #100 #10
 
-
 for Subject in Subjects:
     for Brain_region in brain_regions:
         print(Subject)
