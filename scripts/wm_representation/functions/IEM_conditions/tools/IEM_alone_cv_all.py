@@ -10,9 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_alone_cv_all
-def IEM_cross_condition_kfold_allTRs_alone(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, 
-    tr_st, tr_end, n_slpits=10):
+def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, tr_st, tr_end, n_slpits=10):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -23,6 +21,9 @@ def IEM_cross_condition_kfold_allTRs_alone(testing_activity, testing_behaviour, 
     #### I use this function for the conditions 1_7 and 2_7, because the adjacent TRs may be "contaminated"
     #### Instead of "leave one out", I am doing k_fold with n_splits (computationally less expensive)
     #### 
+    #### Difference when runing the reconstruction between shared and not shared TRS with training
+    #### Not shared: trained in the mean of the interval tr_st - tr_end
+    #### Shared: trianed in each TR of the interval
     ####
     #### Decoding item
     if decode_item == 'Target':
@@ -38,10 +39,10 @@ def IEM_cross_condition_kfold_allTRs_alone(testing_activity, testing_behaviour, 
     nope=[list_wm_scans.remove(tr_s) for tr_s in trs_shared]
     list_wm_scans2 = list_wm_scans
     ####
-    #### Run the ones without shared information the same way
+    ####
+    ####
+    #### Run the ones WITHOUT shared information the same way
     testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
-    #####
-    #####
     #####
     Recons_dfs_not_shared=[]
     for not_shared in list_wm_scans2:
@@ -67,7 +68,9 @@ def IEM_cross_condition_kfold_allTRs_alone(testing_activity, testing_behaviour, 
     Reconstruction_not_shared = pd.concat(Recons_dfs_not_shared, axis=1)
     Reconstruction_not_shared.columns =  [str(i * TR) for i in list_wm_scans2 ] 
     ####
-    #### Run the ones with shared information: k fold
+    ####
+    ####
+    #### Run the ones WITH shared information: k fold
     Recons_dfs_shared=[]
     for shared_TR in trs_shared:
         testing_data= testing_activity[:, shared_TR, :]            
@@ -88,6 +91,9 @@ def IEM_cross_condition_kfold_allTRs_alone(testing_activity, testing_behaviour, 
         reconstrction_sh_mean = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
         Recons_dfs_shared.append(reconstrction_sh_mean)
     ####
+    ####
+    ####
+    #### Put together
     Reconstruction_shared = pd.concat(Recons_dfs_shared, axis=1)
     Reconstruction_shared.columns =  [str(i * TR) for i in trs_shared ]  
     #### 
