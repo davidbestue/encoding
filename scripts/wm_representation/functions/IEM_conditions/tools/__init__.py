@@ -90,6 +90,7 @@ from IEM_cross_condition_kfold_allTRs import *
 from IEM_cross_condition_kfold_shuff_allTRs import *
 from IEM_cross_condition_l1out import *
 from IEM_cross_condition_l1out_shuff import *
+from IEM_alone_cv_all import * 
 
 
 ###### Isolated stimulus
