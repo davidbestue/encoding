@@ -38,7 +38,7 @@ Reconstructions_shuff=[]
 
 ## elements for the loop
 Conditions=[ '1_7']
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
 brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
@@ -50,23 +50,23 @@ for Subject in Subjects:
         print(Brain_region)
         #plt.figure()
         ### Data to use
-        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-        ###
-        ### Process training data
-        training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
-            distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-        #
-        delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) 
-        training_thing = training_behaviour[training_item]
+        # enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+        # ###
+        # ### Process training data
+        # training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
+        #     distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+        # #
+        # delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) 
+        # training_thing = training_behaviour[training_item]
 
-        ##### Train your weigths
+        # ##### Train your weigths
         WM, Inter = 1,2
         WM_t = 3
 
 
         for idx_c, Condition in enumerate(Conditions):
             if (Condition == cond_t) & (decoding_thing=='Distractor'):  ###cross validation
-                training_activity, training_behaviour = delay_TR_cond, training_thing
+                #training_activity, training_behaviour = delay_TR_cond, training_thing
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)

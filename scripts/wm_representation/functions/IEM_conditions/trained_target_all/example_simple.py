@@ -12,8 +12,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example3.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example3.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example_simple.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example_simple.xlsx'
 
 
 ## options (chek the filename too!)
@@ -38,47 +38,35 @@ Reconstructions_shuff=[]
 
 ## elements for the loop
 Conditions=[ '1_7']
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
 num_shuffles = 5 #100 #10
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
-        print(Subject)
-        print(Brain_region)
-        #plt.figure()
-        ### Data to use
-        enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-        ###
-        ### Process training data
-        training_activity, training_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
-            distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-        #
-        delay_TR_cond = np.mean(training_activity[:, tr_st:tr_end, :], axis=1) 
-        training_thing = training_behaviour[training_item]
-
-        ##### Train your weigths
-        WM, Inter = 1,2
-        WM_t = 3
-
-
         for idx_c, Condition in enumerate(Conditions):
+            print(Subject, Brain_region, Condition )
+            #        
             if (Condition == cond_t) & (decoding_thing=='Distractor'):  ###cross validation
-                training_activity, training_behaviour = delay_TR_cond, training_thing
+                #get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+                #
+                # preprocess wm files 
                 testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
-                Reconstruction = IEM_cross_condition_kfold_allTRs_alone(testing_activity= testing_activity, testing_behaviour=testing_behaviour, 
-                    decode_item= decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
+                # IEM 
+                Reconstruction = IEM_alone_cv_all(testing_activity=testing_activity, testing_behaviour=testing_behaviour,
+                 decode_item=decoding_thing, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-
-                shuff = IEM_cross_condition_kfold_shuff_allTRs_alone(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
-                    decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
-                    iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=10)
-                Reconstructions_shuff.append(shuff)
+                #
+                # IEM shuffle
+                #shuff = IEM_cross_condition_kfold_shuff_allTRs_alone(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
+                #    decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
+                #    iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=10)
+                #Reconstructions_shuff.append(shuff)
                 ###Reconstructions_shuff.append(shuff)
             else:
                 print('Error')
