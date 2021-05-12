@@ -71,6 +71,7 @@ from Weights_matrix_LM import *
 from trial_rep import *
 from trial_rep_decode_trial_by_trial import *
 from Representation import *
+from Representation_heatmap import *
 
 ###### process wm files
 from ub_wind_path import *
