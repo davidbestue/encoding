@@ -10,7 +10,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_cv_all_shuff(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, n_slpits=10):
+def IEM_cv_all_shuff(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, 
+    condition, subject, region, iterations, n_slpits=10):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -106,7 +107,26 @@ def IEM_cv_all_shuff(testing_activity, testing_behaviour, decode_item, training_
         sorted_col = np.sort([float(Reconstruction.columns[i]) for i in range(len(Reconstruction.columns))])           
         sorted_col = [str(sorted_col[i]) for i in range(len(sorted_col))]
         Reconstruction = Reconstruction.reindex( sorted_col, axis=1)  
-    #
-    return Reconstruction
+        ####
+        ####
+        Reconstructions_shuffled.append(Reconstruction)
+
+    #####
+    df_shuffle=[]
+    for i in range(len(Reconstructions_shuffled)):
+        n = Reconstructions_shuffled[i].iloc[ref_angle*2, :] #around the ref_angle (x2 beacuse now we have 720 instead of 360)
+        n = n.reset_index()
+        n.columns = ['times', 'decoding']
+        n['decoding'] = [sum(Reconstructions_shuffled[i].iloc[:, ts] * f2(ref_angle)) for ts in range(len(n))] #population vector method (scalar product)
+        n['times']=n['times'].astype(float)
+        n['region'] = region
+        n['subject'] = subject
+        n['condition'] = condition
+        df_shuffle.append(n) #save thhis
+    
+    ##
+    df_shuffle = pd.concat(df_shuffle)    #same shape as the decosing of the signal
+    return df_shuffle
+    
 
 

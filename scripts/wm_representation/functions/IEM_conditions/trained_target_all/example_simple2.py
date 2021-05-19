@@ -63,11 +63,12 @@ for Subject in Subjects:
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #
                 # IEM shuffle
-                #shuff = IEM_cross_condition_kfold_shuff_allTRs_alone(testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
-                #    decode_item=decoding_thing, WM=WM, WM_t=WM_t, Inter=Inter, condition=Condition, subject=Subject, region=Brain_region,
-                #    iterations=num_shuffles, tr_st=tr_st, tr_end=tr_end, ref_angle=180, n_slpits=10)
-                #Reconstructions_shuff.append(shuff)
-                ###Reconstructions_shuff.append(shuff)
+                shuff = IEM_cv_all_shuff(testing_activity=activity, testing_behaviour=behaviour, 
+                    decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
+                    condition=Condition, subject=Subject, region=Brain_region,
+                    iterations=num_shuffles, n_slpits=10)
+                Reconstructions_shuff.append(shuff)
+                
             else:
                 #get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
@@ -96,7 +97,9 @@ for Subject in Subjects:
                 ##################
                 ###### IEM shuffle
                 shuff = IEM_shuff(testing_activity=testing_activity,testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
-                    WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
+                    WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, 
+                    condition=Condition, subject=Subject, region=Brain_region,
+                    iterations=num_shuffles, ref_angle=180)
                 #
                 Reconstructions_shuff.append(shuff)
                 

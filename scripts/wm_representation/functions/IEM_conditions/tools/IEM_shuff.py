@@ -10,7 +10,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_shuff(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, tr_st, tr_end, iterations, ref_angle=180):
+def IEM_shuff(testing_activity, testing_behaviour, decode_item, WM, WM_t, Inter, tr_st, tr_end, 
+    condition, subject, region, iterations, ref_angle=180):
     ####
     ####
     #### IEM: Inverted encoding model
