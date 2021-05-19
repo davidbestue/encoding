@@ -81,10 +81,8 @@ from condition_wm import *
 from wm_condition import *
 from preprocess_wm_files import *
 from subset_training import *
-from isolated_one import *
-from close_one import *
-from process_beh_file import *
-from preprocess_wm_data import *
+
+
 
 
 ###### bootsrtap functions
@@ -118,3 +116,5 @@ from preprocess_wm_files_close import *
 from IEM_cross_condition_kfold_allTRs_alone import *
 from IEM_cross_condition_kfold_shuff_allTRs_alone import *
 
+from process_beh_file import *
+from preprocess_wm_data import *
