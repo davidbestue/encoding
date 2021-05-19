@@ -73,6 +73,7 @@ from trial_rep_decode_trial_by_trial import *
 from Representation import *
 from Representation_heatmap import *
 
+
 ###### process wm files
 from ub_wind_path import *
 from mask_fmri_process import *
@@ -82,6 +83,8 @@ from preprocess_wm_files import *
 from subset_training import *
 from process_beh_file import *
 from preprocess_wm_data import *
+from isolated_one import *
+from close_one import *
 
 ###### bootsrtap functions
 from shuffled_reconstruction import *
