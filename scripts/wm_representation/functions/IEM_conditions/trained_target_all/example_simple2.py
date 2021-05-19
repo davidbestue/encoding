@@ -41,7 +41,7 @@ Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
 brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 1 #100 #10
+num_shuffles = 2 #100 #10
 
 for Subject in Subjects:
     for Brain_region in brain_regions:
@@ -93,8 +93,12 @@ for Subject in Subjects:
                     WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end)
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+                ##################
                 ###### IEM shuffle
-                
+                shuff = IEM_shuff(testing_activity=testing_activity,, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
+                #
+                Reconstructions_shuff.append(shuff)
                 
 
 
