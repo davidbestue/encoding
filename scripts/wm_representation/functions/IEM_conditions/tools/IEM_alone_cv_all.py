@@ -14,7 +14,7 @@ def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, tr_st, tr
     ####
     ####
     #### IEM: Inverted encoding model
-    #### wm: trained in working memory data 
+    #### alone: trained in working memory data, in the isolated stimulus (alone in quadrant) 
     #### cv: cross-validated. Trained and test on the same dataset
     #### all: cross-validate all the TRs and not just the shared for training
     #### 
