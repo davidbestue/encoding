@@ -78,13 +78,15 @@ for Subject in Subjects:
 ### Get signal from the reconstructions (get the signal before; not done in the function in case you want to save the whole)
 ### If you want to save the whole recosntruction, uncomment the following lines
 
+path_save_reconstructions ='/home/david/Desktop/Reconstructions/IEM/IEM_example_cross_recons.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
+
 ### Save Recosntructions
 # path_save_reconstructions = #
-# writer = pd.ExcelWriter(path_save_reconstructions)
-# for i in range(len(Reconstructions.keys())):
-#     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
+writer = pd.ExcelWriter(path_save_reconstructions)
+for i in range(len(Reconstructions.keys())):
+    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
 
-# writer.save()   #save reconstructions (heatmaps)
+writer.save()   #save reconstructions (heatmaps)
 
 #Save just the signal (around the decoding thing)
 Decoding_df =[]
