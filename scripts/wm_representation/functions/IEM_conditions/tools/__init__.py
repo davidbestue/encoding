@@ -81,9 +81,9 @@ from condition_wm import *
 from wm_condition import *
 from preprocess_wm_files import *
 from subset_training import *
-from process_beh_file import *
 from isolated_one import *
 from close_one import *
+from process_beh_file import *
 from preprocess_wm_data import *
 
 
