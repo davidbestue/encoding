@@ -25,7 +25,7 @@ def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, training_
     #### Not shared: trained in the mean of the interval tr_st - tr_end
     #### Shared: trianed in each TR of the interval
     ####
-    #### Training item
+    #### Training item (decide before where you train the model (it is a column in the beh file))
     ##### training_item = 'T_alone'
     ##### training_item = 'dist_alone'    
     ####
