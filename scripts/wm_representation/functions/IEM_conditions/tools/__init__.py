@@ -104,8 +104,6 @@ from IEM_shuff import *
 from IEM_cv_all_shuff import *
 
 
-
-
 ###### Isolated stimulus
 from get_quad import *
 from isolated_one import *
