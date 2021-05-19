@@ -36,7 +36,7 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ## elements for the loop
-Conditions=['1_0.2'] ##, '1_7', '2_0.2', '2_7'] #, '1_7']
+Conditions=['1_0.2', '1_7'] ##, '1_7', '2_0.2', '2_7'] #, '1_7']
 Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
 brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
@@ -139,38 +139,8 @@ Df['label'] = 'signal' #ad the label of signal (you will concatenate this df wit
 Df.to_excel( path_save_signal ) #save signal
 
 ### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function)
-# Df_shuffs = pd.concat(Reconstructions_shuff)
-# Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
-# Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
+Df_shuffs = pd.concat(Reconstructions_shuff)
+Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
+Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
 
 
-
-
-# previous_2_path =  os.path.abspath(os.path.join(previous_path, os.pardir)) 
-# sys.path.insert(1, previous_2_path)
-
-# from model_functions import *
-# from fake_data_generator import *
-# from Weights_matrixs import *
-# from Representation import *
-# from process_encoding import *
-# from process_wm import *
-# from data_to_use import *
-# from bootstrap_functions import *
-# from isolation_reconstruction import *
-# from joblib import Parallel, delayed
-# import multiprocessing
-# import time
-# import random
-# from sklearn.model_selection import KFold
-
-
-# import multiprocessing
-# multiprocessing.cpu_count() 
-
-# ### use the cores so we do not run out of memory
-# numcores = multiprocessing.cpu_count() 
-# if numcores>20:
-#     numcores=numcores-10
-# if numcores<10:
-#     numcores=numcores-3
