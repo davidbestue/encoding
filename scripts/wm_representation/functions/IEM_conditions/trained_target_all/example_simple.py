@@ -12,12 +12,12 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ##paths to save the files 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example_simple.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example_simple.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_example_cross.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example_cross.xlsx'
 
 
 ## options (chek the filename too!)
-training_item = 'T_alone'
+training_item = 'T_alone'  ## 'dist_alone'  'T_alone' 
 decoding_thing = 'Distractor' #'Distractor' #'Target'
 
 Distance_to_use = 'mix' #'close' 'far'
@@ -38,8 +38,8 @@ Reconstructions_shuff=[]
 
 ## elements for the loop
 Conditions=[ '1_7']
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual'] #, 'ips', 'pfc']
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
 num_shuffles = 5 #100 #10
@@ -59,7 +59,7 @@ for Subject in Subjects:
                 #
                 # IEM 
                 Reconstruction = IEM_alone_cv_all(testing_activity=testing_activity, testing_behaviour=testing_behaviour,
-                 decode_item=decoding_thing, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
+                 decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #
                 # IEM shuffle
@@ -107,9 +107,9 @@ Df['label'] = 'signal' #ad the label of signal (you will concatenate this df wit
 Df.to_excel( path_save_signal ) #save signal
 
 ### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function)
-Df_shuffs = pd.concat(Reconstructions_shuff)
-Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
-Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
+# Df_shuffs = pd.concat(Reconstructions_shuff)
+# Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
+# Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
 
 
 

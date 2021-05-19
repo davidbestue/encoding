@@ -10,7 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, tr_st, tr_end, n_slpits=10):
+def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, n_slpits=10):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -25,13 +25,9 @@ def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, tr_st, tr
     #### Not shared: trained in the mean of the interval tr_st - tr_end
     #### Shared: trianed in each TR of the interval
     ####
-    #### Decoding item
-    if decode_item == 'Target':
-        dec_I = 'T_alone'
-    elif decode_item == 'Distractor':
-        dec_I = 'dist_alone'
-    else:
-        'Error specifying the decode item'
+    #### Training item
+    ##### training_item = 'T_alone'
+    ##### training_item = 'dist_alone'    
     ####
     #### Get the Trs with shared information and the TRs without shared information
     list_wm_scans= range(nscans_wm)  
@@ -42,7 +38,7 @@ def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, tr_st, tr
     ####
     ####
     #### Run the ones WITHOUT shared information the same way
-    testing_angles = np.array(testing_behaviour[dec_I])    # A_R # T # Dist
+    testing_angles = np.array(testing_behaviour[training_item])    # A_R # T # Dist
     #####
     Recons_dfs_not_shared=[]
     for not_shared in list_wm_scans2:
