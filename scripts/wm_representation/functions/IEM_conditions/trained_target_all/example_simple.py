@@ -58,7 +58,7 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
                 # IEM 
-                Reconstruction = IEM_alone_cv_all(testing_activity=testing_activity, testing_behaviour=testing_behaviour,
+                Reconstruction = IEM_cv_all(testing_activity=testing_activity, testing_behaviour=testing_behaviour,
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #

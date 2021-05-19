@@ -10,11 +10,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_alone_cv_all(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, n_slpits=10):
+def IEM_cv_all(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, n_slpits=10):
     ####
     ####
     #### IEM: Inverted encoding model
-    #### alone: trained in working memory data, in the isolated stimulus (alone in quadrant) 
     #### cv: cross-validated. Trained and test on the same dataset
     #### all: cross-validate all the TRs and not just the shared for training
     #### 
