@@ -53,7 +53,7 @@ for Subject in Subjects:
                 #get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 #
-                # preprocess wm files 
+                # preprocess wm files ()
                 testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
@@ -71,7 +71,20 @@ for Subject in Subjects:
             else:
                 #get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+                ###### Process training data
+                training_activity, training_behaviour = preprocess_wm_files(wm_fmri_paths, masks, wm_beh_paths, condition=cond_t, 
+                    distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
+                #subset training activity (TRs of  the time and column of beh.)
+                delay_TR_cond, training_thing = subset_training(training_activity=training_activity, training_behaviour=training_behaviour, 
+                    training_item=training_item , training_time=training_time, tr_st=tr_st, tr_end=tr_end)
+
+                ##### Train your weigths
+                WM, Inter = Weights_matrix_LM( delay_TR_cond, training_thing )
+                WM_t = WM.transpose()
+
+
+
                 # preprocess wm files 
                 testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)

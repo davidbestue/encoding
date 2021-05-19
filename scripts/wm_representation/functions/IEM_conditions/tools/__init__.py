@@ -79,6 +79,7 @@ from mask_fmri_process import *
 from condition_wm import *
 from wm_condition import *
 from preprocess_wm_files import *
+from subset_training import *
 
 ###### bootsrtap functions
 from shuffled_reconstruction import *
@@ -92,6 +93,10 @@ from IEM_cross_condition_kfold_shuff_allTRs import *
 from IEM_cross_condition_l1out import *
 from IEM_cross_condition_l1out_shuff import *
 from IEM_alone_cv_all import * 
+from IEM_cv_all import * 
+from IEM_cv import * 
+from IEM import * 
+
 
 
 ###### Isolated stimulus
