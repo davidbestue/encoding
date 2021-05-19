@@ -95,7 +95,7 @@ for Subject in Subjects:
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ##################
                 ###### IEM shuffle
-                shuff = IEM_shuff(testing_activity=testing_activity,, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                shuff = IEM_shuff(testing_activity=testing_activity,testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
                     WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
                 #
                 Reconstructions_shuff.append(shuff)
