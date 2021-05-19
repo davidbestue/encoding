@@ -18,7 +18,7 @@ path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_example_c
 
 ## options (chek the filename too!)
 training_item = 'T_alone'  ## 'dist_alone'  'T_alone' 
-decoding_thing = 'Distractor' #'Distractor' #'Target'
+decoding_thing = 'T_alone' #'dist_alone'  'T_alone'  'Distractor' #'Target'
 
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
@@ -52,14 +52,15 @@ for Subject in Subjects:
             if Condition == cond_t:  ### Cross validate if training and testing in the same condition
                 #get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-                #
-                # preprocess wm files (I call them activity and not training_ or testing_ as it is the same data
+                #############
+                ###### Process wm files (I call them activity and not training_ or testing_ as it is the same data
                 activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
-                #
-                # IEM 
+                #############
+                ####### IEM 
                 Reconstruction = IEM_cv_all(testing_activity=activity, testing_behaviour=behaviour,
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
+                #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #
                 # IEM shuffle
@@ -89,8 +90,9 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 ##################
                 ###### IEM 
-                Reconstruction = IEM_cv_all(testing_activity=testing_activity, testing_behaviour=testing_behaviour,
-                 decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
+                Reconstruction = IEM(testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    WM=WM, WM_t=WM_t, tr_st=tr_st, tr_end=tr_end)
+                #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ###### IEM shuffle
                 

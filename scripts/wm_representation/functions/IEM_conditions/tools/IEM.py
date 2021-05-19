@@ -10,7 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM(testing_activity, testing_behaviour, decode_item, WM, WM_t, tr_st, tr_end, n_slpits=10):
+def IEM(testing_activity, testing_behaviour, decode_item, WM, WM_t, tr_st, tr_end):
     ####
     ####
     #### IEM: Inverted encoding model
