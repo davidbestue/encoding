@@ -85,7 +85,7 @@ for Subject in Subjects:
 
 
 
-                # preprocess wm files 
+                # preprocess testing data 
                 testing_activity, testing_behaviour = preprocess_wm_files_alone(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
                 #
