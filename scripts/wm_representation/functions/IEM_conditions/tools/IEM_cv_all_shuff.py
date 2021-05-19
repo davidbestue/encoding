@@ -11,7 +11,7 @@ from tools import *
 
 
 def IEM_cv_all_shuff(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, 
-    condition, subject, region, iterations, n_slpits=10):
+    condition, subject, region, iterations,  n_slpits=10, ref_angle=180):
     ####
     ####
     #### IEM: Inverted encoding model
