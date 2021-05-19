@@ -91,7 +91,7 @@ for Subject in Subjects:
                 ##################
                 ###### IEM 
                 Reconstruction = IEM(testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
-                    WM=WM, WM_t=WM_t, tr_st=tr_st, tr_end=tr_end)
+                    WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end)
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ###### IEM shuffle
