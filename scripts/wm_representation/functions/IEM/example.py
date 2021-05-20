@@ -5,30 +5,52 @@ Created on Mon Jul  1 18:24:32 2019
 @author: David Bestue
 """
 
-# Add to sys path the path where the tools folder ir (in this case, I need to go one back)
+############# Add to sys path the path where the tools folder is
 import sys, os
-path_tools = os.getcwd() #os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
+path_tools = os.getcwd() #os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
 sys.path.insert(1, path_tools)
 from tools import *
 
-##paths to save the files 
+############# Namefiles for the savings. 
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT.xlsx' 
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_IEM_trainT_testT.xlsx'
 
 
-## TESTING OPTIONS
-decoding_thing = 'T_alone' #'dist_alone'  'T_alone'  
+############# Testing options
+decoding_thing = 'T_alone' ##'dist_alone'  'T_alone'  
 
-## TRAINING OPTIONS
-training_item = 'T_alone'  ## 'dist_alone'  'T_alone' 
+
+############# Training options
+training_item = 'T_alone'  ##'dist_alone'  'T_alone' 
 cond_t = '1_7' # '1_7'  '2_7'
 
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay' #'stim_p'  'delay' 'respo'
-# depending on the options, the TRs used for the training will be different
-if training_time=='delay':
-    tr_st=4
-    tr_end=6
+tr_st=4
+tr_end=6
+
+## Options de training times, the TRs used for the training will be different 
+# training_time=='delay':
+# tr_st=4
+# tr_end=6
+
+# training_time=='stim_p':
+# tr_st=3
+# tr_end=4
+
+# training_time=='delay':
+# tr_st=4
+# tr_end=6
+
+# training_time=='respo':
+#     if decoding_thing=='Target':
+#         tr_st=8
+#         tr_end=9
+#     elif decoding_thing=='Distractor':
+#         tr_st=11
+#         tr_end=12
+
+
 
 
 ## dictionary and list to save the files
@@ -49,7 +71,8 @@ for Subject in Subjects:
             print(Subject, Brain_region, Condition )
             #                    
             if Condition == cond_t:  ### Cross validate if training and testing in the same condition
-                #get the data
+                #############
+                ############# Get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 #############
                 ###### Process wm files (I call them activity and not training_ or testing_ as it is the same data
@@ -61,7 +84,7 @@ for Subject in Subjects:
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-                #
+                #############
                 # IEM shuffle
                 shuff = IEM_cv_all_shuff(testing_activity=activity, testing_behaviour=behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
@@ -70,7 +93,8 @@ for Subject in Subjects:
                 Reconstructions_shuff.append(shuff)
                 
             else:
-                #get the data
+                #############
+                ############# Get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 ##################
                 ###### Process training data
