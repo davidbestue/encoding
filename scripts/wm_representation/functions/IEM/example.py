@@ -80,7 +80,7 @@ for Subject in Subjects:
                 #############
                 ###### Process wm files (I call them activity instead of training_ or testing_ as they come from the same condition)
                 activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
-                    condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #############
                 ####### IEM cross-validating all the TRs
                 Reconstruction = IEM_cv_all(testing_activity=activity, testing_behaviour=behaviour,
@@ -88,7 +88,7 @@ for Subject in Subjects:
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #############
-                # IEM shuffle
+                # IEM shuffle cross-validating all the TRs
                 shuff = IEM_cv_all_shuff(testing_activity=activity, testing_behaviour=behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
                     condition=Condition, subject=Subject, region=Brain_region,
@@ -102,7 +102,7 @@ for Subject in Subjects:
                 ##################
                 ###### Process training data
                 training_activity, training_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
-                    condition=cond_t, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+                    condition=cond_t, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #
                 # Subset training activity (TRs of  the time and column of beh for the training)
                 delay_TR_cond, training_thing = subset_training(training_activity=training_activity, training_behaviour=training_behaviour, 
@@ -114,7 +114,7 @@ for Subject in Subjects:
                 ##################
                 ###### Process testing data 
                 testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
-                    condition=Condition, distance=Distance_to_use, sys_use='unix', nscans_wm=nscans_wm, TR=2.335)
+                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 ##################
                 ###### IEM 
                 Reconstruction = IEM(testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
@@ -126,26 +126,24 @@ for Subject in Subjects:
                 shuff = IEM_shuff(testing_activity=testing_activity,testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
                     WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, 
                     condition=Condition, subject=Subject, region=Brain_region,
-                    iterations=num_shuffles, ref_angle=180)
+                    iterations=num_shuffles)
                 #
                 Reconstructions_shuff.append(shuff)
                 
 
 
         
-### Save reconstruction          
+###### Save reconstruction (heatmap)         
 ### Get signal from the reconstructions (get the signal before; not done in the function in case you want to save the whole)
 ### If you want to save the whole recosntruction, uncomment the following lines
-
-### Save Recosntructions of the signal
 # path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT.xlsx'
 # writer = pd.ExcelWriter(path_save_reconstructions)
 # for i in range(len(Reconstructions.keys())):
 #     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
-#
+
 # writer.save()   #save reconstructions (heatmaps)
 
-#Save decoding signal (around the reference angle)
+###### Save decoding signal (around the reference angle)
 Decoding_df =[]
 
 for dataframes in Reconstructions.keys():
@@ -162,11 +160,11 @@ for dataframes in Reconstructions.keys():
 
 
 Df = pd.concat(Decoding_df)
-Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
+Df['label'] = 'signal' #add the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
 
 
-### Save Shuffle 
+###### Save Shuffle 
 ### I do not need to do the "pop vector" step becuase it is done inside the function IEM_shuff
 ### I do it different because eventually I might be interested in saving the whole reconstruction of the signal (I am not interested in the shuffles)
 Df_shuffs = pd.concat(Reconstructions_shuff)
@@ -174,3 +172,4 @@ Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
 Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
 
 
+##################
