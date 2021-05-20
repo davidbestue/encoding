@@ -138,7 +138,8 @@ Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
 
-### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function)
+### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function IEM_shuff)
+### I do it different because eventually I might be interested in saving the whole reconstruction of the signal (I am not interested in the shuffles)
 Df_shuffs = pd.concat(Reconstructions_shuff)
 Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
 Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
