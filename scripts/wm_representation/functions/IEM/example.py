@@ -106,19 +106,19 @@ for Subject in Subjects:
 
 
         
-### Save signal         
+### Save reconstruction          
 ### Get signal from the reconstructions (get the signal before; not done in the function in case you want to save the whole)
 ### If you want to save the whole recosntruction, uncomment the following lines
 
-### Save Recosntructions
-# path_save_reconstructions = #
+### Save Recosntructions of the signal
+# path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT.xlsx'
 # writer = pd.ExcelWriter(path_save_reconstructions)
 # for i in range(len(Reconstructions.keys())):
 #     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
-
+#
 # writer.save()   #save reconstructions (heatmaps)
 
-#Save just the signal (around the decoding thing)
+#Save decoding signal (around the reference angle)
 Decoding_df =[]
 
 for dataframes in Reconstructions.keys():
@@ -138,7 +138,9 @@ Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #ad the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
 
-### Save Shuffle (in shuffles you do not need to get the *2 thing becuase it is done inside the function IEM_shuff)
+
+### Save Shuffle 
+### I do not need to do the "pop vector" step becuase it is done inside the function IEM_shuff
 ### I do it different because eventually I might be interested in saving the whole reconstruction of the signal (I am not interested in the shuffles)
 Df_shuffs = pd.concat(Reconstructions_shuff)
 Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
