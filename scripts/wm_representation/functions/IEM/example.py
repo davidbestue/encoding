@@ -136,12 +136,12 @@ for Subject in Subjects:
 ###### Save reconstruction (heatmap)         
 ### Get signal from the reconstructions (get the signal before; not done in the function in case you want to save the whole)
 ### If you want to save the whole recosntruction, uncomment the following lines
-# path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT.xlsx'
-# writer = pd.ExcelWriter(path_save_reconstructions)
-# for i in range(len(Reconstructions.keys())):
-#     Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/heatmap_check.xlsx' #IEM_heatmap_trainT_testT.xlsx'
+writer = pd.ExcelWriter(path_save_reconstructions)
+for i in range(len(Reconstructions.keys())):
+    Reconstructions[Reconstructions.keys()[i]].to_excel(writer, sheet_name=Reconstructions.keys()[i]) #each dataframe in a excel sheet
 
-# writer.save()   #save reconstructions (heatmaps)
+writer.save()   #save reconstructions (heatmaps)
 
 ###### Save decoding signal (around the reference angle)
 Decoding_df =[]
