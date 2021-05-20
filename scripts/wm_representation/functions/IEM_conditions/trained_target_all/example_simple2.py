@@ -13,7 +13,7 @@ from tools import *
 
 ##paths to save the files 
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT.xlsx' #IEM_target_trtarg_isol_1_7_10.xlsx
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_IEM_trainT_testT..xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_IEM_trainT_testT.xlsx'
 
 
 ## TESTING OPTIONS
@@ -38,7 +38,7 @@ Reconstructions_shuff=[]
 ## elements for the loop
 Conditions=['1_0.2', '2_0.2', '2_7', '1_7'] #, '1_7']
 Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual'] #, 'ips', 'pfc']
+brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
 num_shuffles = 5 #100 #10
