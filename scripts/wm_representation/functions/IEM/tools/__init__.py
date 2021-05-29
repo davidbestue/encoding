@@ -46,7 +46,6 @@ pos_channels = [round(pos_channels[i],3) for i in range(0, len(pos_channels))]
 pos_channels2 = np.arange(0,360,0.5)
 pos_channels2 = [round(pos_channels2[i],3) for i in range(0, len(pos_channels2))]
 
-
 next_path = os.path.abspath(os.path.join(os.getcwd(), 'tools')) 
 sys.path.insert(1, next_path)
 
