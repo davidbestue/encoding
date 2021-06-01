@@ -15,7 +15,7 @@ from tools import *
 path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT.xlsx' 
 path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/IEM_IEM_trainT_testT.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT.xlsx'
 
 
 ############# Testing options
