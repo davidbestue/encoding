@@ -64,7 +64,7 @@ def IEM_cv_all(testing_activity, testing_behaviour, decode_item, training_item, 
     Reconstruction_not_shared = pd.concat(Recons_dfs_not_shared, axis=1)
     Reconstruction_not_shared.columns =  [str(i * TR) for i in list_wm_scans2 ] 
     ####
-    ####
+    ###
     ####
     #### Run the ones WITH shared information: k fold
     Recons_dfs_shared=[]
