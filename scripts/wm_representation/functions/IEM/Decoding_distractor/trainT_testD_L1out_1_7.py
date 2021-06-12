@@ -85,6 +85,7 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #############
                 ####### IEM cross-validating all the TRs
+                #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
                 Reconstruction = IEM_cv_all(testing_activity=activity, testing_behaviour=behaviour,
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
                 #

@@ -45,7 +45,7 @@ def IEM_cv_all(testing_activity, testing_behaviour, decode_item, training_item, 
         training_data =   np.mean(testing_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
         testing_data= testing_activity[:, not_shared, :]   
         reconstrction_sh=[]
-        kf = KFold(n_splits=n_slpits);
+        kf = KFold(shuffle=True, n_splits=n_slpits);
         kf.get_n_splits(testing_data);
         for train_index, test_index in kf.split(testing_data):
             X_train, X_test = training_data[train_index], testing_data[test_index]
@@ -71,7 +71,7 @@ def IEM_cv_all(testing_activity, testing_behaviour, decode_item, training_item, 
     for shared_TR in trs_shared:
         testing_data= testing_activity[:, shared_TR, :]            
         reconstrction_sh=[]
-        kf = KFold(n_splits=n_slpits);
+        kf = KFold(shuffle=True, n_splits=n_slpits);
         kf.get_n_splits(testing_data);
         for train_index, test_index in kf.split(testing_data):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
