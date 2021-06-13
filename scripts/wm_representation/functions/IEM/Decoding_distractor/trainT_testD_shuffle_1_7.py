@@ -21,7 +21,6 @@ path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_te
 ############# Testing options
 decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  
 
-
 ############# Training options
 training_item = 'T_alone'  #'dist_alone'  'T_alone' 
 cond_t = '1_7'             #'1_7'  '2_7'
