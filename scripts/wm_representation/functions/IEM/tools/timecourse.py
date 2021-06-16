@@ -17,7 +17,7 @@ pre_stim_period= 0.5 #time between cue and stim
 resp_time = 4  #time the response is active
 
 
-def tiemcourse(df_plot, title_plot, decoding_thing='target'):
+def tiemcourse(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     ##
     ###
     ####   In the input dataframe you need the following columns:
@@ -109,8 +109,12 @@ def tiemcourse(df_plot, title_plot, decoding_thing='target'):
         plt.gca().get_xaxis().tick_bottom()
         plt.gca().get_yaxis().tick_left()
         plt.xticks([5,10,15,20,25,30,35], fontsize=15) #just this tcks
-        plt.ylim(-20, 20)
-        plt.yticks([-20, -10, 0 , 10, 20], fontsize=15)
+        plt.ylim(ylims[0], ylims[1])
+        if ylims[0]==-20:
+            plt.yticks([-20, -10, 0 , 10, 20], fontsize=15)
+        if ylims[0]==-30:
+            plt.yticks([-30, -15, 0 , 15, 30], fontsize=15)
+        #
         plt.xlim(xlim)
         plt.xlabel(x_label_cond, fontsize=20)
         plt.ylabel(y_label_cond, fontsize=20)
