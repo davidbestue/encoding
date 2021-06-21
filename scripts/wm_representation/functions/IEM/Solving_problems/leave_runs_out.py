@@ -68,6 +68,8 @@ ref_angle=180
 
 
 
+############# Analysis
+#############
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
@@ -81,15 +83,28 @@ for Subject in Subjects:
                 ###### Process wm files (I call them activity instead of training_ or testing_ as they come from the same condition)
                 activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
+                #############
+                ####### IEM cross-validating all the TRs
+                #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
+                Reconstruction2 = IEM_cv_all_runsout(testing_activity=activity, testing_behaviour=behaviour,
+                 decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
+
+                #Reconstruction = IEM_cv_all(testing_activity=activity, testing_behaviour=behaviour,
+                # decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end, n_slpits=10)
 
 
 
 
 
+# AAA = np.array(behaviour['T_alone']  )
 
 
-
-
+# kf = KFold(shuffle=False, n_splits=8);
+# kf.get_n_splits(AAA);
+# for train_index, test_index in kf.split(AAA):
+# 	train_index
+    # X_train, X_test = AAA[train_index], AAA[test_index]
+    # y_train, y_test = AAA[train_index], AAA[test_index]
 
 
 
