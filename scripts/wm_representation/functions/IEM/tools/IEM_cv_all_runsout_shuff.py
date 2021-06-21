@@ -67,7 +67,7 @@ def IEM_cv_all_runsout_shuff(testing_activity, testing_behaviour, decode_item, t
                 #
                 training_indexes.append( np.array(all_indexes) )
             ###
-            for train_index, test_index in kf.split(testing_data):
+            for train_index, test_index in zip(training_indexes, testing_indexes):
                 X_train, X_test = training_data[train_index], testing_data[test_index]
                 y_train, y_test = training_angles[train_index], testing_angles[test_index]
                 ## train
@@ -96,7 +96,7 @@ def IEM_cv_all_runsout_shuff(testing_activity, testing_behaviour, decode_item, t
             #kf = KFold(shuffle=True, n_splits=n_slpits);
             #kf.get_n_splits(testing_data);
             #
-            for train_index, test_index in kf.split(testing_data):
+            for train_index, test_index in zip(training_indexes, testing_indexes):
                 X_train, X_test = testing_data[train_index], testing_data[test_index]
                 y_train, y_test = training_angles[train_index], testing_angles[test_index]
                 ## train
