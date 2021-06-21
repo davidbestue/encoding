@@ -40,9 +40,9 @@ def process_beh_file(masked_data, beh_path, n_scans, condition,  distance, sys_u
     Beh = close_one(Beh)
     ########################################################################   
     ################## Add columns with subject, session and run
-    sub_ = beh_path[i].split('/')[-5]
-    sess_long= beh_path[i].split('/')[-3]
-    run_long= beh_path[i].split('/')[-2]
+    sub_ = beh_path.split('/')[-5]
+    sess_long= beh_path.split('/')[-3]
+    run_long= beh_path.split('/')[-2]
     sess_= int(re.split('(\d+)', sess_long)[1])
     run_= int(re.split('(\d+)', run_long)[1]  )
     Beh['subject'] = sub_
