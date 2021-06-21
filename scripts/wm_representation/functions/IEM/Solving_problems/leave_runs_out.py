@@ -96,6 +96,22 @@ for Subject in Subjects:
 
 
 
+
+
+# testing_behaviour=behaviour
+
+# training_indexes = []
+# testing_indexes =  []
+# for sess_run in testing_behaviour.session_run.unique():
+#     wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
+#     testing_indexes.append( wanted )
+#     #
+#     unwanted = list(wanted)
+#     all_indexes = list(testing_behaviour.index.values) 
+#     for ele in sorted(unwanted, reverse = True): 
+#          del all_indexes[ele]
+#     #
+#     training_indexes.append( np.array(all_indexes) )
 # AAA = np.array(behaviour['T_alone']  )
 
 

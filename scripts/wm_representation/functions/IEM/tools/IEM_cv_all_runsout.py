@@ -59,7 +59,7 @@ def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, trainin
             for ele in sorted(unwanted, reverse = True): 
                  del all_indexes[ele]
             #
-            testing_indexes.append( np.array(all_indexes) )
+            training_indexes.append( np.array(all_indexes) )
         ###
         ### apply them to train and test
         ###
