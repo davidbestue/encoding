@@ -10,7 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, n_slpits=10):
+def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -18,7 +18,7 @@ def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, trainin
     #### all: cross-validate all the TRs and not just the shared for training
     #### 
     #### I use this function for the conditions 1_7 and 2_7, because the adjacent TRs may be "contaminated"
-    #### Instead of "leave one out", I am doing k_fold with n_splits (computationally less expensive)
+    #### Instead of "leave one out" or kfold, I am spliting by run!
     #### 
     #### Difference when runing the reconstruction between shared and not shared TRS with training
     #### Not shared: trained in the mean of the interval tr_st - tr_end
@@ -87,8 +87,8 @@ def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, trainin
     for shared_TR in trs_shared:
         testing_data= testing_activity[:, shared_TR, :]            
         reconstrction_sh=[]
-        kf = KFold(shuffle=True, n_splits=n_slpits);
-        kf.get_n_splits(testing_data);
+        #kf = KFold(shuffle=True, n_splits=n_slpits);
+        #kf.get_n_splits(testing_data);
         for train_index, test_index in zip(training_indexes, testing_indexes):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
             y_train, y_test = training_angles[train_index], testing_angles[test_index]
