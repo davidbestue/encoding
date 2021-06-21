@@ -61,16 +61,13 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ############# Elements for the loop
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+Conditions=['1_0.2'] #, '1_7', '2_0.2', '2_7'] 
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
 
-behs=[]
 
-############# Analysis
-#############
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
@@ -81,25 +78,53 @@ for Subject in Subjects:
                 ############# Get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 #############
-                for p in wm_beh_paths:
-                	behs.append(p)
+                ###### Process wm files (I call them activity instead of training_ or testing_ as they come from the same condition)
+                activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
 
 
-import re
 
 
-BEH = []
 
 
-for i in range(len(behs)):
-	sub = behs[i].split('/')[-5]
-	sess= behs[i].split('/')[-3]
-	run = behs[i].split('/')[-2]
-	#
-	sess2 = int(re.split('(\d+)', sess)[1])
-	run2 = int(re.split('(\d+)', run)[1]  )
-	BEH.append([sub, sess, sess2, run, run2])
 
 
-BEH = pd.DataFrame(BEH)
-BEH.columns=['subject', 'sess', 'sess2', 'run', 'run2']
+
+
+
+
+# behs=[]
+
+# ############# Analysis
+# #############
+# for Subject in Subjects:
+#     for Brain_region in brain_regions:
+#         for idx_c, Condition in enumerate(Conditions):
+#             print(Subject, Brain_region, Condition )
+#             #                    
+#             if Condition == cond_t:  ### Cross-validate if training and testing condition are the same (1_7 when training on target and 2_7 when training on distractor)
+#                 #############
+#                 ############# Get the data
+#                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+#                 #############
+#                 for p in wm_beh_paths:
+#                 	behs.append(p)
+
+
+# import re
+
+
+# BEH = []
+
+
+# for i in range(len(behs)):
+# 	sub = behs[i].split('/')[-5]
+# 	sess= behs[i].split('/')[-3]
+# 	run = behs[i].split('/')[-2]
+# 	sess2 = int(re.split('(\d+)', sess)[1])
+# 	run2 = int(re.split('(\d+)', run)[1]  )
+# 	BEH.append([sub, sess, sess2, run, run2])
+
+
+# BEH = pd.DataFrame(BEH)
+# BEH.columns=['subject', 'sess', 'sess2', 'run', 'run2']
