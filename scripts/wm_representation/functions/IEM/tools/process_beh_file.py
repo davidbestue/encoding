@@ -38,7 +38,16 @@ def process_beh_file(masked_data, beh_path, n_scans, condition,  distance, sys_u
     Beh = isolated_one(Beh)
     ################### Add the columns of close target and distractor
     Beh = close_one(Beh)
-    ########################################################################    
+    ########################################################################   
+    ################## Add columns with subject, session and run
+    sub_ = beh_path[i].split('/')[-5]
+    sess_long= beh_path[i].split('/')[-3]
+    run_long= beh_path[i].split('/')[-2]
+    sess_= int(re.split('(\d+)', sess_long)[1])
+    run_= int(re.split('(\d+)', run_long)[1]  )
+    Beh['subject'] = sub_
+    Beh['session'] = sess_
+    Beh['run'] = run_
     #append the timestands you want from this session
     n_trials = len(timestamps)
     n_voxels_wm = np.shape(masked_data)[1]

@@ -23,6 +23,7 @@ from sklearn.linear_model import Lasso
 import statsmodels.api as sm
 from scipy.stats import zscore
 import matplotlib.pyplot as plt
+import re
 
 
 numcores = multiprocessing.cpu_count() 
