@@ -48,6 +48,7 @@ def process_beh_file(masked_data, beh_path, n_scans, condition,  distance, sys_u
     Beh['subject'] = sub_
     Beh['session'] = sess_
     Beh['run'] = run_
+    Beh['session_run'] = str(sess_) + '_' + str(run_)
     #append the timestands you want from this session
     n_trials = len(timestamps)
     n_voxels_wm = np.shape(masked_data)[1]
