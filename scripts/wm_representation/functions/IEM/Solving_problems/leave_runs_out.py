@@ -81,5 +81,25 @@ for Subject in Subjects:
                 ############# Get the data
                 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
                 #############
-                behs.append(wm_beh_paths)
- 
+                for p in wm_beh_paths:
+                	behs.append(p)
+
+
+import re
+
+
+BEH = []
+
+
+for i in range(len(behs)):
+	sub = behs[i].split('/')[-5]
+	sess= behs[i].split('/')[-3]
+	run = behs[i].split('/')[-2]
+	#
+	sess2 = int(re.split('(\d+)', sess)[1])
+	run2 = int(re.split('(\d+)', run)[1]  )
+	BEH.append([sub, sess, sess2, run, run2])
+
+
+BEH = pd.DataFrame(BEH)
+BEH.columns=['subject', 'sess', 'sess2', 'run', 'run2']
