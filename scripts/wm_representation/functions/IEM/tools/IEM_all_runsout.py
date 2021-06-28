@@ -14,9 +14,11 @@ def IEM_all_runsout(training_activity, training_behaviour, testing_activity, tes
     ####
     ####
     #### IEM: Inverted encoding model
-    #### cv: cross-validated. Trained and test on the same dataset
-    #### all: cross-validate all the TRs and not just the shared for training
+    #### runsout: train in all the runs except one
+    #### all: do it for all the Trs
     #### 
+    #### no cv: I use this for independent conditions (not training and testing in the same trials) 
+    ####
     #### I use this function for the conditions 1_7 and 2_7, because the adjacent TRs may be "contaminated"
     #### Instead of "leave one out" or kfold, I am spliting by run!
     #### 
