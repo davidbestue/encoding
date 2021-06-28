@@ -12,10 +12,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_runsEX.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_runsEX.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_runs.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_runs.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_runsEX.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_runs.xlsx'
 
 
 ############# Testing options
@@ -60,12 +60,12 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ############# Elements for the loop
-Conditions=['1_0.2', '1_7'] 
-Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual'] #, 'ips', 'pfc']
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 2 #100 #10
+num_shuffles = 10 #100 #10
 
 ############# Analysis
 #############
