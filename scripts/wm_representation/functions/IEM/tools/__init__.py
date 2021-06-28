@@ -83,8 +83,6 @@ from preprocess_wm_files import *
 from subset_training import *
 
 
-
-
 ###### bootsrtap functions
 from shuffled_reconstruction import *
 from bootstrap_reconstruction import *
@@ -103,6 +101,8 @@ from IEM_shuff import *
 from IEM_cv_all_shuff import *
 from IEM_cv_all_runsout import *
 from IEM_cv_all_runsout_shuff import *
+from IEM_all_runsout import *
+from IEM_all_runsout_shuff import *
 
 
 ###### Isolated stimulus

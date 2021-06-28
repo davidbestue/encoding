@@ -12,10 +12,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_runs.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_runs.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_runsEX.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_runsEX.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_runs.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_runsEX.xlsx'
 
 
 ############# Testing options
@@ -60,12 +60,12 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ############# Elements for the loop
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+Conditions=['1_0.2', '1_7'] 
+Subjects=['d001'] #, 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual'] #, 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 10 #100 #10
+num_shuffles = 2 #100 #10
 
 ############# Analysis
 #############
@@ -112,17 +112,18 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 ##################
                 ###### IEM 
-                Reconstruction = IEM_all_runsout(training_activity=training_activity, training_behaviour=training_behaviour, 
-                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
-                    WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end)
+                Reconstruction = IEM_all_runsout( training_activity=training_activity, training_behaviour=training_behaviour, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
+                    decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
+                    
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ##################
                 ###### IEM shuffle
-                shuff = IEM_all_runsout_shuff(testing_activity=testing_activity,testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
-                    WM=WM, WM_t=WM_t, Inter=Inter, tr_st=tr_st, tr_end=tr_end, 
-                    condition=Condition, subject=Subject, region=Brain_region,
-                    iterations=num_shuffles)
+                shuff = IEM_all_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, 
+                    iterations=num_shuffles, ref_angle=180)
                 #
                 Reconstructions_shuff.append(shuff)
                 
