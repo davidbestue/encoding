@@ -160,7 +160,8 @@ Df = pd.concat(Decoding_df)
 Df['label'] = 'signal' #add the label of signal (you will concatenate this df with the one of the shuffleing)
 Df.to_excel( path_save_signal ) #save signal
 
-
+####################################################
+## 
 ###### Save Shuffle 
 ### I do not need to do the "pop vector" step becuase it is done inside the function IEM_shuff
 ### I do it different because eventually I might be interested in saving the whole reconstruction of the signal (I am not interested in the shuffles)
