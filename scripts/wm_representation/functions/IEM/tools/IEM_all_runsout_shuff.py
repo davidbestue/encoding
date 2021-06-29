@@ -11,7 +11,8 @@ from tools import *
 
 
 def IEM_all_runsout_shuff(training_activity, training_behaviour, testing_activity, testing_behaviour, 
-    decode_item, training_item, tr_st, tr_end, iterations, ref_angle=180):
+    decode_item, training_item, tr_st, tr_end, condition, subject, region, 
+    iterations, ref_angle=180):
     ####
     ####
     #### IEM: Inverted encoding model

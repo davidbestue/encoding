@@ -123,6 +123,7 @@ for Subject in Subjects:
                 shuff = IEM_all_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
                     training_item=training_item, tr_st=tr_st, tr_end=tr_end, 
+                    condition=Condition, subject=Subject, region=Brain_region,
                     iterations=num_shuffles, ref_angle=180)
                 #
                 Reconstructions_shuff.append(shuff)
