@@ -35,6 +35,8 @@ def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, trainin
     list_wm_scans2 = list_wm_scans
     ####
     ####
+    testing_angles = np.array(testing_behaviour[decode_item])  
+    training_angles = np.array(testing_behaviour[training_item]) 
     ###########################################################################
     ########################################################################### Get the mutliple indexes to split in train and test
     ###########################################################################
@@ -55,10 +57,10 @@ def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, trainin
         all_indexes = testing_behaviour.index.values
         other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
         training_indexes.append( other_indexes )
-    ####
-    #### Run the ones WITHOUT shared information the same way
-    training_angles = np.array(testing_behaviour[training_item])   
-    testing_angles = np.array(testing_behaviour[decode_item])    
+
+    ###########################################################################
+    ########################################################################### Run the ones without shared info
+    ###########################################################################  
     #####
     Recons_dfs_not_shared=[]
     for not_shared in list_wm_scans2:
@@ -86,14 +88,13 @@ def IEM_cv_all_runsout(testing_activity, testing_behaviour, decode_item, trainin
     Reconstruction_not_shared.columns =  [str(i * TR) for i in list_wm_scans2 ] 
     ####
     ###
-    ####
-    #### Run the ones WITH shared information: k fold
+    ###########################################################################
+    ########################################################################### Run the ones with shared info
+    ###########################################################################
     Recons_dfs_shared=[]
     for shared_TR in trs_shared:
         testing_data= testing_activity[:, shared_TR, :]            
         reconstrction_sh=[]
-        #kf = KFold(shuffle=True, n_splits=n_slpits);
-        #kf.get_n_splits(testing_data);
         for train_index, test_index in zip(training_indexes, testing_indexes):
             X_train, X_test = testing_data[train_index], testing_data[test_index]
             y_train, y_test = training_angles[train_index], testing_angles[test_index]
