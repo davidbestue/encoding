@@ -60,12 +60,17 @@ def IEM_cv_all_runsout_shuff(testing_activity, testing_behaviour, decode_item, t
                 wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
                 testing_indexes.append( wanted )
                 #
-                unwanted = list(wanted)
-                all_indexes = list(testing_behaviour.index.values) 
-                for ele in sorted(unwanted, reverse = True): 
-                     del all_indexes[ele]
+                #unwanted = list(wanted)
+                #all_indexes = list(testing_behaviour.index.values) 
+                #for ele in sorted(unwanted, reverse = True): 
+                #     del all_indexes[ele]
                 #
-                training_indexes.append( np.array(all_indexes) )
+                #training_indexes.append( np.array(all_indexes) )
+                ## I do not trust the upper lines, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
+                all_indexes = testing_behaviour.index.values
+                other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
+                training_indexes.append( other_indexes )
+                #
             ###
             for train_index, test_index in zip(training_indexes, testing_indexes):
                 X_train, X_test = training_data[train_index], testing_data[test_index]
