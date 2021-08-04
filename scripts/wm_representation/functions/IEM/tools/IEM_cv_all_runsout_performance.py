@@ -57,7 +57,6 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
         all_indexes = testing_behaviour.index.values
         other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
         training_indexes.append( other_indexes )
-
     ###########################################################################
     ########################################################################### Run the ones without shared info
     ###########################################################################  
@@ -83,7 +82,7 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
             ################## We still want to try in all the data (same training). Just change the testing!
             ################## forget about previous X_test and y_test, from the remaining RUN, select by perfromance (not from all together)
             ################## 
-            testing_beh = testing_behaviour.loc[test_index]
+            testing_beh = testing_behaviour.iloc[test_index, :]
             if Error == 'high':
                 #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
                 abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
@@ -126,7 +125,7 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
             ################## We still want to try in all the data (same training). Just change the testing!
             ################## forget about previous X_test and y_test, from the remaining RUN, select by perfromance (not from all together)
             ################## 
-            testing_beh = testing_behaviour.loc[test_index]
+            testing_beh = testing_behaviour.iloc[test_index, :]
             if ERROR == 'high':
                 #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
                 abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
