@@ -10,7 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_cv_all_runsout_performance(ERROR, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end):
+def IEM_cv_all_runsout_performance(Error, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -80,18 +80,19 @@ def IEM_cv_all_runsout_performance(ERROR, testing_activity, testing_behaviour, d
             ########
             ##################
             ################## Split by perfromance 
-            ################## forget about previous X_test and y_test
-            ################## from the remaining runs, select (not from all together)
+            ################## We still want to try in all the data (same training). Just change the testing!
+            ################## forget about previous X_test and y_test, from the remaining RUN, select by perfromance (not from all together)
+            ################## 
             testing_beh = testing_behaviour[test_index]
-            if ERROR == 'high':
+            if Error == 'high':
                 abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
-            elif ERROR == 'low':
+            elif Error == 'low':
                 abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
             ##
-            y_test = testing_behaviour[abs_err_bool]
-            X_test = testing_activity[abs_err_bool]
-
-
+            y_test = np.array(testing_beh[abs_err_bool][decode_item])
+            X_test = testing_data[test_index][abs_err_bool]
+            #
+            #
             rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
             reconstrction_sh.append(rep_x)
         ###
@@ -117,6 +118,22 @@ def IEM_cv_all_runsout_performance(ERROR, testing_activity, testing_behaviour, d
             WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
             WM_t2 = WM2.transpose()
             ## test
+            ########
+            ##################
+            ################## Split by perfromance 
+            ################## We still want to try in all the data (same training). Just change the testing!
+            ################## forget about previous X_test and y_test, from the remaining RUN, select by perfromance (not from all together)
+            ################## 
+            testing_beh = testing_behaviour[test_index]
+            if ERROR == 'high':
+                abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
+            elif ERROR == 'low':
+                abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
+            ##
+            y_test = np.array(testing_beh[abs_err_bool][decode_item])
+            X_test = testing_data[test_index][abs_err_bool]
+            #
+            #
             rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
             reconstrction_sh.append(rep_x)
         ###

@@ -12,10 +12,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_runs.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_runs.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_runs_high.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_runs_high.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_runs.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_runs_high.xlsx'
 
 
 ERROR='high'
@@ -61,12 +61,12 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ############# Elements for the loop
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+Conditions=['1_0.2', '1_7'] 
+Subjects=[ 'n001']
+brain_regions = ['visual']
 ref_angle=180
 
-num_shuffles = 10 #10 #100 #10
+num_shuffles = 1 #10 #100 #10
 
 ############# Analysis
 #############
@@ -86,7 +86,7 @@ for Subject in Subjects:
                 #############
                 ####### IEM cross-validating all the TRs
                 #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
-                Reconstruction = IEM_cv_all_runsout(testing_activity=activity, testing_behaviour=behaviour,
+                Reconstruction = IEM_cv_all_runsout_performance(Error=ERROR, testing_activity=activity, testing_behaviour=behaviour,
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
