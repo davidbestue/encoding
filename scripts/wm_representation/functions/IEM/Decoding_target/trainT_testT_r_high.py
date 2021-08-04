@@ -18,7 +18,11 @@ path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap
 path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_runs_high.xlsx'
 
 
-ERROR='high'
+ERROR='high'  ## 'high', 'low'
+ERROR_percent = 75 ## 75, 25
+
+
+
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
@@ -86,13 +90,13 @@ for Subject in Subjects:
                 #############
                 ####### IEM cross-validating all the TRs
                 #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
-                Reconstruction = IEM_cv_all_runsout_performance(Error=ERROR, testing_activity=activity, testing_behaviour=behaviour,
+                Reconstruction = IEM_cv_all_runsout_performance(Error=ERROR, Error_percent=ERROR_percent, testing_activity=activity, testing_behaviour=behaviour,
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #############
                 # IEM shuffle cross-validating all the TRs
-                shuff = IEM_cv_all_runsout_performance_shuff(Error=ERROR, testing_activity=activity, testing_behaviour=behaviour, 
+                shuff = IEM_cv_all_runsout_performance_shuff(Error=ERROR, Error_percent=ERROR_percent, testing_activity=activity, testing_behaviour=behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
                     condition=Condition, subject=Subject, region=Brain_region,
                     iterations=num_shuffles)
@@ -112,12 +116,14 @@ for Subject in Subjects:
                 testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 ##################
-                ################## Split by perfromance
+                ################## Split by error
                 ##################
                 if ERROR == 'high':
-                    abs_err_bool = abs(testing_behaviour.A_err) > abs(testing_behaviour.A_err).mean() ## mean split high error
+                    #abs_err_bool = abs(testing_behaviour.A_err) > abs(testing_behaviour.A_err).mean() ## mean split high error
+                    abs_err_bool = abs(testing_behaviour.A_err) > np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
                 elif ERROR == 'low':
-                    abs_err_bool = abs(testing_behaviour.A_err) < abs(testing_behaviour.A_err).mean() ## mean split low error
+                    #abs_err_bool = abs(testing_behaviour.A_err) < abs(testing_behaviour.A_err).mean() ## mean split low error
+                    abs_err_bool = abs(testing_behaviour.A_err) < np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
                 ##
                 testing_behaviour = testing_behaviour[abs_err_bool]
                 testing_activity = testing_activity[abs_err_bool]

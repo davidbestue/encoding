@@ -10,7 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_cv_all_runsout_performance_shuff(Error, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, 
+def IEM_cv_all_runsout_performance_shuff(Error, Error_percent, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, 
     condition, subject, region, iterations, ref_angle=180):
     ####
     ####
@@ -81,9 +81,11 @@ def IEM_cv_all_runsout_performance_shuff(Error, testing_activity, testing_behavi
                 ##
                 testing_beh = testing_behaviour[test_index]
                 if Error == 'high':
-                    abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
+                    #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
+                    abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
                 elif Error == 'low':
-                    abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
+                    #abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
+                    abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
                 ##
                 y_test = np.array(testing_beh[abs_err_bool][decode_item])
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
@@ -118,9 +120,11 @@ def IEM_cv_all_runsout_performance_shuff(Error, testing_activity, testing_behavi
                 ##
                 testing_beh = testing_behaviour[test_index]
                 if Error == 'high':
-                    abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
+                    #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
+                    abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
                 elif Error == 'low':
-                    abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
+                    #abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
+                    abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
                 ##
                 y_test = np.array(testing_beh[abs_err_bool][decode_item])
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
