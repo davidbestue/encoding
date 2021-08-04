@@ -58,12 +58,9 @@ def IEM_all_runsout_shuff(training_activity, training_behaviour, testing_activit
                 wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
                 testing_indexes.append( wanted )
                 #
-                unwanted = list(wanted)
-                all_indexes = list(testing_behaviour.index.values) 
-                for ele in sorted(unwanted, reverse = True): 
-                     del all_indexes[ele]
-                #
-                training_indexes.append( np.array(all_indexes) )
+                all_indexes = testing_behaviour.index.values
+                other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
+                training_indexes.append( other_indexes ) 
             ###
             ### apply them to train and test
             ###
