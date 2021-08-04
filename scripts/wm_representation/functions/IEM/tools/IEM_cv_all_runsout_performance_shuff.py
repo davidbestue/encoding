@@ -79,7 +79,7 @@ def IEM_cv_all_runsout_performance_shuff(Error, Error_percent, testing_activity,
                 WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
                 WM_t2 = WM2.transpose()
                 ##
-                testing_beh = testing_behaviour[test_index]
+                testing_beh = testing_behaviour.loc[test_index] 
                 if Error == 'high':
                     #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
                     abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
@@ -118,7 +118,7 @@ def IEM_cv_all_runsout_performance_shuff(Error, Error_percent, testing_activity,
                 WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
                 WM_t2 = WM2.transpose()
                 ##
-                testing_beh = testing_behaviour[test_index]
+                testing_beh = testing_behaviour.loc[test_index] 
                 if Error == 'high':
                     #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
                     abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
