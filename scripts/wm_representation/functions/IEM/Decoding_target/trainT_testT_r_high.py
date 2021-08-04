@@ -92,7 +92,7 @@ for Subject in Subjects:
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #############
                 # IEM shuffle cross-validating all the TRs
-                shuff = IEM_cv_all_runsout_shuff(testing_activity=activity, testing_behaviour=behaviour, 
+                shuff = IEM_cv_all_runsout_performance_shuff(testing_activity=activity, testing_behaviour=behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
                     condition=Condition, subject=Subject, region=Brain_region,
                     iterations=num_shuffles)
