@@ -84,14 +84,6 @@ for Subject in Subjects:
                 activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #############
-                if ERROR == 'high':
-                    abs_err_bool = abs(behaviour.A_err) > abs(behaviour.A_err).mean() ## mean split high error
-                elif ERROR == 'low':
-                    abs_err_bool = abs(behaviour.A_err) < abs(behaviour.A_err).mean() ## mean split low error
-                ##
-                behaviour = behaviour[abs_err_bool]
-                activity = activity[abs_err_bool]
-
                 ####### IEM cross-validating all the TRs
                 #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
                 Reconstruction = IEM_cv_all_runsout(testing_activity=activity, testing_behaviour=behaviour,
