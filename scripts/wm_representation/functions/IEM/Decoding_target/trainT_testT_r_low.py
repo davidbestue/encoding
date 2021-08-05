@@ -119,11 +119,15 @@ for Subject in Subjects:
                 ################## Split by error
                 ##################
                 if ERROR == 'high':
-                    #abs_err_bool = abs(testing_behaviour.A_err) > abs(testing_behaviour.A_err).mean() ## mean split high error
-                    abs_err_bool = abs(testing_behaviour.A_err) > np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
+                    abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), ERROR_percent, interpolation = 'midpoint')
+                    if sum(abs_err_bool)==0:
+                        abs_err_bool = abs(testing_beh.A_err)==max(abs(testing_beh.A_err))
+                #
                 elif ERROR == 'low':
-                    #abs_err_bool = abs(testing_behaviour.A_err) < abs(testing_behaviour.A_err).mean() ## mean split low error
-                    abs_err_bool = abs(testing_behaviour.A_err) < np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
+                    abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), ERROR_percent, interpolation = 'midpoint')
+                    if sum(abs_err_bool)==0:
+                        abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
+                #
                 ##
                 testing_behaviour = testing_behaviour[abs_err_bool]
                 testing_activity = testing_activity[abs_err_bool]

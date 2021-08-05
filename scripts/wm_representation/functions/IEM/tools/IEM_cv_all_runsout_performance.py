@@ -85,11 +85,14 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
             ################## 
             testing_beh = testing_behaviour.iloc[test_index, :]
             if Error == 'high':
-                #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
                 abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
+                if sum(abs_err_bool)==0:
+                    abs_err_bool = abs(testing_beh.A_err)==max(abs(testing_beh.A_err))
+
             elif Error == 'low':
-                #abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
                 abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
+                if sum(abs_err_bool)==0:
+                    abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
             ##
             y_test = np.array(testing_beh[abs_err_bool][decode_item])
             X_test = testing_data[test_index][abs_err_bool]
@@ -128,11 +131,14 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
             ################## 
             testing_beh = testing_behaviour.iloc[test_index, :]
             if Error == 'high':
-                #abs_err_bool = abs(testing_beh.A_err) > abs(testing_beh.A_err).mean() ## mean split high error
                 abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
+                if sum(abs_err_bool)==0:
+                    abs_err_bool = abs(testing_beh.A_err)==max(abs(testing_beh.A_err))
+            #
             elif Error == 'low':
-                #abs_err_bool = abs(testing_beh.A_err) < abs(testing_beh.A_err).mean() ## mean split low error
                 abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
+                if sum(abs_err_bool)==0:
+                    abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
             ##
             y_test = np.array(testing_beh[abs_err_bool][decode_item])
             X_test = testing_data[test_index][abs_err_bool]
