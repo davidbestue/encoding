@@ -37,6 +37,8 @@ def IEM_all_runsout(training_activity, training_behaviour, testing_activity, tes
     ####
     ####
     #### Run the ones WITHOUT shared information the same way
+    testing_behaviour = testing_behaviour.reset_index()
+    training_behaviour = training_behaviour.reset_index()
     training_angles = np.array(training_behaviour[training_item])   
     testing_angles = np.array(testing_behaviour[decode_item])    
     #####

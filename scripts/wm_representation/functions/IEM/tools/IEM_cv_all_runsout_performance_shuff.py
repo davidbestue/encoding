@@ -39,6 +39,7 @@ def IEM_cv_all_runsout_performance_shuff(Error, Error_percent, testing_activity,
     ####
     ####
     #### Run the ones WITHOUT shared information the same way (train the whole tr_st:tr:end)
+    testing_behaviour = testing_behaviour.reset_index()
     training_angles = np.array(testing_behaviour[training_item])   
     testing_angles = np.array(testing_behaviour[decode_item]) 
     ###########################################################################

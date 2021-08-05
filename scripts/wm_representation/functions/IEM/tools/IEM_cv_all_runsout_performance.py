@@ -35,6 +35,7 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
     list_wm_scans2 = list_wm_scans
     ####
     ####
+    testing_behaviour = testing_behaviour.reset_index()
     testing_angles = np.array(testing_behaviour[decode_item])  
     training_angles = np.array(testing_behaviour[training_item]) 
     ###########################################################################
