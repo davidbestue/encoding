@@ -36,6 +36,7 @@ def IEM_cv_all_runsout_performance(Error, Error_percent, testing_activity, testi
     ####
     ####
     testing_behaviour = testing_behaviour.reset_index()
+    training_behaviour = training_behaviour.reset_index()
     testing_angles = np.array(testing_behaviour[decode_item])  
     training_angles = np.array(testing_behaviour[training_item]) 
     ###########################################################################

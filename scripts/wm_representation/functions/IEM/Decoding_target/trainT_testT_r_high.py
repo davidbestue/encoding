@@ -65,7 +65,7 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ############# Elements for the loop
-Conditions=[ '1_7', '1_0.2'] 
+Conditions=[ '1_0.2', '1_7'] 
 Subjects=[ 'n001']
 brain_regions = ['visual']
 ref_angle=180
