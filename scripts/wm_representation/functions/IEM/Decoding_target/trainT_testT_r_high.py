@@ -22,8 +22,6 @@ ERROR='high'  ## 'high', 'low'
 ERROR_percent = 75 ## 75, 25
 
 
-
-
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
 
