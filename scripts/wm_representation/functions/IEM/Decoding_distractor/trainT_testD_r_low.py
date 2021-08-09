@@ -12,10 +12,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_low_error.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_low_error.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_low_error.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_low_error.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_low_error.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_low_error.xlsx'
 
 
 ERROR='low'  ## 'high', 'low'
@@ -23,7 +23,7 @@ ERROR_percent = 25 ## 75, 25
 
 
 ############# Testing options
-decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
+decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  
 
 ############# Training options
 training_item = 'T_alone'  #'dist_alone'  'T_alone' 
