@@ -12,14 +12,16 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_high_error.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_high_error.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_runs_low.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_runs_low.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_high_error.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_runs_low.xlsx'
 
 
-ERROR='high'  ## 'high', 'low'
-ERROR_percent = 75 ## 75, 25
+ERROR='low'  ## 'high', 'low'
+ERROR_percent = 25 ## 75, 25
+
+
 
 
 ############# Testing options
@@ -63,12 +65,12 @@ Reconstructions={}
 Reconstructions_shuff=[]
 
 ############# Elements for the loop
-Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
-Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+Conditions=[ '1_0.2', '1_7'] 
+Subjects=[ 'n001']
+brain_regions = ['visual']
 ref_angle=180
 
-num_shuffles = 10 #100 #10
+num_shuffles = 2 #10 #100 #10
 
 ############# Analysis
 #############
@@ -117,11 +119,15 @@ for Subject in Subjects:
                 ################## Split by error
                 ##################
                 if ERROR == 'high':
-                    #abs_err_bool = abs(testing_behaviour.A_err) > abs(testing_behaviour.A_err).mean() ## mean split high error
                     abs_err_bool = abs(testing_behaviour.A_err) > np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
+                    if sum(abs_err_bool)==0:
+                        abs_err_bool = abs(testing_behaviour.A_err)==max(abs(testing_behaviour.A_err))
+                #
                 elif ERROR == 'low':
-                    #abs_err_bool = abs(testing_behaviour.A_err) < abs(testing_behaviour.A_err).mean() ## mean split low error
                     abs_err_bool = abs(testing_behaviour.A_err) < np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
+                    if sum(abs_err_bool)==0:
+                        abs_err_bool = abs(testing_behaviour.A_err)==min(abs(testing_behaviour.A_err))
+                #
                 ##
                 testing_behaviour = testing_behaviour[abs_err_bool]
                 testing_activity = testing_activity[abs_err_bool]
@@ -184,5 +190,6 @@ Df_shuffs = pd.concat(Reconstructions_shuff)
 Df_shuffs['label'] = 'shuffle' ## add the label of shuffle
 Df_shuffs.to_excel(path_save_shuffle)  #save shuffle
 
-
-##################
+####
+##
+#
