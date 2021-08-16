@@ -105,6 +105,8 @@ from IEM_all_runsout import *
 from IEM_all_runsout_shuff import *
 from IEM_cv_all_runsout_performance import *
 from IEM_cv_all_runsout_performance_shuff import *
+from IEM_all_runsout_beh_shuff import *
+from IEM_all_runsout_shuff import *
 
 
 ###### Isolated stimulus

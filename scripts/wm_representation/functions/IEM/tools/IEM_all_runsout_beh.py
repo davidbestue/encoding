@@ -10,7 +10,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_all_runsout(training_activity, training_behaviour, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end):
+def IEM_all_runsout_beh(training_activity, training_behaviour, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -37,8 +37,8 @@ def IEM_all_runsout(training_activity, training_behaviour, testing_activity, tes
     ####
     ####
     #### Run the ones WITHOUT shared information the same way
-    #testing_behaviour = testing_behaviour.reset_index()
-    #training_behaviour = training_behaviour.reset_index()
+    testing_behaviour = testing_behaviour.reset_index()
+    training_behaviour = training_behaviour.reset_index()
     training_angles = np.array(training_behaviour[training_item])   
     testing_angles = np.array(testing_behaviour[decode_item])    
     #####
