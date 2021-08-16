@@ -127,7 +127,7 @@ for Subject in Subjects:
                 testing_activity = testing_activity[abs_err_bool]
 
                 ###### IEM 
-                Reconstruction = IEM_all_runsout( training_activity=training_activity, training_behaviour=training_behaviour, 
+                Reconstruction = IEM_all_runsout_beh( training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
                     
@@ -135,7 +135,7 @@ for Subject in Subjects:
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ##################
                 ###### IEM shuffle
-                shuff = IEM_all_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
+                shuff = IEM_all_runsout_beh_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
                     training_item=training_item, tr_st=tr_st, tr_end=tr_end, 
                     condition=Condition, subject=Subject, region=Brain_region,
