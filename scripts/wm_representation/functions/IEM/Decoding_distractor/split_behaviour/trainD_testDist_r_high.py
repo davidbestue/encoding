@@ -88,13 +88,13 @@ for Subject in Subjects:
                 #############
                 ####### IEM cross-validating all the TRs
                 #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
-                Reconstruction = IEM_cv_all_runsout_performance(Error=ERROR, Error_percent=ERROR_percent, testing_activity=activity, testing_behaviour=behaviour,
+                Reconstruction = IEM_cv_all_runsout_performance_responded(Error=ERROR, Error_percent=ERROR_percent, testing_activity=activity, testing_behaviour=behaviour,
                  decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
                 #
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 #############
                 # IEM shuffle cross-validating all the TRs
-                shuff = IEM_cv_all_runsout_performance_shuff(Error=ERROR, Error_percent=ERROR_percent, testing_activity=activity, testing_behaviour=behaviour, 
+                shuff = IEM_cv_all_runsout_performance_responded_shuff(Error=ERROR, Error_percent=ERROR_percent, testing_activity=activity, testing_behaviour=behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
                     condition=Condition, subject=Subject, region=Brain_region,
                     iterations=num_shuffles)
