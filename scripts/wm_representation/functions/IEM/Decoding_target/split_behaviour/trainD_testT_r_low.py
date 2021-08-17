@@ -12,22 +12,22 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_high_error.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_high_error.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testT_low_error.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainD_testT_low_error.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_high_error.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testT_low_error.xlsx'
 
 
-ERROR='high'  ## 'high', 'low'
-ERROR_percent = 75 ## 75, 25
+ERROR='low'  ## 'high', 'low'
+ERROR_percent = 25 ## 75, 25
 
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
 
 ############# Training options
-training_item = 'T_alone'  #'dist_alone'  'T_alone' 
-cond_t = '1_7'             #'1_7'  '2_7'
+training_item = 'dist_alone'  #'dist_alone'  'T_alone' 
+cond_t = '2_7'             #'1_7'  '2_7'
 
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay'  #'stim_p'  'delay' 'respo'
