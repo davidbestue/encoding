@@ -23,7 +23,7 @@ ERROR_percent = 25 ## 75, 25
 
 
 ############# Testing options
-decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  
+decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  'T' 'Dist'
 
 ############# Training options
 training_item = 'dist_alone'  #'dist_alone'  'T_alone' 
