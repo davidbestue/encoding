@@ -7,27 +7,27 @@ Created on Mon Jul  1 18:24:32 2019
 
 ############# Add to sys path the path where the tools folder is
 import sys, os
-path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir, os.pardir)) ### same directory or one back options
 sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testD_high_error.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainD_testD_high_error.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_low_error.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_low_error.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_high_error.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_low_error.xlsx'
 
 
-ERROR='high'  ## 'high', 'low'
-ERROR_percent = 75 ## 75, 25
+ERROR='low'  ## 'high', 'low'
+ERROR_percent = 25 ## 75, 25
 
 
 ############# Testing options
-decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  'T' 'Dist'
+decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  
 
 ############# Training options
-training_item = 'dist_alone'  #'dist_alone'  'T_alone' 
-cond_t = '2_7'             #'1_7'  '2_7'
+training_item = 'T_alone'  #'dist_alone'  'T_alone' 
+cond_t = '1_7'             #'1_7'  '2_7'
 
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay'  #'stim_p'  'delay' 'respo'
@@ -127,7 +127,7 @@ for Subject in Subjects:
                 testing_activity = testing_activity[abs_err_bool]
 
                 ###### IEM 
-                Reconstruction = IEM_all_runsout_beh( training_activity=training_activity, training_behaviour=training_behaviour, 
+                Reconstruction = IEM_all_runsout( training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
                     
@@ -135,7 +135,7 @@ for Subject in Subjects:
                 Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
                 ##################
                 ###### IEM shuffle
-                shuff = IEM_all_runsout_beh_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
+                shuff = IEM_all_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
                     training_item=training_item, tr_st=tr_st, tr_end=tr_end, 
                     condition=Condition, subject=Subject, region=Brain_region,

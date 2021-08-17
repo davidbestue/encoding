@@ -7,15 +7,15 @@ Created on Mon Jul  1 18:24:32 2019
 
 ############# Add to sys path the path where the tools folder is
 import sys, os
-path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir, os.pardir)) ### same directory or one back options
 sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testD_high_error.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testD_high_error.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testD_high_error.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainD_testD_high_error.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testD_high_error.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_high_error.xlsx'
 
 
 ERROR='high'  ## 'high', 'low'
@@ -26,8 +26,8 @@ ERROR_percent = 75 ## 75, 25
 decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  'T' 'Dist'
 
 ############# Training options
-training_item = 'T_alone'  #'dist_alone'  'T_alone' 
-cond_t = '1_7'             #'1_7'  '2_7'
+training_item = 'dist_alone'  #'dist_alone'  'T_alone' 
+cond_t = '2_7'             #'1_7'  '2_7'
 
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay'  #'stim_p'  'delay' 'respo'
