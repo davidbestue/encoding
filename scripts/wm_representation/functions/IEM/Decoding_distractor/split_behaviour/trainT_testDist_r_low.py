@@ -118,11 +118,11 @@ for Subject in Subjects:
                 ##################
                 ##### Get the responded ones
                 if decoding_thing == 'T_alone':
-                    testing_behaviour = testing_behaviour[testing_behaviour[decoding_thing] == testing_behaviour['T'] ] 
                     testing_activity = testing_activity[testing_behaviour[decoding_thing] == testing_behaviour['T'] ] 
+                    testing_behaviour = testing_behaviour[testing_behaviour[decoding_thing] == testing_behaviour['T'] ]                     
                 if decoding_thing == 'dist_alone':
-                    testing_behaviour = testing_behaviour[testing_behaviour[decoding_thing] == testing_behaviour['Dist'] ] 
                     testing_activity = testing_activity[testing_behaviour[decoding_thing] == testing_behaviour['Dist'] ] 
+                    testing_behaviour = testing_behaviour[testing_behaviour[decoding_thing] == testing_behaviour['Dist'] ]                     
                 #####
                 if ERROR == 'high':
                     #abs_err_bool = abs(testing_behaviour.A_err) > abs(testing_behaviour.A_err).mean() ## mean split high error
