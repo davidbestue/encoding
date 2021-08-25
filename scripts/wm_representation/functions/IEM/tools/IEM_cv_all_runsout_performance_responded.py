@@ -85,12 +85,12 @@ def IEM_cv_all_runsout_performance_responded(Error, Error_percent, testing_activ
             ################## 
             testing_beh = testing_behaviour.iloc[test_index, :]
             ###### Get the responded ones
-            if decoding_thing == 'T_alone':
-                testing_data = testing_data[testing_beh[decoding_thing] == testing_beh['T'] ] 
-                testing_beh = testing_beh[testing_beh[decoding_thing] == testing_beh['T'] ]                 
-            if decoding_thing == 'dist_alone':
-                testing_data = testing_data[testing_beh[decoding_thing] == testing_beh['Dist'] ] 
-                testing_beh = testing_beh[testing_beh[decoding_thing] == testing_beh['Dist'] ]                 
+            if decode_item == 'T_alone':
+                testing_data = testing_data[testing_beh[decode_item] == testing_beh['T'] ] 
+                testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['T'] ]                 
+            if decode_item == 'dist_alone':
+                testing_data = testing_data[testing_beh[decode_item] == testing_beh['Dist'] ] 
+                testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                 
             ###
             if Error == 'high':
                 abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
@@ -139,12 +139,12 @@ def IEM_cv_all_runsout_performance_responded(Error, Error_percent, testing_activ
             ################## 
             testing_beh = testing_behaviour.iloc[test_index, :]
             ###### Get the responded ones
-            if decoding_thing == 'T_alone':
-                testing_data = testing_data[testing_beh[decoding_thing] == testing_beh['T'] ] 
-                testing_beh = testing_beh[testing_beh[decoding_thing] == testing_beh['T'] ]                 
-            if decoding_thing == 'dist_alone':
-                testing_data = testing_data[testing_beh[decoding_thing] == testing_beh['Dist'] ] 
-                testing_beh = testing_beh[testing_beh[decoding_thing] == testing_beh['Dist'] ]                 
+            if decode_item == 'T_alone':
+                testing_data = testing_data[testing_beh[decode_item] == testing_beh['T'] ] 
+                testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['T'] ]                 
+            if decode_item == 'dist_alone':
+                testing_data = testing_data[testing_beh[decode_item] == testing_beh['Dist'] ] 
+                testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                 
             ###
             if Error == 'high':
                 abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
