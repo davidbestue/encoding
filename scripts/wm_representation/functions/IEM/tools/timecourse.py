@@ -119,7 +119,7 @@ def tiemcourse(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         plt.xlabel(x_label_cond, fontsize=20)
         plt.ylabel(y_label_cond, fontsize=20)
         if indx_c==3: #legend in just this condition (to avoid repetitions)       
-            plt.gca().legend(frameon=False, bbox_to_anchor=(1.1, 1.05), fontsize=15)
+            plt.gca().legend(loc=1, frameon=False, bbox_to_anchor=(1.1, 1.05), fontsize=15)
             plt.xticks([5,10, 15, 20, 25,30,35], fontsize=15)
 
         else:
