@@ -84,10 +84,10 @@ def IEM_cv_all_runsout_performance_responded_shuff(Error, Error_percent, testing
                 testing_beh = testing_behaviour.iloc[test_index, :] 
                 ###### Get the responded ones
                 if decode_item == 'T_alone':
-                    testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['T'] ] 
+                    testing_data2 = testing_data[test_index][testing_beh[decode_item] == testing_beh['T'] ] 
                     testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['T'] ]                     
                 if decode_item == 'dist_alone':
-                    testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
+                    testing_data2 = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
                     testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                     
                 ###
                 if Error == 'high':
@@ -102,7 +102,7 @@ def IEM_cv_all_runsout_performance_responded_shuff(Error, Error_percent, testing
                 #
                 y_test = np.array(testing_beh[abs_err_bool][decode_item])
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
-                X_test = testing_data[abs_err_bool]                 
+                X_test = testing_data2[abs_err_bool]                 
                 ## test
                 rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
                 reconstrction_sh.append(rep_x)
@@ -134,10 +134,10 @@ def IEM_cv_all_runsout_performance_responded_shuff(Error, Error_percent, testing
                 testing_beh = testing_behaviour.iloc[test_index, :]
                 ###### Get the responded ones
                 if decode_item == 'T_alone':
-                    testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['T'] ] 
+                    testing_data2 = testing_data[test_index][testing_beh[decode_item] == testing_beh['T'] ] 
                     testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['T'] ]                     
                 if decode_item == 'dist_alone':
-                    testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
+                    testing_data2 = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
                     testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                     
                 ### 
                 if Error == 'high':
@@ -152,7 +152,7 @@ def IEM_cv_all_runsout_performance_responded_shuff(Error, Error_percent, testing
                 #
                 y_test = np.array(testing_beh[abs_err_bool][decode_item])
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
-                X_test = testing_data[abs_err_bool]                 
+                X_test = testing_data2[abs_err_bool]                 
                 ## test
                 rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
                 reconstrction_sh.append(rep_x)
