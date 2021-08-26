@@ -86,10 +86,10 @@ def IEM_cv_all_runsout_performance_responded(Error, Error_percent, testing_activ
             testing_beh = testing_behaviour.iloc[test_index, :]
             ###### Get the responded ones
             if decode_item == 'T_alone':
-                testing_data = testing_data[testing_beh[decode_item] == testing_beh['T'] ] 
+                testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['T']] 
                 testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['T'] ]                 
             if decode_item == 'dist_alone':
-                testing_data = testing_data[testing_beh[decode_item] == testing_beh['Dist'] ] 
+                testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
                 testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                 
             ###
             if Error == 'high':
@@ -103,7 +103,7 @@ def IEM_cv_all_runsout_performance_responded(Error, Error_percent, testing_activ
                     abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
             ##
             y_test = np.array(testing_beh[abs_err_bool][decode_item])
-            X_test = testing_data[test_index][abs_err_bool]
+            X_test = testing_data[abs_err_bool]
             #
             #
             rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
@@ -140,10 +140,10 @@ def IEM_cv_all_runsout_performance_responded(Error, Error_percent, testing_activ
             testing_beh = testing_behaviour.iloc[test_index, :]
             ###### Get the responded ones
             if decode_item == 'T_alone':
-                testing_data = testing_data[testing_beh[decode_item] == testing_beh['T'] ] 
+                testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['T'] ] 
                 testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['T'] ]                 
             if decode_item == 'dist_alone':
-                testing_data = testing_data[testing_beh[decode_item] == testing_beh['Dist'] ] 
+                testing_data = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
                 testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                 
             ###
             if Error == 'high':
@@ -157,7 +157,7 @@ def IEM_cv_all_runsout_performance_responded(Error, Error_percent, testing_activ
                     abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
             ##
             y_test = np.array(testing_beh[abs_err_bool][decode_item])
-            X_test = testing_data[test_index][abs_err_bool]
+            X_test = testing_data[abs_err_bool]
             #
             #
             rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
