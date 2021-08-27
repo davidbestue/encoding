@@ -132,7 +132,7 @@ for Subject in Subjects:
                     abs_err_bool = abs(testing_behaviour.A_err) < np.percentile(abs(testing_behaviour.A_err), ERROR_percent, interpolation = 'midpoint')
                 ##
                 testing_behaviour = testing_behaviour[abs_err_bool]
-                testing_activity = testing_activity[abs_err_bool]
+                testing_activity = testing_activity[abs_err_bool, :, :] 
 
                 ###### IEM 
                 Reconstruction = IEM_all_runsout_beh( training_activity=training_activity, training_behaviour=training_behaviour, 
