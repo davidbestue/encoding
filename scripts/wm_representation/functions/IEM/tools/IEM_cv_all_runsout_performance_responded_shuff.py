@@ -90,22 +90,25 @@ def IEM_cv_all_runsout_performance_responded_shuff(Error, Error_percent, testing
                     testing_data2 = testing_data[test_index][testing_beh[decode_item] == testing_beh['Dist'] ] 
                     testing_beh = testing_beh[testing_beh[decode_item] == testing_beh['Dist'] ]                     
                 ###
-                if Error == 'high':
-                    abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
-                    if sum(abs_err_bool)==0:
-                        abs_err_bool = abs(testing_beh.A_err)==max(abs(testing_beh.A_err))
-                #
-                elif Error == 'low':
-                    abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
-                    if sum(abs_err_bool)==0:
-                        abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
-                #
-                y_test = np.array(testing_beh[abs_err_bool][decode_item])
-                y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
-                X_test = testing_data2[abs_err_bool]                 
-                ## test
-                rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
-                reconstrction_sh.append(rep_x)
+                if len(testing_beh)>0:
+                    if Error == 'high':
+                        abs_err_bool = abs(testing_beh.A_err) > np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
+                        if sum(abs_err_bool)==0:
+                            abs_err_bool = abs(testing_beh.A_err)==max(abs(testing_beh.A_err))
+                    #
+                    elif Error == 'low':
+                        abs_err_bool = abs(testing_beh.A_err) < np.percentile(abs(testing_beh.A_err), Error_percent, interpolation = 'midpoint')
+                        if sum(abs_err_bool)==0:
+                            abs_err_bool = abs(testing_beh.A_err)==min(abs(testing_beh.A_err))
+                    #
+                    y_test = np.array(testing_beh[abs_err_bool][decode_item])
+                    y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))])
+                    X_test = testing_data2[abs_err_bool]                 
+                    ## test
+                    rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+                    reconstrction_sh.append(rep_x)
+                else:
+                    print('Missing matching criteria trials in some runs')
             ###
             reconstrction_sh = pd.concat(reconstrction_sh, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
             reconstrction_sh_mean = reconstrction_sh.mean(axis = 1) #solo queda una columna con el mean de cada channel 
