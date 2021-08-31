@@ -32,7 +32,7 @@ def tiemcourse_substraction(df_target, df_distractor, condition, title_plot, yli
         if condition == '1_0.2':
             condition_title = '' #'o:1, d:0.2'
             y_label_cond = 'decoding ' + Plot + ' (std)'
-            x_label_cond = ''
+            x_label_cond = 'time (s)'
             delay1 = 0.2
             delay2 = 11.8
             cue=0
