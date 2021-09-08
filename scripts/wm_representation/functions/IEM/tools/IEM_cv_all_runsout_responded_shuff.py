@@ -11,7 +11,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def IEM_cv_all_runsout_responded_shuff(Error, Error_percent, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, 
+def IEM_cv_all_runsout_responded_shuff(testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, 
     condition, subject, region, iterations, ref_angle=180):
     ####
     ####
