@@ -8,6 +8,7 @@ Created on Mon Jul  1 18:24:32 2019
 ############# Add to sys path the path where the tools folder is
 import sys, os
 path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir, os.pardir)) ### same directory or one back options
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
 sys.path.insert(1, path_tools)
 from tools import *
 
@@ -46,6 +47,14 @@ for Subject in Subjects:
                 condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
             #############
             #############
+            ### activity --> (trials, TRs, voxels)
+            ### behaviour --> (trials, columns_interest)
+            df_decoded = decode_angle(fmri_activity=activity, beh_activity=behaviour)
+
+
+
+
+
             ###### Process testing data 
             testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                 condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
