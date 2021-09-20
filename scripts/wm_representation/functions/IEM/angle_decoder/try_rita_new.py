@@ -122,8 +122,7 @@ decode_item=decoding_thing
 training_item=training_item
 tr_st=tr_st
 tr_end=tr_end
-
-
+####
 #### Get the Trs (no shared info, coming from different trials)
 list_wm_scans= range(nscans_wm)  
 list_wm_scans2 = list_wm_scans
