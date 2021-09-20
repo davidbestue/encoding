@@ -79,19 +79,7 @@ for Subject in Subjects:
                 activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #############
-                ####### IEM cross-validating all the TRs
-                #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
-                Reconstruction = IEM_cv_all_runsout(testing_activity=activity, testing_behaviour=behaviour,
-                 decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
-                #
-                Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
-                #############
-                # IEM shuffle cross-validating all the TRs
-                shuff = IEM_cv_all_runsout_shuff(testing_activity=activity, testing_behaviour=behaviour, 
-                    decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
-                    condition=Condition, subject=Subject, region=Brain_region,
-                    iterations=num_shuffles)
-                Reconstructions_shuff.append(shuff)
+
                 
             else:
                 #############
@@ -113,12 +101,57 @@ for Subject in Subjects:
                 ###### IEM shuffle
                 shuff = Representation_angle_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
-                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, 
-                    condition=Condition, subject=Subject, region=Brain_region,
-                    iterations=num_shuffles, ref_angle=180)
+                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
                 ####### IEM data
 
+                Representation_angle_runsout(training_activity=training_activity, training_behaviour=training_behaviour, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, df_shuffle=shuff)
+
                 Representation_angle_runsout_shuff
+
+
+
+
+
+
+
+
+
+
+
+
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+##################
+###### Process training data
+training_activity, training_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+    condition=cond_t, distance=Distance_to_use, nscans_wm=nscans_wm)
+#
+##################
+###### Process testing data 
+testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
+
+
+
+
+num_shuffles = 2 #100 #10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
