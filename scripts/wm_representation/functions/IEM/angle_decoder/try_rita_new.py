@@ -76,8 +76,6 @@ for Subject in Subjects:
 
 #
 #
-#
-#
 
         
 ###### Save reconstruction (heatmap)         
