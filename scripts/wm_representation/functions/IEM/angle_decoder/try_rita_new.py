@@ -124,6 +124,47 @@ tr_st=tr_st
 tr_end=tr_end
 
 
+#### Get the Trs (no shared info, coming from different trials)
+list_wm_scans= range(nscans_wm)  
+list_wm_scans2 = list_wm_scans
+####
+####
+####
+#### Run the ones WITHOUT shared information the same way
+#testing_behaviour = testing_behaviour.reset_index()
+#training_behaviour = training_behaviour.reset_index()
+training_angles = np.array(training_behaviour[training_item])   
+testing_angles = np.array(testing_behaviour[decode_item])    
+#####
+Recons_trs=[]
+for not_shared in list_wm_scans2:
+    training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+    testing_data= testing_activity[:, not_shared, :]   
+    reconstrction_=[]
+    ###########################################################################
+    ########################################################################### Get the mutliple indexes to split in train and test
+    ###########################################################################
+    training_indexes = []
+    testing_indexes =  []
+    for sess_run in testing_behaviour.session_run.unique():
+        wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
+        testing_indexes.append( wanted )
+        #
+        ## I do not trust the del  lines of other files, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
+        all_indexes = testing_behaviour.index.values
+        other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
+        training_indexes.append( other_indexes ) 
+    ###
+    ### apply them to train and test
+    ###
+    for train_index, test_index in zip(training_indexes, testing_indexes):
+        X_train, X_test = training_data[train_index], testing_data[test_index]
+        y_train, y_test = training_angles[train_index], testing_angles[test_index]
+
+
+
+
+
 
 
 
