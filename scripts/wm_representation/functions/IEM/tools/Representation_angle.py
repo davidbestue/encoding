@@ -39,7 +39,15 @@ def Representation_angle(testing_data, testing_angles, testing_distractors, Weig
             dist_180.append(n_dist)
     ##
     dist_180 = np.array(dist_180)
-    
+    ##
+    ##
+    for i in range(len(Channel_all_trials_rolled)):
+        Trial_reconstruction = Channel_all_trials_rolled[i,:]
+        _135_ = ref_angle*2 - 45*2 
+        _225_ = ref_angle*2 + 45*2 
+        Trial_135_225 = Trial_reconstruction[_135_:_225_]
+
+
 
 
 
@@ -48,4 +56,43 @@ def Representation_angle(testing_data, testing_angles, testing_distractors, Weig
     #n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
     #df['TR'] = n #Name of the column
     return Channel_all_trials_rolled
+
+
+
+
+def decode(activity):
+    N=len(activity)
+    R = []
+    angles = np.radians(np.linspace(135,224,180) ) 
+    R=np.dot(activity,np.exp(1j*angles)) / N
+    angle = np.angle(R)
+    if angle < 0:
+        angle +=2*np.pi 
+    return np.degrees(angle)
+
+
+
+
+decode(Trial_135_225)
+
+
+
+
+Trial_reconstruction = Channel_all_trials_rolled[1,:]
+_135_ = ref_angle*2 - 45*2 
+_225_ = ref_angle*2 + 45*2 
+Trial_135_225 = Trial_reconstruction[_135_:_225_]
+
+activity = Trial_135_225
+activity[80:100]=9999
+
+N=len(activity)
+R = []
+angles = np.radians(np.linspace(135,224,180) ) 
+R=np.dot(activity,np.exp(1j*angles)) / N
+angle = np.angle(R)
+if angle < 0:
+    angle +=2*np.pi 
+
+np.degrees(angle)
 

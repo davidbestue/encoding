@@ -17,7 +17,7 @@ from tools import *
 #path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_resp.xlsx'
 
 ############# Testing options
-decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
+decoding_thing = 'T'  #'dist_alone'  'T_alone'  
 
 ############# Training options
 training_item = 'T_alone'  #'dist_alone'  'T_alone' 
@@ -134,6 +134,7 @@ list_wm_scans2 = list_wm_scans
 #training_behaviour = training_behaviour.reset_index()
 training_angles = np.array(training_behaviour[training_item])   
 testing_angles = np.array(testing_behaviour[decode_item])    
+testing_distractors = np.array(testing_behaviour['Dist'])   
 #####
 Recons_trs=[]
 for not_shared in list_wm_scans2:
@@ -159,9 +160,18 @@ for not_shared in list_wm_scans2:
     for train_index, test_index in zip(training_indexes, testing_indexes):
         X_train, X_test = training_data[train_index], testing_data[test_index]
         y_train, y_test = training_angles[train_index], testing_angles[test_index]
+        y_train_dist, y_test_dist = testing_distractors[train_index], testing_distractors[test_index]
 
 
 
+
+WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+WM_t2 = WM2.transpose()
+## test
+rep_x = Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+
+JJJ = Representation_not_mean(testing_data=X_test, testing_angles=y_test, testing_distractors=y_test_dist, Weights=WM2, Weights_t=WM_t2, ref_angle=180, intercept=Inter2)
+reconstrction_.append(rep_x)
 
 
 
