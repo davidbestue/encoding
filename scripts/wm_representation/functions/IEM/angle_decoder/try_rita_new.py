@@ -20,8 +20,8 @@ from tools import *
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
 
 ############# Training options
-training_item = 'dist_alone'  #'dist_alone'  'T_alone' 
-cond_t = '2_7'             #'1_7'  '2_7'
+training_item = 'T_alone'  #'dist_alone'  'T_alone' 
+cond_t = '1_7'             #'1_7'  '2_7'
 
 Distance_to_use = 'mix' #'close' 'far'
 training_time= 'delay'  #'stim_p'  'delay' 'respo'
@@ -110,6 +110,24 @@ for Subject in Subjects:
                 ### testing_activity --> (trials, TRs, voxels)
                 ### testing_behaviour --> (trials, columns_interest)
                 ###### IEM 
+
+
+
+
+training_activity=training_activity
+training_behaviour=training_behaviour
+testing_activity=testing_activity
+testing_behaviour=testing_behaviour
+decode_item=decoding_thing
+training_item=training_item
+tr_st=tr_st
+tr_end=tr_end
+
+
+
+
+
+
                 Reconstruction = IEM_all_runsout( training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
                     decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
