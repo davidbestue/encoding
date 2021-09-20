@@ -24,9 +24,24 @@ def Representation_angle(testing_data, testing_angles, testing_distractors, Weig
     Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
     
     ##
-    dist_to_ref =  y_test - ref_angle
-    targ_180 = y_test - dist_to_ref
-    dist_180 = 
+    dist_to_ref =  testing_angles - ref_angle
+    targ_180 = testing_angles - dist_to_ref
+    dist_180_ = testing_distractors - dist_to_ref
+    dist_180 = []
+    for n_dist in dist_180_:
+        if n_dist<0:
+            n_ = n_dist+360
+            dist_180.append(n_)
+        elif n_dist>360:
+            n_ = n_dist-360
+            dist_180.append(n_)
+        else:
+            dist_180.append(n_dist)
+    ##
+    dist_180 = np.array(dist_180)
+    
+
+
 
 
     ##df = pd.DataFrame()
