@@ -25,7 +25,7 @@ from tools import *
 
 
 
-def Representation_angle_(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, intercept=False):
+def decoding_angle_sh_pvector(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, intercept=False):
     ## Make the data parallelizable
     n_trials_test = len(testing_data) #number trials
     data_prall = []
@@ -108,7 +108,7 @@ def Representation_angle_runsout_shuff(training_activity, training_behaviour, te
                 ## Shuffle
                 y_test = np.array([random.choice([0, 90, 180, 270]) for i in range(len(y_test))]) 
                 ## test
-                rep_x = Representation_angle_(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=ref_angle, intercept=Inter2)
+                rep_x = decoding_angle_sh_pvector(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=ref_angle, intercept=Inter2)
                 reconstrction_.append(rep_x)
             ###
             reconstrction_ = pd.concat(reconstrction_) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
@@ -120,9 +120,167 @@ def Representation_angle_runsout_shuff(training_activity, training_behaviour, te
         Reconstructions_shuffled.append(Reconstruction)
     ####
     #####
-    df_shuffle =  pd.concat(Reconstructions_shuffled, axis=1)
+    df_shuffle =  pd.concat(Reconstructions_shuffled, axis=1) ###dimensions (720, TRs) (mean shuffle!)
     ##
     return df_shuffle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+
+
+
+
+
+def decoding_angles_pvector(testing_data, testing_behaviour, df_shuffle, specific_tr_shuffle, Weights, Weights_t, ref_angle=180, intercept=False):
+    ## Make the data parallelizable
+    n_trials_test = len(testing_data) #number trials
+    data_prall = []
+    for i in range(n_trials_test):
+        data_prall.append(testing_data[i, :])
+    ###
+    ###
+    numcores = multiprocessing.cpu_count()
+    ###
+    ###
+    for Dec_item in ['T', 'NT1', 'NT2']:
+        testing_angles = np.array(testing_behaviour[Dec_item])  
+     
+    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
+    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
+    ### 
+    ### substract the shuffle
+    Channel_all_trials_substracted = Channel_all_trials_rolled - df_shuffle[specific_tr_shuffle]
+
+    return 
+    
+
+
+
+
+
+###################
+
+def Representation_angle_runsout(training_activity, training_behaviour, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end):
+    ####
+    ####
+    #### IEM: Inverted encoding model
+    #### runsout: train in all the runs except one
+    #### all: do it for all the Trs
+    #### 
+    #### no cv: I use this for independent conditions (not training and testing in the same trials) 
+    ####
+    #### I use this function for the conditions 1_7 and 2_7, because the adjacent TRs may be "contaminated"
+    #### Instead of "leave one out" or kfold, I am spliting by run!
+    #### 
+    #### Difference when runing the reconstruction between shared and not shared TRS with training
+    #### Not shared: trained in the mean of the interval tr_st - tr_end
+    #### Shared: trianed in each TR of the interval
+    ####
+    #### Training item (decide before where you train the model (it is a column in the beh file))
+    ##### training_item = 'T_alone'
+    ##### training_item = 'dist_alone'    
+    ####
+    #### Get the Trs (no shared info, coming from different trials)
+    list_wm_scans= range(nscans_wm)  
+    list_wm_scans2 = list_wm_scans
+    ####
+    ####
+    ####
+    #### Run the ones WITHOUT shared information the same way
+    #testing_behaviour = testing_behaviour.reset_index()
+    #training_behaviour = training_behaviour.reset_index()
+    training_angles = np.array(training_behaviour[training_item])   
+    testing_angles = np.array(testing_behaviour[decode_item])    
+    testing_distractors = np.array(testing_behaviour['Dist'])   
+    #####
+    Recons_trs=[]
+    for not_shared in list_wm_scans2:
+        training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+        testing_data= testing_activity[:, not_shared, :]   
+        reconstrction_=[]
+        ###########################################################################
+        ########################################################################### Get the mutliple indexes to split in train and test
+        ###########################################################################
+        training_indexes = []
+        testing_indexes =  []
+        for sess_run in testing_behaviour.session_run.unique():
+            wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
+            testing_indexes.append( wanted )
+            #
+            ## I do not trust the del  lines of other files, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
+            all_indexes = testing_behaviour.index.values
+            other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
+            training_indexes.append( other_indexes ) 
+        ###
+        ### apply them to train and test
+        ###
+        for train_index, test_index in zip(training_indexes, testing_indexes):
+            X_train, X_test = training_data[train_index], testing_data[test_index]
+            y_train, y_test = training_angles[train_index], testing_angles[test_index]
+            y_train_dist, y_test_dist = testing_distractors[train_index], testing_distractors[test_index]
+            ## train
+            WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+            WM_t2 = WM2.transpose()
+            ## test
+            rep_x = 
+
+
+
+            Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+            reconstrction_.append(rep_x)
+        ###
+        reconstrction_ = pd.concat(reconstrction_, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
+        reconstrction_mean = reconstrction_.mean(axis = 1) #solo queda una columna con el mean de cada channel 
+        Recons_trs.append(reconstrction_mean)
+    ####
+    Reconstruction = pd.concat(Recons_trs, axis=1)
+    Reconstruction.columns =  [str(i * TR) for i in list_wm_scans2 ] 
+
+    #
+    return Reconstruction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -171,6 +329,15 @@ def Representation_angle(testing_data, testing_angles, testing_distractors, Weig
         _135_ = ref_angle*2 - 45*2 
         _225_ = ref_angle*2 + 45*2 
         Trial_135_225 = Trial_reconstruction[_135_:_225_]
+        N=len(Trial_135_225)
+        R = []
+        angles = np.radians(np.linspace(135,224,180) ) 
+        R=np.dot(Trial_135_225,np.exp(1j*angles)) / N
+        angle = np.angle(R)
+        if angle < 0:
+            angle +=2*np.pi 
+        #
+        np.degrees(angle)
 
 
 
