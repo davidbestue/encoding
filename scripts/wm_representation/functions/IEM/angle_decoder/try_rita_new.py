@@ -18,7 +18,37 @@ from tools import *
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
+
+############# Training options
+training_item = 'dist_alone'  #'dist_alone'  'T_alone' 
+cond_t = '2_7'             #'1_7'  '2_7'
+
 Distance_to_use = 'mix' #'close' 'far'
+training_time= 'delay'  #'stim_p'  'delay' 'respo'
+tr_st=4
+tr_end=6
+
+############# Options de training times, the TRs used for the training will be different 
+
+# training_time=='delay':
+# tr_st=4
+# tr_end=6
+
+# training_time=='stim_p':
+# tr_st=3
+# tr_end=4
+
+# training_time=='delay':
+# tr_st=4
+# tr_end=6
+
+# training_time=='respo':
+#     if decoding_thing=='Target':
+#         tr_st=8
+#         tr_end=9
+#     elif decoding_thing=='Distractor':
+#         tr_st=11
+#         tr_end=12
 
 ############# Dictionary and List to save the files.
 Reconstructions={}
@@ -37,6 +67,73 @@ num_shuffles = 2 #100 #10
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
+            ####
+            print(Subject, Brain_region, Condition )
+            ####
+            if Condition == cond_t:  ### Cross-validate if training and testing condition are the same (1_7 when training on target and 2_7 when training on distractor)
+                #############
+                ############# Get the data
+                enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+                #############
+                ###### Process wm files (I call them activity instead of training_ or testing_ as they come from the same condition)
+                activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
+                #############
+                ####### IEM cross-validating all the TRs
+                #L1out=int(len(behaviour)-1) ##instead of the default 10, do the leave one out!
+                Reconstruction = IEM_cv_all_runsout(testing_activity=activity, testing_behaviour=behaviour,
+                 decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
+                #
+                Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+                #############
+                # IEM shuffle cross-validating all the TRs
+                shuff = IEM_cv_all_runsout_shuff(testing_activity=activity, testing_behaviour=behaviour, 
+                    decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end,
+                    condition=Condition, subject=Subject, region=Brain_region,
+                    iterations=num_shuffles)
+                Reconstructions_shuff.append(shuff)
+                
+            else:
+                #############
+                ############# Get the data
+                enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+                ##################
+                ###### Process training data
+                training_activity, training_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+                    condition=cond_t, distance=Distance_to_use, nscans_wm=nscans_wm)
+                #
+                ##################
+                ###### Process testing data 
+                testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
+                ##################
+                ### testing_activity --> (trials, TRs, voxels)
+                ### testing_behaviour --> (trials, columns_interest)
+                ###### IEM 
+                Reconstruction = IEM_all_runsout( training_activity=training_activity, training_behaviour=training_behaviour, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
+                    decode_item=decoding_thing, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
+                    
+                #
+                Reconstructions[Subject + '_' + Brain_region + '_' + Condition]=Reconstruction
+                ##################
+                ###### IEM shuffle
+                shuff = IEM_all_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, 
+                    condition=Condition, subject=Subject, region=Brain_region,
+                    iterations=num_shuffles, ref_angle=180)
+                #
+                Reconstructions_shuff.append(shuff)
+                
+            
+
+
+
+
+
+
+
             print(Subject, Brain_region, Condition )
             #############
             ############# Get the data
