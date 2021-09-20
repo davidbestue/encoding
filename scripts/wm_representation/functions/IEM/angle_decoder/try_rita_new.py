@@ -107,6 +107,7 @@ for Subject in Subjects:
                 testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 ##################
+                testing_behaviour['new_index'] = np.arange(0, len(testing_behaviour),1) 
                 ### testing_activity --> (trials, TRs, voxels)
                 ### testing_behaviour --> (trials, columns_interest)
                 ###### IEM shuffle

@@ -43,6 +43,8 @@ def decoding_angle_sh_pvector(testing_data, testing_angles, Weights, Weights_t, 
 
 
 
+
+
 def Representation_angle_runsout_shuff(training_activity, training_behaviour, testing_activity, testing_behaviour, 
     decode_item, training_item, tr_st, tr_end, condition, subject, region, 
     iterations, ref_angle=180):
@@ -148,11 +150,10 @@ def Representation_angle_runsout_shuff(training_activity, training_behaviour, te
 
 
 
-(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
 
 
 
-testing_behaviour = trials_test
+
 
 def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specific_tr_shuffle, Weights, Weights_t, ref_angle=180, intercept=False):
     ## Make the data parallelizable
@@ -174,8 +175,9 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
         #
         corresp_isol = list(np.array(testing_behaviour[Dec_item] == testing_behaviour['T_alone']) )
         corresp_isol_dist = list(np.array(testing_behaviour[distractor_labels[idx_tar]] == testing_behaviour['dist_alone']) )
-
         list_label_target = [Dec_itm for i in range(len(testing_behaviour))]
+        list_label_distr = [distractor_labels[idx_tar] for i in range(len(testing_behaviour))]
+        new_indexes = list(testing_behaviour['new_index'].values)  
         #
         testing_angles = np.array(testing_behaviour[Dec_item]) 
         Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
@@ -229,46 +231,15 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
 
         df_dec = pd.DataFrame({'decoded_angle':decoded_angle, 'target_centered':targ_180, 
                                 'label_target':list_label_target, 'corresp_isolated':corresp_isol,
-                                'distractor_centered':dist_180, 'corresp_isolated_distractor':corresp_isol_dist  })
+                                'distractor_centered':dist_180, 'corresp_isolated_distractor':corresp_isol_dist,
+                                'label_distractor':list_label_distr, 'new_index':new_indexes })
 
-
-    return 
+        frames.append(df_dec)
+    #
+    df_dec = pd.concat(frames)
+    #
+    return df_dec
     
-
-
-
-
-    dist_to_ref =  testing_angles - ref_angle
-    targ_180 = testing_angles - dist_to_ref
-    dist_180_ = testing_distractors - dist_to_ref
-    dist_180 = []
-    for n_dist in dist_180_:
-        if n_dist<0:
-            n_ = n_dist+360
-            dist_180.append(n_)
-        elif n_dist>360:
-            n_ = n_dist-360
-            dist_180.append(n_)
-        else:
-            dist_180.append(n_dist)
-    ##
-    dist_180 = np.array(dist_180)
-    ##
-    ##
-    for i in range(len(Channel_all_trials_rolled)):
-        Trial_reconstruction = Channel_all_trials_rolled[i,:]
-        _135_ = ref_angle*2 - 45*2 
-        _225_ = ref_angle*2 + 45*2 
-        Trial_135_225 = Trial_reconstruction[_135_:_225_]
-        N=len(Trial_135_225)
-        R = []
-        angles = np.radians(np.linspace(135,224,180) ) 
-        R=np.dot(Trial_135_225,np.exp(1j*angles)) / N
-        angle = np.angle(R)
-        if angle < 0:
-            angle +=2*np.pi 
-        #
-        np.degrees(angle)
 
 
 
@@ -339,20 +310,37 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
             WM_t2 = WM2.transpose()
             ## test
             trials_test = testing_behaviour.iloc[test_index, :]
-            rep_x = 
-
-
-
-            Representation(testing_data=X_test, testing_angles=y_test, Weights=WM2, Weights_t=WM_t2, ref_angle=180, plot=False, intercept=Inter2)
+            rep_x = decoding_angles_pvector( testing_behaviour=trials_test, testing_data=X_test, df_shuffle=df_shuffle, 
+                specific_tr_shuffle=not_shared, Weights=WM2, Weights_t=WM_t2, ref_angle=180, intercept=Inter2)
+            rep_x['TR_'] = not_shared
             reconstrction_.append(rep_x)
         ###
-        reconstrction_ = pd.concat(reconstrction_, axis=1) ##una al lado de la otra, de lo mismo, ahora un mean manteniendo indice
-        reconstrction_mean = reconstrction_.mean(axis = 1) #solo queda una columna con el mean de cada channel 
-        Recons_trs.append(reconstrction_mean)
+        reconstrction_ = pd.concat(reconstrction_) #
+        #####
+        ##### Ahora tienes en por cada trial, tantos decoders como sessiones. Hacer un mean de eso. De tal manera que de cada new index solo queden 3 valores (T, NT1, NT2)
+        #####
+        for Idx in reconstrction_.new_index.unique():
+            for Dec_item in ['T', 'NT1', 'NT2']:
+                df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Idx)]
+                decoded_angle = df_x.decoded_angle.mean()
+                target_centered = df_x.targ_180.iloc[0]
+                label_target = df_x.label_target.iloc[0]
+                corresp_isolated = df_x.corresp_isolated.iloc[0]
+                distractor_centered = df_x.distractor_centered.iloc[0]
+                corresp_isolated_distractor = df_x.corresp_isolated_distractor.iloc[0]
+                label_distractor = df_x.label_distractor.iloc[0]
+                new_index = df_x.new_index.iloc[0]
+                TR_ = str(df_x.TR_.iloc[0] * TR)
+                #
+                Recons_trs.append([decoded_angle, target_centered, label_target, corresp_isolated, distractor_centered, corresp_isolated_distractor, 
+                                             label_distractor, new_index, TR_])
+            #
+        #
+    #
     ####
-    Reconstruction = pd.concat(Recons_trs, axis=1)
-    Reconstruction.columns =  [str(i * TR) for i in list_wm_scans2 ] 
-
+    Reconstruction = pd.DataFrame(Recons_trs)
+    Reconstruction.columns =  ['decoded_angle', 'target_centered', 'label_target', 'corresp_isolated', 'distractor_centered', 'corresp_isolated_distractor', 
+                                'label_distractor', 'new_index', 'TR']
     #
     return Reconstruction
 
@@ -363,143 +351,4 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def Representation_angle(testing_data, testing_angles, testing_distractors, Weights, Weights_t, ref_angle=180,  intercept=False):
-    ## Make the data parallelizable
-    n_trials_test = len(testing_data) #number trials
-    data_prall = []
-    for i in range(n_trials_test):
-        data_prall.append(testing_data[i, :])
-    ###
-    ###
-    numcores = multiprocessing.cpu_count()
-    Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
-    Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
-    
-    ##
-    dist_to_ref =  testing_angles - ref_angle
-    targ_180 = testing_angles - dist_to_ref
-    dist_180_ = testing_distractors - dist_to_ref
-    dist_180 = []
-    for n_dist in dist_180_:
-        if n_dist<0:
-            n_ = n_dist+360
-            dist_180.append(n_)
-        elif n_dist>360:
-            n_ = n_dist-360
-            dist_180.append(n_)
-        else:
-            dist_180.append(n_dist)
-    ##
-    dist_180 = np.array(dist_180)
-    ##
-    ##
-    for i in range(len(Channel_all_trials_rolled)):
-        Trial_reconstruction = Channel_all_trials_rolled[i,:]
-        _135_ = ref_angle*2 - 45*2 
-        _225_ = ref_angle*2 + 45*2 
-        Trial_135_225 = Trial_reconstruction[_135_:_225_]
-        N=len(Trial_135_225)
-        R = []
-        angles = np.radians(np.linspace(135,224,180) ) 
-        R=np.dot(Trial_135_225,np.exp(1j*angles)) / N
-        angle = np.angle(R)
-        if angle < 0:
-            angle +=2*np.pi 
-        #
-        np.degrees(angle)
-
-
-
-
-
-
-    ##df = pd.DataFrame()
-    #n = list(Channel_all_trials_rolled.mean(axis=0)) #mean of all the trials rolled
-    #df['TR'] = n #Name of the column
-    return Channel_all_trials_rolled
-
-
-
-
-def decode(activity):
-    N=len(activity)
-    R = []
-    angles = np.radians(np.linspace(135,224,180) ) 
-    R=np.dot(activity,np.exp(1j*angles)) / N
-    angle = np.angle(R)
-    if angle < 0:
-        angle +=2*np.pi 
-    return np.degrees(angle)
-
-
-
-
-decode(Trial_135_225)
-
-
-#### hacer la reconstruction --> guardar el valor de decoded angle así como del responded target (180) y del distractor closest
-
-
-
-Trial_reconstruction = Channel_all_trials_rolled[i,:]
-_135_ = ref_angle*2 - 45*2 
-_225_ = ref_angle*2 + 45*2 
-Trial_135_225 = Trial_reconstruction[_135_:_225_]
-#
-activity = Trial_135_225
-N=len(activity)
-R = []
-angles = np.radians(np.linspace(135,224,180) ) 
-R=np.dot(activity,np.exp(1j*angles)) / N
-angle = np.angle(R)
-if angle < 0:
-    angle +=2*np.pi 
-#
-np.degrees(angle)
-
-
-
-
-
-for i in range(len(Channel_all_trials_rolled)):
-    Trial_reconstruction = Channel_all_trials_rolled[i,:]
-    _135_ = ref_angle*2 - 45*2 
-    _225_ = ref_angle*2 + 45*2 
-    Trial_135_225 = Trial_reconstruction[_135_:_225_]
-    #
-    activity = Trial_135_225
-    N=len(activity)
-    R = []
-    angles = np.radians(np.linspace(135,224,180) ) 
-    R=np.dot(activity,np.exp(1j*angles)) / N
-    angle = np.angle(R)
-    if angle < 0:
-        angle +=2*np.pi 
-    #
-    np.degrees(angle)
 
