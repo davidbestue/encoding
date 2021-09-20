@@ -12,12 +12,12 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testD_resp.xlsx' 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_resp.xlsx'
+#path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testD_resp.xlsx' 
+#path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_resp.xlsx'
 
 
 ############# Testing options
-decoding_thing = 'dist_alone'  #'dist_alone'  'T_alone'  
+decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
 Distance_to_use = 'mix' #'close' 'far'
 
 
