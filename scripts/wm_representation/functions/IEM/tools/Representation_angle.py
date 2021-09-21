@@ -375,16 +375,27 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
 
 
 
+enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+##################
+###### Process training data
+training_activity2, training_behaviour2 = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+    condition=cond_t, distance=Distance_to_use, nscans_wm=nscans_wm)
+#
+##################
+###### Process testing data 
+testing_activity2, testing_behaviour2 = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
 
 
 
 
 
 
-training_activity=training_activity
-training_behaviour=training_behaviour
-testing_activity=testing_activity
-testing_behaviour=testing_behaviour
+training_activity=training_activity2
+training_behaviour=training_behaviour2
+testing_behaviour['new_index'] = np.arange(0, len(testing_behaviour),1) 
+testing_activity=testing_activity2
+testing_behaviour=testing_behaviour2
 decode_item=decoding_thing
 training_item=training_item
 tr_st=tr_st
@@ -438,11 +449,30 @@ for not_shared in list_wm_scans2:
         rep_x['TR_'] = not_shared
         reconstrction_.append(rep_x)
     ###
-    reconstrction_ = pd.concat(reconstrction_) #
+    reconstrction_2 = pd.concat(reconstrction_) #
     #####
     ##### Ahora tienes en por cada trial, tantos decoders como sessiones. Hacer un mean de eso. De tal manera que de cada new index solo queden 3 valores (T, NT1, NT2)
     #####
-    for Idx in reconstrction_.new_index.unique():
+    for Idx in reconstrction_2.new_index.unique():
         for Dec_item in ['T', 'NT1', 'NT2']:
-            for Tr_ in reconstrction_.TR_.unique():                    
-                df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Dec_item)  &  (reconstrction_['TR_']==Tr_)]
+            for Tr_ in reconstrction_2.TR_.unique():                    
+                df_x = reconstrction_2.loc[(reconstrction_2['new_index']==Idx) &  (reconstrction_2['label_target']==Dec_item)  &  (reconstrction_2['TR_']==Tr_)]
+                decoded_angle_ = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
+                target_centered_ = df_x.target_centered.iloc[0]
+                label_target_ = df_x.label_target.iloc[0]
+                corresp_isolated_ = df_x.corresp_isolated.iloc[0]
+                distractor_centered_ = df_x.distractor_centered.iloc[0]
+                corresp_isolated_distractor_ = df_x.corresp_isolated_distractor.iloc[0]
+                label_distractor_ = df_x.label_distractor.iloc[0]
+                new_index_ = df_x.new_index.iloc[0]
+                TR_x = str(df_x.TR_.iloc[0] * TR)
+                #
+                Recons_trs.append([decoded_angle_, target_centered_, label_target_, corresp_isolated_, distractor_centered_, corresp_isolated_distractor_, 
+                                             label_distractor_, new_index_, TR_x])
+        #
+    #
+#
+####
+Reconstruction = pd.DataFrame(Recons_trs)
+Reconstruction.columns =  ['decoded_angle', 'target_centered', 'label_target', 'corresp_isolated', 'distractor_centered', 'corresp_isolated_distractor', 
+                            'label_distractor', 'new_index', 'TR']
