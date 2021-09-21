@@ -341,7 +341,7 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
             for Dec_item in ['T', 'NT1', 'NT2']:
                 df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Idx)]
                 decoded_angle = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
-                target_centered = df_x.targ_180.iloc[0]
+                target_centered = df_x.target_centered.iloc[0]
                 label_target = df_x.label_target.iloc[0]
                 corresp_isolated = df_x.corresp_isolated.iloc[0]
                 distractor_centered = df_x.distractor_centered.iloc[0]
