@@ -25,6 +25,16 @@ from tools import *
 
 
 
+####################################################################
+####################################################################  Shuffle, get the mean (720, TR)
+####################################################################
+####################################################################
+## Es distinto a lo de antes porque en los shuffle hacia todo el proceso de "pop vector multiplicando por la sum". Similar pero guardaba cosaas distintas
+####################################################################
+
+
+
+
 def decoding_angle_sh_pvector(testing_data, testing_angles, Weights, Weights_t, ref_angle=180, intercept=False):
     ## Make the data parallelizable
     n_trials_test = len(testing_data) #number trials
@@ -139,23 +149,9 @@ def Representation_angle_runsout_shuff(training_activity, training_behaviour, te
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+####################################################################
+####################################################################  Decode the angle
+####################################################################
 
 
 
