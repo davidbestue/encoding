@@ -668,8 +668,8 @@ def Representation_cv_angle_runsout(testing_activity, testing_behaviour, trainin
             ## test
             trials_test = testing_behaviour.iloc[test_index, :]
             rep_x = decoding_angles_pvector( testing_behaviour=trials_test, testing_data=X_test, df_shuffle=df_shuffle, 
-                specific_tr_shuffle=not_shared, Weights=WM2, Weights_t=WM_t2, ref_angle=180, intercept=Inter2)
-            rep_x['TR_'] = not_shared
+                specific_tr_shuffle=shared_TR, Weights=WM2, Weights_t=WM_t2, ref_angle=180, intercept=Inter2)
+            rep_x['TR_'] = shared_TR
             reconstrction_.append(rep_x)
         ###
         reconstrction_x = pd.concat(reconstrction_) #
