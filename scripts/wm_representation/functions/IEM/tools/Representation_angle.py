@@ -191,7 +191,7 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
         #
         corresp_isol = list(np.array(testing_behaviour[Dec_item] == testing_behaviour['T_alone']) )
         corresp_isol_dist = list(np.array(testing_behaviour[distractor_labels[idx_tar]] == testing_behaviour['dist_alone']) )
-        list_label_target = np.array([Dec_item for i in range(len(testing_behaviour))])
+        list_label_target = [Dec_item for i in range(len(testing_behaviour))]
         list_label_distr = [distractor_labels[idx_tar] for i in range(len(testing_behaviour))]
         new_indexes = list(testing_behaviour['new_index'].values)  
         #        
@@ -339,7 +339,7 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
         #####
         for Idx in reconstrction_.new_index.unique():
             for Dec_item in ['T', 'NT1', 'NT2']:
-                df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Idx)]
+                df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Dec_item)]
                 decoded_angle = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
                 target_centered = df_x.target_centered.iloc[0]
                 label_target = df_x.label_target.iloc[0]
@@ -391,8 +391,6 @@ tr_end=tr_end
 df_shuffle=shuff
 
 
-
-
 list_wm_scans= range(nscans_wm)  
 list_wm_scans2 = list_wm_scans
 ####
@@ -412,24 +410,51 @@ for not_shared in list_wm_scans2:
     ###########################################################################
     ########################################################################### Get the mutliple indexes to split in train and test
     ###########################################################################
+    training_indexes = []
+    testing_indexes =  []
+    for sess_run in testing_behaviour.session_run.unique():
+        wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
+        testing_indexes.append( wanted )
+        #
+        ## I do not trust the del  lines of other files, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
+        all_indexes = testing_behaviour.index.values
+        other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
+        training_indexes.append( other_indexes ) 
+    ###
+    ### apply them to train and test
+    ###
+    for train_index, test_index in zip(training_indexes, testing_indexes):
+        X_train, X_test = training_data[train_index], testing_data[test_index]
+        y_train, y_test = training_angles[train_index], testing_angles[test_index]
+        ## train
+        WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
+        WM_t2 = WM2.transpose()
+        ## test
+        trials_test = testing_behaviour.iloc[test_index, :]
+        rep_x = decoding_angles_pvector( testing_behaviour=trials_test, testing_data=X_test, df_shuffle=df_shuffle, 
+            specific_tr_shuffle=not_shared, Weights=WM2, Weights_t=WM_t2, ref_angle=180, intercept=Inter2)
+        rep_x['TR_'] = not_shared
+        reconstrction_.append(rep_x)
+    ###
+    reconstrction_ = pd.concat(reconstrction_) #
 
 
-training_indexes = []
-testing_indexes =  []
-for sess_run in testing_behaviour.session_run.unique():
-    wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
-    testing_indexes.append( wanted )
-    #
-    ## I do not trust the del  lines of other files, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
-    all_indexes = testing_behaviour.index.values
-    other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
-    training_indexes.append( other_indexes ) 
-        ###
-        ### apply them to train and test
-        ###
-for train_index, test_index in zip(training_indexes, testing_indexes):
-    X_train, X_test = training_data[train_index], testing_data[test_index]
-    y_train, y_test = training_angles[train_index], testing_angles[test_index]
-    ## train
-    WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
-    WM_t2 = WM2.transpose()
+
+
+
+
+for Idx in reconstrction_.new_index.unique():
+    for Dec_item in ['T', 'NT1', 'NT2']:
+        df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Dec_item)]
+        decoded_angle = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
+        target_centered = df_x.target_centered.iloc[0]
+        label_target = df_x.label_target.iloc[0]
+        corresp_isolated = df_x.corresp_isolated.iloc[0]
+        distractor_centered = df_x.distractor_centered.iloc[0]
+        corresp_isolated_distractor = df_x.corresp_isolated_distractor.iloc[0]
+        label_distractor = df_x.label_distractor.iloc[0]
+        new_index = df_x.new_index.iloc[0]
+        TR_ = str(df_x.TR_.iloc[0] * TR)
+        #
+        Recons_trs.append([decoded_angle, target_centered, label_target, corresp_isolated, distractor_centered, corresp_isolated_distractor, 
+                                     label_distractor, new_index, TR_])
