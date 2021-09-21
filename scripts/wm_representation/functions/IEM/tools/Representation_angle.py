@@ -419,9 +419,9 @@ def Representation_cv_angle_runsout_shuff(testing_activity, testing_behaviour, t
     #### Run the ones WITHOUT shared information the same way
     #testing_behaviour = testing_behaviour.reset_index()
     #training_behaviour = training_behaviour.reset_index()
-    training_angles = np.array(testing_activity[training_item])   
+    training_angles = np.array(testing_behaviour[training_item])   
     decode_item = 'T' ##irrelevant, it is going to be transformed to 0, 90.....
-    testing_angles = np.array(testing_activity[decode_item])    
+    testing_angles = np.array(testing_behaviour[decode_item])    
     #####
     Reconstructions_shuffled=[]
     for It in range(iterations):
@@ -514,11 +514,9 @@ def Representation_cv_angle_runsout_shuff(testing_activity, testing_behaviour, t
         ##
         Reconstruction = pd.concat([Reconstruction_shared, Reconstruction_not_shared], axis=1)
         Reconstruction.columns =  [str(i * TR) for i in list_wm_scans2 ] 
-        Reconstructions_shuffled.append(Reconstruction)         
-
-        Reconstructions_shuffled.append(Reconstruction)
-
-    ####
+        Reconstructions_shuffled.append(Reconstruction)  
+        #
+    #
     #####
     df_shuffle =  pd.concat(Reconstructions_shuffled).mean(level=0)  ###dimensions (720, TRs) (mean shuffle!) (average of shuffled reconstructions)
     ##
