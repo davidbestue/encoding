@@ -129,3 +129,13 @@ from IEM_cross_condition_kfold_shuff_allTRs_alone import *
 from process_beh_file import *
 from preprocess_wm_data import *
 
+
+###### Angle decoder
+from decoding_angle_sh_pvector import *
+from Representation_angle_runsout_shuff import *
+from decoding_angles_pvector import *
+from Representation_angle_runsout import *
+from Representation_cv_angle_runsout_shuff import *
+from Representation_cv_angle_runsout import *
+
+
