@@ -388,8 +388,7 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
 
 
 
-def Representation_cv_angle_runsout_shuff(training_activity, training_behaviour, testing_activity, testing_behaviour, 
-    training_item, tr_st, tr_end, iterations, ref_angle=180):
+def Representation_cv_angle_runsout_shuff(testing_activity, testing_behaviour, training_item, tr_st, tr_end, iterations, ref_angle=180):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -420,9 +419,9 @@ def Representation_cv_angle_runsout_shuff(training_activity, training_behaviour,
     #### Run the ones WITHOUT shared information the same way
     #testing_behaviour = testing_behaviour.reset_index()
     #training_behaviour = training_behaviour.reset_index()
-    training_angles = np.array(training_behaviour[training_item])   
+    training_angles = np.array(testing_activity[training_item])   
     decode_item = 'T' ##irrelevant, it is going to be transformed to 0, 90.....
-    testing_angles = np.array(testing_behaviour[decode_item])    
+    testing_angles = np.array(testing_activity[decode_item])    
     #####
     Reconstructions_shuffled=[]
     for It in range(iterations):
@@ -433,7 +432,7 @@ def Representation_cv_angle_runsout_shuff(training_activity, training_behaviour,
         ###########
         Recons_trs=[]
         for not_shared in list_wm_scans2:
-            training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+            training_data =   np.mean(testing_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
             testing_data= testing_activity[:, not_shared, :]   
             reconstrction_=[]
             ###########################################################################
@@ -540,16 +539,9 @@ def Representation_cv_angle_runsout_shuff(training_activity, training_behaviour,
 
 
 
-
-
-
-
-
-
-
 ###################
 
-def Representation_cv_angle_runsout(training_activity, training_behaviour, testing_activity, testing_behaviour, training_item, tr_st, tr_end, df_shuffle):
+def Representation_cv_angle_runsout(testing_activity, testing_behaviour, training_item, tr_st, tr_end, df_shuffle):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -580,7 +572,7 @@ def Representation_cv_angle_runsout(training_activity, training_behaviour, testi
     #### Run the ones WITHOUT shared information the same way
     #testing_behaviour = testing_behaviour.reset_index()
     #training_behaviour = training_behaviour.reset_index()
-    training_angles = np.array(training_behaviour[training_item])   
+    training_angles = np.array(testing_behaviour[training_item])   
     ##
     training_indexes = []
     testing_indexes =  []
@@ -600,7 +592,7 @@ def Representation_cv_angle_runsout(training_activity, training_behaviour, testi
     #####
     Recons_trs=[]
     for not_shared in list_wm_scans2:
-        training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
+        training_data =   np.mean(testing_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
         testing_data= testing_activity[:, not_shared, :]   
         reconstrction_=[]
         ###########################################################################
