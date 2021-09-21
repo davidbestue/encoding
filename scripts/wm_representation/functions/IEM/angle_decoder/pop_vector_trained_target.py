@@ -50,9 +50,9 @@ tr_end=6
 Reconstruction_angles=[]
 
 ############# Elements for the loop
-Conditions=['1_7']   ##['1_0.2', '1_7', '2_0.2', '2_7'] 
-Subjects=['n001'] ##['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual'] ##, 'ips', 'pfc']
+Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
+Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
+brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
 num_shuffles = 5 #100 #10
@@ -75,7 +75,7 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #############
                 behaviour['new_index'] = np.arange(0, len(behaviour),1) 
-                #############
+                ############# IEM shuffle
                 shuff =Representation_cv_angle_runsout_shuff(testing_activity=activity, testing_behaviour=behaviour, 
                     training_item=training_item, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
                 ####### IEM data
@@ -100,8 +100,6 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 ##################
                 testing_behaviour['new_index'] = np.arange(0, len(testing_behaviour),1) 
-                ### testing_activity --> (trials, TRs, voxels)
-                ### testing_behaviour --> (trials, columns_interest)
                 ###### IEM shuffle
                 shuff = Representation_angle_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
                     testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
@@ -119,9 +117,8 @@ for Subject in Subjects:
 
                 
 
-
-
-
+#####
+#####
 df_save = pd.concat(Reconstruction_angles)
 df_save.to_excel(path_save_)
 
