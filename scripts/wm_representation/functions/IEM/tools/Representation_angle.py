@@ -143,23 +143,9 @@ def Representation_angle_runsout_shuff(training_activity, training_behaviour, te
 
 
 
-
-
-
-
-
-
 ####################################################################
 ####################################################################  Decode the angle
 ####################################################################
-
-
-
-
-
-
-
-
 
 
 
@@ -362,6 +348,39 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
                                 'label_distractor', 'new_index', 'TR']
     #
     return Reconstruction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
