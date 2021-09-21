@@ -56,7 +56,7 @@ def decoding_angle_sh_pvector(testing_data, testing_angles, Weights, Weights_t, 
 
 
 def Representation_angle_runsout_shuff(training_activity, training_behaviour, testing_activity, testing_behaviour, 
-    decode_item, training_item, tr_st, tr_end, iterations, ref_angle=180):
+    training_item, tr_st, tr_end, iterations, ref_angle=180):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -86,6 +86,7 @@ def Representation_angle_runsout_shuff(training_activity, training_behaviour, te
     #testing_behaviour = testing_behaviour.reset_index()
     #training_behaviour = training_behaviour.reset_index()
     training_angles = np.array(training_behaviour[training_item])   
+    decode_item = 'T' ##irrelevant, it is going to be transformed to 0, 90.....
     testing_angles = np.array(testing_behaviour[decode_item])    
     #####
     Reconstructions_shuffled=[]
@@ -253,7 +254,7 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
 
 ###################
 
-def Representation_angle_runsout(training_activity, training_behaviour, testing_activity, testing_behaviour, decode_item, training_item, tr_st, tr_end, df_shuffle):
+def Representation_angle_runsout(training_activity, training_behaviour, testing_activity, testing_behaviour, training_item, tr_st, tr_end, df_shuffle):
     ####
     ####
     #### IEM: Inverted encoding model
@@ -283,7 +284,6 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
     #testing_behaviour = testing_behaviour.reset_index()
     #training_behaviour = training_behaviour.reset_index()
     training_angles = np.array(training_behaviour[training_item])   
-    testing_angles = np.array(testing_behaviour[decode_item])    
     #####
     Recons_trs=[]
     for not_shared in list_wm_scans2:
@@ -308,7 +308,7 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
         ###
         for train_index, test_index in zip(training_indexes, testing_indexes):
             X_train, X_test = training_data[train_index], testing_data[test_index]
-            y_train, y_test = training_angles[train_index], testing_angles[test_index]
+            y_train = training_angles[train_index]
             ## train
             WM2, Inter2 = Weights_matrix_LM(X_train, y_train)
             WM_t2 = WM2.transpose()

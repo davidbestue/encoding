@@ -51,8 +51,7 @@ tr_end=6
 #         tr_end=12
 
 ############# Dictionary and List to save the files.
-Reconstructions={}
-Reconstructions_shuff=[]
+Reconstruction_angles=[]
 
 ############# Elements for the loop
 Conditions=['1_0.2']   ##['1_0.2', '1_7', '2_0.2', '2_7'] 
@@ -100,13 +99,18 @@ for Subject in Subjects:
                 ### testing_behaviour --> (trials, columns_interest)
                 ###### IEM shuffle
                 shuff = Representation_angle_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
-                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
                     training_item=training_item, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
                 ####### IEM data
-
                 df_angles = Representation_angle_runsout(training_activity=training_activity, training_behaviour=training_behaviour, 
-                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour,  
                     training_item=training_item, tr_st=tr_st, tr_end=tr_end, df_shuffle=shuff)
+                df_angles['subject']=Subject
+                df_angles['brain_region']=Brain_region
+                df_angles['condition']=Condition
+                #
+                Reconstruction_angles.append(df_angles)
+
 
                 
 
@@ -121,6 +125,7 @@ for Subject in Subjects:
 
 
 
+############# Get the data
 enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
 ##################
 ###### Process training data
@@ -131,27 +136,21 @@ training_activity, training_behaviour = preprocess_wm_data(wm_fmri_paths, masks,
 ###### Process testing data 
 testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
-
-
-
-testing_behaviour['new_index'] = np.arange(0, len(testing_behaviour),1)
-
-
+##################
+testing_behaviour['new_index'] = np.arange(0, len(testing_behaviour),1) 
+### testing_activity --> (trials, TRs, voxels)
+### testing_behaviour --> (trials, columns_interest)
+###### IEM shuffle
+shuff = Representation_angle_runsout_shuff(training_activity=training_activity, training_behaviour=training_behaviour, 
+    testing_activity=testing_activity, testing_behaviour=testing_behaviour, 
+    training_item=training_item, tr_st=tr_st, tr_end=tr_end, iterations=num_shuffles, ref_angle=180)
+####### IEM data
 df_angles = Representation_angle_runsout(training_activity=training_activity, training_behaviour=training_behaviour, 
-                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
-                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, df_shuffle=shuff)
-
-
-
-
-num_shuffles = 2 #100 #10
-
-
-
-
-
-
-
+    testing_activity=testing_activity, testing_behaviour=testing_behaviour,  
+    training_item=training_item, tr_st=tr_st, tr_end=tr_end, df_shuffle=shuff)
+df_angles['subject']=Subject
+df_angles['brain_region']=Brain_region
+df_angles['condition']=Condition
 
 
 
