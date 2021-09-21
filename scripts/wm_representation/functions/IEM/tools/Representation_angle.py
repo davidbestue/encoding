@@ -232,12 +232,12 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
                 dist_180.append(n_dist)
         ##
         dist_180 = np.array(dist_180)
-
+        #
         df_dec = pd.DataFrame({'decoded_angle':decoded_angle, 'target_centered':targ_180, 
                                 'label_target':list_label_target, 'corresp_isolated':corresp_isol,
                                 'distractor_centered':dist_180, 'corresp_isolated_distractor':corresp_isol_dist,
                                 'label_distractor':list_label_distr, 'new_index':new_indexes })
-
+        #
         frames.append(df_dec)
     #
     df_dec = pd.concat(frames)
