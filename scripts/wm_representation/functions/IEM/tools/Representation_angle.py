@@ -509,11 +509,14 @@ def Representation_cv_angle_runsout_shuff(testing_activity, testing_behaviour, t
         ####
         ####
         Reconstruction_not_shared = pd.concat(Recons_trs, axis=1)
+        Reconstruction_not_shared.columns =  [str(i * TR) for i in list_wm_scans2 ] 
+        #
         Reconstruction_shared = pd.concat(Recons_trs_shared, axis=1)
+        Reconstruction_shared.columns =  [str(i * TR) for i in trs_shared ] 
         ##
         ##
         Reconstruction = pd.concat([Reconstruction_shared, Reconstruction_not_shared], axis=1)
-        Reconstruction.columns =  [str(i * TR) for i in list_wm_scans2 ] 
+        #
         Reconstructions_shuffled.append(Reconstruction)  
         #
     #
