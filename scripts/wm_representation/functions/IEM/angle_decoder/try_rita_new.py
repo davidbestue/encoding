@@ -122,7 +122,7 @@ for Subject in Subjects:
 
 
 
-
+num_shuffles = 5
 
 
 ############# Get the data
@@ -152,6 +152,8 @@ df_angles['subject']=Subject
 df_angles['brain_region']=Brain_region
 df_angles['condition']=Condition
 
+
+print('Done!')
 
 
 
