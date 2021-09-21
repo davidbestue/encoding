@@ -333,14 +333,14 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
             rep_x['TR_'] = not_shared
             reconstrction_.append(rep_x)
         ###
-        reconstrction_ = pd.concat(reconstrction_) #
+        reconstrction_x = pd.concat(reconstrction_) #
         #####
         ##### Ahora tienes en por cada trial, tantos decoders como sessiones. Hacer un mean de eso. De tal manera que de cada new index solo queden 3 valores (T, NT1, NT2)
         #####
-        for Idx in reconstrction_.new_index.unique():
+        for Idx in reconstrction_x.new_index.unique():
             for Dec_item in ['T', 'NT1', 'NT2']:
-                for Tr_ in reconstrction_.TR_.unique():                    
-                    df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Dec_item)  &  (reconstrction_['TR_']==Tr_)]
+                for Tr_ in reconstrction_x.TR_.unique():                    
+                    df_x = reconstrction_x.loc[(reconstrction_x['new_index']==Idx) &  (reconstrction_x['label_target']==Dec_item)  &  (reconstrction_x['TR_']==Tr_)]
                     decoded_angle_ = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
                     target_centered_ = df_x.target_centered.iloc[0]
                     label_target_ = df_x.label_target.iloc[0]
