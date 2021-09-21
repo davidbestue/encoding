@@ -191,7 +191,7 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
         #
         corresp_isol = list(np.array(testing_behaviour[Dec_item] == testing_behaviour['T_alone']) )
         corresp_isol_dist = list(np.array(testing_behaviour[distractor_labels[idx_tar]] == testing_behaviour['dist_alone']) )
-        list_label_target = [Dec_item for i in range(len(testing_behaviour))]
+        list_label_target = np.array([Dec_item for i in range(len(testing_behaviour))])
         list_label_distr = [distractor_labels[idx_tar] for i in range(len(testing_behaviour))]
         new_indexes = list(testing_behaviour['new_index'].values)  
         #        
