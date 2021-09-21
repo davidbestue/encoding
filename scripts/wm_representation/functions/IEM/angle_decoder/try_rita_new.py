@@ -134,6 +134,12 @@ testing_activity, testing_behaviour = preprocess_wm_data(wm_fmri_paths, masks, w
 
 
 
+df_angles = Representation_angle_runsout(training_activity=training_activity, training_behaviour=training_behaviour, 
+                    testing_activity=testing_activity, testing_behaviour=testing_behaviour, decode_item=decoding_thing, 
+                    training_item=training_item, tr_st=tr_st, tr_end=tr_end, df_shuffle=shuff)
+
+
+
 
 num_shuffles = 2 #100 #10
 

@@ -339,19 +339,20 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
         #####
         for Idx in reconstrction_.new_index.unique():
             for Dec_item in ['T', 'NT1', 'NT2']:
-                df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Dec_item)]
-                decoded_angle = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
-                target_centered = df_x.target_centered.iloc[0]
-                label_target = df_x.label_target.iloc[0]
-                corresp_isolated = df_x.corresp_isolated.iloc[0]
-                distractor_centered = df_x.distractor_centered.iloc[0]
-                corresp_isolated_distractor = df_x.corresp_isolated_distractor.iloc[0]
-                label_distractor = df_x.label_distractor.iloc[0]
-                new_index = df_x.new_index.iloc[0]
-                TR_ = str(df_x.TR_.iloc[0] * TR)
-                #
-                Recons_trs.append([decoded_angle, target_centered, label_target, corresp_isolated, distractor_centered, corresp_isolated_distractor, 
-                                             label_distractor, new_index, TR_])
+                for Tr_ in reconstrction_.TR_.unique():                    
+                    df_x = reconstrction_.loc[(reconstrction_['new_index']==Idx) &  (reconstrction_['label_target']==Dec_item)  &  (reconstrction_['TR_']==Tr_)]
+                    decoded_angle = df_x.decoded_angle.mean() ###this ignores the Nans. It is the same as np.nanmean(df_x.decoded_angle.values) 
+                    target_centered = df_x.target_centered.iloc[0]
+                    label_target = df_x.label_target.iloc[0]
+                    corresp_isolated = df_x.corresp_isolated.iloc[0]
+                    distractor_centered = df_x.distractor_centered.iloc[0]
+                    corresp_isolated_distractor = df_x.corresp_isolated_distractor.iloc[0]
+                    label_distractor = df_x.label_distractor.iloc[0]
+                    new_index = df_x.new_index.iloc[0]
+                    TR_x = str(df_x.TR_.iloc[0] * TR)
+                    #
+                    Recons_trs.append([decoded_angle, target_centered, label_target, corresp_isolated, distractor_centered, corresp_isolated_distractor, 
+                                                 label_distractor, new_index, TR_x])
             #
         #
     #
@@ -458,3 +459,9 @@ for Idx in reconstrction_.new_index.unique():
         #
         Recons_trs.append([decoded_angle, target_centered, label_target, corresp_isolated, distractor_centered, corresp_isolated_distractor, 
                                      label_distractor, new_index, TR_])
+
+
+
+Reconstruction = pd.DataFrame(Recons_trs)
+Reconstruction.columns =  ['decoded_angle', 'target_centered', 'label_target', 'corresp_isolated', 'distractor_centered', 'corresp_isolated_distractor', 
+                            'label_distractor', 'new_index', 'TR']
