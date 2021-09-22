@@ -24,6 +24,7 @@ training_time= 'delay'  #'stim_p'  'delay' 'respo'
 tr_st=4
 tr_end=6
 
+
 ############# Options de training times, the TRs used for the training will be different 
 
 # training_time=='delay':
