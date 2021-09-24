@@ -132,3 +132,4 @@ def tiemcourse(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     plt.tight_layout(w_pad=1, h_pad=1, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
     plt.show(block=False) #show
     
+    
