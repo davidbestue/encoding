@@ -133,4 +133,3 @@ def tiemcourse(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     plt.show(block=False) #show
     
     
-    
