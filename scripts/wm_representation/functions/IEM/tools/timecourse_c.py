@@ -29,7 +29,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
         #features of the plot for the different conditions. Fixed values
         if condition == '1_0.2':
-            condition_title = 'o:1, d:0.2'
+            condition_title = 'o:1, soa:0.2s'
             y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             x_label_cond = ''
             delay1 = 0.2
@@ -41,7 +41,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             xlim = [1, 30]
 
         elif condition == '1_7':
-            condition_title = 'o:1, d:7'
+            condition_title = 'o:1, soa:7s'
             y_label_cond = '' 
             x_label_cond = ''
             delay1 = 7
@@ -53,7 +53,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             xlim = [1, 30]
 
         elif condition == '2_0.2':
-            condition_title = 'o:2, d:0.2'
+            condition_title = 'o:2, soa:0.2s'
             y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             x_label_cond = 'time (s)'        
             delay1 = 0.2
@@ -65,7 +65,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             xlim = [1, 30]
 
         elif condition == '2_7':
-            condition_title = 'o:2, d:7'
+            condition_title = 'o:2, soa:7s'
             y_label_cond = '' 
             x_label_cond = 'time (s)' 
             delay1 = 7
@@ -88,14 +88,14 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         t_p2 = t_p1 + sec_hdrf # end of target (time)
         r_t2=  r_t1 + sec_hdrf + resp_time #end of response (time)
 
-        y_vl_min = -10 #df_all_by_subj.Decoding.min() #values min and max
-        y_vl_max = 10 #◙df_all_by_subj.Decoding.max()
+        y_vl_min = -30 #df_all_by_subj.Decoding.min() #values min and max
+        y_vl_max = 30 #◙df_all_by_subj.Decoding.max()
 
         #fig = plt.figure()
         ax = fig.add_subplot(2,2, indx_c+1) 
         
         data_cond = df_plot.loc[df_plot['condition']==condition ]
-        sns.lineplot( ax=ax, x="times", y="decoding", hue='region', ci=68,
+        sns.lineplot( ax=ax, x="times", y="decoding", hue='region', ci=95,
                      hue_order =  ['visual', 'ips', 'pfc'], palette=pal, data=data_cond)
         plt.plot([0, 35], [0,0], 'k--', linewidth=1)   ## plot chance level (0)
         plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='grey', alpha=0.3) #, label='target'  ) #plot aprox time of target
@@ -110,10 +110,18 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         plt.gca().get_yaxis().tick_left()
         plt.xticks([5,10,15,20,25,30,35], fontsize=15) #just this tcks
         plt.ylim(ylims[0], ylims[1])
+        if ylims[0]==-10:
+            plt.yticks([-10, -5, 0 , 5, 10], fontsize=15)
         if ylims[0]==-20:
             plt.yticks([-20, -10, 0 , 10, 20], fontsize=15)
         if ylims[0]==-30:
             plt.yticks([-30, -15, 0 , 15, 30], fontsize=15)
+        if ylims[0]==-40:
+            plt.yticks([-40, -20, 0 , 20, 40], fontsize=15)
+        if ylims[0]==-50:
+            plt.yticks([-50, -25, 0 , 25, 50], fontsize=15)
+        if ylims[0]==-60:
+            plt.yticks([-60, -30, 0 , 30, 60], fontsize=15)
         #
         plt.xlim(xlim)
         plt.xlabel(x_label_cond, fontsize=20)
