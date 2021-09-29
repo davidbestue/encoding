@@ -13,7 +13,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_ ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_decoded_angle.xlsx' 
+path_save_ ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_decoded_angle100.xlsx' 
 
 ############# Training options
 training_item = 'T_alone'  #'dist_alone'  'T_alone' 
@@ -57,7 +57,7 @@ Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
 brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 5 #100 #10
+num_shuffles = 100 #100 #10
 
 ############# Analysis
 #############
