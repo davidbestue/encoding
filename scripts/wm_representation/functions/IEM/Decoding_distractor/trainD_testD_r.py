@@ -12,10 +12,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testD_runsout.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainD_testD_runsout.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainD_testD_runsout100.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainD_testD_runsout100.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_runsout.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainD_testD_runsout100.xlsx'
 
 
 ############# Testing options
@@ -65,7 +65,7 @@ Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
 brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
-num_shuffles = 10 #10 #100 #10
+num_shuffles = 100 #10 #100 #10
 
 ############# Analysis
 #############
