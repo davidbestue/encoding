@@ -29,7 +29,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
         #features of the plot for the different conditions. Fixed values
         if condition == '1_0.2':
-            condition_title = 'o:1, soa:0.2s'
+            condition_title = 'order 1; soa 0.2s'
             y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             x_label_cond = ''
             delay1 = 0.2
@@ -41,7 +41,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             xlim = [1, 30]
 
         elif condition == '1_7':
-            condition_title = 'o:1, soa:7s'
+            condition_title = 'order 1; soa 7s'
             y_label_cond = '' 
             x_label_cond = ''
             delay1 = 7
@@ -53,7 +53,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             xlim = [1, 30]
 
         elif condition == '2_0.2':
-            condition_title = 'o:2, soa:0.2s'
+            condition_title = 'order 2; soa 0.2s'
             y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             x_label_cond = 'time (s)'        
             delay1 = 0.2
@@ -65,7 +65,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             xlim = [1, 30]
 
         elif condition == '2_7':
-            condition_title = 'o:2, soa:7s'
+            condition_title = 'order 2; soa 7s'
             y_label_cond = '' 
             x_label_cond = 'time (s)' 
             delay1 = 7
