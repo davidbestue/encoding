@@ -60,7 +60,6 @@ ref_angle=180
 
 num_shuffles = 100 #100 #10
 
-
 ############# Analysis
 #############
 for Subject in Subjects:
