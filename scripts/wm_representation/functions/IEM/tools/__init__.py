@@ -137,5 +137,7 @@ from decoding_angles_pvector import *
 from Representation_angle_runsout import *
 from Representation_cv_angle_runsout_shuff import *
 from Representation_cv_angle_runsout import *
+from Get_beh_data_angle_runsout import *
+from Get_beh_data_angle_runsout_CV import *
 
 
