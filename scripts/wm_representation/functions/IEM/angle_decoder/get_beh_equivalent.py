@@ -78,10 +78,11 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 #############
                 behaviour['new_index'] = np.arange(0, len(behaviour),1) 
+                behaviour['subject']=Subject
+                behaviour['brain_region']=Brain_region
+                behaviour['condition']=Condition
                 ############# IEM shuffle
-                Behaviour_trials = Get_beh_data_angle_runsout_CV(testing_behaviour=behaviour, training_item=training_item, tr_st=tr_st, tr_end=tr_end)
-  
-                BEHAVIOUR.append(Behaviour_trials)
+                BEHAVIOUR.append(behaviour)
             
             else:
                 #############
@@ -95,9 +96,11 @@ for Subject in Subjects:
                     condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
                 ##################
                 testing_behaviour['new_index'] = np.arange(0, len(testing_behaviour),1) 
-                ###### IEM shuffle
-                Behaviour_trials = Get_beh_data_angle_runsout(testing_behaviour=testing_behaviour, training_item=training_item)
-                BEHAVIOUR.append(Behaviour_trials)
+                testing_behaviour['subject']=Subject
+                testing_behaviour['brain_region']=Brain_region
+                testing_behaviour['condition']=Condition
+                ###### 
+                BEHAVIOUR.append(testing_behaviour)
 
 
                 

@@ -11,7 +11,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def Get_beh_data_angle_runsout(training_behaviour, testing_behaviour, training_item):
+def Get_beh_data_angle_runsout(testing_behaviour, training_item):
     ####
     ####
     #### IEM: Inverted encoding model
