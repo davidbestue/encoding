@@ -11,7 +11,6 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-
 def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specific_tr_shuffle, Weights, Weights_t, ref_angle=180, intercept=False):
     ## Make the data parallelizable
     n_trials_test = len(testing_data) #number trials
