@@ -18,6 +18,7 @@ resp_time = 4  #time the response is active
 
 
 
+
 def tiemcourse_interference(df_plot, title_plot, ylims=[-10,10]):
     ##
     ###
