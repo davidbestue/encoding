@@ -31,7 +31,16 @@ def decoding_angles_pvector( testing_behaviour2, testing_data2, df_shuffle, spec
         #
         testing_angles = np.array(testing_behaviour2[Dec_item])   
         testing_distractors = np.array(testing_behaviour2[distractor_labels[idx_tar]])
-        #
+        #### beh things to save
+        actual_T = np.array(testing_behaviour2['T']) 
+        actual_NT1 = np.array(testing_behaviour2['NT1']) 
+        actual_NT2 = np.array(testing_behaviour2['NT2']) 
+        actual_dist = np.array(testing_behaviour2['Dist']) 
+        actual_dist1 = np.array(testing_behaviour2['Dist_NT1']) 
+        actual_dist2 = np.array(testing_behaviour2['Dist_NT2']) 
+        actual_response = np.array(testing_behaviour2['A_R']) 
+        actual_Error =np.array(testing_behaviour2['A_err'])  
+        #####
         corresp_isol = list(np.array(testing_behaviour2[Dec_item] == testing_behaviour2['T_alone']) )
         corresp_isol_dist = list(np.array(testing_behaviour2[distractor_labels[idx_tar]] == testing_behaviour2['dist_alone']) )
         list_label_target = [Dec_item for i in range(len(testing_behaviour2))]
@@ -90,10 +99,14 @@ def decoding_angles_pvector( testing_behaviour2, testing_data2, df_shuffle, spec
         ##
         dist_180 = np.array(dist_180)
         #
+        #
         df_dec = pd.DataFrame({'decoded_angle':decoded_angle, 'target_centered':targ_180, 
                                 'label_target':list_label_target, 'corresp_isolated':corresp_isol,
                                 'distractor_centered':dist_180, 'corresp_isolated_distractor':corresp_isol_dist,
-                                'label_distractor':list_label_distr, 'new_index':new_indexes })
+                                'label_distractor':list_label_distr, 'new_index':new_indexes, 'actual_T': actual_T,
+                                 'actual_NT1':actual_NT1, 'actual_NT2': actual_NT2, 'actual_dist': actual_dist, 
+                                 'actual_dist1': actual_dist1, 'actual_dist2':actual_dist2, 'actual_response':actual_response, 
+                                 'actual_Error': actual_Error })
         #
         frames.append(df_dec)
     #

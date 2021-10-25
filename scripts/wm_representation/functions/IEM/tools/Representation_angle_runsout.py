@@ -71,7 +71,7 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
             WM_t2 = WM2.transpose()
             ## test
             trials_test = testing_behaviour.iloc[test_index, :]
-            rep_x = decoding_angles_pvector( testing_behaviour=trials_test, testing_data=X_test, df_shuffle=df_shuffle, 
+            rep_x = decoding_angles_pvector( testing_behaviour2=trials_test, testing_data2=X_test, df_shuffle=df_shuffle, 
                 specific_tr_shuffle=not_shared, Weights=WM2, Weights_t=WM_t2, ref_angle=180, intercept=Inter2)
             rep_x['TR_'] = not_shared
             reconstrction_.append(rep_x)
