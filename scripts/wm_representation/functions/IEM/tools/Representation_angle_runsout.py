@@ -94,19 +94,28 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
                     new_index_ = df_x.new_index.iloc[0]
                     TR_x = str(df_x.TR_.iloc[0] * TR)
                     #
+                    actual_T_ =df_x.actual_T.iloc[0]
+                    actual_NT1_=df_x.actual_NT1.iloc[0]
+                    actual_NT2_=df_x.actual_NT2.iloc[0]
+                    actual_dist_=df_x.actual_dist.iloc[0]
+                    actual_dist1_=df_x.actual_dist1.iloc[0]
+                    actual_dist2_=df_x.actual_dist2.iloc[0]
+                    actual_response_=df_x.actual_response.iloc[0]
+                    actual_Error_ = df_x.actual_Error.iloc[0]
+
                     Recons_trs.append([decoded_angle_, target_centered_, label_target_, corresp_isolated_, distractor_centered_, corresp_isolated_distractor_, 
-                                                 label_distractor_, new_index_, TR_x])
+                                                 label_distractor_, new_index_, TR_x, actual_T_, actual_NT1_, actual_NT2_, actual_dist_, actual_dist1_, 
+                                                 actual_dist2_, actual_response_, actual_Error_ ])
             #
         #
     #
     ####
     Reconstruction = pd.DataFrame(Recons_trs)
     Reconstruction.columns =  ['decoded_angle', 'target_centered', 'label_target', 'corresp_isolated', 'distractor_centered', 'corresp_isolated_distractor', 
-                                'label_distractor', 'new_index', 'TR']
+                                'label_distractor', 'new_index', 'TR', 'actual_T', 'actual_NT1', 'actual_NT2', 'actual_dist', 'actual_dist1',  'actual_dist2',
+                                'actual_response', 'actual_Error']
     #
     return Reconstruction
-
-
 
 
 
