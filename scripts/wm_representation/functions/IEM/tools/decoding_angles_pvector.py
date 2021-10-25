@@ -11,12 +11,12 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 
-def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specific_tr_shuffle, Weights, Weights_t, ref_angle=180, intercept=False):
+def decoding_angles_pvector( testing_behaviour2, testing_data2, df_shuffle, specific_tr_shuffle, Weights, Weights_t, ref_angle=180, intercept=False):
     ## Make the data parallelizable
-    n_trials_test = len(testing_data) #number trials
+    n_trials_test = len(testing_data2) #number trials
     data_prall = []
     for i in range(n_trials_test):
-        data_prall.append(testing_data[i, :])
+        data_prall.append(testing_data2[i, :])
     ###
     ###
     numcores = multiprocessing.cpu_count()
@@ -29,14 +29,14 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
     #
     for idx_tar, Dec_item in enumerate(['T', 'NT1', 'NT2']):
         #
-        testing_angles = np.array(testing_behaviour[Dec_item])   
-        testing_distractors = np.array(testing_behaviour[distractor_labels[idx_tar]])
+        testing_angles = np.array(testing_behaviour2[Dec_item])   
+        testing_distractors = np.array(testing_behaviour2[distractor_labels[idx_tar]])
         #
-        corresp_isol = list(np.array(testing_behaviour[Dec_item] == testing_behaviour['T_alone']) )
-        corresp_isol_dist = list(np.array(testing_behaviour[distractor_labels[idx_tar]] == testing_behaviour['dist_alone']) )
-        list_label_target = [Dec_item for i in range(len(testing_behaviour))]
-        list_label_distr = [distractor_labels[idx_tar] for i in range(len(testing_behaviour))]
-        new_indexes = list(testing_behaviour['new_index'].values)  
+        corresp_isol = list(np.array(testing_behaviour2[Dec_item] == testing_behaviour2['T_alone']) )
+        corresp_isol_dist = list(np.array(testing_behaviour2[distractor_labels[idx_tar]] == testing_behaviour2['dist_alone']) )
+        list_label_target = [Dec_item for i in range(len(testing_behaviour2))]
+        list_label_distr = [distractor_labels[idx_tar] for i in range(len(testing_behaviour2))]
+        new_indexes = list(testing_behaviour2['new_index'].values)  
         #        
         Channel_all_trials_rolled = Parallel(n_jobs = numcores)(delayed(trial_rep)(Signal, angle_trial, Weights, Weights_t, ref=ref_angle, intercept_ = intercept)  for Signal, angle_trial in zip( data_prall, testing_angles))    ####
         Channel_all_trials_rolled = np.array(Channel_all_trials_rolled)
@@ -74,7 +74,7 @@ def decoding_angles_pvector( testing_behaviour, testing_data, df_shuffle, specif
         ###
         decoded_angle=np.array(decoded_angle)
         #### Rotation of distractor associated
-        distractors_angles = np.array(testing_behaviour[distractor_labels[idx_tar]]) 
+        distractors_angles = np.array(testing_behaviour2[distractor_labels[idx_tar]]) 
         #
         dist_180_ = testing_distractors - distance_to_ref
         dist_180 = []

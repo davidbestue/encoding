@@ -36,6 +36,19 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
     list_wm_scans2 = list_wm_scans
     ####
     ####
+    ###########################################################################
+    ########################################################################### Get the mutliple indexes to split in train and test
+    ###########################################################################
+    training_indexes = []
+    testing_indexes =  []
+    for sess_run in testing_behaviour.session_run.unique():
+        wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
+        testing_indexes.append( wanted )
+        #
+        ## I do not trust the del  lines of other files, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
+        all_indexes = testing_behaviour.index.values
+        other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
+        training_indexes.append( other_indexes ) 
     ####
     #### Run the ones WITHOUT shared information the same way
     #testing_behaviour = testing_behaviour.reset_index()
@@ -47,19 +60,6 @@ def Representation_angle_runsout(training_activity, training_behaviour, testing_
         training_data =   np.mean(training_activity[:, tr_st:tr_end, :], axis=1) ## son los mismos siempre, pero puede haber time dependence!
         testing_data= testing_activity[:, not_shared, :]   
         reconstrction_=[]
-        ###########################################################################
-        ########################################################################### Get the mutliple indexes to split in train and test
-        ###########################################################################
-        training_indexes = []
-        testing_indexes =  []
-        for sess_run in testing_behaviour.session_run.unique():
-            wanted = testing_behaviour.loc[testing_behaviour['session_run']==sess_run].index.values 
-            testing_indexes.append( wanted )
-            #
-            ## I do not trust the del  lines of other files, maybe this del inside a function in paralel is not removing the indexes, also you avoid going to lists to comeback
-            all_indexes = testing_behaviour.index.values
-            other_indexes = all_indexes[~np.array([all_indexes[i] in wanted for i in range(len(all_indexes))])]  #take the ones that are not in wanted
-            training_indexes.append( other_indexes ) 
         ###
         ### apply them to train and test
         ###
