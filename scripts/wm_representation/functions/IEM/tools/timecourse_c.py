@@ -30,7 +30,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
         #features of the plot for the different conditions. Fixed values
         if condition == '1_0.2':
-            condition_title = 'order 1; soa 0.2s'
+            condition_title = 'order 1; tdoa 0.2s'
             #y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             y_label_cond = 'decoding ' + decoding_thing + ' (signal-shuff)'
             x_label_cond = ''
@@ -40,10 +40,10 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             t_p = cue + presentation_period_cue + pre_stim_period 
             d_p = t_p + presentation_period +delay1 
             r_t = d_p + presentation_period + delay2
-            xlim = [1, 30]
+            xlim = [1, 23]
 
         elif condition == '1_7':
-            condition_title = 'order 1; soa 7s'
+            condition_title = 'order 1; tdoa 7s'
             y_label_cond = '' 
             x_label_cond = ''
             delay1 = 7
@@ -52,10 +52,10 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             t_p = cue + presentation_period_cue + pre_stim_period 
             d_p = t_p + presentation_period +delay1 
             r_t = d_p + presentation_period + delay2
-            xlim = [1, 30]
+            xlim = [1, 23]
 
         elif condition == '2_0.2':
-            condition_title = 'order 2; soa 0.2s'
+            condition_title = 'order 2; tdoa 0.2s'
             #y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             y_label_cond = 'decoding ' + decoding_thing + ' (signal-shuff)'
             x_label_cond = 'time (s)'        
@@ -65,10 +65,10 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             d_p = cue + presentation_period_cue + pre_stim_period 
             t_p = d_p + presentation_period +delay1 
             r_t = t_p + presentation_period + delay2   
-            xlim = [1, 30]
+            xlim = [1, 23]
 
         elif condition == '2_7':
-            condition_title = 'order 2; soa 7s'
+            condition_title = 'order 2; tdoa 7s'
             y_label_cond = '' 
             x_label_cond = 'time (s)' 
             delay1 = 7
@@ -77,7 +77,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             d_p = cue + presentation_period_cue + pre_stim_period 
             t_p = d_p + presentation_period +delay1 
             r_t = t_p + presentation_period + delay2
-            xlim = [1, 35]
+            xlim = [1, 30]
 
 
         start_hrf = 4 #start of the Hemodynamic response (4seconds)
@@ -91,8 +91,8 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         t_p2 = t_p1 + sec_hdrf # end of target (time)
         r_t2=  r_t1 + sec_hdrf + resp_time #end of response (time)
 
-        y_vl_min = -30 #df_all_by_subj.Decoding.min() #values min and max
-        y_vl_max = 30 #◙df_all_by_subj.Decoding.max()
+        y_vl_min = -10 #df_all_by_subj.Decoding.min() #values min and max
+        y_vl_max = 10 #◙df_all_by_subj.Decoding.max()
 
         #fig = plt.figure()
         ax = fig.add_subplot(2,2, indx_c+1) 
@@ -141,7 +141,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     ##
     plt.suptitle( title_plot, fontsize=25) ## main title
     plt.tight_layout(w_pad=1, h_pad=1, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
-    plt.show(block=False) #show
+    #plt.show(block=False) #show
     
     
     
