@@ -30,7 +30,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     for indx_c, condition in enumerate(['1_0.2', '1_7', '2_0.2', '2_7']): 
         #features of the plot for the different conditions. Fixed values
         if condition == '1_0.2':
-            condition_title = 'order 1; tdoa 0.2s'
+            condition_title = 'order 1; TDOA 0.2s'
             #y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             y_label_cond = 'decoding ' + decoding_thing + ' (signal-shuff)'
             x_label_cond = ''
@@ -40,10 +40,10 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             t_p = cue + presentation_period_cue + pre_stim_period 
             d_p = t_p + presentation_period +delay1 
             r_t = d_p + presentation_period + delay2
-            xlim = [1, 23]
+            xlim = [1, 25]
 
         elif condition == '1_7':
-            condition_title = 'order 1; tdoa 7s'
+            condition_title = 'order 1; TDOA 7s'
             y_label_cond = '' 
             x_label_cond = ''
             delay1 = 7
@@ -52,10 +52,10 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             t_p = cue + presentation_period_cue + pre_stim_period 
             d_p = t_p + presentation_period +delay1 
             r_t = d_p + presentation_period + delay2
-            xlim = [1, 23]
+            xlim = [1, 25]
 
         elif condition == '2_0.2':
-            condition_title = 'order 2; tdoa 0.2s'
+            condition_title = 'order 2; TDOA 0.2s'
             #y_label_cond = 'decoding ' + decoding_thing + ' (std)'
             y_label_cond = 'decoding ' + decoding_thing + ' (signal-shuff)'
             x_label_cond = 'time (s)'        
@@ -65,10 +65,10 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
             d_p = cue + presentation_period_cue + pre_stim_period 
             t_p = d_p + presentation_period +delay1 
             r_t = t_p + presentation_period + delay2   
-            xlim = [1, 23]
+            xlim = [1, 25]
 
         elif condition == '2_7':
-            condition_title = 'order 2; tdoa 7s'
+            condition_title = 'order 2; TDOA 7s'
             y_label_cond = '' 
             x_label_cond = 'time (s)' 
             delay1 = 7
@@ -131,7 +131,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         plt.ylabel(y_label_cond, fontsize=20)
         if indx_c==3: #legend in just this condition (to avoid repetitions)       
             plt.gca().legend(loc=1, frameon=False, bbox_to_anchor=(1.1, 1.05), fontsize=15)
-            plt.xticks([5,10, 15, 20, 25,30,35], fontsize=15)
+            plt.xticks([5,10, 15, 20, 25,30], fontsize=15)
 
         else:
             plt.gca().legend(loc= 1, frameon=False).remove()
