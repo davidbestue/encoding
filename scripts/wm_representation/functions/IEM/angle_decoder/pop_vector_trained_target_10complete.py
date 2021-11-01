@@ -59,7 +59,6 @@ brain_regions = ['visual', 'ips', 'pfc']
 ref_angle=180
 
 
-
 num_shuffles = 10 #100 #10
 
 ############# Analysis
