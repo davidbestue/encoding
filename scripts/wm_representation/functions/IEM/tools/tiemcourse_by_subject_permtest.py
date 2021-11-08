@@ -98,31 +98,31 @@ def tiemcourse_by_subject_permtest(df_x, condition, title_plot,  ylims=[-20,20],
         if Plot=='visual':
             df_plot = df_x.loc[(df_x['condition']==condition) & (df_x['region']==Plot) ]
             #
-            sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkblue', data=df_plot)
+            sns.lineplot( ax=ax, x="times", y="decoding",  ci=95, color='darkblue', data=df_plot)
             #
             for subj in ['d001', 'n001', 'b001', 'r001', 's001', 'l001']:
                 df_plot_s = df_plot.loc[df_plot['subject']==subj]
-                sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkblue', alpha=0.5, linewidth=1, data=df_plot_s)
+                sns.lineplot( ax=ax, x="times", y="decoding",  ci=95, color='darkblue', alpha=0.5, linewidth=1, data=df_plot_s)
             #
             #
         elif Plot == 'ips':
             df_plot = df_x.loc[(df_x['condition']==condition) & (df_x['region']==Plot) ]
             #
-            sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkorange', data=df_plot)
+            sns.lineplot( ax=ax, x="times", y="decoding",  ci=95, color='darkorange', data=df_plot)
             #
             for subj in ['d001', 'n001', 'b001', 'r001', 's001', 'l001']:
                 df_plot_s = df_plot.loc[df_plot['subject']==subj]
-                sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkorange', alpha=0.5,  linewidth=1, data=df_plot_s)
+                sns.lineplot( ax=ax, x="times", y="decoding",  ci=95, color='darkorange', alpha=0.5,  linewidth=1, data=df_plot_s)
             #
             #
         elif Plot =='pfc':
             df_plot = df_x.loc[(df_x['condition']==condition) & (df_x['region']==Plot) ]
             #
-            sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkgreen', data=df_plot)
+            sns.lineplot( ax=ax, x="times", y="decoding",  ci=95, color='darkgreen', data=df_plot)
             #
             for subj in ['d001', 'n001', 'b001', 'r001', 's001', 'l001']:
                 df_plot_s = df_plot.loc[df_plot['subject']==subj]
-                sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkgreen', alpha=0.5,  linewidth=1, data=df_plot_s)
+                sns.lineplot( ax=ax, x="times", y="decoding",  ci=95, color='darkgreen', alpha=0.5,  linewidth=1, data=df_plot_s)
             #
             #
 
@@ -167,7 +167,7 @@ def tiemcourse_by_subject_permtest(df_x, condition, title_plot,  ylims=[-20,20],
         if indx_P==2: #legend in just this condition (to avoid repetitions)       
             plt.gca().legend(loc=1, frameon=False, bbox_to_anchor=(1.1, 0.45), fontsize=15)
             #plt.xticks([5,10, 15, 20, 25,30,35], fontsize=15)
-            plt.xticks([5,10, 15, 20, 25,30], fontsize=15)
+            #plt.xticks([5,10, 15, 20, 25,30], fontsize=15)
 
         else:
             plt.gca().legend(loc= 1, frameon=False).remove()
