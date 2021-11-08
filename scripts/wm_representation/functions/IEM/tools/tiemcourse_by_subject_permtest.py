@@ -18,7 +18,7 @@ resp_time = 4  #time the response is active
 
 
 
-def tiemcourse_by_subject(df_x, condition, title_plot,  ylims=[-20,20]):
+def tiemcourse_by_subject_permtest(df_x, condition, title_plot,  ylims=[-20,20], decoding_thing='target'):
     ##
     ###
     ####   In the input dataframe you need the following columns:
@@ -31,7 +31,7 @@ def tiemcourse_by_subject(df_x, condition, title_plot,  ylims=[-20,20]):
         #features of the plot for the different conditions. Fixed values
         if condition == '1_0.2':
             condition_title = '' #'o:1, d:0.2'
-            y_label_cond = 'decoding ' + Plot + ' (std)'
+            y_label_cond = 'decoding ' + decoding_thing 
             x_label_cond = 'time (s)'
             delay1 = 0.2
             delay2 = 11.8
@@ -43,7 +43,7 @@ def tiemcourse_by_subject(df_x, condition, title_plot,  ylims=[-20,20]):
 
         elif condition == '1_7':
             condition_title = '' #'o:1, d:7'
-            y_label_cond = 'decoding ' + Plot + ' (std)'
+            y_label_cond = 'decoding '  + decoding_thing 
             x_label_cond = 'time (s)' 
             delay1 = 7
             delay2 = 5
@@ -55,7 +55,7 @@ def tiemcourse_by_subject(df_x, condition, title_plot,  ylims=[-20,20]):
 
         elif condition == '2_0.2':
             condition_title = '' #'o:2, d:0.2'
-            y_label_cond = 'decoding ' + Plot + ' (std)'
+            y_label_cond = 'decoding ' + decoding_thing 
             x_label_cond = 'time (s)'        
             delay1 = 0.2
             delay2 = 12
@@ -67,7 +67,7 @@ def tiemcourse_by_subject(df_x, condition, title_plot,  ylims=[-20,20]):
 
         elif condition == '2_7':
             condition_title = '' #'o:2, d:7'
-            y_label_cond = 'decoding ' + Plot + ' (std)'
+            y_label_cond = 'decoding '  + decoding_thing 
             x_label_cond = 'time (s)' 
             delay1 = 7
             delay2 = 12
@@ -125,6 +125,23 @@ def tiemcourse_by_subject(df_x, condition, title_plot,  ylims=[-20,20]):
                 sns.lineplot( ax=ax, x="times", y="decoding",  ci=68, color='darkgreen', alpha=0.5,  linewidth=1, data=df_plot_s)
             #
             #
+
+        ####  Significance
+        for idx_time, time in enumerate(df_plot.times.unique()):
+            sign_ = []
+            for Subj in df_plot.subject.unique():
+                dec_subject = df_plot.loc[(df_plot['times']==time) & (df_plot['subject']==Subj) , 'decoding'].values
+                pval_subject = df_plot.loc[(df_plot['times']==time) & (df_plot['subject']==Subj), 'pval'].values
+                if dec_subject>0:
+                    if pval_subject<0.05:
+                        sign_.append(1)
+                        
+            #
+            sign_sum = sum(sign_)
+            #print(sign_sum)
+            plt.plot(time, 10 , marker = 'o', color=pal[indx_P],  markersize=sign_sum*1.5 )
+        #
+        #
         ####
         plt.plot([0, 35], [0,0], 'k--', linewidth=1)   ## plot chance level (0)
         plt.fill_between(  [ t_p1, t_p2 ], [y_vl_min, y_vl_min], [y_vl_max, y_vl_max], color='grey', alpha=0.3) #, label='target'  ) #plot aprox time of target
