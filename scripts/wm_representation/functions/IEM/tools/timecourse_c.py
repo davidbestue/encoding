@@ -17,6 +17,7 @@ pre_stim_period= 0.5 #time between cue and stim
 resp_time = 4  #time the response is active
 
 
+
 def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
     ##
     ###
