@@ -32,7 +32,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         if condition == '1_0.2':
             condition_title = 'order 1; TDOA 0.2s'
             #y_label_cond = 'decoding ' + decoding_thing + ' (std)'
-            y_label_cond = 'decoding ' + decoding_thing + ' (signal-shuff)'
+            y_label_cond = decoding_thing + ' decoding '   #+ ' (signal-shuff)'
             x_label_cond = ''
             delay1 = 0.2
             delay2 = 11.8
@@ -57,7 +57,7 @@ def tiemcourse_c(df_plot, title_plot, decoding_thing='target', ylims=[-20,20]):
         elif condition == '2_0.2':
             condition_title = 'order 2; TDOA 0.2s'
             #y_label_cond = 'decoding ' + decoding_thing + ' (std)'
-            y_label_cond = 'decoding ' + decoding_thing + ' (signal-shuff)'
+            y_label_cond = decoding_thing  + ' decoding '  #+ ' (signal-shuff)'
             x_label_cond = 'time (s)'        
             delay1 = 0.2
             delay2 = 12
