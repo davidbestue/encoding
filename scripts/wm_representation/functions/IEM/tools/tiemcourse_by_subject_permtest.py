@@ -162,19 +162,20 @@ def tiemcourse_by_subject_permtest(df_x, condition, title_plot,  ylims=[-20,20],
             plt.yticks([-30, -15, 0 , 15, 30], fontsize=15)
         #
         plt.xlim(xlim)
-        plt.xlabel(x_label_cond, fontsize=20)
         plt.ylabel(y_label_cond, fontsize=20)
         if indx_P==2: #legend in just this condition (to avoid repetitions)       
             plt.gca().legend(loc=1, frameon=False, bbox_to_anchor=(1.1, 0.45), fontsize=15)
             #plt.xticks([5,10, 15, 20, 25,30,35], fontsize=15)
             #plt.xticks([5,10, 15, 20, 25,30], fontsize=15)
+            plt.xlabel(x_label_cond, fontsize=20)
 
         else:
             plt.gca().legend(loc= 1, frameon=False).remove()
+            plt.xlabel('', fontsize=20)
 
 
 
     ##
     plt.suptitle( title_plot, fontsize=25) ## main title
     plt.tight_layout(w_pad=1, h_pad=1, rect=[0, 0.03, 1, 0.95]) #correct the space between graphs
-    plt.show(block=False) #show
+    #plt.show(block=False) #show
