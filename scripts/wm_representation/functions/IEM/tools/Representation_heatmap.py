@@ -12,7 +12,7 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
     #
     plt.figure(figsize=(8,6))
     ax = sns.heatmap(df, cmap=pal_cyan, vmin=-0.2, vmax=0.2,  cbar=True, 
-                cbar_kws={"shrink": .82, 'ticks' : [-0.2, -0.1, 0, 0.1, 0.2], 'label': 'reconstruction activation (a.u)'})
+                cbar_kws={"shrink": .82, 'ticks' : [-0.2, -0.1, 0, 0.1, 0.2], 'label': 'reconstruction (a.u)'})
     ax.figure.axes[-1].yaxis.label.set_size(fs1)
     ax.figure.axes[-1].tick_params(labelsize=fs2)
     
@@ -23,7 +23,8 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
     dimN = dims[0]
     plt.gca().set_ylim(dimN, -45)
     
-    plt.plot([1,1], [posch1_to_posch2(18),posch1_to_posch2(18)], markersize=10, color='r', marker='>')
+    plt.plot([0.5, 0.5], [posch1_to_posch2(18),posch1_to_posch2(18)], markersize=20, color='grey', marker='>')
+    plt.plot([1, 23.5], [posch1_to_posch2(18),posch1_to_posch2(18)], color='grey', linestyle='--', linewidth=1.5)
     
     ################################
     presentation_period= 0.35 #stim presnetation time
@@ -39,7 +40,7 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
         t_p = cue + presentation_period_cue + pre_stim_period 
         d_p = t_p + presentation_period +delay1 
         r_t = d_p + presentation_period + delay2
-        xlim = [1/TR, 30/TR]
+        xlim = [1/TR, 25/TR]
     elif condition=='1_7':
         condition_title = 'o:1, d:7'
         delay1 = 7
@@ -48,7 +49,7 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
         t_p = cue + presentation_period_cue + pre_stim_period 
         d_p = t_p + presentation_period +delay1 
         r_t = d_p + presentation_period + delay2
-        xlim = [1/TR, 30/TR]
+        xlim = [1/TR, 25/TR]
     elif condition=='2_0.2':
         condition_title = 'o:2, d:0.2'
         delay1 = 0.2
@@ -57,7 +58,7 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
         d_p = cue + presentation_period_cue + pre_stim_period 
         t_p = d_p + presentation_period +delay1 
         r_t = t_p + presentation_period + delay2   
-        xlim = [1/TR, 30/TR]
+        xlim = [1/TR, 25/TR]
     elif condition=='2_7':
         condition_title = 'o:2, d:7'
         delay1 = 7
@@ -66,15 +67,15 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
         d_p = cue + presentation_period_cue + pre_stim_period 
         t_p = d_p + presentation_period +delay1 
         r_t = t_p + presentation_period + delay2
-        xlim = [1/TR, 35/TR]
+        xlim = [1/TR, 30/TR]
     ##
     ##
     t_p1 = (start_hrf + t_p) ## strat of target (time)
     d_p1 = (start_hrf + d_p) ##strat of didtractor (time)
     r_p1=  (start_hrf + r_t) ## start of response (time)
     ##
-    plt.plot([t_p1/TR +bin_,t_p1/TR+bin_], [-15,-15], markersize=10, color='b', marker='v')
-    plt.plot([d_p1/TR +bin_,d_p1/TR+bin_], [-15,-15], markersize=10, color='g', marker='v')
+    plt.plot([t_p1/TR +bin_,t_p1/TR+bin_], [-15,-15], markersize=10, color='grey', marker='v')
+    plt.plot([d_p1/TR +bin_,d_p1/TR+bin_], [-15,-15], markersize=10, color='darkred', marker='v')
     plt.plot([r_p1/TR +bin_,r_p1/TR+bin_], [-15,-15], markersize=10, color='y', marker='v')
     plt.gca().set_xlim(xlim)
     
@@ -85,6 +86,5 @@ def Representation_heatmap(df, condition='1_0.2', ref_angle=180, TR=2.335, bin_=
     #plt.title(condition_title)
     
     plt.show()
-
 
     
