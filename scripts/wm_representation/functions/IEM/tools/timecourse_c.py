@@ -10,6 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 presentation_period= 0.35 #stim presnetation time
 presentation_period_cue=  0.50 #presentation of attentional cue time
 pre_stim_period= 0.5 #time between cue and stim
