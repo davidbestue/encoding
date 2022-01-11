@@ -12,7 +12,6 @@ import scikit_posthocs as sp
 from scipy.stats import wilcoxon
 
 
-
 sns.set_context("poster", font_scale=1.1)
 sns.set_style("ticks")
 
