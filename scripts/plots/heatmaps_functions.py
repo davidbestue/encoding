@@ -15,7 +15,6 @@ from scipy.stats import wilcoxon
 sns.set_context("poster", font_scale=1.1)
 sns.set_style("ticks")
 
-
 def heatmap__1_02(data, title, max_=1.):
     data=data.iloc[0:12, 0:12]
     ax = sns.heatmap(data,vmin=0., vmax=max_, cmap= 'viridis',
