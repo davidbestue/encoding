@@ -12,10 +12,10 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_runsout100.xlsx' 
-path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_runsout100.xlsx'
+path_save_signal ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_controlbroca.xlsx' 
+path_save_reconstructions = '/home/david/Desktop/Reconstructions/IEM/IEM_heatmap_trainT_testT_controlbroca.xlsx'
 
-path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_runsout100.xlsx'
+path_save_shuffle = '/home/david/Desktop/Reconstructions/IEM/shuff_IEM_trainT_testT_controlbroca.xlsx'
 
 
 ############# Testing options
@@ -61,10 +61,32 @@ Reconstructions_shuff=[]
 ############# Elements for the loop
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
 Subjects=['d001', 'n001', 'b001', 'r001', 's001', 'l001']
-brain_regions = ['visual', 'ips', 'pfc']
+brain_regions = ['broca']
 ref_angle=180
 
-num_shuffles = 100 #10 #100 #10
+num_shuffles = 10 #10 #100 #10
+
+
+############# check if masks work
+
+
+for Subject in Subjects:
+    for Brain_region in brain_regions:
+        for idx_c, Condition in enumerate(Conditions):
+            print(Subject, Brain_region, Condition )
+            #                    
+            if Condition == cond_t:  ### Cross-validate if training and testing condition are the same (1_7 when training on target and 2_7 when training on distractor)
+                #############
+                ############# Get the data
+                enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+                #############
+                ###### Process wm files (I call them activity instead of training_ or testing_ as they come from the same condition)
+                activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
+
+
+
+
 
 ############# Analysis
 #############
