@@ -49,7 +49,7 @@ def process_behavior_file(masked_data, beh_path, n_scans, sys_use='unix', TR=2.3
     Beh['session'] = sess_
     Beh['run'] = run_
     Beh['session_run'] = str(sess_) + '_' + str(run_)
-    Beh['Condition'] = [str(Beh['order'].iloc[n]) + '_' + str(Beh['delay'].iloc[n]) for n in range(len(Beh))]
+    Beh['Condition'] = [str(Beh['order'].iloc[n]) + '_' + str(Beh['delay1'].iloc[n]) for n in range(len(Beh))]
     #append the timestands you want from this session
     n_trials = len(timestamps)
     n_voxels_wm = np.shape(masked_data)[1]
