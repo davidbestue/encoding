@@ -75,6 +75,10 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]      
+            elif brain_region=="broca":
+                Maskrh = 'd001_loc_broca_rh.nii.gz' 
+                Masklh = 'd001_loc_broca_lh.nii.gz' 
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ] 
         
         
         
@@ -131,7 +135,12 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
-                masks = [ path_masks + Maskrh, path_masks + Masklh  ]               
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
+
+            elif brain_region=="broca":
+                Maskrh = 'n001_loc_broca_rh.nii.gz' 
+                Masklh = 'n001_loc_broca_lh.nii.gz' 
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]              
             
         
         
@@ -187,7 +196,12 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
-                masks = [ path_masks + Maskrh, path_masks + Masklh  ]                   
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
+
+            elif brain_region=="broca":
+                Maskrh = 'b001_loc_broca_rh.nii.gz' 
+                Masklh = 'b001_loc_broca_lh.nii.gz' 
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]                    
         
         
         if Subject_analysis == "l001":
@@ -247,7 +261,12 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
-                masks = [ path_masks + Maskrh, path_masks + Masklh  ]           
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]  
+
+            elif brain_region=="broca":
+                Maskrh = 'l001_loc_broca_rh.nii.gz' 
+                Masklh = 'l001_loc_broca_lh.nii.gz' 
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]            
         
         
         
@@ -312,7 +331,12 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="frontinf":
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
-                masks = [ path_masks + Maskrh, path_masks + Masklh  ]               
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]      
+
+            elif brain_region=="broca":
+                Maskrh = 's001_loc_broca_rh.nii.gz' 
+                Masklh = 's001_loc_broca_lh.nii.gz' 
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ]         
             
             
         if Subject_analysis == "r001":
@@ -370,6 +394,11 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
                 Maskrh = 'front_inf_rh.nii.gz' #'ips_ext_fsign_rh.nii.gz'
                 Masklh = 'front_inf_lh.nii.gz' #'ips_ext_fsign_lh.nii.gz'
                 masks = [ path_masks + Maskrh, path_masks + Masklh  ]       
+
+            elif brain_region=="broca":
+                Maskrh = 'r001_loc_broca_rh.nii.gz' 
+                Masklh = 'r001_loc_broca_lh.nii.gz' 
+                masks = [ path_masks + Maskrh, path_masks + Masklh  ] 
     
     elif Method_analysis == "bysess":    
         
