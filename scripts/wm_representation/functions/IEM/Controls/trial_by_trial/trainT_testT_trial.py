@@ -82,12 +82,22 @@ for Subject in Subjects:
             beh_trial = behaviour.iloc[trial,:]
             #
             session_trial = beh_trial.session_run 
-            sessions_subject = behaviour.session_run.unique()
-            sessions_train_model = sessions_subject[~(sessions_subject == session_trial)] 
+            #sessions_subject = behaviour.session_run.unique()
+            #sessions_train_model = sessions_subject[~(sessions_subject == session_trial)] 
             #
             for TR in range(nscans_wm):
                 activity_TR = activity_trial[TR, :]
-                for sess_train in 
+                if cond_t == '1_7':
+                    boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) *  np.array(behaviour['session_run']!=session_trial)
+                elif cond_t == '2_7':
+                    boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['session_run']!=session_trial)
+
+                activity_train_model = activity[boolean_trials_training, :, :]
+                activity_train_model_TRs = np.mean(activity_train_model[:, tr_st:tr_end, :], axis=1)
+                behavior_train_model = behaviour[boolean_trials_training]
+                
+
+
 
 
 #             #    
