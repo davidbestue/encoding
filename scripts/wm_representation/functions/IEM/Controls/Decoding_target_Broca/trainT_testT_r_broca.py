@@ -7,7 +7,8 @@ Created on Mon Jul  1 18:24:32 2019
 
 ############# Add to sys path the path where the tools folder is
 import sys, os
-path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
+#path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
+path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir, os.pardir)) ### same directory or one back options
 sys.path.insert(1, path_tools)
 from tools import *
 
