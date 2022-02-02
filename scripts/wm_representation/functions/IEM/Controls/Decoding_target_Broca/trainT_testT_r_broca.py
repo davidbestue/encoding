@@ -69,21 +69,17 @@ num_shuffles = 10 #10 #100 #10
 
 
 ############# check if masks work
-
-
 for Subject in Subjects:
     for Brain_region in brain_regions:
         for idx_c, Condition in enumerate(Conditions):
             print(Subject, Brain_region, Condition )
             #                    
-            if Condition == cond_t:  ### Cross-validate if training and testing condition are the same (1_7 when training on target and 2_7 when training on distractor)
-                #############
-                ############# Get the data
-                enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-                #############
-                ###### Process wm files (I call them activity instead of training_ or testing_ as they come from the same condition)
-                activity, behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
-                    condition=Condition, distance=Distance_to_use, nscans_wm=nscans_wm)
+            ############# Get the data
+            enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
+            ##################
+            ###### Process training data
+            training_activity, training_behaviour = preprocess_wm_data(wm_fmri_paths, masks, wm_beh_paths, 
+                condition=cond_t, distance=Distance_to_use, nscans_wm=nscans_wm)
 
 
 
