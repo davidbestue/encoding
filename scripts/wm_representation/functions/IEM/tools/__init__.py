@@ -81,6 +81,9 @@ from condition_wm import *
 from wm_condition import *
 from preprocess_wm_files import *
 from subset_training import *
+from process_behavior_file import *
+from process_wm_task import *
+
 
 
 ###### bootsrtap functions
