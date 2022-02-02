@@ -79,15 +79,21 @@ for Subject in Subjects:
         behaviour['Condition'] = behaviour['Condition'].replace(['1.0_0.2', '1.0_7.0', '2.0_0.2','2.0_7.0' ], ['1_0.2', '1_7', '2_0.2', '2_7'])
         for trial in range(len(behaviour)):
             activity_trial = activity[trial,:,:]
-            beh_trial = behaviour.iloc[trial,:,:]
-            ### this function will report a list of 16 values (each TR) with the reconstructed angle
-            decoded_angle_each_tr = FUNCTION
+            beh_trial = behaviour.iloc[trial,:]
+            #
+            session_trial = beh_trial.session_run 
+            sessions_subject = behaviour.session_run.unique()
+            sessions_train_model = sessions_subject[~(sessions_subject == session_trial)] 
+            #
+            for TR in range(nscans_wm):
+                activity_TR = activity_trial[TR, :]
+                for sess_train in 
 
 
 #             #    
 #             #
 
-
+### this function will report a list of 16 values (each TR) with the reconstructed angle
 
 #             if Condition == cond_t:  ### Cross-validate if training and testing condition are the same (1_7 when training on target and 2_7 when training on distractor)
 #                 #############
