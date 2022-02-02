@@ -75,11 +75,13 @@ for Subject in Subjects:
     for Brain_region in brain_regions:
         print(Subject, Brain_region)
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
-        activity, behaviour = process_wm_task(wm_fmri_paths, masks, wm_beh_paths, nscans_wm=nscans_wm) #todos los trials y todo el behavior
-        
-
-
-#         for trial in range(len(behaviour)):
+        activity, behaviour = process_wm_task(wm_fmri_paths, masks, wm_beh_paths, nscans_wm=nscans_wm) 
+        behaviour['Condition'] = behaviour['Condition'].replace(['1.0_0.2', '1.0_7.0', '2.0_0.2','2.0_7.0' ], ['1_0.2', '1_7', '2_0.2', '2_7'])
+        for trial in range(len(behaviour)):
+            activity_trial = activity[trial,:,:]
+            beh_trial = behaviour.iloc[trial,:,:]
+            ### this function will report a list of 16 values (each TR) with the reconstructed angle
+            decoded_angle_each_tr = FUNCTION
 
 
 #             #    
