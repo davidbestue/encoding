@@ -80,27 +80,65 @@ for Subject in Subjects:
         for trial in range(len(behaviour)):
             activity_trial = activity[trial,:,:]
             beh_trial = behaviour.iloc[trial,:]
-            #
             session_trial = beh_trial.session_run 
-            #sessions_subject = behaviour.session_run.unique()
-            #sessions_train_model = sessions_subject[~(sessions_subject == session_trial)] 
+            ###
+            ### Training
+            ###
+            if cond_t == '1_7':
+                boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) *  np.array(behaviour['session_run']!=session_trial)
+            elif cond_t == '2_7':
+                boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['session_run']!=session_trial)
             #
+            activity_train_model = activity[boolean_trials_training, :, :]
+            activity_train_model_TRs = np.mean(activity_train_model[:, tr_st:tr_end, :], axis=1)
+            behavior_train_model = behaviour[boolean_trials_training]
+            training_angles = np.array(behavior_train_model[training_item])
+            #
+            Weights_matrix, Interc = Weights_matrix_LM(activity_train_model_TRs, training_angles)
+            Weights_matrix_t = Weights_matrix.transpose()
+            ###
+            ### Testing
+            ###
+            signal_decoded_trial = [] #16 values inside (1 per TR)
+            angle_decoded_trial = [] #16 values inside (1 per TR)
             for TR in range(nscans_wm):
                 activity_TR = activity_trial[TR, :]
-                if cond_t == '1_7':
-                    boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) *  np.array(behaviour['session_run']!=session_trial)
-                elif cond_t == '2_7':
-                    boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['session_run']!=session_trial)
+                angle_trial = beh_trial[decoding_thing]
+                Inverted_encoding_model = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_matrix_t, Weights_matrix ) ),  Weights_matrix_t),  activity_TR) 
+                IEM_hd = ch2vrep3(Inverted_encoding_model) #36 to 720
+                to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
+                IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree
+                ###
+                ### Signal of decoding
+                ###
+                signal_decoding = np.mean(IEM_hd_aligned[360-10: 360+10]) ## mean 5 degrees up and down
+                signal_decoded_trial.append(signal_decoding)
+                ###
+                ### Angle decoding
+                ###
+                _135_ = ref_angle*2 - 45*2 
+                _225_ = ref_angle*2 + 45*2 
+                IEM_hd_aligned_135_225 = IEM_hd_aligned[_135_:_225_]
+                N=len(IEM_hd_aligned_135_225)
+                R = []
+                angles = np.radians(np.linspace(135,224,180) ) 
+                R=np.dot(IEM_hd_aligned_135_225,np.exp(1j*angles)) / N
+                angle = np.angle(R)
+                if angle < 0:
+                    angle +=2*np.pi
+                ##
+                angle_degrees = np.degrees(angle)
+                if np.all(IEM_hd_aligned_135_225==0)==True: ### if all the values are negative here, the decoded is np.nan (will not count as 0)
+                    angle_degrees=np.nan 
+                #
+                angle_decoded = angle_degrees
+                angle_decoded_trial.append(angle_decoded_trial)
+                #
+            #
+            
 
-                activity_train_model = activity[boolean_trials_training, :, :]
-                activity_train_model_TRs = np.mean(activity_train_model[:, tr_st:tr_end, :], axis=1)
-                behavior_train_model = behaviour[boolean_trials_training]
-                
 
 
-
-
-#             #    
 #             #
 
 ### this function will report a list of 16 values (each TR) with the reconstructed angle
