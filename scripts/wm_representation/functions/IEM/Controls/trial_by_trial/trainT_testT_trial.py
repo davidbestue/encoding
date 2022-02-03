@@ -139,7 +139,9 @@ for Subject in Subjects:
         df_signal_rec.columns=['signal_' + str(TR*i) for i in range(0,16)]
         df_angle_rec = pd.DataFrame(angle_decoded_trial)
         df_angle_rec.columns=['angle_' + str(TR*i) for i in range(0,16)]
-        Behaviour = pd.concat([behaviour, df_signal_rec, df_angle_rec], axis=1)
+        ##
+        beh2 = behaviour.reset_index() 
+        Behaviour = pd.concat([beh2, df_signal_rec, df_angle_rec], axis=1)
         Behaviour['brain_region'] = Brain_region
         Behaviour_.append(Behaviour)
 
