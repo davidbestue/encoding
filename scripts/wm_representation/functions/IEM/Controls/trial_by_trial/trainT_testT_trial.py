@@ -150,3 +150,5 @@ for Subject in Subjects:
 
 
 Behaviour_final = pd.concat(Behaviour_)
+
+Behaviour_final.to_excel( path_save_behaviour ) #save signal
