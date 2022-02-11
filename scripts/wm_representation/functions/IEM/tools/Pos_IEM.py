@@ -14,7 +14,6 @@ from tools import *
 def Pos_IEM( channel_reconstruction ):
     # make it all positive
     # negative values are positive in somwhere else
-    all_angles = list(np.arange(5, 365,10))
     all_channels = list(np.arange(0, 36,1))
     half_ = len(all_channels)/2
     #
@@ -28,7 +27,9 @@ def Pos_IEM( channel_reconstruction ):
                 POS_channel_reconstruction[ch+half_] = POS_channel_reconstruction[ch+half_] - value_ch
             if ch>=half_:
                 POS_channel_reconstruction[ch] = 0
-                POS_channel_reconstruction[ch-half_] = abs(value_ch)
+                POS_channel_reconstruction[ch-half_] = POS_channel_reconstruction[ch-half_] - value_ch
     ###
     return np.array(POS_channel_reconstruction)
+
+
 
