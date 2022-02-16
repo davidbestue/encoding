@@ -5,6 +5,12 @@ Created on Mon Jul  1 18:24:32 2019
 @author: David Bestue
 """
 
+#######
+####### In this analysis:
+####### I am doing the reconstruction training in the delay period and testing in each trial. No CV and No Shuffles
+####### I am converting to positive the reconstruction and I am extracting the angle doing a Pop vector -45, 45 around the centered position
+#######
+
 ############# Add to sys path the path where the tools folder is
 import sys, os
 #path_tools = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) ### same directory or one back options
