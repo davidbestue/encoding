@@ -70,7 +70,8 @@ brain_regions = ['visual','ips', 'pfc', 'broca']
 ref_angle=180
 
 
-Behaviour_ = []
+Behaviour_ = [] ## subjects x brain regions --> trials x beh columns
+Reconstructions_ = [] ## subjects x brain regiond --> ntrials x 16 x 720 matrix
 
 ############# Analysis
 #############
@@ -80,11 +81,11 @@ for Subject in Subjects:
         enc_fmri_paths, enc_beh_paths, wm_fmri_paths, wm_beh_paths, masks = data_to_use( Subject, 'together', Brain_region)
         activity, behaviour = process_wm_task(wm_fmri_paths, masks, wm_beh_paths, nscans_wm=nscans_wm) 
         behaviour['Condition'] = behaviour['Condition'].replace(['1.0_0.2', '1.0_7.0', '2.0_0.2','2.0_7.0' ], ['1_0.2', '1_7', '2_0.2', '2_7'])
+        behaviour['brain_region'] = Brain_region
+        Behaviour_.append(behaviour)
         ###
-        signal_decoded_trial=[]
-        angle_decoded_trial=[]
         ###
-        Reconstructed_trials=[]
+        Reconstructed_trials=[]  ## ntrials x 16 x 720 matrix
         ###
         for trial in range(len(behaviour)):
             activity_trial = activity[trial,:,:]
@@ -108,7 +109,7 @@ for Subject in Subjects:
             ###
             ### Testing
             ###
-            Reconstructed_TR = []
+            Reconstructed_TR = [] ## 16 x 720 matrix
             #
             for TR_ in range(nscans_wm):
                 activity_TR = activity_trial[TR_, :]
@@ -117,57 +118,18 @@ for Subject in Subjects:
                 #Inverted_encoding_model_pos = Pos_IEM2(Inverted_encoding_model)
                 IEM_hd = ch2vrep3(Inverted_encoding_model_pos) #36 to 720
                 to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
-                IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree
+                IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree   ##vector of 720
                 Reconstructed_TR.append(IEM_hd_aligned)
             ##
             resconstr_trial = np.array(Reconstructed_TR)
             Reconstructed_trials.append(resconstr_trial)
-
-
-                ###
-                ### Signal of decoding
-                ###
-                #signal_decoding = np.mean(IEM_hd_aligned[360-10: 360+10]) ## mean 5 degrees up and down
-                #signal_decoded_trs.append(signal_decoding)
-                ###
-                ### Angle decoding
-                ###
-                #_135_ = ref_angle*2 - 45*2 
-                #_225_ = ref_angle*2 + 45*2 
-                #IEM_hd_aligned_135_225 = IEM_hd_aligned[_135_:_225_]
-                #N=len(IEM_hd_aligned_135_225)
-                #R = []
-                #angles = np.radians(np.linspace(135,224,180) ) 
-                #R=np.dot(IEM_hd_aligned_135_225,np.exp(1j*angles)) / N
-                #angle = np.angle(R)
-                #if angle < 0:
-                #    angle +=2*np.pi
-                ##
-                #angle_degrees = np.degrees(angle)
-                #if np.all(IEM_hd_aligned_135_225==0)==True: ### if all the values are negative here, the decoded is np.nan (will not count as 0)
-                #    angle_degrees=np.nan 
-                #
-                #angle_decoded = angle_degrees
-                #angle_decoded_trs.append(angle_decoded)
-                #
-            ### Add 32 columns to the behaviour matrix
-            signal_decoded_trial.append(signal_decoded_trs)
-            angle_decoded_trial.append(angle_decoded_trs)
-        ####
-        df_signal_rec = pd.DataFrame(signal_decoded_trial)
-        df_signal_rec.columns=['signal_' + str(TR*i) for i in range(0,16)]
-        df_angle_rec = pd.DataFrame(angle_decoded_trial)
-        df_angle_rec.columns=['angle_' + str(TR*i) for i in range(0,16)]
         ##
-        beh2 = behaviour.reset_index() 
-        Behaviour = pd.concat([beh2, df_signal_rec, df_angle_rec], axis=1)
-        Behaviour['brain_region'] = Brain_region
-        Behaviour_.append(Behaviour)
+        ##
+        Reconstructions_.append(Reconstructed_trials)
 
 
-#########
 
+########
 
-Behaviour_final = pd.concat(Behaviour_)
-
-Behaviour_final.to_excel( path_save_behaviour ) #save signal
+#Behaviour_final = pd.concat(Behaviour_)
+#Behaviour_final.to_excel( path_save_behaviour ) #save signal
