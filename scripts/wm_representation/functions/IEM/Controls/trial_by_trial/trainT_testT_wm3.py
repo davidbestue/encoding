@@ -21,7 +21,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_trials.xlsx' 
+path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_trials_wm3.xlsx' 
+path_save_reconst ='/home/david/Desktop/Reconstructions/IEM/recs_IEM_trainT_testT_trials_wm3.xlsx' 
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
