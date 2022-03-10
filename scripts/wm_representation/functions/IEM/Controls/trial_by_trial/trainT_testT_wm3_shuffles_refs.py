@@ -94,7 +94,7 @@ for Subject in Subjects:
                 angle_trial = random.choice([0,90,180,270])
                 Inverted_encoding_model = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_matrix_t, Weights_matrix ) ),  Weights_matrix_t),  activity_TR) 
                 #Inverted_encoding_model_pos = Pos_IEM2(Inverted_encoding_model)
-                IEM_hd = ch2vrep3(Inverted_encoding_model_pos) #36 to 720
+                IEM_hd = ch2vrep3(Inverted_encoding_model) #36 to 720
                 to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
                 IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree   ##vector of 720
                 Reconstructed_TR.append(IEM_hd_aligned)
