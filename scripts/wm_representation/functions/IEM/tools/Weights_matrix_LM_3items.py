@@ -26,7 +26,8 @@ def Weights_matrix_LM_3items( training_data, training_angles ):
         channel_values1=f(training_angles[i][0])  #f #f_quadrant (function that generates the expectd reponse in each channel)
         channel_values2=f(training_angles[i][1])
         channel_values3=f(training_angles[i][2])
-        channel_values = channel_values1 + channel_values2 + channel_values3
+        channel_values = np.array(channel_values1) + np.array(channel_values2) + np.array(channel_values3)
+        channel_values = list(channel_values)
         M_model.append(channel_values)
         
     M_model=pd.DataFrame(np.array(M_model)) # (trials, channel_activity)
