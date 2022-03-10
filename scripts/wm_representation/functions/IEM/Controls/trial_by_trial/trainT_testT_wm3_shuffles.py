@@ -57,54 +57,53 @@ for Subject in Subjects:
         behaviour['brain_region'] = Brain_region
         ###
         ###
-        for n_shuffs in range(3):
-            print(Subject, Brain_region, n_shuffs)
-            Reconstructed_trials=[]  ## ntrials x 16 x 720 matrix
+        print(Subject, Brain_region)
+        Reconstructed_trials=[]  ## ntrials x 16 x 720 matrix
+        ###
+        ###
+        angx = behaviour[decoding_thing].values
+        angles_shuffled = random.sample( list(angx), len(angx) )
+        ###
+        ###
+        for trial in range(len(behaviour)):
+            activity_trial = activity[trial,:,:]
+            beh_trial = behaviour.iloc[trial,:]
+            session_trial = beh_trial.session_run 
             ###
+            ### Training
             ###
-            angx = behaviour[decoding_thing].values
-            angles_shuffled = random.sample( list(angx), len(angx) )
+            if cond_t == '1_7':
+                boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) *  np.array(behaviour['session_run']!=session_trial)
+            elif cond_t == '2_7':
+                boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['session_run']!=session_trial)
+            #
+            activity_train_model = activity[boolean_trials_training, :, :]
+            activity_train_model_TRs = np.mean(activity_train_model[:, tr_st:tr_end, :], axis=1)
+            behavior_train_model = behaviour[boolean_trials_training]
+            training_angles = behavior_train_model[['T', 'NT1', 'NT2']].values
+            #
+            Weights_matrix, Interc = Weights_matrix_LM_3items(activity_train_model_TRs, training_angles)
+            Weights_matrix_t = Weights_matrix.transpose()
             ###
+            ### Testing
             ###
-            for trial in range(len(behaviour)):
-                activity_trial = activity[trial,:,:]
-                beh_trial = behaviour.iloc[trial,:]
-                session_trial = beh_trial.session_run 
-                ###
-                ### Training
-                ###
-                if cond_t == '1_7':
-                    boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==1) *  np.array(behaviour['session_run']!=session_trial)
-                elif cond_t == '2_7':
-                    boolean_trials_training = np.array(behaviour['delay1']==7)  *  np.array(behaviour['order']==2) *  np.array(behaviour['session_run']!=session_trial)
-                #
-                activity_train_model = activity[boolean_trials_training, :, :]
-                activity_train_model_TRs = np.mean(activity_train_model[:, tr_st:tr_end, :], axis=1)
-                behavior_train_model = behaviour[boolean_trials_training]
-                training_angles = behavior_train_model[['T', 'NT1', 'NT2']].values
-                #
-                Weights_matrix, Interc = Weights_matrix_LM_3items(activity_train_model_TRs, training_angles)
-                Weights_matrix_t = Weights_matrix.transpose()
-                ###
-                ### Testing
-                ###
-                Reconstructed_TR = [] ## 16 x 720 matrix
-                #
-                for TR_ in range(nscans_wm):
-                    activity_TR = activity_trial[TR_, :]
-                    angle_trial = angles_shuffled[trial] ### shuffled!
-                    Inverted_encoding_model = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_matrix_t, Weights_matrix ) ),  Weights_matrix_t),  activity_TR) 
-                    #Inverted_encoding_model_pos = Pos_IEM2(Inverted_encoding_model)
-                    IEM_hd = ch2vrep3(Inverted_encoding_model_pos) #36 to 720
-                    to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
-                    IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree   ##vector of 720
-                    Reconstructed_TR.append(IEM_hd_aligned)
-                ##
-                resconstr_trial = np.array(Reconstructed_TR)
-                Reconstructed_trials.append(resconstr_trial)
+            Reconstructed_TR = [] ## 16 x 720 matrix
+            #
+            for TR_ in range(nscans_wm):
+                activity_TR = activity_trial[TR_, :]
+                angle_trial = angles_shuffled[trial] ### shuffled!
+                Inverted_encoding_model = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_matrix_t, Weights_matrix ) ),  Weights_matrix_t),  activity_TR) 
+                #Inverted_encoding_model_pos = Pos_IEM2(Inverted_encoding_model)
+                IEM_hd = ch2vrep3(Inverted_encoding_model_pos) #36 to 720
+                to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
+                IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree   ##vector of 720
+                Reconstructed_TR.append(IEM_hd_aligned)
             ##
-            ##
-            Reconstructions_.append(Reconstructed_trials)
+            resconstr_trial = np.array(Reconstructed_TR)
+            Reconstructed_trials.append(resconstr_trial)
+        ##
+        ##
+        Reconstructions_.append(Reconstructed_trials)
 
 
 

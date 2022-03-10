@@ -21,7 +21,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_reconst_shuffs ='/home/david/Desktop/Reconstructions/IEM/recs_shuffs_references_IEM_trainT_testT_wm3.npy' 
+path_save_reconst_shuffs ='/home/david/Desktop/Reconstructions/IEM/recs_shuffs_quadrantrandom_IEM_trainT_testT_wm3.npy' 
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
@@ -55,14 +55,11 @@ for Subject in Subjects:
         activity, behaviour = process_wm_task(wm_fmri_paths, masks, wm_beh_paths, nscans_wm=nscans_wm) 
         behaviour['Condition'] = behaviour['Condition'].replace(['1.0_0.2', '1.0_7.0', '2.0_0.2','2.0_7.0' ], ['1_0.2', '1_7', '2_0.2', '2_7'])
         behaviour['brain_region'] = Brain_region
+        behaviour = get_free_quadrant(behaviour)
         ###
         ###
         print(Subject, Brain_region)
         Reconstructed_trials=[]  ## ntrials x 16 x 720 matrix
-        ###
-        ###
-        #angx = behaviour[decoding_thing].values
-        #angles_shuffled = random.sample( list(angx), len(angx) )
         ###
         ###
         for trial in range(len(behaviour)):
@@ -91,7 +88,16 @@ for Subject in Subjects:
             #
             for TR_ in range(nscans_wm):
                 activity_TR = activity_trial[TR_, :]
-                angle_trial = random.choice([0,90,180,270])
+                free_quad = beh_trial.quadrant_free
+                if free_quad==1:
+                    angle_trial = random.randint(0,89)
+                elif free_quad==2:
+                    angle_trial = random.randint(90,179)
+                elif free_quad==3:
+                    angle_trial = random.randint(180,269)
+                elif free_quad==4:
+                    angle_trial = random.randint(270,359)
+                ###
                 Inverted_encoding_model = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_matrix_t, Weights_matrix ) ),  Weights_matrix_t),  activity_TR) 
                 #Inverted_encoding_model_pos = Pos_IEM2(Inverted_encoding_model)
                 IEM_hd = ch2vrep3(Inverted_encoding_model_pos) #36 to 720

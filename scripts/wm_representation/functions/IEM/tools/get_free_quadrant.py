@@ -29,7 +29,7 @@ def get_free_quadrant(behaviour):
         quadrants_free.append(quadrant_free)
     ###
     ###
-    behaviour['quadrants_free'] = quadrants_free
+    behaviour['quadrant_free'] = quadrants_free
     #
     return behaviour
 
