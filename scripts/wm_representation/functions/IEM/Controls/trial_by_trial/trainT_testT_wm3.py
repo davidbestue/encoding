@@ -21,8 +21,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/IEM_trainT_testT_trials_wm3.xlsx' 
-path_save_reconst ='/home/david/Desktop/Reconstructions/IEM/recs_IEM_trainT_testT_trials_wm3.xlsx' 
+path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/trainT_testT_behaviour.npy' 
+path_save_reconst ='/home/david/Desktop/Reconstructions/IEM/recs_IEM_trainT_testT_wm3.npy' 
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
@@ -36,33 +36,8 @@ training_time= 'delay'  #'stim_p'  'delay' 'respo'
 tr_st=4
 tr_end=6
 
-############# Options de training times, the TRs used for the training will be different 
-
-# training_time=='delay':
-# tr_st=4
-# tr_end=6
-
-# training_time=='stim_p':
-# tr_st=3
-# tr_end=4
-
-# training_time=='delay':
-# tr_st=4
-# tr_end=6
-
-# training_time=='respo':
-#     if decoding_thing=='Target':
-#         tr_st=8
-#         tr_end=9
-#     elif decoding_thing=='Distractor':
-#         tr_st=11
-#         tr_end=12
 
 
-
-############# Dictionary and List to save the files.
-Reconstructions={}
-Reconstructions_shuff=[]
 
 ############# Elements for the loop
 Conditions=['1_0.2', '1_7', '2_0.2', '2_7'] 
@@ -103,9 +78,9 @@ for Subject in Subjects:
             activity_train_model = activity[boolean_trials_training, :, :]
             activity_train_model_TRs = np.mean(activity_train_model[:, tr_st:tr_end, :], axis=1)
             behavior_train_model = behaviour[boolean_trials_training]
-            training_angles = np.array(behavior_train_model[training_item])
+            training_angles = behavior_train_model[['T', 'NT1', 'NT2']].values
             #
-            Weights_matrix, Interc = Weights_matrix_LM(activity_train_model_TRs, training_angles)
+            Weights_matrix, Interc = Weights_matrix_LM_3items(activity_train_model_TRs, training_angles)
             Weights_matrix_t = Weights_matrix.transpose()
             ###
             ### Testing
@@ -132,5 +107,33 @@ for Subject in Subjects:
 
 ########
 
-#Behaviour_final = pd.concat(Behaviour_)
-#Behaviour_final.to_excel( path_save_behaviour ) #save signal
+final_beh = np.array(Behaviour_)
+final_rec = np.array(Reconstructions_)
+
+np.save(path_save_behaviour, final_beh)
+np.save(path_save_reconst, final_rec)
+
+
+
+
+############# Options de training times, the TRs used for the training will be different 
+
+# training_time=='delay':
+# tr_st=4
+# tr_end=6
+
+# training_time=='stim_p':
+# tr_st=3
+# tr_end=4
+
+# training_time=='delay':
+# tr_st=4
+# tr_end=6
+
+# training_time=='respo':
+#     if decoding_thing=='Target':
+#         tr_st=8
+#         tr_end=9
+#     elif decoding_thing=='Distractor':
+#         tr_st=11
+#         tr_end=12
