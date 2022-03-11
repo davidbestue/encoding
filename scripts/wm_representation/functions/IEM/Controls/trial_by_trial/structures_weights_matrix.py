@@ -21,8 +21,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_wml3 ='/home/david/Desktop/Reconstructions/IEM/wm_l3.npy' 
-path_save_wml1 ='/home/david/Desktop/Reconstructions/IEM/wm_l1.npy' 
+path_save_wml3 ='/home/david/Desktop/Reconstructions/IEM/wm_l3.xlsx' 
+path_save_wml1 ='/home/david/Desktop/Reconstructions/IEM/wm_l1.xlsx' 
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
@@ -77,11 +77,22 @@ for Subject in Subjects:
 
 ########
 
-final_wml3 = np.array(matrix_weights_L3)
-final_wml1 = np.array(matrix_weights_)
+### Save 3
+writer = pd.ExcelWriter(path_save_wml3)
+for i in range(len(matrix_weights_L3)):
+    matrix_weights_L3[i].to_excel(writer) #each dataframe in a excel sheet
 
-np.save(path_save_wml3, final_wml3)
-np.save(path_save_wml1, final_wml1)
+writer.save()   #save reconstructions (heatmaps)
+
+
+
+### Save 1
+writer2 = pd.ExcelWriter(path_save_wml1)
+for i in range(len(matrix_weights_)):
+    matrix_weights_[i].to_excel(writer2) #each dataframe in a excel sheet
+
+writer2.save()   #save reconstructions (heatmaps)
+
 
 
 
