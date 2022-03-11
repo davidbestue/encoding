@@ -80,18 +80,18 @@ for Subject in Subjects:
 ### Save 3
 writer = pd.ExcelWriter(path_save_wml3)
 for i in range(len(matrix_weights_L3)):
-    matrix_weights_L3[i].to_excel(writer) #each dataframe in a excel sheet
+    matrix_weights_L3[i].to_excel(writer, sheet_name=str(i)) #each dataframe in a excel sheet
 
-writer.save()   #save reconstructions (heatmaps)
+writer.save()  
 
 
 
 ### Save 1
 writer2 = pd.ExcelWriter(path_save_wml1)
 for i in range(len(matrix_weights_)):
-    matrix_weights_[i].to_excel(writer2) #each dataframe in a excel sheet
+    matrix_weights_[i].to_excel(writer2, sheet_name=str(i)) #each dataframe in a excel sheet
 
-writer2.save()   #save reconstructions (heatmaps)
+writer2.save()  
 
 
 

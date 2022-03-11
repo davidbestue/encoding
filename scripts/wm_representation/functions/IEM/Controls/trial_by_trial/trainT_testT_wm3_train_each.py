@@ -21,7 +21,7 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/trainT_testT_behaviour_train_each.npy' 
+path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/trainT_testT_behaviour_train_each.xlsx' 
 path_save_reconst ='/home/david/Desktop/Reconstructions/IEM/recs_IEM_trainT_testT_wm3_train_each.npy' 
 
 ############# Testing options
@@ -120,11 +120,22 @@ for Subject in Subjects:
 
 ########
 
-final_beh = np.array(Behaviour_)
+
+
+writer = pd.ExcelWriter(path_save_behaviour)
+for i in range(len(Behaviour_)):
+    Behaviour_[i].to_excel(writer) #each dataframe in a excel sheet
+
+writer.save()   #save reconstructions (heatmaps)
+
+
+
 final_rec = np.array(Reconstructions_)
 
-np.save(path_save_behaviour, final_beh)
 np.save(path_save_reconst, final_rec)
+
+
+
 
 
 
