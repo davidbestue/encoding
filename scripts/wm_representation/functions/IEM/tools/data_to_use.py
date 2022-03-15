@@ -150,7 +150,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="transtemp":
                 Maskrh = 'n001_loc_transversetemporal_rh.nii.gz' 
                 Masklh = 'n001_loc_transversetemporal_lh.nii.gz' 
-                masks = [ path_masks + Maskrh, path_masks + Maskl        
+                masks = [ path_masks + Maskrh, path_masks + Maskl  ]      
             
         
         
@@ -216,7 +216,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="transtemp":
                 Maskrh = 'b001_loc_transversetemporal_rh.nii.gz' 
                 Masklh = 'b001_loc_transversetemporal_lh.nii.gz' 
-                masks = [ path_masks + Maskrh, path_masks + Maskl               
+                masks = [ path_masks + Maskrh, path_masks + Maskl   ]            
         
         
         if Subject_analysis == "l001":
@@ -286,7 +286,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="transtemp":
                 Maskrh = 'l001_loc_transversetemporal_rh.nii.gz' 
                 Masklh = 'l001_loc_transversetemporal_lh.nii.gz' 
-                masks = [ path_masks + Maskrh, path_masks + Maskl         
+                masks = [ path_masks + Maskrh, path_masks + Maskl   ]      
         
         
         
@@ -361,7 +361,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="transtemp":
                 Maskrh = 's001_loc_transversetemporal_rh.nii.gz' 
                 Masklh = 's001_loc_transversetemporal_lh.nii.gz' 
-                masks = [ path_masks + Maskrh, path_masks + Maskl         
+                masks = [ path_masks + Maskrh, path_masks + Maskl  ]       
             
             
         if Subject_analysis == "r001":
@@ -428,7 +428,7 @@ def data_to_use( Subject_analysis, Method_analysis, brain_region):
             elif brain_region=="transtemp":
                 Maskrh = 'r001_loc_transversetemporal_rh.nii.gz' 
                 Masklh = 'r001_loc_transversetemporal_lh.nii.gz' 
-                masks = [ path_masks + Maskrh, path_masks + Maskl  
+                masks = [ path_masks + Maskrh, path_masks + Maskl  ]
     
     elif Method_analysis == "bysess":    
         
