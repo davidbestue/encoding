@@ -36,7 +36,7 @@ def Weights_matrix_LM_3items_remove_restrictive( training_data, training_angles 
     M_model = M_model1[['ch_3', 'ch_4', 'ch_5', 'ch_6', 'ch_7', 'ch_12', 'ch_13', 'ch_14', 'ch_15', 'ch_16',
      'ch_21', 'ch_22', 'ch_23', 'ch_24', 'ch_25', 'ch_30', 'ch_31', 'ch_32', 'ch_33', 'ch_34']]
     ####   2. Train the model and get matrix of weights
-    Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
+    Matrix_weights=np.zeros(( n_voxels, np.shape(M_model)[1] )) # (voxels, channels) how each channels is represented in each voxel
     
     for voxel_x in range(0, n_voxels): #train each voxel
         # set Y and X for the GLM
