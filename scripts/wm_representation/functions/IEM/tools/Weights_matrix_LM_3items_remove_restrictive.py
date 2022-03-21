@@ -33,7 +33,7 @@ def Weights_matrix_LM_3items_remove_restrictive( training_data, training_angles 
     M_model1=pd.DataFrame(np.array(M_model0)) # (trials, channel_activity)
     channel_names = ['ch_' +str(i+1) for i in range(0, len(pos_channels))] #names of the channels 
     M_model1.columns=channel_names
-    M_model = [['ch_3', 'ch_4', 'ch_5', 'ch_6', 'ch_7', 'ch_12', 'ch_13', 'ch_14', 'ch_15', 'ch_16',
+    M_model = M_model1[['ch_3', 'ch_4', 'ch_5', 'ch_6', 'ch_7', 'ch_12', 'ch_13', 'ch_14', 'ch_15', 'ch_16',
      'ch_21', 'ch_22', 'ch_23', 'ch_24', 'ch_25', 'ch_30', 'ch_31', 'ch_32', 'ch_33', 'ch_34']]
     ####   2. Train the model and get matrix of weights
     Matrix_weights=np.zeros(( n_voxels, len(pos_channels) )) # (voxels, channels) how each channels is represented in each voxel
