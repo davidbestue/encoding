@@ -21,8 +21,8 @@ sys.path.insert(1, path_tools)
 from tools import *
 
 ############# Namefiles for the savings. 
-path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/trainT_testT_behaviour.xlsx' 
-path_save_reconst ='/home/david/Desktop/Reconstructions/IEM/recs_IEM_trainT_testT_wm3.npy' 
+path_save_behaviour ='/home/david/Desktop/Reconstructions/IEM/trainT_testT_behaviour_restrictive.xlsx' 
+path_save_reconst ='/home/david/Desktop/Reconstructions/IEM/recs_IEM_trainT_testT_wm3_restrictive.npy' 
 
 ############# Testing options
 decoding_thing = 'T_alone'  #'dist_alone'  'T_alone'  
@@ -80,7 +80,7 @@ for Subject in Subjects:
             behavior_train_model = behaviour[boolean_trials_training]
             training_angles = behavior_train_model[['T', 'NT1', 'NT2']].values
             #
-            Weights_matrix, Interc = WM_lm_3_remove(activity_train_model_TRs, training_angles)
+            Weights_matrix, Interc = Weights_matrix_LM_3items_remove_restrictive(activity_train_model_TRs, training_angles)
             Weights_matrix_t = Weights_matrix.transpose()
             ###
             ### Testing
@@ -91,11 +91,10 @@ for Subject in Subjects:
                 activity_TR = activity_trial[TR_, :]
                 angle_trial = beh_trial[decoding_thing]
                 Inverted_encoding_model = np.dot( np.dot ( np.linalg.pinv( np.dot(Weights_matrix_t, Weights_matrix ) ),  Weights_matrix_t),  activity_TR) 
-                #Inverted_encoding_model_pos = Pos_IEM2(Inverted_encoding_model)
-                IEM_hd = ch2vrep3(Inverted_encoding_model) #36 to 720
-                to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
-                IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree   ##vector of 720
-                Reconstructed_TR.append(IEM_hd_aligned)
+                #IEM_hd = ch2vrep3(Inverted_encoding_model) #36 to 720
+                #to_roll = int( (ref_angle - angle_trial)*(len(IEM_hd)/360) ) ## degrees to roll
+                #IEM_hd_aligned=np.roll(IEM_hd, to_roll) ## roll this degree   ##vector of 720
+                Reconstructed_TR.append(Inverted_encoding_model)
             ##
             resconstr_trial = np.array(Reconstructed_TR)
             Reconstructed_trials.append(resconstr_trial)
