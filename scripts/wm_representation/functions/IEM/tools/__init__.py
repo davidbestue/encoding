@@ -148,3 +148,6 @@ from Pos_IEM import *
 from Pos_IEM2 import *
 from Weights_matrix_LM_3items import *
 from get_free_quadrant import *
+from Weights_matrix_LM_3items_remove_permissive import *
+from Weights_matrix_LM_3items_remove_restrictive import *
+
